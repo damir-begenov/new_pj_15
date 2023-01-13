@@ -1,9 +1,7 @@
 package com.example.new_project_challenge_15.controller;
 
-import com.example.new_project_challenge_15.entity.SchoolPageEntity;
-import com.example.new_project_challenge_15.entity.n_st;
-import com.example.new_project_challenge_15.entity.node_c;
-import com.example.new_project_challenge_15.entity.rel_final;
+import com.example.new_project_challenge_15.entity.*;
+import com.example.new_project_challenge_15.entity.enums.School;
 import com.example.new_project_challenge_15.repository.n_stRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,6 +50,30 @@ public class NewController {
     @GetMapping("/alls/unfinished")
     public List<n_st> getUnfinshed(){
         return n_stRepo.findDidntFininshed();
+    }
+    @GetMapping ("/newlink")
+    public nodes getNodes() {
+        nodes nodes = new nodes();
+        School school = new School();
+        school.setBIIN("ABBBEAAADGCG");
+        List<edges> edges = new ArrayList<>();
+        List<n_st> nn = n_stRepo.findBySchool("ABBBEAAADGCG");
+        List<students> students = new ArrayList<>();
+        for (n_st n : nn) {
+            List<rel_final> node = n.getRel_finals();
+            rel_final lol = node.get(0);
+            students students1 = new students();
+            students1.setFIO(n.getFIO());
+            students.add(students1);
+            nodes.setStudents(students);
+            edges edges1 = new edges();
+            edges1.setFrom(n.getFIO());
+            edges1.setTo(school.getBIIN());
+            edges.add(edges1);
+            nodes.setEdges(edges);
+        }
+        nodes.setSchool(school);
+        return nodes;
     }
     @GetMapping("/alls/school/{BINID}")
     public SchoolPageEntity getbySchool(@PathVariable String BINID) throws ParseException {
