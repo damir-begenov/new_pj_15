@@ -9,6 +9,10 @@ export default class GraphNet extends Component {
         nodes: [],
         edges: []
     }
+    numbers = {
+      persons: 0,
+      schools: 0
+    }
     color1 = "#73ca74";
     color2 = "#b56060";
     componentDidMount() {
