@@ -33,10 +33,8 @@ function App() {
 
           <LeftBar />
 
-          <div className='centralBar'>
-            <div><p>Connections</p></div>
             <GraphNet />
-          </div>
+
 
           <RightBar />
 
