@@ -75,6 +75,24 @@ public class NewController {
         nodes.setSchool(school);
         return nodes;
     }
+
+    @GetMapping("/persons")
+    public doubleReturn getGraphData() {
+        List<n_st> nn = n_stRepo.findBySchool("ABBBEAAADGCG");
+        nodeStudentModel school = new nodeStudentModel("School", "ABBBEAAADGCG", true);
+        List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+        nodesToAppend.add(0, school);
+        List<edgesModel> edgesToAppend = new ArrayList<>();
+        for (n_st n: nn) {
+            nodeStudentModel temp = new nodeStudentModel(n.getFIO(), n.getIINID(), false);
+            edgesModel relTemp = new edgesModel(temp.getId(), school.getId());
+            nodesToAppend.add(temp);
+            edgesToAppend.add(relTemp);
+        }
+        doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+        return doubleReturn;
+    }
+
     @GetMapping("/alls/school/{BINID}")
     public SchoolPageEntity getbySchool(@PathVariable String BINID) throws ParseException {
         int finished = 0;
