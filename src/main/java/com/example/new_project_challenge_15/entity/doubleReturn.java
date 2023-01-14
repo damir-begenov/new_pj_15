@@ -8,6 +8,17 @@ public class doubleReturn {
     private List<nodeStudentModel> nodes;
     private List<edgesModel> edges;
 
+    public doubleReturn() {
+    }
+
+    public void setNodes(List<nodeStudentModel> nodes) {
+        this.nodes = nodes;
+    }
+
+    public void setEdges(List<edgesModel> edges) {
+        this.edges = edges;
+    }
+
     public doubleReturn(List<nodeStudentModel> nodes, List<edgesModel> edges) {
         this.nodes = nodes;
         this.edges = edges;

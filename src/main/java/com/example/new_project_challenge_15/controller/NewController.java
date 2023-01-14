@@ -92,19 +92,39 @@ public class NewController {
         doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
         return doubleReturn;
     }
+    @GetMapping("/persons/school/{BINID}")
+    public doubleReturn getGraphDatass(@PathVariable String BINID) {
+        List<n_st> nn = n_stRepo.findBySchool(BINID);
+        nodeStudentModel school = new nodeStudentModel("School", BINID, true);
+        List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+        nodesToAppend.add(0, school);
+        List<edgesModel> edgesToAppend = new ArrayList<>();
+        for (n_st n: nn) {
+            nodeStudentModel temp = new nodeStudentModel(n.getFIO(), n.getIINID(), false);
+            edgesModel relTemp = new edgesModel(temp.getId(), school.getId());
+            nodesToAppend.add(temp);
+            edgesToAppend.add(relTemp);
+        }
+        doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+        return doubleReturn;
+    }
     @GetMapping("/personss")
     public  doubleReturn getGraphDatas() {
-        List<n_st> nn = n_stRepo.getAllUser();
+        List<n_st> n_sts = n_stRepo.getAllUser();
         List<nodeStudentModel> nodesToAppend = new ArrayList<>();
         List<edgesModel> edgesToAppend = new ArrayList<>();
-        for(n_st n_st : nn){
-            List<rel_final> node = n_st.getRel_finals();
-            rel_final lol = node.get(0);
-            lol.getNode_c().getBINID();
-         nodeStudentModel school = new nodeStudentModel("School", lol.getNode_c().getBINID(), true);
-            List<n_st> nSt = n_stRepo.findBySchool(lol.getNode_c().getBINID());
-         nodesToAppend.add(0, school);
-        for (n_st n: nSt) {
+        List<String> schools = new ArrayList<>();
+        for(n_st nSt : n_sts){
+          List<rel_final>  rel_finals =  nSt.getRel_finals();
+          rel_final rel_final = rel_finals.get(0);
+          rel_final.getNode_c().getBINID();
+          schools.add(rel_final.getNode_c().getBINID());
+        }
+        for(String sch : schools){
+        List<n_st> nn = n_stRepo.findBySchool(sch);
+        nodeStudentModel school = new nodeStudentModel("School", sch, true);
+        nodesToAppend.add(0, school);
+        for (n_st n: nn) {
             nodeStudentModel temp = new nodeStudentModel(n.getFIO(), n.getIINID(), false);
             edgesModel relTemp = new edgesModel(temp.getId(), school.getId());
             nodesToAppend.add(temp);
@@ -112,7 +132,7 @@ public class NewController {
         }}
         doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
         return doubleReturn;
-    }
+}
 
     // @GetMapping("/{IINID}")
     // public doubleReturn getPersonsGraph(@PathVariable String IINID) {

@@ -6,7 +6,10 @@ public class nodeStudentModel {
     private String label;
     private String title;
     private boolean main;
-    
+
+    public nodeStudentModel() {
+    }
+
     public nodeStudentModel(String label, String title, boolean main) {
         this.label = label;
         this.title = title;
