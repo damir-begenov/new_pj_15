@@ -115,10 +115,15 @@ public class NewController {
         List<edgesModel> edgesToAppend = new ArrayList<>();
         List<String> schools = new ArrayList<>();
         for(n_st nSt : n_sts){
+
           List<rel_final>  rel_finals =  nSt.getRel_finals();
           rel_final rel_final = rel_finals.get(0);
           rel_final.getNode_c().getBINID();
-          schools.add(rel_final.getNode_c().getBINID());
+          if(schools.contains(rel_final.getNode_c().getBINID())){
+
+          }else {
+              schools.add(rel_final.getNode_c().getBINID());
+          }
         }
         for(String sch : schools){
         List<n_st> nn = n_stRepo.findBySchool(sch);
