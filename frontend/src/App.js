@@ -16,44 +16,29 @@ import {
   useParams,
   useSearchParams
 } from "react-router-dom";
-import React from "react";
-import ReactDOM from "react-dom";
-import Graph from "react-vis-network-graph";
+import React from "react";
+import ReactDOM from "react-dom";
+import Graph from "react-vis-network-graph";
 import GraphNet from './Components/Graphs';
+import LeftBar from './Components/LeftBar';
+import RightBar from './Components/RightBar';
 
 
 function App() {
-   
+
   return (
       <div className='App'>
         <Navbar/>
         <div className='mainSection'>
 
-          <div className='leftBar'>
-            <form>
-              <div>
-                <label for="connections">Вид связи</label>
-                <select name="connections" id='connections'>
-                  <option value="con1">Con1</option>
-                  <option value="con2">Con2</option>
-                </select>
-              </div>
-              <div>
-                <label for="input_IIN">Введите ИИН</label>
-                <input type="text" id="input_IIN" name="input_IIN" placeholder="IIN"/>
-              </div>
-              <div>
-                <input type="checkbox" id="allCon" name="allCon" value="Все связи"/>
-                <label for="allCon">Все связи</label>
-              </div>
-            </form>
+          <LeftBar />
+
+          <div className='centralBar'>
+            <div><p>Connections</p></div>
+            <GraphNet />
           </div>
 
-          <GraphNet />
-
-          <div className='rightBar'>
-
-          </div>
+          <RightBar />
 
         </div>
       
