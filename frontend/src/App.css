@@ -306,17 +306,189 @@ table .tdrow {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  padding: 20px 0;
   gap: 20px;
+
+  width: 100%;
+  height: 90vh;
 }
 
 .leftBar {
-  border: 1px red dashed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: start;
+
+  padding-top: 20px;
+  margin-left: 20px;
+
+  width: 20%;
+  border: 5px black solid;
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+}
+
+.leftBar form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  width: 90%;
+}
+
+.leftBar div {
+  margin: 10px 20px;
+
+  /* border: 1px green solid; */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.leftBar select {
+  width: 100%;
+  height: 35px;
+  font-size: 1.2rem;
+  padding: 5px;
+
+  border-radius: 2%;
+}
+
+.leftBar #input_IIN {
+  height: 35px;
+  font-size: 1.2rem;
+  border-radius: 0.2rem;
+  padding: 5px;
+
+}
+
+.leftBar .checkboxBlock {
+  display: flex;
+  flex-direction: column;
+
+  /* border: 1px solid red; */
+  padding: 10px 0px;
+  background-color: #4f4e4e;
+}
+
+.leftBar .checkboxBlock div {
+  display: flex;
+  flex-direction: row;
+}
+
+.leftBar #filterBtn {
+  margin: auto;
+  width: 65%;
+  height: 50px;
+
+  font-size: 1.2em;
+  border-radius: 10px;
+  border: none;
 }
 
 .centralBar {
-  border: 1px green dashed;
+  display: flex;
+  flex-direction: column;
+
+  width: 62%;
+}
+
+.centralBar div:nth-child(1) p {
+  font-size: 2.3em;
+  font-weight: 700;
+}
+
+.centralBar div:nth-child(2) {
+  border: 5px black solid;
+  background-color: #4a4a4a;
+
+  border-radius: 20px;
+  height: 100%;
 }
 
 .rightBar {
-  border: 1px blue dashed;
+  border: 5px black solid;
+  background-color: var(--secondary-color);
+
+  padding-top: 20px;
+  /* padding-left: 5px; */
+  margin-right: 20px;
+  /* border: 1px blue dashed; */
+  width: 12%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 10px;
+
+}
+
+.rightBar .nodeInfoTitle {
+  font-size: 1.6em;
+}
+
+.rightBar .nodeHints {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.rightBar .nodeHints .nodeHint {
+  box-sizing: content-box;
+  /* width: 100%; */
+  border-radius: 20px;
+  padding: 15px;
+  font-size: 1.3rem;
+
+  color: black;
+}
+
+.nodeHint_green {
+  background-color: #73ca74;
+}
+
+.nodeHint_red {
+  background-color: #b56060;
+}
+
+.rightBar .nodeInfoBlock {
+  /* border: red 1px solid; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin-left: 50px; */
+  gap: 10px;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.rightBar .nodeInfoBlock span {
+  font-weight: 300;
+}
+
+.rightBar .infoBlock {
+  margin-top: 40px;
+}
+
+.rightBar hr {
+  border: 2px solid rgb(47, 47, 47);
+}
+
+.rightBar .infoBlock div {
+  margin-top: 30x;
+}
+
+.rightBar .infoBlock div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rightBar .infoBlock .infoBlockTitle {
+  font-size: 1.6em;
 }
