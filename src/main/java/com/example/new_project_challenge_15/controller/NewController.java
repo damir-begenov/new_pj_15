@@ -92,6 +92,27 @@ public class NewController {
         doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
         return doubleReturn;
     }
+    @GetMapping("/personss")
+    public  doubleReturn getGraphDatas() {
+        List<n_st> nn = n_stRepo.getAllUser();
+        List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+        List<edgesModel> edgesToAppend = new ArrayList<>();
+        for(n_st n_st : nn){
+            List<rel_final> node = n_st.getRel_finals();
+            rel_final lol = node.get(0);
+            lol.getNode_c().getBINID();
+         nodeStudentModel school = new nodeStudentModel("School", lol.getNode_c().getBINID(), true);
+            List<n_st> nSt = n_stRepo.findBySchool(lol.getNode_c().getBINID());
+         nodesToAppend.add(0, school);
+        for (n_st n: nSt) {
+            nodeStudentModel temp = new nodeStudentModel(n.getFIO(), n.getIINID(), false);
+            edgesModel relTemp = new edgesModel(temp.getId(), school.getId());
+            nodesToAppend.add(temp);
+            edgesToAppend.add(relTemp);
+        }}
+        doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+        return doubleReturn;
+    }
 
     // @GetMapping("/{IINID}")
     // public doubleReturn getPersonsGraph(@PathVariable String IINID) {
