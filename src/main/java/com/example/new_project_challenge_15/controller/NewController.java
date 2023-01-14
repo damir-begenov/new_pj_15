@@ -108,6 +108,27 @@ public class NewController {
         doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
         return doubleReturn;
     }
+    @GetMapping("/test")
+    public doubleReturn fsd(){
+        nodeStudentModel school = new nodeStudentModel("School", "kromtau", true);
+        nodeStudentModel school1 = new nodeStudentModel("School1", "Aktobe", true);
+        List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+        List<edgesModel> edgesToAppend = new ArrayList<>();
+        nodeStudentModel temp = new nodeStudentModel("damir", "04", false);
+        nodeStudentModel temp1 = new nodeStudentModel("rembo", "03", false);
+        edgesModel relTemp = new edgesModel(temp.getId(), school.getId());
+        edgesModel relTemp1 = new edgesModel(temp1.getId(), school.getId());
+        edgesModel relTemp2 = new edgesModel(temp.getId(), school1.getId());
+        nodesToAppend.add(temp);
+        nodesToAppend.add(temp1);
+        edgesToAppend.add(relTemp);
+        edgesToAppend.add(relTemp1);
+        edgesToAppend.add(relTemp2);
+        doubleReturn doubleReturn = new doubleReturn();
+        doubleReturn.setNodes(nodesToAppend);
+        doubleReturn.setEdges(edgesToAppend);
+        return doubleReturn;
+    }
     @GetMapping("/personss")
     public  doubleReturn getGraphDatas() {
         List<n_st> n_sts = n_stRepo.getAllUser();
@@ -127,7 +148,7 @@ public class NewController {
         }
         for(String sch : schools){
         List<n_st> nn = n_stRepo.findBySchool(sch);
-        nodeStudentModel school = new nodeStudentModel("School", sch, true);
+        nodeStudentModel school = new nodeStudentModel(sch, sch, true);
         nodesToAppend.add(0, school);
         for (n_st n: nn) {
             nodeStudentModel temp = new nodeStudentModel(n.getFIO(), n.getIINID(), false);
