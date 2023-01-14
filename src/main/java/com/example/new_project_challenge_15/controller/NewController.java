@@ -93,6 +93,20 @@ public class NewController {
         return doubleReturn;
     }
 
+    // @GetMapping("/{IINID}")
+    // public doubleReturn getPersonsGraph(@PathVariable String IINID) {
+    //     n_st currentStudent = n_stRepo.getByIINID(IINID);
+    //     nodeStudentModel node0 = new nodeStudentModel(currentStudent.getFIO(), IINID, true);
+    //     node_c node_c = currentStudent.getRel_finals().get(0).getNode_c();
+    //     nodeStudentModel school = new nodeStudentModel(node_c.getCompany(), node_c.getLABEL(), false);
+    //     List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+    //     nodesToAppend.add(0, node0);
+    //     List<edgesModel> edgesToAppend = new ArrayList<>();
+    //     for (rel)
+    //     return 
+    // }
+
+
     @GetMapping("/alls/school/{BINID}")
     public SchoolPageEntity getbySchool(@PathVariable String BINID) throws ParseException {
         int finished = 0;

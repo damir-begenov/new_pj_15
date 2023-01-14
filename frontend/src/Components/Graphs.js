@@ -54,20 +54,20 @@ export default class GraphNet extends Component {
             })
     }
 
-    graph = {
-        nodes: [
-          { id: 1, label: "Node 1", title: "node 1 tootip text", first:true,  color: "red",  shape: "circle" },
-          { id: 2, label: "Node 2", title: "node 2 tootip text",  shape: "circle" },
-          { id: 3, label: "Node 3", title: "node 3 tootip text",  shape: "circle" },
-          { id: 5, label: "Node 5", title: "node 5 tootip text", last:true,  color: "red",  shape: "circle" }
-        ],
-        edges: [
-          { from: 1, to: 2, color: "white" },
-          { from: 1, to: 3, color: "white" },
-          { from: 2, to: 3, color: "white" },
-          { from: 2, to: 5, color: "white" }
-        ]
-    }
+    // graph = {
+    //     nodes: [
+    //       { id: 1, label: "Node 1", title: "node 1 tootip text", first:true,  color: "red",  shape: "circle" },
+    //       { id: 2, label: "Node 2", title: "node 2 tootip text",  shape: "circle" },
+    //       { id: 3, label: "Node 3", title: "node 3 tootip text",  shape: "circle" },
+    //       { id: 5, label: "Node 5", title: "node 5 tootip text", last:true,  color: "red",  shape: "circle" }
+    //     ],
+    //     edges: [
+    //       { from: 1, to: 2, color: "white" },
+    //       { from: 1, to: 3, color: "white" },
+    //       { from: 2, to: 3, color: "white" },
+    //       { from: 2, to: 5, color: "white" }
+    //     ]
+    // }
     options = {
         autoResize: true,
         edges: {

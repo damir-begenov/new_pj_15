@@ -1,6 +1,8 @@
 package com.example.new_project_challenge_15.repository;
 
 import com.example.new_project_challenge_15.entity.n_st;
+import com.example.new_project_challenge_15.entity.node_c;
+
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
@@ -26,5 +28,6 @@ public interface n_stRepo extends Neo4jRepository<n_st,String> {
     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE u.BINID=~ ($BINID)  RETURN m,u,r")
     List<n_st> findBySchool(String BINID);
 
-    n_st getByIINID(String iin);
+    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE m.IINID=~ ('(?i)'+$IINID+'.*') RETURN m, u, r")
+    n_st getByIINID(String IINID);
 }
