@@ -3,6 +3,9 @@ package com.example.new_project_challenge_15.controller;
 import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.entity.enums.School;
 import com.example.new_project_challenge_15.repository.n_stRepo;
+import com.example.new_project_challenge_15.repository.rel_final_repo;
+
+import javassist.expr.NewArray;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +41,63 @@ public class NewController {
 
         return n_stRepo.getAllUser();
     }
+
+    @GetMapping("/relation")
+    public doubleReturn getALLL() {
+        // List<rel_final> blyat = rel_final_repo.findAllRelations();
+        List<n_st> persons = n_stRepo.getAllUser();
+        List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+        List<edgesModel> edgesToAppend = new ArrayList<>();
+        List<String> BINs = new ArrayList<>();
+        List<String> IINs = new ArrayList<>();
+        int numberOfCompanies = 0;
+        for (n_st person: persons) {
+            nodeStudentModel node = new nodeStudentModel();
+            if (!IINs.contains(person.getIINID())) {
+                node.setNodeStudentModel(person.getFIO(), person.getIINID(), person.getLABEL(), false);
+                IINs.add(person.getIINID());
+                nodesToAppend.add(node);
+            } else {
+                for (int i=0; i<IINs.size(); i++) {
+                    if (nodesToAppend.get(i).getTitle()==person.getIINID()) {
+                        node.setNodeStudentModel(nodesToAppend.get(i).getLabel(),nodesToAppend.get(i).getTitle(),nodesToAppend.get(i).getLabel(), false, nodesToAppend.get(i).getId());
+                    }
+                }
+            }
+            List<rel_final> relations = rel_final_repo.findRelatioFinals(person.getIINID());
+            for (rel_final relation: relations) {
+                String bin = relation.getEND_ID();
+                if (BINs.contains(bin)) {
+                    System.out.println(BINs.size());
+                    System.out.println(nodesToAppend.get(0).getTitle());
+                    for (int i=0; i<BINs.size(); i++) {
+                        if (nodesToAppend.get(i).getTitle().equals(bin)) {
+                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId());
+                            edgesToAppend.add(edge);
+                            break;
+                        }
+                    }
+                } else {
+                    node_c compNode_c = node_cRepository.getByBiniID(bin).get(0);
+                    nodeStudentModel company = new nodeStudentModel(compNode_c.getCompany(), compNode_c.getBINID(), compNode_c.getLABEL(), true);
+                    nodesToAppend.add(0, company);
+                    edgesModel edge = new edgesModel(node.getId(), company.getId());
+                    BINs.add(bin);
+                    edgesToAppend.add(edge);
+                }
+            }
+        }
+        doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+        return doubleReturn;
+    }
+
+    @GetMapping("/concretecompany") 
+    public List<rel_final> getCompany() {
+        List<rel_final> relations = rel_final_repo.findRelatioFinals("ADAJBBFFAJGJ");
+        System.out.println(relations.get(0).getEND_ID());
+
+        return relations;
+    }
     @GetMapping("/alls/{FIO}")
     public List<n_st> getBYFIO(@PathVariable String FIO){
         return n_stRepo.findByFIO(FIO);
@@ -60,8 +120,8 @@ public class NewController {
         List<n_st> nn = n_stRepo.findBySchool("ABBBEAAADGCG");
         List<students> students = new ArrayList<>();
         for (n_st n : nn) {
-            List<rel_final> node = n.getRel_finals();
-            rel_final lol = node.get(0);
+            // List<rel_final> node = n.getRel_finals();
+            // rel_final lol = node.get(0);
             students students1 = new students();
             students1.setFIO(n.getFIO());
             students.add(students1);
@@ -75,50 +135,47 @@ public class NewController {
         nodes.setSchool(school);
         return nodes;
     }
-
-    @GetMapping("/persons")
-    public doubleReturn getGraphData() {
-        // List<n_st> nn = n_stRepo.findBySchool("ABBBEAAADGCG");
-        // nodeStudentModel school = new nodeStudentModel("School", "ABBBEAAADGCG", true);
-        // List<nodeStudentModel> nodesToAppend = new ArrayList<>();
-        // nodesToAppend.add(0, school);
-        // List<edgesModel> edgesToAppend = new ArrayList<>();
-        // for (n_st n: nn) {
-        //     nodeStudentModel temp = new nodeStudentModel(n.getFIO(), n.getIINID(), false);
-        //     edgesModel relTemp = new edgesModel(temp.getId(), school.getId());
-        //     nodesToAppend.add(temp);
-        //     edgesToAppend.add(relTemp);
-        // }
-        // doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
-        // return doubleReturn;
+    @GetMapping("/getrvery") 
+    public doubleReturn getEvery() {
         List<nodeStudentModel> nodesToAppend = new ArrayList<>();
         List<edgesModel> edgesToAppend = new ArrayList<>();
         List<n_st> persons = n_stRepo.getAllUser();
-        List<String> binids = new ArrayList<>();
+        List<String> companies = new ArrayList<>(); 
         for (n_st person: persons) {
-            nodeStudentModel thisPer = new nodeStudentModel(person.getFIO(), person.getIINID(), false);
-            nodesToAppend.add(thisPer);
-            List<rel_final> relations = person.getRel_finals();
+            nodeStudentModel currPerson = new nodeStudentModel(person.getFIO(), person.getIINID(), person.getLABEL(), false);
+            nodesToAppend.add(currPerson);
+            List<rel_final> relations = rel_final_repo.findRelatioFinals(person.getIINID());
             for (rel_final relation: relations) {
-                String BIN = relation.getNode_c().getBINID();
-                node_c curNode_c = node_cRepository.getByBiniID(BIN);
-                nodeStudentModel curSchool = new nodeStudentModel(curNode_c.getCompany(), curNode_c.getLABEL(), false);
-                if(binids.contains(BIN)){
-                }else {
-                    nodesToAppend.add(curSchool);
-                    binids.add(BIN);
+                System.out.println(relation.getEND_ID());
+                String BIN = relation.getEND_ID();
+                node_c currCompany = node_cRepository.getByBiniID(BIN).get(0);
+                if (!companies.contains(BIN)) {
+                    companies.add(BIN);
+                    nodeStudentModel currCompanyNode = new nodeStudentModel(currCompany.getCompany(), currCompany.getLABEL(), currCompany.getBINID(), true);
+                    edgesModel currRelationEdge = new edgesModel(currPerson.getId(), currCompanyNode.getId());
+                    edgesToAppend.add(currRelationEdge);
+                    nodesToAppend.add(0, currCompanyNode);
+                } else {
+                    nodeStudentModel elseCompany = new nodeStudentModel();
+                    for (nodeStudentModel comp: nodesToAppend) {
+                        if (comp.getBIN_IIN() == BIN) {
+                            elseCompany = comp;
+                        }
+                    }
+                    edgesModel currRelationEdge = new edgesModel(currPerson.getId(), elseCompany.getId());
+                    System.out.println();
+                    edgesToAppend.add(0, currRelationEdge);
                 }
-                edgesModel edge = new edgesModel(thisPer.getId(), curSchool.getId());
-                edgesToAppend.add(edge);
             }
         }
-        doubleReturn result = new doubleReturn(nodesToAppend, edgesToAppend);
-        return result;
+        doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+        return doubleReturn;
     }
-    @GetMapping("/persons/school/{BINID}")
-    public doubleReturn getGraphDatass(@PathVariable String BINID) {
-        List<n_st> nn = n_stRepo.findBySchool(BINID);
-        nodeStudentModel school = new nodeStudentModel("School", BINID, true);
+
+    @GetMapping("/persons")
+    public doubleReturn getGraphData() {
+        List<n_st> nn = n_stRepo.findBySchool("ABBBEAAADGCG");
+        nodeStudentModel school = new nodeStudentModel("School", "ABBBEAAADGCG", true);
         List<nodeStudentModel> nodesToAppend = new ArrayList<>();
         nodesToAppend.add(0, school);
         List<edgesModel> edgesToAppend = new ArrayList<>();
@@ -130,7 +187,47 @@ public class NewController {
         }
         doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
         return doubleReturn;
+        // List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+        // List<edgesModel> edgesToAppend = new ArrayList<>();
+        // List<n_st> persons = n_stRepo.getAllUser();
+        // List<String> binids = new ArrayList<>();
+        // for (n_st person: persons) {
+        //     nodeStudentModel thisPer = new nodeStudentModel(person.getFIO(), person.getIINID(), false);
+        //     nodesToAppend.add(thisPer);
+        //     List<rel_final> relations = person.getRel_finals();
+        //     for (rel_final relation: relations) {
+        //         String BIN = relation.getNode_c().getBINID();
+        //         node_c curNode_c = node_cRepository.getByBiniID(BIN).get(0);
+        //         System.out.println(curNode_c.getBINID());
+        //         nodeStudentModel curSchool = new nodeStudentModel(curNode_c.getCompany(), curNode_c.getLABEL(), false);
+        //         if(binids.contains(BIN)){
+        //         }else {
+        //             nodesToAppend.add(curSchool);
+        //             binids.add(BIN);
+        //         }
+        //         edgesModel edge = new edgesModel(thisPer.getId(), curSchool.getId());
+        //         edgesToAppend.add(edge);
+        //     }
+        // }
+        // doubleReturn result = new doubleReturn(nodesToAppend, edgesToAppend);
+        // return result;
     }
+    // @GetMapping("/persons/school/{BINID}")
+    // public doubleReturn getGraphDatass(@PathVariable String BINID) {
+    //     List<n_st> nn = n_stRepo.findBySchool(BINID);
+    //     nodeStudentModel school = new nodeStudentModel("School", BINID, true);
+    //     List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+    //     nodesToAppend.add(0, school);
+    //     List<edgesModel> edgesToAppend = new ArrayList<>();
+    //     for (n_st n: nn) {
+    //         nodeStudentModel temp = new nodeStudentModel(n.getFIO(), n.getIINID(), false);
+    //         edgesModel relTemp = new edgesModel(temp.getId(), school.getId());
+    //         nodesToAppend.add(temp);
+    //         edgesToAppend.add(relTemp);
+    //     }
+    //     doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+    //     return doubleReturn;
+    // }
     @GetMapping("/test")
     public doubleReturn fsd(){
         nodeStudentModel school = new nodeStudentModel("School", "kromtau", true);
@@ -156,14 +253,14 @@ public class NewController {
     }
 
     @GetMapping("/whole")
-    public doubleReturn getEvery() {
+    public doubleReturn getRvery() {
         List<nodeStudentModel> nodesToAppend = new ArrayList<>();
         List<edgesModel> edgesToAppend = new ArrayList<>();
         List<n_st> persons = n_stRepo.getAllUser();
         List<String> binids = new ArrayList<>();
         for (n_st person: persons) {
             nodeStudentModel thisPer = new nodeStudentModel(person.getFIO(), person.getIINID(), false);
-            nodesToAppend.add(0, thisPer);
+            nodesToAppend.add(thisPer);
             List<rel_final> relations = person.getRel_finals();
             for (rel_final relation: relations) {
                 String BIN = relation.getNode_c().getBINID();
@@ -188,6 +285,7 @@ public class NewController {
         List<nodeStudentModel> nodesToAppend = new ArrayList<>();
         List<edgesModel> edgesToAppend = new ArrayList<>();
         List<String> schools = new ArrayList<>();
+        List<nodeStudentModel> tempTest = new ArrayList<>();
         for(n_st nSt : n_sts){
           List<rel_final>  rel_finals =  nSt.getRel_finals();
           rel_final rel_final = rel_finals.get(0);
@@ -204,10 +302,15 @@ public class NewController {
         nodesToAppend.add(0, school);
         for (n_st n: nn) {
             nodeStudentModel temp = new nodeStudentModel(n.getFIO(), n.getIINID(), false);
-            edgesModel relTemp = new edgesModel(temp.getId(), school.getId());
-            nodesToAppend.add(temp);
-            edgesToAppend.add(relTemp);
-        }}
+            if(tempTest.contains(temp)){
+            }
+            else{
+                tempTest.add(temp);
+                nodesToAppend.add(temp);
+        }
+        edgesModel relTemp = new edgesModel(temp.getId(), school.getId());
+        edgesToAppend.add(relTemp);
+    }}
         doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
         return doubleReturn;
 }

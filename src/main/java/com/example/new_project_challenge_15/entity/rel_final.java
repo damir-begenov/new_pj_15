@@ -22,6 +22,7 @@ public class rel_final {
     private String GPA;
     @Property("type")
     private String type;
+    
 
     @TargetNode
     private com.example.new_project_challenge_15.entity.node_c node_c;

@@ -16,14 +16,15 @@ export default class GraphNet extends Component {
     color1 = "#73ca74";
     color2 = "#b56060";
     componentDidMount() {
-        axios.get("http://127.0.0.1:9090/persons")
+        axios.get("http://localhost:9090/relation")
             .then(res => {
                 const nodes = res.data.nodes
                 const edges = res.data.edges
-                nodes.filter(e => e.main == true).map(item => (
+                console.log(nodes)
+                nodes.filter(e => e.main === true).map(item => (
                     item.color = this.color2
                 ))
-                nodes.filter(e => e.main == false).map(item => (
+                nodes.filter(e => e.main === false).map(item => (
                   item.color= this.color1
                 ))
                 this.setState({nodes, edges})

@@ -13,7 +13,6 @@ public interface node_cRepository extends Neo4jRepository<node_c,String> {
     @Query("match (n:node_c) return n")
     List<node_c> getAllSchoolss();
 
-    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE u.BINID=~ ($BINID)  RETURN m")
+    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE u.BINID=~ ($BINID)  RETURN u")
     List<node_c> getByBiniID(String BINID);
-
 }
