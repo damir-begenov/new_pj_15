@@ -13,8 +13,8 @@ export default class GraphNet extends Component {
         iin: ''
     }
     numbers = {
-      persons: 0,
-      schools: 0
+      objects: 0,
+      relations: 0
     }
     color1 = "#73ca74";
     color2 = "#b56060";
@@ -30,6 +30,8 @@ export default class GraphNet extends Component {
                   item.color= this.color1
                 ))
                 this.setState({nodes, edges})
+                this.numbers.objects = nodes.length
+                this.numbers.relations = edges.length
             })
     }
     options = {
@@ -64,6 +66,8 @@ export default class GraphNet extends Component {
                   item.color= this.color1
                 ))
                 this.setState({nodes, edges})
+                this.numbers.objects = nodes.length
+                this.numbers.relations = edges.length
             })
     }
     setChange = (event) => {
@@ -84,9 +88,8 @@ export default class GraphNet extends Component {
                 }}
               />
             </div>
-          <RightBar></RightBar>
+          <RightBar objects={this.numbers.objects} relations={this.numbers.relations}></RightBar>
           </>
-
     )
     }
 
