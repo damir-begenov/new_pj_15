@@ -31,12 +31,7 @@ function App() {
         <Navbar/>
         <div className='mainSection'>
 
-          <LeftBar />
-
             <GraphNet />
-
-
-          <RightBar />
 
         </div>
       

@@ -34,4 +34,7 @@ public interface n_stRepo extends Neo4jRepository<n_st,String> {
     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=~($IINID) return m, u, r")
     List<n_st> getAllRelations(String IINID);
 
+    @Query("CALL {MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=($IINID) return r.END_ID as res} MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where u.BINID in res RETURN m, r, u")
+    List<n_st> getAllRelated(String IINID);
+
 }
