@@ -20,7 +20,7 @@ class RightBar extends Component{
             <div>Связи: <span>{this.props.relations}</span></div>
           </div>
 
-          <div className="infoBlock">
+          <div className="infoBlock" id="infoBlock">
               <hr/>
               <div>
                   <div className="infoBlockTitle">Node Info</div>

@@ -137,6 +137,119 @@ public class NewController {
         doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
         return doubleReturn;
     }
+    @GetMapping("/relation/classmates/{IIN}")
+    public doubleReturn getRelations(@PathVariable String IIN) {
+        List<n_st> persons = n_stRepo.getttt(IIN);
+        List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+        List<edgesModel> edgesToAppend = new ArrayList<>();
+        List<String> BINs = new ArrayList<>();
+        List<String> IINs = new ArrayList<>();
+//        List<n_st> n_stsUser = n_stRepo.getttt(IIN);
+//        List<String> UserSTARTDate = new ArrayList<>();
+//        for(n_st nSt: n_stsUser) {
+//            List<rel_final> rel_finalssUser = nSt.getRel_finals();
+//            rel_final rel_finalUser = rel_finalssUser.get(0);
+//            UserSTARTDate.add(rel_finalUser.getStart_date());
+//            System.out.println(rel_finalUser.getStart_date());
+//        }
+        // List<node_c> localCompanies = new ArrayList<>(); Можно добавить что бы поиск был быстрее но хуй знает пока вдруг не понадобится
+        for (n_st person: persons) {
+            nodeStudentModel node = new nodeStudentModel();
+            List<rel_final> rel_finals = person.getRel_finals();
+            rel_final rel_final = rel_finals.get(0);
+            System.out.println(rel_final.getStart_date());
+            if (!IINs.contains(person.getIINID())) {
+                node.setNodeStudentModel(person.getFIO(), person.getIINID(), person.getLABEL(), false);
+                IINs.add(person.getIINID());
+                nodesToAppend.add(node);
+            } else {
+                for (int i=0; i<IINs.size(); i++) {
+                    if (nodesToAppend.get(i).getTitle()==person.getIINID()) {
+                        node.setNodeStudentModel(nodesToAppend.get(i).getLabel(),nodesToAppend.get(i).getTitle(),nodesToAppend.get(i).getLabel(), false, nodesToAppend.get(i).getId());
+                    }
+                }
+            }
+            List<rel_final> relations = rel_final_repo.findRelatioFinals(person.getIINID());
+            for (rel_final relation: relations) {
+                String bin = relation.getEND_ID();
+                if (BINs.contains(bin)) {
+                    for (int i=0; i<BINs.size(); i++) {
+                        if (nodesToAppend.get(i).getTitle().equals(bin)) {
+                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId());
+                            edgesToAppend.add(edge);
+                            break;
+                        }
+                    }
+                } else {
+                    node_c compNode_c = node_cRepository.getByBiniID(bin).get(0);
+                    nodeStudentModel company = new nodeStudentModel(compNode_c.getCompany(), compNode_c.getBINID(), compNode_c.getLABEL(), true);
+                    nodesToAppend.add(0, company);
+                    edgesModel edge = new edgesModel(node.getId(), company.getId());
+                    BINs.add(bin);
+                    edgesToAppend.add(edge);
+                    // localCompanies.add(0, compNode_c);
+                }
+            }
+        }
+
+        doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+        return doubleReturn;
+    }
+
+    @GetMapping("/relationss/{IIN}")
+    public doubleReturn getRelationlkkkjljkljk(@PathVariable String IIN) {
+        List<n_st> persons = n_stRepo.getAllRelated(IIN);
+        List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+        List<edgesModel> edgesToAppend = new ArrayList<>();
+        List<String> BINs = new ArrayList<>();
+        List<String> IINs = new ArrayList<>();
+        List<rel_final> rel_finalss = new ArrayList<>();
+        // List<node_c> localCompanies = new ArrayList<>(); Можно добавить что бы поиск был быстрее но хуй знает пока вдруг не понадобится
+        for (n_st person: persons) {
+            
+            rel_finalss =  person.getRel_finals();
+            rel_final lol = rel_finalss.get(0);
+            lol.getEND_ID();
+            System.out.println(lol.getStart_date());
+            nodeStudentModel node = new nodeStudentModel();
+            if (!IINs.contains(person.getIINID())) {
+                node.setNodeStudentModel(person.getFIO(), person.getIINID(), person.getLABEL(), false);
+                IINs.add(person.getIINID());
+                nodesToAppend.add(node);
+            } else {
+                for (int i=0; i<IINs.size(); i++) {
+                    if (nodesToAppend.get(i).getTitle()==person.getIINID()) {
+                        node.setNodeStudentModel(nodesToAppend.get(i).getLabel(),nodesToAppend.get(i).getTitle(),nodesToAppend.get(i).getLabel(), false, nodesToAppend.get(i).getId());
+                    }
+                }
+            }
+            List<rel_final> relations = rel_final_repo.findRelatioFinals(person.getIINID());
+            for (rel_final relation: relations) {
+                String bin = relation.getEND_ID();
+                if (BINs.contains(bin)) {
+                    for (int i=0; i<BINs.size(); i++) {
+                        if (nodesToAppend.get(i).getTitle().equals(bin)) {
+                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId());
+                            edgesToAppend.add(edge);
+                            break;
+                        }
+                    }
+                } else {
+                    node_c compNode_c = node_cRepository.getByBiniID(bin).get(0);
+                    nodeStudentModel company = new nodeStudentModel(compNode_c.getCompany(), compNode_c.getBINID(), compNode_c.getLABEL(), true);
+                    nodesToAppend.add(0, company);
+                    edgesModel edge = new edgesModel(node.getId(), company.getId());
+                    BINs.add(bin);
+                    edgesToAppend.add(edge);
+                    // localCompanies.add(0, compNode_c);
+                }
+            }
+        }
+
+        doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+        return doubleReturn;
+    }
+
     @GetMapping("/alls/{FIO}")
     public List<n_st> getBYFIO(@PathVariable String FIO){
         return n_stRepo.findByFIO(FIO);

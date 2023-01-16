@@ -92,59 +92,6 @@ html {
   }
 }
 
-/* Table of any kind */
-table {
-  position: relative;
-  left: 52%;
-  transform: translate(-50%);
-  width: 65%;
-
-  border-collapse: separate;
-  border-spacing: 0 20px;
-
-  text-align: start;
-  /* margin-top: -40px; */
-}
-.table {
-  margin-top: 130px;
-}
-
-table th {
-  font-size: 1.5em;
-  text-align: start;
-
-}
-
-table td {
-
-}
-
-.table tbody {
-}
-
-.table thead {
-
-}
-
-table .tdrow {
-  /* margin: 20px 0 0 0; */
-}
-
-.rowInfo {
-  text-decoration: none;
-  color: #ffffff;
-}
-.rowInfo:hover {
-  color: #606060;
-  transition: 0.3s ease;
-}
-.FIO {
-  /* display:flex; */
-  /* margin-left: 35%; */
-  /* transform: translate(-1%); */
-}
-/* Table of any kind */
-
 /*Register Student Forms*/
 .registerForm {
   margin-top: 70px;
@@ -324,7 +271,7 @@ table .tdrow {
   margin-left: 20px;
 
   width: 20%;
-  border: 5px black solid;
+  border: 1px black solid;
   background-color: var(--secondary-color);
   border-radius: 10px;
 }
@@ -361,7 +308,6 @@ table .tdrow {
   font-size: 1.2rem;
   border-radius: 0.2rem;
   padding: 5px;
-
 }
 
 .leftBar .checkboxBlock {
@@ -385,7 +331,18 @@ table .tdrow {
 
   font-size: 1.2em;
   border-radius: 10px;
+  color: #ffffff;
+
   border: none;
+  background-color: rgba(40, 40, 40, .8);
+}
+
+.leftBar #filterBtn:hover {
+  background-color: rgba(40, 40, 40, .6);
+}
+
+.leftBar #filterBtn:active {
+  background-color: rgba(40, 40, 40, 1);
 }
 
 .centralBar {
@@ -395,21 +352,8 @@ table .tdrow {
   width: 62%;
 }
 
-.centralBar div:nth-child(1) p {
-  font-size: 2.3em;
-  font-weight: 700;
-}
-
-.centralBar div:nth-child(2) {
-  border: 5px black solid;
-  background-color: #4a4a4a;
-
-  border-radius: 20px;
-  height: 100%;
-}
-
 .rightBar {
-  border: 5px black solid;
+  border: 1px black solid;
   background-color: var(--secondary-color);
 
   padding-top: 20px;
@@ -491,4 +435,39 @@ table .tdrow {
 
 .rightBar .infoBlock .infoBlockTitle {
   font-size: 1.6em;
+}
+
+/* Node Title Block styles */
+.centralBar div:nth-child(2) {
+  box-sizing: border-box;
+
+  border: 1px black solid;
+  background-color: var(--secondary-color);
+
+  text-align: start;
+}
+
+.nodeTitleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  padding: 10px;
+}
+
+.nodeTitleBlock p {
+  padding: 0;
+  margin: 0;
+}
+
+.nodeTitleBlock h3 {
+  padding: 0 0 5px 0;
+  margin: 0 0 5px 0;
+
+  border-bottom: 2px black solid;
+  text-align: center;
+}
+
+.nodeTitleBlock span {
+  font-weight: 700;
 }

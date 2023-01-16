@@ -2,13 +2,28 @@ import React, {Component} from "react";
 import ReactDOM, { render } from "react-dom";
 
 class LeftBar extends Component {
+    options = {
+        iin: "",
+        conType: "",
+        connections: {
+            con1: true,
+            con2: true,
+            con3: true
+        }
+    }
+    filter = (event) => {
+        // alert("ffasf");
+        this.props.handleSubmit(this.options).bind(this);
+    }
     render() {
         return (
             <div className='leftBar'>
-                <form>
+                <form 
+                    // onSubmit={event => this.props.handleSubmit(event).bind(this) return false;}
+                    >
                     <div>
                         <label for="connections">Вид связи</label>
-                        <select name="connections" id='connections'>
+                        <select name="connections" id='connections' onChange={event => {this.options.conType = document.getElementById("connections").value}}>
                             <option value="con1">Con1</option>
                             <option value="con2">Con2</option>
                         </select>
@@ -16,34 +31,70 @@ class LeftBar extends Component {
     
                     <div>
                         <label for="IIN">Введите ИИН</label>
-                        <input type="text" value={this.props.iin} onChange={event => this.props.handleSubmit(event).bind(this)} id="input_IIN" name="input_IIN" placeholder="IIN"/>
+                        <input type="text" 
+                            // value=""
+                            onChange={event => {this.options.iin = event.target.value}} 
+                            id="input_IIN" 
+                            name="input_IIN" 
+                            placeholder="IIN"
+                            />
                     </div>
                     
                     <div className='checkboxBlock'>
                         <div>
-                            <input type="checkbox" id="connection" name="allCon" value="allCon"/>
+                            <input 
+                                type="checkbox" 
+                                id="connections conAll" 
+                                name="allCon" value="allCon" 
+                                onChange={event => {
+                                    this.options.connections.con1 = true;
+                                    this.options.connections.con2 = true;
+                                    this.options.connections.con3 = true;
+
+                                    if (event.target.checked) {
+                                        document.getElementById("connection1").checked = true;
+                                        document.getElementById("connection2").checked = true;
+                                        document.getElementById("connection3").checked = true;
+
+                                        this.options.connections.con1 = true;
+                                        this.options.connections.con2 = true;
+                                        this.options.connections.con3 = true;
+                                    } else {
+                                        document.getElementById("connection1").checked = false;
+                                        document.getElementById("connection2").checked = false;
+                                        document.getElementById("connection3").checked = false;
+
+                                        this.options.connections.con1 = false;
+                                        this.options.connections.con2 = false;
+                                        this.options.connections.con3 = false;
+                                    }
+                                }}/>
                             <label id="conLabel" for="allCon">Все связи</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="connection" name="con1" value="con1"/>
+                            <input type="checkbox" id="connection1" name="con1" value="con1" onChange={event => {this.options.connections.con1 = event.target.checked}}/>
                             <label id="conLabel" for="con1">Con1</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="connection" name="con2" value="con2"/>
+                            <input type="checkbox" id="connection2" name="con2" value="con2" onChange={event => {this.options.connections.con1 = event.target.checked}}/>
                             <label id="conLabel" for="con2">Con2</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="connection" name="con3" value="con3"/>
+                            <input type="checkbox" id="connection3" name="con3" value="con3" onChange={event => {this.options.connections.con1 = event.target.checked}}/>
                             <label id="conLabel" for="con3">Con3</label>
                         </div>
                     </div>
     
                     <div>
-                        <input type="submit" value="Filter" id="filterBtn"/>
+                        <input type="button" value="Filter" id="filterBtn" 
+                        onClick={event => this.filter(event)}
+                        />
                     </div>
                 </form>
             </div>
-        );
+        )
+
+        
     }
 }
 
