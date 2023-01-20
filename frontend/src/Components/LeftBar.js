@@ -8,8 +8,11 @@ class LeftBar extends Component {
         conType: "",
     }
     filter = (event) => {
-        // alert("ffasf");
-        this.props.handleSubmit(this.options).bind(this);
+        if (this.options.conType == "con1") {
+            this.props.handleSubmit(this.options).bind(this);
+        } else {
+            this.props.handleSubmitConn(this.options).bind(this);
+        }
     }
     clearOptions = () => {
         this.options.iin = "";
@@ -71,8 +74,6 @@ class LeftBar extends Component {
                 </form>
             </div>
         )
-
-        
     }
 }
 

@@ -18,7 +18,8 @@ class RightBar extends Component{
           </div>
         </div>
       </div>
-  );
+
+    );
   }
 }
 

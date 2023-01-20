@@ -11,21 +11,52 @@ import userIconBlack from "./../user-icon-black.png";
 import buildingIcon from "./../school-icon.png";
 import userIconRed from "./../user-icon-red.png";
 
+var NoD =  [];
+
 export default class GraphNet extends Component {
     state = {
-        nodes: [],
+        nodes: NoD,
         edges: [],
-        iin: ''
+        iin: '',
+        iin2: '',
+        select: function(event) {
+          var { nodes, edges } = event;
+        },
+        selectNode: function(event) {
+          let item = NoD.filter(e => e.id == event.nodes[0])[0]
+          let text = "";
+
+          text += `<h3>School</h3>`;
+          text += `<p><span>id:</span> ${item.id}</p>`;
+          text += `<p><span>name:</span> ${item.label}</p>`;
+          text += `<p><span>BIN:</span> ${item.title}</p>`;
+          document.getElementById("infoIIN").innerHTML = text;
+        },
+        
     }
     numbers = {
       objects: 0,
       relations: 0
     }
+    current = {
+      iin: '',
+      name: '',
+      relations: [],
+      label: ''
+    }
     color1 = "#73ca74";
     color2 = "#b56060";
     color3 = "#FF0000";
-    length = 10;
 
+    nodeInfo(item) {
+      let text = "";
+
+      text += `<h3>School</h3>`;
+      text += `<p><span>id:</span> ${item.id}</p>`;
+      text += `<p><span>name:</span> ${item.label}</p>`;
+      text += `<p><span>BIN:</span> ${item.title}</p>`;
+      document.getElementById("infoIIN").innerHTML = text;
+    }
     createTitleBlockStudent(item) {
       const container = document.createElement("div");
       container.classList.add("nodeTitleBlock");
@@ -50,47 +81,71 @@ export default class GraphNet extends Component {
       text += `<p><span>id:</span> ${item.id}</p>`;
       text += `<p><span>name:</span> ${item.label}</p>`;
       text += `<p><span>BIN:</span> ${item.title}</p>`;
+      // document.getElementById("infoIIN").innerHTML = text;
 
       container.innerHTML = text;
       return container;
     }
+    handleSubmitConn = (options) => {
+      this.setState({iin: options.iin, iin2: options.iin2})
 
-    defineEdgeLength = (nodeSize) => {
-      if (nodeSize < 20) {
-        this.length = 30
-      } else if (nodeSize < 40) {
-        this.length = 60
-      } else {
-        this.length = 100
-      }
-    }
-
-    handleSubmit = (options) => {
-      this.setState({iin: options.iin})
-      console.log(options)
-      axios.get("http://localhost:9090/relation/"+ options.iin)
+      axios.get("http://localhost:9090/connection/"+ options.iin + "/" + options.iin2 )
             .then(res => {
                 const nodes = res.data.nodes
                 const edges = res.data.edges
                 
-                this.defineEdgeLength(nodes.length);
-
                 nodes.filter(e => e.main === true).map(item => (
-                  item.group = 'schools',
-                  item.title = this.createTitleBlockSchool(item)
+                  item.group = 'schools'
+                  // item.title = this.createTitleBlockSchool(item)
                 ))
-                nodes.filter(e => e.main === false && e.title != this.state.iin).map(item => (
-                  item.group = 'students',
-                  item.title = this.createTitleBlockStudent(item)
+                nodes.filter(e => e.main === false && e.title != this.state.iin && e.title != this.state.iin2).map(item => (
+                  item.group = 'students'
+                  // item.title = this.createTitleBlockStudent(item)
                 ))
-                nodes.filter(e => e.title == this.state.iin).map(item => (
-                  item.group = 'selected',
-                  item.title = this.createTitleBlockStudent(item)
+                nodes.filter(e => e.title == this.state.iin || e.title == this.state.iin2).map(item => (
+                  item.group = 'selected'
+                  // item.title = this.createTitleBlockStudent(item)
                 ))
-
+           
+    
                 this.setState({nodes, edges})
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
+                NoD = nodes
+
+                this.state.nodes.map(item => (
+                  item.onclick = this.nodeInfo(item)
+                ))
+
+            })
+    }
+    handleSubmit = (options) => {
+      this.setState({iin: options.iin})
+      axios.get("http://localhost:9090/connection/"+ options.iin )
+            .then(res => {
+                const nodes = res.data.nodes
+                const edges = res.data.edges
+
+                nodes.filter(e => e.main === true).map(item => (
+                  item.group = 'schools'
+                  // item.title = this.createTitleBlockSchool(item)
+                ))
+                nodes.filter(e => e.main === false && e.title != this.state.iin).map(item => (
+                  item.group = 'students'
+                  // item.title = this.createTitleBlockStudent(item)
+                ))
+                nodes.filter(e => e.title == this.state.iin).map(item => (
+                  item.group = 'selected'
+                  // item.title = this.createTitleBlockStudent(item)
+                ))
+           
+                this.setState({nodes, edges})
+                this.numbers.objects = nodes.length
+                this.numbers.relations = edges.length
+                NoD = nodes
+                this.state.nodes.map(item => (
+                  item.onclick = this.nodeInfo(item)
+                ))
             })
     }
 
@@ -149,19 +204,9 @@ export default class GraphNet extends Component {
         }
       },
       height: "100%",
+      selectable: true
     };
 
-    events = {
-      select: function(event) {
-        var { nodes, edges } = event;
-      },
-      selectNode: function(event) {
-        console.log(event)
-      },
-      selectEdge: function(event) {
-        console.log(event)
-      }
-    };
 
     manipulation = {
       deleteNode: true,
@@ -170,19 +215,19 @@ export default class GraphNet extends Component {
     render() {
       return (
         <>
-        <LeftBar iin={this.state.iin} handleSubmit={this.handleSubmit} setIIN={this.setChange}></LeftBar>
+        <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.handleSubmit} handleSubmitConn={this.handleSubmitConn} setIIN={this.setChange}></LeftBar>
         <div className='centralBar'>
             <Graph
               graph={this.state}
               options={this.options}
-              events={this.events}
+              events={this.state}
               getNetwork={network => {
                 //  if you want access to vis.js network api you can set the state in a parent component using this property
               }}
               manipulation={this.manipulation}
             />
           </div>
-        <RightBar objects={this.numbers.objects} relations={this.numbers.relations}></RightBar>
+        <RightBar objects={this.numbers.objects} relations={this.numbers.relations} current={this.current}></RightBar>
         </>
       )
     }
