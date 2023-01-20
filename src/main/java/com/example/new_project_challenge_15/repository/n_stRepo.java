@@ -42,4 +42,6 @@ public interface n_stRepo extends Neo4jRepository<n_st,String> {
     @Query("CALL {MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=($IINID) return r.end_date as res ,u.BINID as ress} MATCH (uu:node_c)<-[rr:rel_final]-(mm:n_st) where rr.end_date in res and uu.BINID in ress RETURN mm, rr, uu")
     List<n_st> getttt(String IINID);
 
+    @Query("call {match (u:node_c)<-[r:rel_final where r.START_ID=($OneIIN)]-(m:n_st) return r.END_ID as res} match (u:node_c)<-[r:rel_final where r.END_ID in res]-(m:n_st) return m, u, r UNION call {match (u:node_c)<-[r:rel_final where r.START_ID=($SecIIN)]-(m:n_st) return r.END_ID as res} match (u:node_c)<-[r:rel_final where r.END_ID in res]-(m:n_st) return m, u, r")
+    List<n_st> findBetweenTwo(String OneIIN, String SecIIN);
 }

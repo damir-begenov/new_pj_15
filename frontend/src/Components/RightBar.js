@@ -24,6 +24,7 @@ class RightBar extends Component{
               <hr/>
               <div>
                   <div className="infoBlockTitle">Node Info</div>
+                  <a id="infoIIN"></a>
                   
               </div>
           </div>

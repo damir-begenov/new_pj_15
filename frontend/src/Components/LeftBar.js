@@ -4,6 +4,7 @@ import ReactDOM, { render } from "react-dom";
 class LeftBar extends Component {
     options = {
         iin: "",
+        iin2: "",
         conType: "",
         connections: {
             con1: true,
@@ -13,7 +14,12 @@ class LeftBar extends Component {
     }
     filter = (event) => {
         // alert("ffasf");
-        this.props.handleSubmit(this.options).bind(this);
+        if (this.options.conType == "con1") {
+            this.props.handleSubmit(this.options).bind(this);
+        } else {
+            this.props.handleSubmitConn(this.options).bind(this);
+        }
+        console.log(this.options.conType)
     }
     render() {
         return (
@@ -24,8 +30,8 @@ class LeftBar extends Component {
                     <div>
                         <label for="connections">Вид связи</label>
                         <select name="connections" id='connections' onChange={event => {this.options.conType = document.getElementById("connections").value}}>
-                            <option value="con1">Con1</option>
-                            <option value="con2">Con2</option>
+                            <option value="con1">Связь одного</option>
+                            <option value="con2">Связь между объектами</option>
                         </select>
                     </div>
     
@@ -39,8 +45,18 @@ class LeftBar extends Component {
                             placeholder="IIN"
                             />
                     </div>
+                    <div>
+                        <label for="IIN2">Введите ИИН</label>
+                        <input type="text" 
+                            // value=""
+                            onChange={event => {this.options.iin2 = event.target.value}} 
+                            id="input_IIN2" 
+                            name="input_IIN2" 
+                            placeholder="IIN2"
+                            />
+                    </div>
                     
-                    <div className='checkboxBlock'>
+                    {/* <div className='checkboxBlock'>
                         <div>
                             <input 
                                 type="checkbox" 
@@ -83,7 +99,7 @@ class LeftBar extends Component {
                             <input type="checkbox" id="connection3" name="con3" value="con3" onChange={event => {this.options.connections.con1 = event.target.checked}}/>
                             <label id="conLabel" for="con3">Con3</label>
                         </div>
-                    </div>
+                    </div> */}
     
                     <div>
                         <input type="button" value="Filter" id="filterBtn" 
