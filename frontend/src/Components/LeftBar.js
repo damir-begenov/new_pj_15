@@ -31,7 +31,16 @@ class LeftBar extends Component {
                     <div className="formBlock">
                         <label for="connections">Вид связи</label>
                         <div className="select">
-                            <select name="connections" id='connections' onChange={event => {this.options.conType = document.getElementById("connections").value}}>
+                            <select name="connections" id='connections' onChange={event => {
+                                this.options.conType = document.getElementById("connections").value;
+                                let input2 = document.getElementsByClassName("formBlock")[2];
+
+                                if (this.options.conType != "con2") input2.style.display = 'none';
+                                else input2.style.display = 'flex';
+
+                                console.log(input2);
+                            }}>
+
                                 <option value="none" selected disabled>Выберите тип связи</option>
                                 <option value="con1">Один объект</option>
                                 <option value="con2">Два объекта</option>

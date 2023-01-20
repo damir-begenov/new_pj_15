@@ -305,6 +305,10 @@ html {
   gap: 7px;
 }
 
+.leftBar .formBlock:nth-child(3) {
+  display: none;
+}
+
 .leftBar div label {
   font-size: 14px;
   font-weight: 400;
@@ -522,4 +526,8 @@ option {
   background-color: var(--bar-color);
 
   text-align: start;
+}
+
+.formBlock .display-none {
+  display: none;
 }
