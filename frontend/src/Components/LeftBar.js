@@ -19,7 +19,6 @@ class LeftBar extends Component {
         } else {
             this.props.handleSubmitConn(this.options).bind(this);
         }
-        console.log(this.options.conType)
     }
     render() {
         return (
