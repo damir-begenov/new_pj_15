@@ -6,9 +6,10 @@ import { Component } from "react";
 import LeftBar from "./LeftBar";
 import RightBar from "./RightBar";
 
-import userIcon from "./../user.png";
-import buildingIcon from "./../building.png";
-import sUserIcon from "./../sUser.png";
+import userIconWhite from "./../user-icon-white.png";
+import userIconBlack from "./../user-icon-black.png";
+import buildingIcon from "./../school-icon.png";
+import userIconRed from "./../user-icon-red.png";
 
 var NoD =  [];
 
@@ -120,11 +121,11 @@ export default class GraphNet extends Component {
     }
     handleSubmit = (options) => {
       this.setState({iin: options.iin})
-      axios.get("http://localhost:9090/relation/"+ options.iin )
+      axios.get("http://localhost:9090/connection/"+ options.iin )
             .then(res => {
                 const nodes = res.data.nodes
                 const edges = res.data.edges
-                
+
                 nodes.filter(e => e.main === true).map(item => (
                   item.group = 'schools'
                   // item.title = this.createTitleBlockSchool(item)
@@ -138,8 +139,6 @@ export default class GraphNet extends Component {
                   // item.title = this.createTitleBlockStudent(item)
                 ))
            
-    
-
                 this.setState({nodes, edges})
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
@@ -158,8 +157,9 @@ export default class GraphNet extends Component {
     options = {
       autoResize: true,
       edges: {
-        color: "#ffffff",
-        width: 3,
+        color: "#bfbfbf",
+        width: 1,
+        // length: 40,
         arrows: "none",
         label: "End-date",
         font: {
@@ -178,7 +178,7 @@ export default class GraphNet extends Component {
         },
         students: {
           shape: "image",
-          image: userIcon,
+          image: userIconWhite,
           size: 20,
           font: {
             color: this.color1
@@ -186,7 +186,7 @@ export default class GraphNet extends Component {
         },
         selected: {
           shape: "image",
-          image: sUserIcon,
+          image: userIconRed,
           size: 30,
           font: {
             color: this.color3
@@ -196,10 +196,11 @@ export default class GraphNet extends Component {
       nodes: {
         font: {
           color: this.color1,
-          size: 10
+          size: 20
         },
         margin: {
           top: 0,
+          bottom: 0
         }
       },
       height: "100%",

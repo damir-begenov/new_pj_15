@@ -5,31 +5,21 @@ class RightBar extends Component{
   render() {
     return (
       <div className='rightBar'>
-          <div className="nodeInfoTitle">Graph Info</div>
-          <div className='nodeHints'>
-            <div className='nodeHint nodeHint_green'>
-              Person
+        <div className="infoBlock" id="infoBlock">
+          <div>
+            <div className="infoBlockTitle">Информация о объекте</div>                
+            <div className="nodeInfo">
+              <div>IIN: <span>ASDAASF</span></div>
+              <div>NAME: <span>STEFAN SALVATORE</span></div>
+              <div>RELATIONS: <span>SCHOOL 4</span></div>
+              <div>START DATE: <span>2007</span></div>
+              <div>END DATE: <span>2017</span></div>
             </div>
-            <div className='nodeHint nodeHint_red'>
-              School
-            </div>
           </div>
-
-          <div className='nodeInfoBlock'>
-            <div>Объекты: <span>{this.props.objects}</span></div>
-            <div>Связи: <span>{this.props.relations}</span></div>
-          </div>
-
-          <div className="infoBlock" id="infoBlock">
-              <hr/>
-              <div>
-                  <div className="infoBlockTitle">Node Info</div>
-                  <a id="infoIIN"></a>
-                  
-              </div>
-          </div>
+        </div>
       </div>
-  );
+
+    );
   }
 }
 
