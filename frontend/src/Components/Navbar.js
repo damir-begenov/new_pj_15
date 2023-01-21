@@ -6,7 +6,7 @@ class Navbar extends Component {
         return (
             <div className="nav-back">
                 <nav className="NavbarItems">
-                <h1 className="logo">Ww-tracker</h1>
+                <h1 className="logo">MENU</h1>
                 <ul className="nav-menu">
                     {MenuData.map((item, index)=> {
                         return (

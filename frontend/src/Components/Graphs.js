@@ -12,6 +12,7 @@ import buildingIcon from "./../eclipse-1.png";
 import userIconRed from "./../user-icon-red.png";
 
 var NoD =  [];
+var EdG = [];
 
 export default class GraphNet extends Component {
     state = {
@@ -23,16 +24,15 @@ export default class GraphNet extends Component {
           var { nodes, edges } = event;
         },
         selectNode: function(event) {
-          let item = NoD.filter(e => e.id == event.nodes[0])[0]
-          let text = "";
-
-          text += `<h3>School</h3>`;
-          text += `<p><span>id:</span> ${item.id}</p>`;
-          text += `<p><span>name:</span> ${item.label}</p>`;
-          text += `<p><span>BIN:</span> ${item.title}</p>`;
-          document.getElementById("infoIIN").innerHTML = text;
+          let item = NoD.filter(e => e.id === event.nodes[0])[0]
+          document.getElementById("nodeIin").innerHTML = item.bin_IIN;
+          document.getElementById("nodeName").innerHTML = item.name;
+          document.getElementById("nodeLabel").innerHTML = item.labl;
         },
-        
+        selectEdge: function(event) {
+          let item = EdG.filter(e=> e.id === event.edges[0])[0]
+          console.log(item.start_date) 
+        }        
     }
     numbers = {
       objects: 0,
@@ -98,21 +98,24 @@ export default class GraphNet extends Component {
                   item.group = 'schools'
                   // item.title = this.createTitleBlockSchool(item)
                 ))
-                nodes.filter(e => e.main === false && e.title != this.state.iin && e.title != this.state.iin2).map(item => (
-                  item.group = 'students'
+                nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin && e.bin_IIN !== this.state.iin2).map(item => (
+                  item.group = 'students2'
                   // item.title = this.createTitleBlockStudent(item)
                 ))
-                nodes.filter(e => e.title == this.state.iin || e.title == this.state.iin2).map(item => (
+                nodes.filter(e => e.bin_IIN === this.state.iin || e.bin_IIN === this.state.iin2).map(item => (
                   item.group = 'selected'
                   // item.title = this.createTitleBlockStudent(item)
                 ))
-           
+
+                nodes.map(item => {
+                  item.label = item.name
+                })
     
                 this.setState({nodes, edges})
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
                 NoD = nodes
-
+                EdG = edges
                 this.state.nodes.map(item => (
                   item.onclick = this.nodeInfo(item)
                 ))
@@ -130,19 +133,22 @@ export default class GraphNet extends Component {
                   item.group = 'schools'
                   // item.title = this.createTitleBlockSchool(item)
                 ))
-                nodes.filter(e => e.main === false && e.title != this.state.iin).map(item => (
+                nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin).map(item => (
                   item.group = 'students'
                   // item.title = this.createTitleBlockStudent(item)
                 ))
-                nodes.filter(e => e.title == this.state.iin).map(item => (
+                nodes.filter(e => e.bin_IIN === this.state.iin).map(item => (
                   item.group = 'selected'
                   // item.title = this.createTitleBlockStudent(item)
                 ))
-           
+                nodes.map(item => {
+                  item.label = item.name
+                })
                 this.setState({nodes, edges})
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
                 NoD = nodes
+                EdG = edges
                 this.state.nodes.map(item => (
                   item.onclick = this.nodeInfo(item)
                 ))
@@ -176,6 +182,14 @@ export default class GraphNet extends Component {
           },
         },
         students: {
+          shape: "image",
+          image: userIconWhite,
+          size: 20,
+          font: {
+            color: this.color1
+          }
+        },
+        students2: {
           shape: "image",
           image: userIconWhite,
           size: 20,
