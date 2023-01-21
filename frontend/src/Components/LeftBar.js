@@ -38,7 +38,6 @@ class LeftBar extends Component {
                                 if (this.options.conType != "con2") input2.style.display = 'none';
                                 else input2.style.display = 'flex';
 
-                                console.log(input2);
                             }}>
 
                                 <option value="none" selected disabled>Выберите тип связи</option>
