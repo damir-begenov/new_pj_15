@@ -12,6 +12,7 @@ import buildingIcon from "./../eclipse-1.png";
 import userIconRed from "./../user-icon-red.png";
 
 var NoD =  [];
+var EdG = [];
 
 export default class GraphNet extends Component {
     state = {
@@ -28,7 +29,10 @@ export default class GraphNet extends Component {
           document.getElementById("nodeName").innerHTML = item.name;
           document.getElementById("nodeLabel").innerHTML = item.labl;
         },
-        
+        selectEdge: function(event) {
+          let item = EdG.filter(e=> e.id === event.edges[0])[0]
+          console.log(item.start_date) 
+        }        
     }
     numbers = {
       objects: 0,
@@ -105,14 +109,13 @@ export default class GraphNet extends Component {
 
                 nodes.map(item => {
                   item.label = item.name
-
                 })
     
                 this.setState({nodes, edges})
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
                 NoD = nodes
-
+                EdG = edges
                 this.state.nodes.map(item => (
                   item.onclick = this.nodeInfo(item)
                 ))
@@ -141,11 +144,11 @@ export default class GraphNet extends Component {
                 nodes.map(item => {
                   item.label = item.name
                 })
-           
                 this.setState({nodes, edges})
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
                 NoD = nodes
+                EdG = edges
                 this.state.nodes.map(item => (
                   item.onclick = this.nodeInfo(item)
                 ))
