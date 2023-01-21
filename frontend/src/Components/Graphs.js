@@ -8,7 +8,7 @@ import RightBar from "./RightBar";
 
 import userIconWhite from "./../user-icon-white.png";
 import userIconBlack from "./../user-icon-black.png";
-import buildingIcon from "./../school-icon.png";
+import buildingIcon from "./../eclipse-1.png";
 import userIconRed from "./../user-icon-red.png";
 
 var NoD =  [];
@@ -171,12 +171,12 @@ export default class GraphNet extends Component {
       },
       groups: {
         schools: {
-          shape: "image",
-          image: buildingIcon,
-          size: 40,
+          shape: "circle",
+          size: 50,
+          color: "#00FF00",
           font: {
-            color: this.color2
-          }
+            color: "#000"
+          },
         },
         students: {
           shape: "image",
@@ -208,10 +208,6 @@ export default class GraphNet extends Component {
           color: this.color1,
           size: 20
         },
-        margin: {
-          top: 0,
-          bottom: 0
-        }
       },
       height: "100%",
       selectable: true
