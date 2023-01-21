@@ -212,12 +212,20 @@ export default class GraphNet extends Component {
         <>
         <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.handleSubmit} handleSubmitConn={this.handleSubmitConn} setIIN={this.setChange}></LeftBar>
         <div className='centralBar'>
+            <div className="nodeSearch">
+              <input type="text"/>
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
             <Graph
               graph={this.state}
               options={this.options}
               events={this.state}
               getNetwork={network => {
-                //  if you want access to vis.js network api you can set the state in a parent component using this property
+                network.on('zoom', event => {
+                  network.moveTo({
+
+                  });
+                })
               }}
               manipulation={this.manipulation}
             />

@@ -445,10 +445,44 @@ option {
 }
 
 .centralBar {
+  position: relative;
+
   display: flex;
   flex-direction: column;
 
   width: 100%;
+
+  box-shadow: 0px 4px 38px -38px rgba(233, 20, 20, 0.7) inset;
+}
+
+.centralBar .nodeSearch {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 1;
+}
+
+.nodeSearch input {
+  outline: none;
+
+  border-radius: 4px;
+
+  font-size: 1.2em;
+  font-weight: 500;
+  padding: 3px 0 3px 10px;
+}
+
+.nodeSearch i {
+  position: absolute;
+  right: 10px;
+
+  cursor: pointer;
+
+  color: black;
 }
 
 .rightBar {
