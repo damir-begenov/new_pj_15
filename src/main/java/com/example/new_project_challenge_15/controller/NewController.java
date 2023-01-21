@@ -60,14 +60,21 @@ public class NewController {
                 String bin = relation.getEND_ID();
                 String start_date = relation.getStart_date();
                 String end_date = relation.getEnd_date();
-                DateFormat formatter = new SimpleDateFormat("dd.mm.yyyy");
-                Date date_1 = formatter.parse(start_date);
-                Date date_2;
+                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+                Date date_2 = new Date();
+                Date date_1 = new Date();
+                System.out.println(start_date);
                 if(end_date==""){
                     date_2 = null;
                 }
                 else {
                     date_2 = formatter.parse(end_date);
+                }
+                if(start_date==""){
+                    date_1 = null;
+                }
+                else {
+                    date_1 = formatter.parse(start_date);
                 }
                 if (BINs.contains(bin)) {
                     for (int i=0; i<BINs.size(); i++) {
@@ -122,14 +129,21 @@ public class NewController {
                 String bin = relation.getEND_ID();
                 String start_date = relation.getStart_date();
                 String end_date = relation.getEnd_date();
-                DateFormat formatter = new SimpleDateFormat("dd.mm.yyyy");
-                Date date_1 = formatter.parse(start_date);
-                Date date_2;
+                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+                Date date_2 = new Date();
+                Date date_1 = new Date();
+                System.out.println(start_date);
                 if(end_date==""){
                     date_2 = null;
                 }
                 else {
                     date_2 = formatter.parse(end_date);
+                }
+                if(start_date==""){
+                    date_1 = null;
+                }
+                else {
+                    date_1 = formatter.parse(start_date);
                 }
                 if (BINs.contains(bin)) {
                     for (int i=0; i<BINs.size(); i++) {
