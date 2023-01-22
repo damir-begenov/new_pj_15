@@ -9,8 +9,10 @@ class LeftBar extends Component {
         conType: "",
     }
     filter = (event) => {
-        if (this.options.conType == "con1") {
+        if (this.options.conType === "con1") {
             this.props.handleSubmit(this.options).bind(this);
+        } else if (this.options.conType === "con3") {
+            this.props.handleSubmitDate(this.options).bind(this);
         } else {
             this.props.handleSubmitConn(this.options).bind(this);
         }
@@ -35,14 +37,24 @@ class LeftBar extends Component {
                             <select name="connections" id='connections' onChange={event => {
                                 this.options.conType = document.getElementById("connections").value;
                                 let input2 = document.getElementsByClassName("formBlock")[2];
+                                let input3 = document.getElementsByClassName("formBlock")[3];
 
-                                if (this.options.conType != "con2") input2.style.display = 'none';
-                                else input2.style.display = 'flex';
+                                if (this.options.conType === "con2") {
+                                    input2.style.display = 'flex';
+                                    input3.style.display = 'none';
+                                }
+                                else if (this.options.conType === "con1"){
+                                    input2.style.display = 'none';
+                                    input3.style.display = 'none';
+                                } else if (this.options.conType ==="con3") {
+                                    input2.style.display = 'none';
+                                    input3.style.display = 'flex';
+                                }
                             }}>
 
-                                <option value="none" selected disabled>Выберите тип связи</option>
                                 <option value="con1">Один объект</option>
                                 <option value="con2">Два объекта</option>
+                                <option value="con3">Oбъект и дата</option>
                             </select>
                         </div>
                     </div>

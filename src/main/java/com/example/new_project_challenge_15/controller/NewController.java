@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -60,7 +61,7 @@ public class NewController {
                 if (BINs.contains(bin)) {
                     for (int i=0; i<BINs.size(); i++) {
                         if (nodesToAppend.get(i).getBIN_IIN().equals(bin)) {
-                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId(), date_1, date_2);
+                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId(),  start_date, end_date);
                             edgesToAppend.add(edge);
                             break;
                         }
@@ -118,7 +119,7 @@ public class NewController {
                 if (BINs.contains(bin)) {
                     for (int i=0; i<BINs.size(); i++) {
                         if (nodesToAppend.get(i).getBIN_IIN().equals(bin)) {
-                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId(), date_1, date_2);
+                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId(), start_date, end_date);
                             edgesToAppend.add(edge);
                             break;
                         }
