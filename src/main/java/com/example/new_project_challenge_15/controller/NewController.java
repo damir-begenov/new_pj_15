@@ -1,25 +1,18 @@
 package com.example.new_project_challenge_15.controller;
 
 import com.example.new_project_challenge_15.entity.*;
-import com.example.new_project_challenge_15.entity.enums.School;
 import com.example.new_project_challenge_15.repository.n_stRepo;
-import com.example.new_project_challenge_15.repository.rel_final_repo;
 
-import javassist.expr.NewArray;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -172,19 +165,11 @@ public class NewController {
                 String bin = relation.getEND_ID();
                 String start_date = relation.getStart_date();
                 String end_date = relation.getEnd_date();
-                DateFormat formatter = new SimpleDateFormat("dd.mm.yyyy");
-                Date date_1 = formatter.parse(start_date);
-                Date date_2;
-                if(end_date==""){
-                    date_2 = null;
-                }
-                else {
-                    date_2 = formatter.parse(end_date);
-                }
+                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
                 if (BINs.contains(bin)) {
                     for (int i=0; i<BINs.size(); i++) {
                         if (nodesToAppend.get(i).getBIN_IIN().equals(bin)) {
-                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId(),date_1,date_2);
+                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId(),start_date,end_date);
                             edgesToAppend.add(edge);
                             break;
                         }
@@ -193,7 +178,7 @@ public class NewController {
                     node_c compNode_c = node_cRepository.getByBiniID(bin).get(0);
                     nodeStudentModel company = new nodeStudentModel(compNode_c.getCompany(), compNode_c.getBINID(), compNode_c.getLABEL(), true);
                     nodesToAppend.add(0, company);
-                    edgesModel edge = new edgesModel(node.getId(), company.getId(),date_1,date_2);
+                    edgesModel edge = new edgesModel(node.getId(), company.getId(),start_date,end_date);
                     BINs.add(bin);
                     edgesToAppend.add(edge);
                     // localCompanies.add(0, compNode_c);
@@ -234,19 +219,10 @@ public class NewController {
                 String bin = relation.getEND_ID();
                 String start_date = relation.getStart_date();
                 String end_date = relation.getEnd_date();
-                DateFormat formatter = new SimpleDateFormat("dd.mm.yyyy");
-                Date date_1 = formatter.parse(start_date);
-                Date date_2;
-                if(end_date==""){
-                    date_2 = null;
-                }
-                else {
-                    date_2 = formatter.parse(end_date);
-                }
                 if (BINs.contains(bin)) {
                     for (int i=0; i<BINs.size(); i++) {
                         if (nodesToAppend.get(i).getBIN_IIN().equals(bin)) {
-                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId(),date_1,date_2);
+                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId(),start_date,end_date);
                             edgesToAppend.add(edge);
                             break;
                         }
@@ -255,7 +231,7 @@ public class NewController {
                     node_c compNode_c = node_cRepository.getByBiniID(bin).get(0);
                     nodeStudentModel company = new nodeStudentModel(compNode_c.getCompany(), compNode_c.getBINID(), compNode_c.getLABEL(), true);
                     nodesToAppend.add(0, company);
-                    edgesModel edge = new edgesModel(node.getId(), company.getId(),date_1,date_2);
+                    edgesModel edge = new edgesModel(node.getId(), company.getId(),start_date,end_date);
                     BINs.add(bin);
                     edgesToAppend.add(edge);
                     // localCompanies.add(0, compNode_c);

@@ -5,8 +5,8 @@ import java.util.Date;
 public class edgesModel {
     private int from;
     private int to;
-    private Date start_date;
-    private Date end_date;
+    private String start_date;
+    private String end_date;
     public edgesModel() {
 
     }
@@ -16,8 +16,7 @@ public class edgesModel {
         this.to = to;        
     }
 
-
-    public edgesModel(int from, int to, Date start_date, Date end_date) {
+    public edgesModel(int from, int to, String start_date, String end_date) {
         this.from = from;
         this.to = to;
         this.start_date = start_date;
@@ -47,19 +46,19 @@ public class edgesModel {
         return to;
     }
 
-    public Date getStart_date() {
+    public String getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(String start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public String getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(String end_date) {
         this.end_date = end_date;
     }
 }
