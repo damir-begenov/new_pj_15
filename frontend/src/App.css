@@ -28,6 +28,11 @@ html {
   background-color: var(--bar-color);
   color: white;
 }
+
+a {
+  text-decoration: none;
+}
+
 .logo {
   font-family: 'Montserrat';
   font-weight: 700;
@@ -479,7 +484,8 @@ option {
 
 .nodeSearch input {
   outline: none;
-  width: 450px;
+  min-width: 300px;
+  box-sizing: content-box;
 
   border-radius: 4px;
   background-color: #2f3337;
@@ -487,13 +493,14 @@ option {
 
   border: none;
 
-  font-size: 1.5em;
-  font-weight: 500;
-  line-height: 150%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
   padding: 3px 0 3px 10px;
 }
 
-.nodeSearch input:active {
+.nodeSearch input:focus {
   outline: none;
 }
 
@@ -503,7 +510,7 @@ option {
 
   cursor: pointer;
 
-  font-size: 1.3em;
+  font-size: 17px;
 
   color: rgb(139, 139, 139);
 }

@@ -6,7 +6,7 @@ class Navbar extends Component {
         return (
             <div className="nav-back">
                 <nav className="NavbarItems">
-                <h1 className="logo">MENU</h1>
+                <h1 className="logo">NEXUS SERVICE</h1>
                 <ul className="nav-menu">
                     {MenuData.map((item, index)=> {
                         return (

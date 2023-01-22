@@ -13,6 +13,7 @@ import userIconRed from "./../user-icon-red.png";
 
 var NoD =  [];
 var EdG = [];
+var Network;
 
 export default class GraphNet extends Component {
     state = {
@@ -21,23 +22,28 @@ export default class GraphNet extends Component {
         iin: '',
         iin2: '',
         temp: '',
-        select: function(event) {
+        select: (event) => {
           var { nodes, edges } = event;
         },
-        selectNode: function(event) {
+        selectNode: (event) => {
           let item = NoD.filter(e => e.id === event.nodes[0])[0]
+
           document.getElementById("nodeIin").innerHTML = item.bin_IIN;
           document.getElementById("nodeName").innerHTML = item.name;
           document.getElementById("nodeLabel").innerHTML = item.labl;
         },
-        selectEdge: function(event) {
+        selectEdge: (event) => {
           let item = EdG.filter(e=> e.id === event.edges[0])[0]
           // document.getElementById("INFO1").innerHTML = "START DATE";
           // document.getElementById("INFO2").innerHTML = "END DATE";
           // document.getElementById("nodeIin").innerHTML = item.start_date;
           // document.getElementById("nodeName").innerHTML = item.end_date;
-          console.log(item.start_date) 
-        }        
+          document.getElementById("nodeStart").innerHTML = item.start_date.substring(0, 10);
+          // console.log(item.start_date) 
+        },
+        oncontext: (event) => {
+          console.log(event)
+        } 
     }
     numbers = {
       objects: 0,
@@ -56,7 +62,7 @@ export default class GraphNet extends Component {
       text += `<h3>School</h3>`;
       text += `<p><span>id:</span> ${item.id}</p>`;
       text += `<p><span>name:</span> ${item.label}</p>`;
-      text += `<p><span>BIN:</span> ${item.title}</p>`;
+      text += `<p><span>BIN:</span> ${item.newTitle}</p>`;
       document.getElementById("infoIIN").innerHTML = text;
     }
     createTitleBlockStudent(item) {
@@ -89,7 +95,7 @@ export default class GraphNet extends Component {
       return container;
     }
     handleSubmitConn = (options) => {
-      this.setState({iin: options.iin, iin2: options.iin2})
+      this.setState({iin: options.iin.toUpperCase(), iin2: options.iin2.toUpperCase()})
 
       axios.get("http://localhost:9090/connection/"+ options.iin + "/" + options.iin2 )
             .then(res => {
@@ -97,15 +103,18 @@ export default class GraphNet extends Component {
                 const edges = res.data.edges
                 
                 nodes.filter(e => e.main === true).map(item => (
-                  item.group = 'schools'
+                  item.group = 'schools',
+                  item["newTitle"] = item.title
                   // item.title = this.createTitleBlockSchool(item)
                 ))
                 nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin && e.bin_IIN !== this.state.iin2).map(item => (
-                  item.group = 'students2'
+                  item.group = 'students2',
+                  item["newTitle"] = item.title
                   // item.title = this.createTitleBlockStudent(item)
                 ))
                 nodes.filter(e => e.bin_IIN === this.state.iin || e.bin_IIN === this.state.iin2).map(item => (
-                  item.group = 'selected'
+                  item.group = 'selected',
+                  item["newTitle"] = item.title
                   // item.title = this.createTitleBlockStudent(item)
                 ))
 
@@ -116,8 +125,10 @@ export default class GraphNet extends Component {
                 this.setState({nodes, edges})
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
+
                 NoD = nodes
                 EdG = edges
+
                 this.state.nodes.map(item => (
                   item.onclick = this.nodeInfo(item)
                 ))
@@ -125,7 +136,7 @@ export default class GraphNet extends Component {
             })
     }
     handleSubmit = (options) => {
-      this.setState({iin: options.iin})
+      this.setState({iin: options.iin.toUpperCase()})
       axios.get("http://localhost:9090/connection/"+ options.iin )
           .then(res => {
               const nodes = res.data.nodes
@@ -143,21 +154,25 @@ export default class GraphNet extends Component {
                 item.group = 'selected'
                 // item.title = this.createTitleBlockStudent(item)
               ))
+
               nodes.map(item => {
                 item.label = item.name
               })
+
               this.setState({nodes, edges})
               this.numbers.objects = nodes.length
               this.numbers.relations = edges.length
+
               NoD = nodes
               EdG = edges
+
               this.state.nodes.map(item => (
                 item.onclick = this.nodeInfo(item)
               ))
           })
     }
     handleSumbitDate = (options) => {
-      axios.get("http://localhost:9090/alltest/"+ options.iin + "/" + options.date  )
+      axios.get("http://localhost:9090/alltest/"+ options.iin.toUpperCase() + "/" + options.date  )
             .then(res => {
                 const nodes = res.data.nodes
                 const edges = res.data.edges
@@ -174,14 +189,18 @@ export default class GraphNet extends Component {
                   item.group = 'selected'
                   // item.title = this.createTitleBlockStudent(item)
                 ))
+
                 nodes.map(item => {
                   item.label = item.name
                 })
+
                 this.setState({nodes, edges})
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
+
                 NoD = nodes
                 EdG = edges
+
                 this.state.nodes.map(item => (
                   item.onclick = this.nodeInfo(item)
                 ))
@@ -192,12 +211,27 @@ export default class GraphNet extends Component {
       // console.log(this.state.iin)
     }
 
+    colors = {
+      schoolColor: '#636951',
+      studentColor: '#393939',
+      studentColor2: '#2D4231',
+      selectedColor: '#72E053',
+      searchedColor: '#99191C',
+
+      schoolFontColor: '#ffffff',
+      studentFontColor: '#ffffff',
+      studentFontColor2: '#ffffff',
+      selectedFontColor: '#DE191C',
+      searchedFontColor: '#99191C',
+
+      edgeColor: '#888888'
+    }
+
     options = {
       autoResize: true,
       edges: {
-        color: "#bfbfbf",
+        color: this.colors.edgeColor,
         width: 1,
-        // length: 40,
         arrows: "none",
         font: {
           strokeWidth: 0,
@@ -207,74 +241,118 @@ export default class GraphNet extends Component {
       groups: {
         schools: {
           shape: "icon",
-          size: 20,
           icon: {
             face: '"Font Awesome 5 Free"',
             code: '\uf1ad',
             weight: 700,
-            color: '#fff'
+            size: 70,
+            color: this.colors.schoolColor
           },
           font: {
-            color: '#000',
+            color: this.colors.schoolFontColor,
             weight: 300,
-          }
+            size: 20
+          },
+          // physics: false
         },
         students: {
           shape: "icon",
-          size: 20,
           icon: {
             face: '"Font Awesome 5 Free"',
-            code: '\uf007',
+            code: '\uf2bd',
             weight: 700,
-            color: '#888888'
+            size: 50,
+            color: this.colors.studentColor
           },
           font: {
-            color: '#000',
+            color: this.colors.studentFontColor,
             weight: 300,
           }
         },
         students2: {
           shape: "icon",
-          size: 20,
           icon: {
             face: '"Font Awesome 5 Free"',
-            code: '\uf007',
+            code: '\uf2bd',
             weight: 700,
-            color: '#888888'
+            size: 50,
+            color: this.colors.studentColor2
           },
           font: {
-            color: '#000',
+            color: this.colors.studentFontColor2,
             weight: 300,
           }
         },
         selected: {
           shape: "icon",
-          size: 20,
           icon: {
             face: '"Font Awesome 5 Free"',
-            code: '\uf007',
+            code: '\uf2bd',
             weight: 700,
-            color: '#00ff00'
+            size: 50,
+            color: this.colors.selectedColor
           },
           font: {
-            color: '#000',
+            color: this.colors.studentFontColor,
             weight: 300,
           }
         },
       },
       nodes: {
         font: {
-          color: this.color1,
-          size: 20
+          size: 14
         },
       },
       height: "100%",
-      // selectable: true
     };
 
 
     manipulation = {
       deleteNode: true,
+    }
+
+    search(value) {
+      const searchNodes = NoD.filter(elem => {
+        if (elem.name.toLowerCase().includes(value.toLowerCase())) {
+          return elem;
+        }
+      });
+
+      const item = searchNodes[0];
+      document.getElementById("nodeIin").innerHTML = item.bin_IIN;
+      document.getElementById("nodeName").innerHTML = item.name;
+      document.getElementById("nodeLabel").innerHTML = item.labl;
+
+      for (const [key, value] of Object.entries(Network.body.nodes)) {
+        if (value.options.group != 'selected') {
+          value.options.icon.color = this.colors.studentColor;
+        }
+
+        if (value.options.group == 'school') {
+          value.options.icon.color = this.colors.schoolColor;
+        } else if (value.options.group == 'selected') {
+          value.options.icon.color = this.colors.selectedColor;
+        }
+
+        if (value.options.id == item.id) {
+          value.options.icon.color = this.colors.searchedColor;
+        }
+      }
+
+      Network.focus(item.id, {
+        scale: 2.5,
+        offset: {
+          x: 0,
+          y: 0
+        },
+        // animation: {
+        //   duration: 1,
+        //   easingFunction: 'easeInQuad'
+        // }
+      })
+
+      searchNodes.map(elem => {
+      })
     }
 
     render() {
@@ -283,18 +361,30 @@ export default class GraphNet extends Component {
         <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.handleSubmit} handleSubmitConn={this.handleSubmitConn} handleSubmitDate={this.handleSumbitDate} setIIN={this.setChange}></LeftBar>
         <div className='centralBar'>
             <div className="nodeSearch">
-              <input type="text" placeholder="Search for node"/>
-              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="nodeSearchInput" placeholder="Search for Node" 
+                onKeyDown={event => {
+                  if (event.key === 'Enter') {
+                    if(event.target.value != "") {
+                      this.search(event.target.value)
+                    } else {
+                      Network.fit({});
+                    }
+                  }
+                }}
+                onChange={event => {
+                  if (event.target.value == "") {
+                    Network.fit({});
+                  }
+                }}/>
+              <i class="fa-solid fa-magnifying-glass"
+                onClick={() => this.search(document.getElementById("nodeSearchInput").value)}></i>
             </div>
             <Graph
               graph={this.state}
               options={this.options}
               events={this.state}
               getNetwork={network => {
-                network.on('selectNode', event => {
-                  console.log(event);
-                  console.log(network.getSelection());
-                })
+                Network = network;
               }}
               manipulation={this.manipulation}
             />
