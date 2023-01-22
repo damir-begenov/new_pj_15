@@ -44,9 +44,6 @@ export default class GraphNet extends Component {
       relations: [],
       label: ''
     }
-    color1 = "#73ca74";
-    color2 = "#b56060";
-    color3 = "#FF0000";
 
     nodeInfo(item) {
       let text = "";
@@ -174,35 +171,59 @@ export default class GraphNet extends Component {
       },
       groups: {
         schools: {
-          shape: "circle",
-          size: 50,
-          color: "#00FF00",
-          font: {
-            color: "#000"
+          shape: "icon",
+          size: 20,
+          icon: {
+            face: '"Font Awesome 5 Free"',
+            code: '\uf1ad',
+            weight: 700,
+            color: '#fff'
           },
+          font: {
+            color: '#000',
+            weight: 300,
+          }
         },
         students: {
-          shape: "image",
-          image: userIconWhite,
+          shape: "icon",
           size: 20,
+          icon: {
+            face: '"Font Awesome 5 Free"',
+            code: '\uf007',
+            weight: 700,
+            color: '#888888'
+          },
           font: {
-            color: this.color1
+            color: '#000',
+            weight: 300,
           }
         },
         students2: {
-          shape: "image",
-          image: userIconWhite,
+          shape: "icon",
           size: 20,
+          icon: {
+            face: '"Font Awesome 5 Free"',
+            code: '\uf007',
+            weight: 700,
+            color: '#888888'
+          },
           font: {
-            color: this.color1
+            color: '#000',
+            weight: 300,
           }
         },
         selected: {
-          shape: "image",
-          image: userIconRed,
-          size: 30,
+          shape: "icon",
+          size: 20,
+          icon: {
+            face: '"Font Awesome 5 Free"',
+            code: '\uf007',
+            weight: 700,
+            color: '#00ff00'
+          },
           font: {
-            color: this.color3
+            color: '#000',
+            weight: 300,
           }
         },
       },
@@ -227,7 +248,7 @@ export default class GraphNet extends Component {
         <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.handleSubmit} handleSubmitConn={this.handleSubmitConn} setIIN={this.setChange}></LeftBar>
         <div className='centralBar'>
             <div className="nodeSearch">
-              <input type="text"/>
+              <input type="text" placeholder="Search for node"/>
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <Graph
@@ -235,10 +256,9 @@ export default class GraphNet extends Component {
               options={this.options}
               events={this.state}
               getNetwork={network => {
-                network.on('zoom', event => {
-                  network.moveTo({
-
-                  });
+                network.on('selectNode', event => {
+                  console.log(event);
+                  console.log(network.getSelection());
                 })
               }}
               manipulation={this.manipulation}

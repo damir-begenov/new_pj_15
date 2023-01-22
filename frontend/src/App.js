@@ -22,7 +22,7 @@ import Graph from "react-vis-network-graph";
 import GraphNet from './Components/Graphs';
 import LeftBar from './Components/LeftBar';
 import RightBar from './Components/RightBar';
-
+import MainPage from './Components/MainPage';
 
 function App() {
 
@@ -30,11 +30,9 @@ function App() {
       <div className='App'>
         <Navbar/>
         <div className='mainSection'>
-
             <GraphNet />
-
         </div>
-      
+        {/* <MainPage/> */}
       </div>
 
   )
