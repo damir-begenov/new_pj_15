@@ -20,6 +20,7 @@ export default class GraphNet extends Component {
         edges: [],
         iin: '',
         iin2: '',
+        temp: '',
         select: function(event) {
           var { nodes, edges } = event;
         },
@@ -124,7 +125,8 @@ export default class GraphNet extends Component {
     }
     handleSubmit = (options) => {
       this.setState({iin: options.iin})
-      axios.get("http://localhost:9090/connection/"+ options.iin )
+      if (options.date === null) {
+        axios.get("http://localhost:9090/connection/"+ options.iin )
             .then(res => {
                 const nodes = res.data.nodes
                 const edges = res.data.edges
@@ -153,8 +155,39 @@ export default class GraphNet extends Component {
                   item.onclick = this.nodeInfo(item)
                 ))
             })
-    }
+      } else {
+        axios.get("http://localhost:9090/alltest/"+ options.iin + "/" + options.date  )
+            .then(res => {
+                const nodes = res.data.nodes
+                const edges = res.data.edges
 
+                nodes.filter(e => e.main === true).map(item => (
+                  item.group = 'schools'
+                  // item.title = this.createTitleBlockSchool(item)
+                ))
+                nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin).map(item => (
+                  item.group = 'students'
+                  // item.title = this.createTitleBlockStudent(item)
+                ))
+                nodes.filter(e => e.bin_IIN === this.state.iin).map(item => (
+                  item.group = 'selected'
+                  // item.title = this.createTitleBlockStudent(item)
+                ))
+                nodes.map(item => {
+                  item.label = item.name
+                })
+                this.setState({nodes, edges})
+                this.numbers.objects = nodes.length
+                this.numbers.relations = edges.length
+                NoD = nodes
+                EdG = edges
+                this.state.nodes.map(item => (
+                  item.onclick = this.nodeInfo(item)
+                ))
+            })
+      }
+      
+    }
     setChange = (event) => {
       this.setState({iin: event.target.value})
       // console.log(this.state.iin)
@@ -213,7 +246,7 @@ export default class GraphNet extends Component {
         },
       },
       height: "100%",
-      selectable: true
+      // selectable: true
     };
 
 
@@ -226,12 +259,20 @@ export default class GraphNet extends Component {
         <>
         <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.handleSubmit} handleSubmitConn={this.handleSubmitConn} setIIN={this.setChange}></LeftBar>
         <div className='centralBar'>
+            <div className="nodeSearch">
+              <input type="text"/>
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
             <Graph
               graph={this.state}
               options={this.options}
               events={this.state}
               getNetwork={network => {
-                //  if you want access to vis.js network api you can set the state in a parent component using this property
+                network.on('zoom', event => {
+                  network.moveTo({
+
+                  });
+                })
               }}
               manipulation={this.manipulation}
             />

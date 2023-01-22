@@ -22,13 +22,13 @@ public class MyController {
     private final node_cRepository node_cRepository;
     private final rel_final_repo rel_final_repo;
 
-    @GetMapping("/all")
-    public String getAll(Model model) {
-        Collection<n_st> n_sts = n_stRepo.getAllUser();
-        n_st n_st = n_stRepo.getByIINID("JHAFDBDAACBG").get(0);
-        model.addAttribute("n", n_sts);
-        return "main";
-    }
+    // @GetMapping("/all")
+    // public String getAll(Model model) {
+    //     Collection<n_st> n_sts = n_stRepo.getAllUser();
+    //     n_st n_st = n_stRepo.getByIINID("JHAFDBDAACBG").get(0);
+    //     model.addAttribute("n", n_sts);
+    //     return "main";
+    // }
 //    }
 //    @GetMapping("/alls")
 //    public String getAllj(Model model) {

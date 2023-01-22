@@ -5,6 +5,7 @@ class LeftBar extends Component {
     options = {
         iin: "",
         iin2: "",
+        date: Date,
         conType: "",
     }
     filter = (event) => {
@@ -37,7 +38,6 @@ class LeftBar extends Component {
 
                                 if (this.options.conType != "con2") input2.style.display = 'none';
                                 else input2.style.display = 'flex';
-
                             }}>
 
                                 <option value="none" selected disabled>Выберите тип связи</option>
@@ -70,7 +70,16 @@ class LeftBar extends Component {
                             placeholder="Введите ИИН"
                             />
                     </div>
-                    
+                    <div className="formBlock">
+                        <label for="IIN">Выберите дату</label>
+                        <input type="date" 
+                            // value=""
+                            onChange={event => {this.options.date = event.target.value}} 
+                            id="input_date"
+                            className="input_IIN" 
+                            name="input_IIN" 
+                            />
+                    </div>
                     <div className="btn-block formBlock">
                         <input type="button" value="Очистить" id="clearBtn" 
                         onClick={event => this.clearOptions()}

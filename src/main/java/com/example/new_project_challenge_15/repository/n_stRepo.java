@@ -9,27 +9,27 @@ import org.springframework.data.neo4j.repository.query.Query;
 import java.util.List;
 
 public interface n_stRepo extends Neo4jRepository<n_st,String> {
-    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) RETURN m,u,r")
-    List<n_st> getAllUser();
-//jkj
-    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE m.FIO=~ ('(?i).*'+'(?i)'+$FIO+'.*') or " +
-            "m.IINID=~ ('(?i)'+$FIO+'.*') RETURN m,u,r")
-    List<n_st> findByFIO(String FIO);
+//     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) RETURN m,u,r")
+//     List<n_st> getAllUser();
+// //jkj
+//     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE m.FIO=~ ('(?i).*'+'(?i)'+$FIO+'.*') or " +
+//             "m.IINID=~ ('(?i)'+$FIO+'.*') RETURN m,u,r")
+//     List<n_st> findByFIO(String FIO);
 
-    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) RETURN  distinct u{.BINID},r{} limit 40")
-    List<n_st> findAllSchool();
+//     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) RETURN  distinct u{.BINID},r{} limit 40")
+//     List<n_st> findAllSchool();
 
-    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE r.end_date<>'' RETURN m,u,r")
-    List<n_st> findFinishedTheSchool();
-    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE r.end_date='' RETURN m,u,r")
-    List<n_st> findDidntFininshed();
+//     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE r.end_date<>'' RETURN m,u,r")
+//     List<n_st> findFinishedTheSchool();
+//     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE r.end_date='' RETURN m,u,r")
+//     List<n_st> findDidntFininshed();
 
 
-    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE u.BINID=~ ($BINID)  RETURN m,u,r")
-    List<n_st> findBySchool(String BINID);
+//     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) WHERE u.BINID=~ ($BINID)  RETURN m,u,r")
+//     List<n_st> findBySchool(String BINID);
 
-    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=($IINID) return r, u, m")
-    List<n_st> getByIINID(String IINID);
+//     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=($IINID) return r, u, m")
+//     List<n_st> getByIINID(String IINID);
 
     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=~($IINID) return m, u, r")
     List<n_st> getAllRelations(String IINID);
@@ -48,4 +48,10 @@ public interface n_stRepo extends Neo4jRepository<n_st,String> {
     // 
     @Query("MATCH path = (studentA:n_st)-[:rel_final*]->(:node_c)<-[:rel_final*]-(:n_st)-[:rel_final*]->(:node_c)<-[:rel_final*]-(studentB:n_st) WHERE studentA.IINID = ($OneIIN) AND studentB.IINID = ($SecIIN) RETURN path")
     List<n_st> findBetweenTwo(String OneIIN, String SecIIN);
+
+    @Query("MATCH (n {IINID: ($IIN)}) CALL apoc.path.subgraphAll(n, { relationshipFilter: 'rel_final'}) YIELD nodes, relationships UNWIND nodes as node match (node:n_st)-[r:rel_final]->(u:node_c)<-[q:rel_final]-(m:n_st {IINID: ($IIN)}) where date(substring(r.start_date,6,9) + '-' + substring(r.start_date,3,2) + '-' + substring(r.start_date,0,2)) > date(($date)) RETURN node, r, u")
+    List<n_st> findByIINIDandDate(String IIN, String date);
+
+    @Query("MATCH (n {BINID: ($BINID}) CALL apoc.path.subgraphAll(n, { relationshipFilter: 'rel_final'}) YIELD nodes, relationships UNWIND nodes as node match (node:n_st)-[r:rel_final]->(u:node_c {BINID: ($BINID)}) where date(substring(r.start_date,6,9) + '-' + substring(r.start_date,3,2) + '-' + substring(r.start_date,0,2)) > date(($date)) RETURN node, r, u")
+    List<n_st> findByBINandDate(String BINID, String date);
 }

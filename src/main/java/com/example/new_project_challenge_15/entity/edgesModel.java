@@ -11,6 +11,10 @@ public class edgesModel {
 
     }
 
+    public edgesModel(int from, int to) {
+        this.from = from;
+        this.to = to;        
+    }
 
 
     public edgesModel(int from, int to, Date start_date, Date end_date) {
