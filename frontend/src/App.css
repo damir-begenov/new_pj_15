@@ -315,6 +315,10 @@ html {
 .leftBar .formBlock:nth-child(3) {
   display: none;
 }
+.leftBar .formBlock:nth-child(4) {
+  display: none;
+}
+
 
 .leftBar div label {
   font-size: 14px;

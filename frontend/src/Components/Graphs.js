@@ -20,6 +20,7 @@ export default class GraphNet extends Component {
         edges: [],
         iin: '',
         iin2: '',
+        temp: '',
         select: function(event) {
           var { nodes, edges } = event;
         },
@@ -31,6 +32,10 @@ export default class GraphNet extends Component {
         },
         selectEdge: function(event) {
           let item = EdG.filter(e=> e.id === event.edges[0])[0]
+          // document.getElementById("INFO1").innerHTML = "START DATE";
+          // document.getElementById("INFO2").innerHTML = "END DATE";
+          // document.getElementById("nodeIin").innerHTML = item.start_date;
+          // document.getElementById("nodeName").innerHTML = item.end_date;
           console.log(item.start_date) 
         }        
     }
@@ -122,6 +127,37 @@ export default class GraphNet extends Component {
     handleSubmit = (options) => {
       this.setState({iin: options.iin})
       axios.get("http://localhost:9090/connection/"+ options.iin )
+          .then(res => {
+              const nodes = res.data.nodes
+              const edges = res.data.edges
+
+              nodes.filter(e => e.main === true).map(item => (
+                item.group = 'schools'
+                // item.title = this.createTitleBlockSchool(item)
+              ))
+              nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin).map(item => (
+                item.group = 'students'
+                // item.title = this.createTitleBlockStudent(item)
+              ))
+              nodes.filter(e => e.bin_IIN === this.state.iin).map(item => (
+                item.group = 'selected'
+                // item.title = this.createTitleBlockStudent(item)
+              ))
+              nodes.map(item => {
+                item.label = item.name
+              })
+              this.setState({nodes, edges})
+              this.numbers.objects = nodes.length
+              this.numbers.relations = edges.length
+              NoD = nodes
+              EdG = edges
+              this.state.nodes.map(item => (
+                item.onclick = this.nodeInfo(item)
+              ))
+          })
+    }
+    handleSumbitDate = (options) => {
+      axios.get("http://localhost:9090/alltest/"+ options.iin + "/" + options.date  )
             .then(res => {
                 const nodes = res.data.nodes
                 const edges = res.data.edges
@@ -151,7 +187,6 @@ export default class GraphNet extends Component {
                 ))
             })
     }
-
     setChange = (event) => {
       this.setState({iin: event.target.value})
       // console.log(this.state.iin)
@@ -234,7 +269,7 @@ export default class GraphNet extends Component {
         },
       },
       height: "100%",
-      selectable: true
+      // selectable: true
     };
 
 
@@ -245,7 +280,7 @@ export default class GraphNet extends Component {
     render() {
       return (
         <>
-        <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.handleSubmit} handleSubmitConn={this.handleSubmitConn} setIIN={this.setChange}></LeftBar>
+        <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.handleSubmit} handleSubmitConn={this.handleSubmitConn} handleSubmitDate={this.handleSumbitDate} setIIN={this.setChange}></LeftBar>
         <div className='centralBar'>
             <div className="nodeSearch">
               <input type="text" placeholder="Search for node"/>
