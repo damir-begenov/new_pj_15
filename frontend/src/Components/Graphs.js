@@ -133,6 +133,8 @@ export default class GraphNet extends Component {
                   item.onclick = this.nodeInfo(item)
                 ))
 
+
+                Network.fit({});
             })
     }
     handleSubmit = (options) => {
@@ -169,6 +171,8 @@ export default class GraphNet extends Component {
               this.state.nodes.map(item => (
                 item.onclick = this.nodeInfo(item)
               ))
+
+              Network.fit({});
           })
     }
     handleSumbitDate = (options) => {
@@ -204,6 +208,8 @@ export default class GraphNet extends Component {
                 this.state.nodes.map(item => (
                   item.onclick = this.nodeInfo(item)
                 ))
+
+                Network.fit({});
             })
     }
     setChange = (event) => {
