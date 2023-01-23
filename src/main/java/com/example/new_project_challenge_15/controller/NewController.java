@@ -243,6 +243,56 @@ public class NewController {
         doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
         return doubleReturn;
     }
+    @GetMapping("/connection/{start_date}/{end_date}/{BINID}")
+    public doubleReturn getRelation(@PathVariable String start_date,@PathVariable String end_date,@PathVariable String BINID) throws ParseException{
+        List<n_st> persons = n_stRepo.findByTwoDatesAndBIINID(start_date, end_date,BINID);
+        List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+        List<edgesModel> edgesToAppend = new ArrayList<>();
+        List<String> BINs = new ArrayList<>();
+        List<String> IINs = new ArrayList<>();
+        // List<node_c> localCompanies = new ArrayList<>(); Можно добавить что бы поиск был быстрее но хуй знает пока вдруг не понадобится
+        for (n_st person: persons) {
+            nodeStudentModel node = new nodeStudentModel();
+            if (!IINs.contains(person.getIINID())) {
+                node.setNodeStudentModel(person.getFIO(), person.getIINID(), person.getLABEL(), false);
+                IINs.add(person.getIINID());
+                nodesToAppend.add(node);
+            } else {
+                for (int i=0; i<IINs.size(); i++) {
+                    if (nodesToAppend.get(i).getBIN_IIN()==person.getIINID()) {
+                        node.setNodeStudentModel(nodesToAppend.get(i).getName(),nodesToAppend.get(i).getBIN_IIN(),nodesToAppend.get(i).getName(), false, nodesToAppend.get(i).getId());
+                    }
+                }
+            }
+            List<rel_final> relations = rel_final_repo.findRelatioFinals(person.getIINID());
+
+            for (rel_final relation: relations) {
+                String bin = relation.getEND_ID();
+                String startt_date = relation.getStart_date();
+                String end_datte = relation.getEnd_date();
+                if (BINs.contains(bin)) {
+                    for (int i=0; i<BINs.size(); i++) {
+                        if (nodesToAppend.get(i).getBIN_IIN().equals(bin)) {
+                            edgesModel edge = new edgesModel(node.getId(), nodesToAppend.get(i).getId(),startt_date,end_datte);
+                            edgesToAppend.add(edge);
+                            break;
+                        }
+                    }
+                } else {
+                    node_c compNode_c = node_cRepository.getByBiniID(bin).get(0);
+                    nodeStudentModel company = new nodeStudentModel(compNode_c.getCompany(), compNode_c.getBINID(), compNode_c.getLABEL(), true);
+                    nodesToAppend.add(0, company);
+                    edgesModel edge = new edgesModel(node.getId(), company.getId(),startt_date,end_datte);
+                    BINs.add(bin);
+                    edgesToAppend.add(edge);
+                    // localCompanies.add(0, compNode_c);
+                }
+            }
+        }
+
+        doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+        return doubleReturn;
+    }
     // @GetMapping("/getjson/{IIN}") 
     // public List<String> GetJSON(@PathVariable String IIN) {
 
