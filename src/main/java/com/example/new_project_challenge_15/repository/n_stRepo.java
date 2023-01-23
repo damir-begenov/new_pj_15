@@ -61,6 +61,6 @@ public interface n_stRepo extends Neo4jRepository<n_st,String> {
     List<n_st> findByBINandDate(String BINID, String date);
 
     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) \n" +
-            "WHERE  date({day: [item in split(r.start_date, \".\") | toInteger(item)][0], month: [item in split(r.start_date, \".\") | toInteger(item)][1], year: [item in split(r.start_date, \".\") | toInteger(item)][2]}) > date(($start_date)) and  date({day: [item in split(r.end_date, \".\") | toInteger(item)][0], month: [item in split(r.end_date, \".\") | toInteger(item)][1], year: [item in split(r.end_date, \".\") | toInteger(item)][2]}) > date(($end_date)) and u.BINID = ($BINID) return m,u,r")
+            "WHERE  date({day: [item in split(r.start_date, \".\") | toInteger(item)][0], month: [item in split(r.start_date, \".\") | toInteger(item)][1], year: [item in split(r.start_date, \".\") | toInteger(item)][2]}) >= date(($start_date)) and  date({day: [item in split(r.end_date, \".\") | toInteger(item)][0], month: [item in split(r.end_date, \".\") | toInteger(item)][1], year: [item in split(r.end_date, \".\") | toInteger(item)][2]}) <= date(($end_date)) and u.BINID = ($BINID) return m,u,r")
     List<n_st> findByTwoDatesAndBIINID(String start_date,String end_date,String BINID);
 }

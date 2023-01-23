@@ -86,7 +86,7 @@ class LeftBar extends Component {
                             />
                     </div>
                     <div className="formBlock">
-                        <label for="IIN">Выберите дату</label>
+                        <label for="IIN">Начало интервала</label>
                         <input type="date" 
                             // value=""
                             onChange={event => {this.options.date = event.target.value}} 
@@ -96,7 +96,7 @@ class LeftBar extends Component {
                             />
                     </div>
                     <div className="formBlock">
-                        <label for="IIN">Выберите дату</label>
+                        <label for="IIN">Конец интервала</label>
                         <input type="date" 
                             // value=""
                             onChange={event => {this.options.date2 = event.target.value}} 

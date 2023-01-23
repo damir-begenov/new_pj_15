@@ -319,6 +319,7 @@ a {
   flex-direction: column;
   gap: 7px;
 }
+
 .leftBar .formBlock:nth-child(2) {
   display: none;
 }

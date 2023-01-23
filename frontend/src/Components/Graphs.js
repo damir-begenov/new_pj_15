@@ -99,8 +99,9 @@ export default class GraphNet extends Component {
       return container;
     }
     Submit = async (options) => {
-      this.state.counter = this.state.counter+1
       this.state.isLoading = true
+      this.setState({nodes: [], edges: []})
+      this.state.counter = this.state.counter+1
       if (options.conType==='con1') {
         this.handleSubmit(options)
       } else if (options.conType==='con2') {
@@ -116,6 +117,8 @@ export default class GraphNet extends Component {
             .then(res => {
                 const nodes = res.data.nodes
                 const edges = res.data.edges
+                this.state.isLoading = false
+
                 
                 nodes.filter(e => e.main === true).map(item => (
                   item.group = 'schools',
@@ -138,7 +141,6 @@ export default class GraphNet extends Component {
                 })
     
                 this.setState({nodes, edges})
-                this.state.isLoading = false
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
                 NoD = nodes
@@ -187,23 +189,20 @@ export default class GraphNet extends Component {
               Network.fit({});
           })
     }
-    handleSumbitDate = (options) => {
-      axios.get("http://localhost:9090/alltest/"+ options.iin.toUpperCase() + "/" + options.date  )
+    handleSubmitDate = (options) => {
+      axios.get("http://localhost:9090/connection/"+ options.date+"/"+options.date2+"/"+options.iin  )
             .then(res => {
                 const nodes = res.data.nodes
                 const edges = res.data.edges
 
                 nodes.filter(e => e.main === true).map(item => (
                   item.group = 'schools'
-                  // item.title = this.createTitleBlockSchool(item)
                 ))
                 nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin).map(item => (
                   item.group = 'students'
-                  // item.title = this.createTitleBlockStudent(item)
                 ))
                 nodes.filter(e => e.bin_IIN === this.state.iin).map(item => (
                   item.group = 'selected'
-                  // item.title = this.createTitleBlockStudent(item)
                 ))
 
                 nodes.map(item => {
@@ -216,7 +215,6 @@ export default class GraphNet extends Component {
                 this.numbers.relations = edges.length
                 NoD = nodes
                 EdG = edges
-
                 this.state.nodes.map(item => (
                   item.onclick = this.nodeInfo(item)
                 ))
@@ -403,21 +401,17 @@ export default class GraphNet extends Component {
           </>
           </div>
         )
-      } else if (this.state.isLoading) {
+      } else if (this.state.isLoading && this.state.nodes.length===0) {
         return (
           <div className='mainSection'>
           <>
             <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
               <div className='centralBar'>
-                
-
                 <div class="loader">
                   <div class="inner one"></div>
                   <div class="inner two"></div>
                   <div class="inner three"></div>
                 </div>
-
-
               </div>
             <RightBar objects={this.numbers.objects} relations={this.numbers.relations} current={this.current}></RightBar>
           </>
