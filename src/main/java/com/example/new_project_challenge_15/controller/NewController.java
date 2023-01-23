@@ -318,7 +318,7 @@ public class NewController {
                     }
                 }
             }
-            List<rel_final> relations = rel_final_repo.findRelatioFinals(person.getIINID());
+            List<rel_final> relations = rel_final_repo.findRelatioFinalsWithOneSchool(person.getIINID(),BINID);
 
             for (rel_final relation: relations) {
                 String bin = relation.getEND_ID();
