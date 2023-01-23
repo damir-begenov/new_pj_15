@@ -319,6 +319,9 @@ a {
   flex-direction: column;
   gap: 7px;
 }
+.leftBar .formBlock:nth-child(2) {
+  display: none;
+}
 
 .leftBar .formBlock:nth-child(3) {
   display: none;
@@ -326,7 +329,9 @@ a {
 .leftBar .formBlock:nth-child(4) {
   display: none;
 }
-
+.leftBar .formBlock:nth-child(5) {
+  display: none;
+}
 
 .leftBar div label {
   font-size: 14px;
