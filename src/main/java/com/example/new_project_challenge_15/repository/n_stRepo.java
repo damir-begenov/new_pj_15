@@ -59,4 +59,8 @@ public interface n_stRepo extends Neo4jRepository<n_st,String> {
 
     @Query("MATCH (n {BINID: ($BINID}) CALL apoc.path.subgraphAll(n, { relationshipFilter: 'rel_final'}) YIELD nodes, relationships UNWIND nodes as node match (node:n_st)-[r:rel_final]->(u:node_c {BINID: ($BINID)}) where date(substring(r.start_date,6,9) + '-' + substring(r.start_date,3,2) + '-' + substring(r.start_date,0,2)) > date(($date)) RETURN node, r, u")
     List<n_st> findByBINandDate(String BINID, String date);
+
+    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) \n" +
+            "WHERE  date({day: [item in split(r.start_date, \".\") | toInteger(item)][0], month: [item in split(r.start_date, \".\") | toInteger(item)][1], year: [item in split(r.start_date, \".\") | toInteger(item)][2]}) > date(($start_date)) and  date({day: [item in split(r.end_date, \".\") | toInteger(item)][0], month: [item in split(r.end_date, \".\") | toInteger(item)][1], year: [item in split(r.end_date, \".\") | toInteger(item)][2]}) > date(($end_date)) and u.BINID = ($BINID) return m,u,r")
+    List<n_st> findByTwoDatesAndBIINID(String start_date,String end_date,String BINID);
 }
