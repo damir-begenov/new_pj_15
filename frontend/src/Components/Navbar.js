@@ -1,12 +1,13 @@
 import { Component } from "react";
 import { MenuData } from "../MenuData";
+import { Link } from 'react-router-dom'
 
 class Navbar extends Component {
     render() {
         return (
             <div className="nav-back">
                 <nav className="NavbarItems">
-                <h1 className="logo">NEXUS SERVICE</h1>
+                <h1 className="logo"><Link to='/'>NEXUS</Link></h1>
                 <ul className="nav-menu">
                     {MenuData.map((item, index)=> {
                         return (

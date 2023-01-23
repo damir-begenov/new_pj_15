@@ -6,6 +6,9 @@ import { Component } from "react";
 import LeftBar from "./LeftBar";
 import RightBar from "./RightBar";
 
+
+import './../Loader.css'
+
 import userIconWhite from "./../user-icon-white.png";
 import userIconBlack from "./../user-icon-black.png";
 import buildingIcon from "./../eclipse-1.png";
@@ -17,11 +20,12 @@ var Network;
 
 export default class GraphNet extends Component {
     state = {
-        nodes: NoD,
+        nodes: [],
         edges: [],
         iin: '',
         iin2: '',
         temp: '',
+        counter: 0,
         select: (event) => {
           var { nodes, edges } = event;
         },
@@ -94,10 +98,21 @@ export default class GraphNet extends Component {
       container.innerHTML = text;
       return container;
     }
+    Submit = async (options) => {
+      this.state.counter = this.state.counter+1
+      this.state.isLoading = true
+      if (options.conType==='con1') {
+        this.handleSubmit(options)
+      } else if (options.conType==='con2') {
+        this.handleSubmitConn(options) 
+      } else {
+        this.handleSubmitDate(options)
+      }
+    }
     handleSubmitConn = (options) => {
       this.setState({iin: options.iin.toUpperCase(), iin2: options.iin2.toUpperCase()})
 
-      axios.get("http://localhost:9090/connection/"+ options.iin + "/" + options.iin2 )
+      axios.get("http://localhost:9090/double/"+ options.iin + "/" + options.iin2 )
             .then(res => {
                 const nodes = res.data.nodes
                 const edges = res.data.edges
@@ -123,9 +138,9 @@ export default class GraphNet extends Component {
                 })
     
                 this.setState({nodes, edges})
+                this.state.isLoading = false
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
-
                 NoD = nodes
                 EdG = edges
 
@@ -162,9 +177,9 @@ export default class GraphNet extends Component {
               })
 
               this.setState({nodes, edges})
+              this.state.isLoading = false
               this.numbers.objects = nodes.length
               this.numbers.relations = edges.length
-
               NoD = nodes
               EdG = edges
 
@@ -199,9 +214,9 @@ export default class GraphNet extends Component {
                 })
 
                 this.setState({nodes, edges})
+                this.state.isLoading = false
                 this.numbers.objects = nodes.length
                 this.numbers.relations = edges.length
-
                 NoD = nodes
                 EdG = edges
 
@@ -362,9 +377,55 @@ export default class GraphNet extends Component {
     }
 
     render() {
+      if (this.state.counter===0 && !this.state.isLoading) {
+        return (
+          <div className='mainSection'>
+          <>
+            <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
+              <div className='centralBar'>
+                Make your search
+              </div>
+            <RightBar objects={this.numbers.objects} relations={this.numbers.relations} current={this.current}></RightBar>
+          </>
+          </div>
+        )
+      } else if (this.state.counter!==0 && this.state.nodes.length===0 && !this.state.isLoading) {
+        return (
+          <div className='mainSection'>
+          <>
+            <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
+              <div className='centralBar'>
+                No objects found
+              </div>
+            <RightBar objects={this.numbers.objects} relations={this.numbers.relations} current={this.current}></RightBar>
+          </>
+          </div>
+        )
+      } else if (this.state.isLoading) {
+        return (
+          <div className='mainSection'>
+          <>
+            <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
+              <div className='centralBar'>
+                
+
+                <div class="loader">
+                  <div class="inner one"></div>
+                  <div class="inner two"></div>
+                  <div class="inner three"></div>
+                </div>
+
+
+              </div>
+            <RightBar objects={this.numbers.objects} relations={this.numbers.relations} current={this.current}></RightBar>
+          </>
+          </div>
+        )
+      } else { 
       return (
+        <div className='mainSection'>
         <>
-        <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.handleSubmit} handleSubmitConn={this.handleSubmitConn} handleSubmitDate={this.handleSumbitDate} setIIN={this.setChange}></LeftBar>
+        <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
         <div className='centralBar'>
             <div className="nodeSearch">
               <input type="text" id="nodeSearchInput" placeholder="Search for Node" 
@@ -397,9 +458,11 @@ export default class GraphNet extends Component {
           </div>
         <RightBar objects={this.numbers.objects} relations={this.numbers.relations} current={this.current}></RightBar>
         </>
+        </div>
       )
     }
-
   }
+
+}
   
   

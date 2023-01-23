@@ -27,14 +27,19 @@ import MainPage from './Components/MainPage';
 function App() {
 
   return (
+    <Router>
       <div className='App'>
         <Navbar/>
-        <div className='mainSection'>
+        <Routes>
+          <Route path="/searchtool" element={<GraphNet/>} />
+          <Route path="/" element={<MainPage/>} />
+        </Routes>
+        {/* <div className='mainSection'>
             <GraphNet />
-        </div>
+        </div> */}
         {/* <MainPage/> */}
       </div>
-
+    </Router>
   )
 }
 

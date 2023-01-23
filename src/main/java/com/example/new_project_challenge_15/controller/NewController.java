@@ -140,7 +140,7 @@ public class NewController {
         return doubleReturn;
     }
 
-    @GetMapping("/connection/{OneIIN}/{SecIIN}")
+    @GetMapping("/double/{OneIIN}/{SecIIN}")
     public doubleReturn findBetweenTwo(@PathVariable String OneIIN, @PathVariable String SecIIN) throws ParseException{
         List<n_st> persons = n_stRepo.findBetweenTwo(OneIIN, SecIIN);
         List<nodeStudentModel> nodesToAppend = new ArrayList<>();

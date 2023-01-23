@@ -9,13 +9,7 @@ class LeftBar extends Component {
         conType: "",
     }
     filter = (event) => {
-        if (this.options.conType === "con1") {
-            this.props.handleSubmit(this.options).bind(this);
-        } else if (this.options.conType === "con3") {
-            this.props.handleSubmitDate(this.options).bind(this);
-        } else {
-            this.props.handleSubmitConn(this.options).bind(this);
-        }
+        this.props.handleSubmit(this.options).bind(this)
     }
     clearOptions = () => {
         this.options.iin = "";
@@ -51,7 +45,7 @@ class LeftBar extends Component {
                                     input3.style.display = 'flex';
                                 }
                             }}>
-
+                                <option value="none">Выберите режим</option>
                                 <option value="con1">Один объект</option>
                                 <option value="con2">Два объекта</option>
                                 <option value="con3">Oбъект и дата</option>

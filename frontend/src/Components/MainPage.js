@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import ReactDOM from "react-dom";
+import { Link } from 'react-router-dom'
 
 import './../MainPage.css'
 
@@ -16,7 +17,7 @@ export default class MainPage extends Component {
                     </div>
                     <div className="actionBtn">
                         <div className="tryBtn">
-                            <a>TRY</a>
+                        <Link to='/searchtool'><a>TRY</a></Link>
                         </div>
                     </div>
                 </div>
