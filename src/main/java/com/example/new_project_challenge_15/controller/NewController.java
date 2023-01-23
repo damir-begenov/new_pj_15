@@ -339,7 +339,6 @@ public class NewController {
                     edgesModel edge = new edgesModel(node.getId(), company.getId(),startt_date,end_datte);
                     BINs.add(bin);
                     edgesToAppend.add(edge);
-                    // localCompanies.add(0, compNode_c);
                 }
             }
         }

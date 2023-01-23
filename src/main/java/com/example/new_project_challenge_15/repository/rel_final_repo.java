@@ -12,7 +12,7 @@ public interface rel_final_repo extends Neo4jRepository<rel_final,Long> {
 
     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=~($IINID) RETURN r{.END_ID, .START_ID, .end_date, .source, .type, .start_date}")
     List<rel_final> findRelatioFinals(String IINID);
-    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=~($IINID) and u.BINID=~($BINID) RETURN r{.END_ID, .START_ID, .end_date, .source, .type, .start_date}")
+    @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=~($IINID) and (u.BINID=~('(?i).*'+($BINID)+'.*') or u.company=~('(?i).*'+($BINID)+'.*')) RETURN r{.END_ID, .START_ID, .end_date, .source, .type, .start_date}")
     List<rel_final> findRelatioFinalsWithOneSchool(String IINID,String BINID);
 
     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) RETURN r{.END_ID, .START_ID, .end_date, .source, .type, .start_date}")

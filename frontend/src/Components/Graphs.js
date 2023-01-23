@@ -190,6 +190,8 @@ export default class GraphNet extends Component {
           })
     }
     handleSubmitDate = (options) => {
+      this.state.iin=""
+      this.state.iin2=""
       axios.get("http://localhost:9090/connection/"+ options.date+"/"+options.date2+"/"+options.iin  )
             .then(res => {
                 const nodes = res.data.nodes

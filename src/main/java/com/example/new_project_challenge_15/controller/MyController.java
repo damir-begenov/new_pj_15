@@ -1,6 +1,5 @@
 package com.example.new_project_challenge_15.controller;
 
-import com.example.new_project_challenge_15.entity.n_st;
 import com.example.new_project_challenge_15.entity.rel_final;
 import com.example.new_project_challenge_15.repository.node_cRepository;
 import com.example.new_project_challenge_15.repository.rel_final_repo;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.Collection;
 import java.util.List;
 
 @Controller
