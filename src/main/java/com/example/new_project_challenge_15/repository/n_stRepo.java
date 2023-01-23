@@ -43,7 +43,8 @@ public interface n_stRepo extends Neo4jRepository<n_st,String> {
     List<n_st> getttt(String IINID);
 
     //Осы квери полезный
-    @Query("MATCH (n {IINID: ($IINID)}) CALL apoc.path.subgraphAll(n, {relationshipFilter:($REL)}) YIELD nodes, relationships UNWIND nodes as node MATCH (node:n_st)-[r:rel_final]->(u:node_c) return node, r, u")
+    // @Query("MATCH (n {IINID: ($IINID)}) CALL apoc.path.subgraphAll(n, {relationshipFilter:($REL)}) YIELD nodes, relationships UNWIND nodes as node MATCH (node:n_st)-[r:rel_final]->(u:node_c) return node, r, u")
+    @Query("MATCH (n:n_st) WHERE n.IINID=~('(?i).*'+'(?i)'+($IINID)+'.*') or n.FIO=~('(?i).*'+'(?i)'+($IINID)+'.*') CALL apoc.path.subgraphAll(n, {relationshipFilter:($REL)}) YIELD nodes, relationships UNWIND nodes as node MATCH (node:n_st)-[r:rel_final]->(u:node_c) return node, r, u")
     List<n_st> getALL(String IINID, String REL);
     
     @Query("OPTIONAL MATCH p = (a:n_st {IINID: ($OneIIN)})-[r:rel_final*1..6]-(b:n_st {IINID: ($SecIIN)}) RETURN p")

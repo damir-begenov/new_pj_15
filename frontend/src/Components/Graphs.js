@@ -161,15 +161,12 @@ export default class GraphNet extends Component {
 
               nodes.filter(e => e.main === true).map(item => (
                 item.group = 'schools'
-                // item.title = this.createTitleBlockSchool(item)
               ))
-              nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin).map(item => (
+              nodes.filter(e => e.main === false && (e.bin_IIN !== this.state.iin || e.name.toLowerCase().includes(this.state.iin.toLowerCase()))).map(item => (
                 item.group = 'students'
-                // item.title = this.createTitleBlockStudent(item)
               ))
-              nodes.filter(e => e.bin_IIN === this.state.iin).map(item => (
+              nodes.filter(e => (e.bin_IIN === this.state.iin || e.name.toLowerCase().includes(this.state.iin.toLowerCase()))).map(item => (
                 item.group = 'selected'
-                // item.title = this.createTitleBlockStudent(item)
               ))
 
               nodes.map(item => {
@@ -235,9 +232,9 @@ export default class GraphNet extends Component {
     colors = {
       schoolColor: '#636951',
       studentColor: '#393939',
-      studentColor2: '#2D4231',
-      selectedColor: '#72E053',
-      searchedColor: '#99191C',
+      studentColor2: '#393939',
+      selectedColor: '#2D4231', //Searched IIN
+      searchedColor: '#416748', //
 
       schoolFontColor: '#ffffff',
       studentFontColor: '#ffffff',
