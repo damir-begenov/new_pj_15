@@ -1,3 +1,25 @@
+/* Sorry maku */
+a {
+    text-decoration: none; 
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.waiterBox {
+    margin: auto;
+    /* border: 3px solid green; */
+    padding: 10px;
+}
+
+.waiterBox i {
+    font-size: 150px;
+    color: rgba(122, 122, 122, 0.3);
+}
+.waiterBox a {
+    font-size: 40px;
+    color: rgba(122, 122, 122, 0.3);
+}
+
+
 .loader {
     position: absolute;
     top: calc(50% - 32px);

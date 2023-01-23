@@ -383,7 +383,10 @@ export default class GraphNet extends Component {
           <>
             <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
               <div className='centralBar'>
-                Make your search
+                <div className="waiterBox">
+                  {/* <a>Make a search</a> */}
+                  <i id="waiter" class="fa-solid fa-magnifying-glass"></i>
+                </div>
               </div>
             <RightBar objects={this.numbers.objects} relations={this.numbers.relations} current={this.current}></RightBar>
           </>
@@ -395,7 +398,9 @@ export default class GraphNet extends Component {
           <>
             <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
               <div className='centralBar'>
-                No objects found
+              <div className="waiterBox">
+                  <a>No objects found</a>
+                </div>
               </div>
             <RightBar objects={this.numbers.objects} relations={this.numbers.relations} current={this.current}></RightBar>
           </>
