@@ -142,7 +142,37 @@ public class NewController {
 
     @GetMapping("/double/{OneIIN}/{SecIIN}")
     public doubleReturn findBetweenTwo(@PathVariable String OneIIN, @PathVariable String SecIIN) throws ParseException{
-        List<n_st> persons = n_stRepo.findBetweenTwo(OneIIN, SecIIN);
+        List<n_st> persons = new ArrayList<>();
+        try {
+            persons = n_stRepo.findBetweenTwo(OneIIN, SecIIN);
+        }
+          catch(Exception e) {
+            // List<String> BINs = new ArrayList<>();
+            System.out.println(e);
+            List<String> IINs = new ArrayList<>();
+            n_st peron = n_stRepo.findByIINID(OneIIN).get(0);
+            persons.add(peron);
+            n_st peron2 = n_stRepo.findByIINID(SecIIN).get(0);
+            persons.add(peron2);
+            List<nodeStudentModel> nodesToAppend = new ArrayList<>();
+            List<edgesModel> edgesToAppend = new ArrayList<>();
+            for (n_st person: persons) {
+                nodeStudentModel node = new nodeStudentModel();
+                if (!IINs.contains(person.getIINID())) {
+                    node.setNodeStudentModel(person.getFIO(), person.getIINID(), person.getLABEL(), false);
+                    IINs.add(person.getIINID());
+                    nodesToAppend.add(node);
+                } else {
+                    for (int i=0; i<IINs.size(); i++) {
+                        if (nodesToAppend.get(i).getBIN_IIN()==person.getIINID()) {
+                            node.setNodeStudentModel(nodesToAppend.get(i).getName(),nodesToAppend.get(i).getBIN_IIN(),nodesToAppend.get(i).getLabl(), false, nodesToAppend.get(i).getId());
+                        }
+                    }
+                }
+            }
+            doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+            return doubleReturn;
+        }
         List<nodeStudentModel> nodesToAppend = new ArrayList<>();
         List<edgesModel> edgesToAppend = new ArrayList<>();
         List<String> BINs = new ArrayList<>();

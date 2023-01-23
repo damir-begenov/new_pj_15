@@ -31,6 +31,9 @@ public interface n_stRepo extends Neo4jRepository<n_st,String> {
 //     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=($IINID) return r, u, m")
 //     List<n_st> getByIINID(String IINID);
 
+    @Query("MATCH (n:n_st) WHERE n.IINID=~('(?i).*'+'(?i)'+($IINID)+'.*') or n.FIO=~('(?i).*'+'(?i)'+($IINID)+'.*') return n")
+    List<n_st> findByIINID(String IINID);
+
     @Query("MATCH (u:node_c)<-[r:rel_final]-(m:n_st) where m.IINID=~($IINID) return m, u, r")
     List<n_st> getAllRelations(String IINID);
 
@@ -47,7 +50,8 @@ public interface n_stRepo extends Neo4jRepository<n_st,String> {
     @Query("MATCH (n:n_st) WHERE n.IINID=~('(?i).*'+'(?i)'+($IINID)+'.*') or n.FIO=~('(?i).*'+'(?i)'+($IINID)+'.*') CALL apoc.path.subgraphAll(n, {relationshipFilter:($REL)}) YIELD nodes, relationships UNWIND nodes as node MATCH (node:n_st)-[r:rel_final]->(u:node_c) return node, r, u")
     List<n_st> getALL(String IINID, String REL);
     
-    @Query("OPTIONAL MATCH p = (a:n_st {IINID: ($OneIIN)})-[r:rel_final*1..6]-(b:n_st {IINID: ($SecIIN)}) RETURN p")
+    // @Query("OPTIONAL MATCH p = (a:n_st {IINID: ($OneIIN)})-[r:rel_final*1..6]-(b:n_st {IINID: ($SecIIN)}) RETURN p")
+    @Query("OPTIONAL MATCH p = (a:n_st)-[r:rel_final*1..6]-(b:n_st) where (a.IINID=~('(?i).*'+'(?i)'+($OneIIN)+'.*') or a.FIO=~('(?i).*'+'(?i)'+($OneIIN)+'.*')) and (b.IINID=~('(?i).*'+'(?i)'+($SecIIN)+'.*') or b.FIO=~('(?i).*'+'(?i)'+($SecIIN)+'.*'))  RETURN p")
     List<n_st> findBetweenTwo(String OneIIN, String SecIIN);
 
     @Query("MATCH (n {IINID: ($IIN)}) CALL apoc.path.subgraphAll(n, { relationshipFilter: 'rel_final'}) YIELD nodes, relationships UNWIND nodes as node match (node:n_st)-[r:rel_final]->(u:node_c)<-[q:rel_final]-(m:n_st {IINID: ($IIN)}) where date(substring(r.start_date,6,9) + '-' + substring(r.start_date,3,2) + '-' + substring(r.start_date,0,2)) > date(($date)) RETURN node, r, u")

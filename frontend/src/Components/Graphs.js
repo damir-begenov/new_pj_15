@@ -122,12 +122,12 @@ export default class GraphNet extends Component {
                   item["newTitle"] = item.title
                   // item.title = this.createTitleBlockSchool(item)
                 ))
-                nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin && e.bin_IIN !== this.state.iin2).map(item => (
+                nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin && e.bin_IIN !== this.state.iin2 &&  !e.name.toLowerCase().includes(this.state.iin.toLowerCase()) &&  !e.name.toLowerCase().includes(this.state.iin2.toLowerCase())).map(item => (
                   item.group = 'students2',
                   item["newTitle"] = item.title
                   // item.title = this.createTitleBlockStudent(item)
                 ))
-                nodes.filter(e => e.bin_IIN === this.state.iin || e.bin_IIN === this.state.iin2).map(item => (
+                nodes.filter(e => e.bin_IIN === this.state.iin || e.bin_IIN === this.state.iin2 ||  e.name.toLowerCase().includes(this.state.iin.toLowerCase()) ||  e.name.toLowerCase().includes(this.state.iin2.toLowerCase())).map(item => (
                   item.group = 'selected',
                   item["newTitle"] = item.title
                   // item.title = this.createTitleBlockStudent(item)
