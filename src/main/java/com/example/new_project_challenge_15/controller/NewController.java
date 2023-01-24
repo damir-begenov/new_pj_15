@@ -245,13 +245,25 @@ public class NewController {
         return doubleReturn;
     }
 
-    
-
-    @GetMapping("/connection/{IIN}")
-    public doubleReturn getRelation(@PathVariable String IIN) throws ParseException{
-        List<n_st> persons = n_stRepo.getALL(IIN, "rel_final");
+    @GetMapping("/tree/{IIN}/{REL}")
+    public doubleReturn getRelation(@PathVariable String IIN, @PathVariable String REL) throws ParseException{
+        List<n_st> persons = n_stRepo.getALL(IIN, REL);
         List<nodeStudentModel> nodesToAppend = new ArrayList<>();
         List<edgesModel> edgesToAppend = new ArrayList<>();
+        if (persons.isEmpty()) {
+            try {
+                n_st peron = n_stRepo.findByIINID(IIN).get(0);
+                persons.add(peron);
+                nodeStudentModel node = new nodeStudentModel();
+                node.setNodeStudentModel(peron.getFIO(), peron.getIINID(), peron.getLABEL(), false);
+                nodesToAppend.add(0, node);
+            } catch (Exception e) {
+                doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+                return doubleReturn;
+            }
+            doubleReturn doubleReturn = new doubleReturn(nodesToAppend, edgesToAppend);
+            return doubleReturn;
+        }
         List<String> BINs = new ArrayList<>();
         List<String> IINs = new ArrayList<>();
         // List<node_c> localCompanies = new ArrayList<>(); Можно добавить что бы поиск был быстрее но хуй знает пока вдруг не понадобится
