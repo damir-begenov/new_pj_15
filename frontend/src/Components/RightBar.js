@@ -13,7 +13,7 @@ class RightBar extends Component{
               <div id="INFO2">NAME: <span id="nodeName"></span></div>
               <div id="INFO3">LABEL: <span id="nodeLabel"></span></div>
               {/* <div>RELATIONS: <span id="nodeRel">SCHOOL 4</span></div> */}
-              <div>START DATE: <span id="nodeStart"></span></div>
+              <div id="INFO4">START DATE: <span id="nodeStart"></span></div>
               {/* <div>END DATE: <span id="nodeEnd">2017</span></div> */}
             </div>
           </div>
