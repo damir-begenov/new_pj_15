@@ -36,18 +36,25 @@ export default class GraphNet extends Component {
             if (node.group == 'schools') {
               document.getElementById("INFO1").innerHTML = `BIN: <span id="nodeIin">${node.bin_IIN}</span>`;
               document.getElementById("INFO4").innerHTML = "";
+              document.getElementById("INFO5").innerHTML = "";
             } else {
               document.getElementById("INFO1").innerHTML = `IIN: <span id="nodeIin">${node.bin_IIN}</span>`;
 
-              let startDateText = "START DATE:";
+              let startDateText = "START DATE: ";
+              let endDateText = "END DATE: ";
 
-              console.log(event.edges);
-              EdG.map(item => {
+              console.log("=========================")
+              console.log(node);
+              EdG.filter(item => item.from == node.id).map(item => {
                 console.log(item);
+                startDateText += `<span id="nodeStart">${item.start_date.substring(0, 10)}</span>`
+                endDateText += `<span id="nodeStart">${item.end_date.substring(0, 10)}</span>`
               })
+              console.log("=========================")
               
-              let edge = EdG.filter(e => e.id === event.edges[0])[0]
-              document.getElementById("INFO4").innerHTML = `START DATE: <span id="nodeStart">${edge.start_date.substring(0, 10)}</span>`;
+              let edge = EdG.filter(e => e.id === event.edges[0])
+              document.getElementById("INFO4").innerHTML = startDateText;
+              document.getElementById("INFO5").innerHTML = endDateText;
             }
 
             document.getElementById("nodeName").innerHTML = node.name;
@@ -439,7 +446,7 @@ export default class GraphNet extends Component {
         <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
         <div className='centralBar'>
             <div className="nodeSearch">
-              <input type="text" id="nodeSearchInput" placeholder="Search for Node" 
+              <input type="text" id="nodeSearchInput" placeholder="Еще один поиск.." 
                 onKeyDown={event => {
                   if (event.key === 'Enter') {
                     if(event.target.value != "") {

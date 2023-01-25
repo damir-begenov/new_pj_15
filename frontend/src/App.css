@@ -331,6 +331,8 @@ a {
 }
 .leftBar .formBlock:nth-child(5) {
   display: none;
+}.leftBar .formBlock:nth-child(6) {
+  display: none;
 }
 
 .leftBar div label {

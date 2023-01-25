@@ -95,31 +95,37 @@ class LeftBar extends Component {
                                 let input2 = document.getElementsByClassName("formBlock")[2];
                                 let input3 = document.getElementsByClassName("formBlock")[3];
                                 let input4 = document.getElementsByClassName("formBlock")[4];
+                                let input5 = document.getElementsByClassName("formBlock")[5];
 
                                 if (this.options.mode === "con2" || this.options.mode === "con3" || this.options.mode === "con4") { // Фл
                                     input1.style.display = 'flex';
                                     input2.style.display = 'flex';
                                     input3.style.display = 'none';
                                     input4.style.display = 'none';
+                                    input5.style.display = 'flex';
                                 }
                                 else if (this.options.mode === "con1"){ // ФЛ + ФЛ
                                     input1.style.display = 'flex';
                                     input2.style.display = 'none';
                                     input3.style.display = 'none';
                                     input4.style.display = 'none';
+                                    input5.style.display = 'flex';
+
                                 } 
                                 else if (this.options.mode ==="con5") { // ЮЛ + Время
                                     input1.style.display = 'flex';
                                     input2.style.display = 'none';
                                     input3.style.display = 'flex';
                                     input4.style.display = 'flex';
+                                    input5.style.display = 'flex';
+
                                 }
                             }}>
                                 <option value="none">Выберите режим</option>
                                 <option value="con1">Раскрыть сзязи Фл</option>
                                 <option value="con2">Фл - Фл</option>
-                                <option value="con3">Фл - Юл</option>
-                                <option value="con4">Юл - Юл</option>
+                                <option value="con3" disabled >Фл - Юл (disabled)</option>
+                                <option value="con4" disabled>Юл - Юл (disabled)</option>
                                 <option value="con5">Юл + Интервал времени</option>
                             </select>
                         </div>
