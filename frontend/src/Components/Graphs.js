@@ -170,7 +170,7 @@ export default class GraphNet extends Component {
     }
     handleSubmit = (options) => {
       this.setState({iin: options.iin.toUpperCase()})
-      axios.get("http://localhost:9090/connection/"+ options.iin )
+      axios.get("http://localhost:9090/tree/"+ options.iin +"/rel_final" )
           .then(res => {
               const nodes = res.data.nodes
               const edges = res.data.edges
