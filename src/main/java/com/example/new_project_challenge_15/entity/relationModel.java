@@ -3,16 +3,16 @@ package com.example.new_project_challenge_15.entity;
 import java.util.List;
 
 public class relationModel {
-    private int from;
-    private int to;
+    private int start;
+    private int end;
     private String type;
     private List<propertiesModel> properties;
 
-    public int getFrom() {
-        return from;
+    public int getStart() {
+        return start;
     }
-    public int getTo() {
-        return to;
+    public int getEnd() {
+        return end;
     }
     public String getType() {
         return type;
@@ -20,11 +20,11 @@ public class relationModel {
     public List<propertiesModel> getProperties() {
         return properties;
     }
-    public void setFrom(int from) {
-        this.from = from;
+    public void setStart(int start) {
+        this.start = start;
     }
-    public void setTo(int to) {
-        this.to = to;
+    public void setEnd(int end) {
+        this.end = end;
     }
     public void setType(String type) {
         this.type = type;

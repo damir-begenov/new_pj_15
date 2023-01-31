@@ -1,7 +1,10 @@
 package com.example.new_project_challenge_15.controller;
 
 
-import com.example.new_project_challenge_15.entity.objectModel;
+import com.example.new_project_challenge_15.entity.Movie;
+import com.example.new_project_challenge_15.entity.Person;
+import com.example.new_project_challenge_15.repository.movieRepo;
+// import com.example.new_project_challenge_15.entity.objectModel;
 import com.example.new_project_challenge_15.repository.objectRepo;
 
 
@@ -21,11 +24,19 @@ import java.util.*;
 @AllArgsConstructor
 public class moviesController {
     private final objectRepo oRepo;
-
-    @GetMapping("/movies")
-    public List<com.example.new_project_challenge_15.repository.objectModel> getAllObjects() {
-        List<com.example.new_project_challenge_15.repository.objectModel> list = oRepo.findAll();
+    private final movieRepo mRepo;
+    @GetMapping("/persons")
+    public List<Person> getAllObjects() {
+        List<Person> list = oRepo.findAll();
+        System.out.println(list.get(0));
         return list;
     }
+    @GetMapping("/movies")
+    public List<Movie> getAllMovies() {
+        List<Movie> list = mRepo.findAll();
+        System.out.println(list.get(0));
+        return list;
+    }
+    
 
 }
