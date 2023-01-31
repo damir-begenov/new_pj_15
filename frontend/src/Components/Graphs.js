@@ -28,46 +28,21 @@ export default class GraphNet extends Component {
         counter: 0,
         select: (event) => {
           var { nodes, edges } = event;
+        },
+        selectNode: (event) => {
+          let item = NoD.filter(e => e.id === event.nodes[0])[0]
 
-
-          if (nodes.length > 0) {
-            let node = NoD.filter(e => e.id === event.nodes[0])[0]
-
-            if (node.group == 'schools') {
-              document.getElementById("INFO1").innerHTML = `BIN: <span id="nodeIin">${node.bin_IIN}</span>`;
-              document.getElementById("INFO4").innerHTML = "";
-              document.getElementById("INFO5").innerHTML = "";
-            } else {
-              document.getElementById("INFO1").innerHTML = `IIN: <span id="nodeIin">${node.bin_IIN}</span>`;
-
-              let startDateText = "START DATE: ";
-              let endDateText = "END DATE: ";
-
-              console.log("=========================")
-              console.log(node);
-              EdG.filter(item => item.from == node.id).map(item => {
-                console.log(item);
-                startDateText += `<span id="nodeStart">${item.start_date.substring(0, 10)}</span>`
-                endDateText += `<span id="nodeStart">${item.end_date.substring(0, 10)}</span>`
-              })
-              console.log("=========================")
-              
-              let edge = EdG.filter(e => e.id === event.edges[0])
-              document.getElementById("INFO4").innerHTML = startDateText;
-              document.getElementById("INFO5").innerHTML = endDateText;
-            }
-
-            document.getElementById("nodeName").innerHTML = node.name;
-            document.getElementById("nodeLabel").innerHTML = node.labl;
-
-            
-          } else {
-
-          }
-          
-          
+          document.getElementById("nodeIin").innerHTML = item.bin_IIN;
+          document.getElementById("nodeName").innerHTML = item.name;
+          document.getElementById("nodeLabel").innerHTML = item.labl;
+        },
+        selectEdge: (event) => {
+          let item = EdG.filter(e=> e.id === event.edges[0])[0]
+          document.getElementById("nodeStart").innerHTML = item.start_date.substring(0, 10);
+          // console.log(item.start_date) 
         },
         oncontext: (event) => {
+          console.log(event)
         } 
     }
     numbers = {
@@ -123,9 +98,9 @@ export default class GraphNet extends Component {
       this.state.isLoading = true
       this.setState({nodes: [], edges: []})
       this.state.counter = this.state.counter+1
-      if (options.mode==='con1') {
+      if (options.conType==='con1') {
         this.handleSubmit(options)
-      } else if (options.mode==='con2') {
+      } else if (options.conType==='con2') {
         this.handleSubmitConn(options) 
       } else {
         this.handleSubmitDate(options)
@@ -247,6 +222,7 @@ export default class GraphNet extends Component {
     }
     setChange = (event) => {
       this.setState({iin: event.target.value})
+      // console.log(this.state.iin)
     }
 
     colors = {
@@ -366,7 +342,7 @@ export default class GraphNet extends Component {
           value.options.icon.color = this.colors.studentColor;
         }
 
-        if (value.options.group == 'schools') {
+        if (value.options.group == 'school') {
           value.options.icon.color = this.colors.schoolColor;
         } else if (value.options.group == 'selected') {
           value.options.icon.color = this.colors.selectedColor;
@@ -446,7 +422,7 @@ export default class GraphNet extends Component {
         <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
         <div className='centralBar'>
             <div className="nodeSearch">
-              <input type="text" id="nodeSearchInput" placeholder="Еще один поиск.." 
+              <input type="text" id="nodeSearchInput" placeholder="Search for Node" 
                 onKeyDown={event => {
                   if (event.key === 'Enter') {
                     if(event.target.value != "") {
