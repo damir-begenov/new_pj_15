@@ -1,0 +1,80 @@
+.mainSection {
+    position: relative;
+  
+    /* flex: 1; */
+  
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-between;
+  
+    gap: 20px; */
+  
+    width: 100%;
+    height: 90vh;
+  }
+  
+  
+  
+  .centralBar {
+    position: relative;
+  
+    display: flex;
+    flex-direction: column;
+  
+    width: 100%;
+  
+    box-shadow: 0px 4px 38px -38px rgba(233, 20, 20, 0.7) inset;
+  }
+  
+  .centralBar .nodeSearch {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+  
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    z-index: 1;
+  }
+  
+  .nodeSearch input {
+    outline: none;
+    min-width: 300px;
+    box-sizing: content-box;
+  
+    border-radius: 4px;
+    background-color: #2f3337;
+    color: rgb(139, 139, 139);
+  
+    border: none;
+  
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 3px 0 3px 10px;
+  }
+  
+  .nodeSearch input:focus {
+    outline: none;
+  }
+  
+  .nodeSearch i {
+    position: absolute;
+    right: 10px;
+  
+    cursor: pointer;
+  
+    font-size: 17px;
+  
+    color: rgb(139, 139, 139);
+  }
+  
+  /* Node Title Block styles */
+  .centralBar div:nth-child(2) {
+    box-sizing: border-box;
+  
+    background-color: var(--bar-color);
+  
+    text-align: start;
+  }
