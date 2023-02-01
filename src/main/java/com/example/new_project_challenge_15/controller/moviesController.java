@@ -30,6 +30,7 @@ public class moviesController {
     PersonService personService;
     @GetMapping("/persons")
     public doubleReturn getAllObjects() {
+
         return personService.getAllObjects();
     }
     @GetMapping("/movies")
