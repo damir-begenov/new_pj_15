@@ -10,6 +10,6 @@ import com.example.new_project_challenge_15.entity.Person;
 
 @Repository
 public interface objectRepo extends Neo4jRepository<Person, Long> {
-    @Query("match (n)-[r]->(i) return n")
+    @Query("match (n)-[r]->(i) return n,r,i")
     List<Person> getAll();
 }

@@ -5,30 +5,33 @@ import java.util.List;
 import lombok.ToString;
 
 public class doubleReturn {
-    private List<nodeStudentModel> nodes;
+    private List<Person> nodes;
     private List<edgesModel> edges;
 
     public doubleReturn() {
     }
 
-    public void setNodes(List<nodeStudentModel> nodes) {
+    public List<Person> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<Person> nodes) {
         this.nodes = nodes;
+    }
+
+    public List<edgesModel> getEdges() {
+        return edges;
     }
 
     public void setEdges(List<edgesModel> edges) {
         this.edges = edges;
     }
 
-    public doubleReturn(List<nodeStudentModel> nodes, List<edgesModel> edges) {
-        this.nodes = nodes;
-        this.edges = edges;
+    @Override
+    public String toString() {
+        return "doubleReturn{" +
+                "nodes=" + nodes +
+                ", edges=" + edges +
+                '}';
     }
-
-    public List<edgesModel> getEdges() {
-        return edges;
-    }
-    public List<nodeStudentModel> getNodes() {
-        return nodes;
-    }
-    
 }

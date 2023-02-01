@@ -43,4 +43,13 @@ public class Movie {
         this.title = title;
     }
 
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", released=" + released +
+                ", tagline='" + tagline + '\'' +
+                '}';
+    }
 }
