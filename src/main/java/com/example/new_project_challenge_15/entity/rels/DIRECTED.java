@@ -12,8 +12,8 @@ public class DIRECTED {
     @TargetNode
     private Movie movie;
 
-    public Long getId() {
-        return id;
+    public String getId() {
+        return "directed_in_"+id;
     }
 
     public void setId(Long id) {

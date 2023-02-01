@@ -26,7 +26,7 @@ public class PersonService {
             for(ACTED_IN lols : lolActed){
                 edgesModel edgesModel = new edgesModel();
                 edgesModel.setFrom(lists.getId());
-                edgesModel.setTo(lols.getIdd());
+                edgesModel.setTo(lols.getId());
                 edgesModels.add(edgesModel);
             }
             for(DIRECTED lolsDirected : lolDirected){

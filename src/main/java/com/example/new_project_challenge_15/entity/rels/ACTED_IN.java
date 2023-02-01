@@ -15,12 +15,12 @@ public class ACTED_IN {
     @TargetNode
     private Movie movie;
 
-    public Long getIdd() {
-        return id;
+    public String getId() {
+        return "acted_in_"+id;
     }
 
-    public void setIdd(Long idd) {
-        this.id= idd;
+    public void setIdd(Long id) {
+        this.id= id;
     }
 
     public String[] getRoles() {

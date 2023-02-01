@@ -3,32 +3,32 @@ package com.example.new_project_challenge_15.entity;
 import java.util.Date;
 
 public class edgesModel {
-    private Long from;
-    private Long to;
+    private String from;
+    private String to;
 
 
     public edgesModel() {
 
     }
 
-    public edgesModel(Long from, Long to) {
+    public edgesModel(String from, String to) {
         this.from = from;
         this.to = to;
     }
 
-    public Long getFrom() {
+    public String getFrom() {
         return from;
     }
 
-    public void setFrom(Long from) {
+    public void setFrom(String from) {
         this.from = from;
     }
 
-    public Long getTo() {
+    public String getTo() {
         return to;
     }
 
-    public void setTo(Long to) {
+    public void setTo(String to) {
         this.to = to;
     }
 

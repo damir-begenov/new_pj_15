@@ -14,6 +14,8 @@ import userIconBlack from "./../../user-icon-black.png";
 import buildingIcon from "./../../eclipse-1.png";
 import userIconRed from "./../../user-icon-red.png";
 
+import useFetch from "../../hooks/useFetch.js";
+
 var NoD =  [];
 var EdG = [];
 var Network;
@@ -22,39 +24,38 @@ export default class GraphNet extends Component {
     state = {
         nodes: [],
         edges: [],
-        iin: '',
-        iin2: '',
         temp: '',
         counter: 0,
         select: (event) => {
           var { nodes, edges } = event;
 
-
           if (nodes.length > 0) {
             let node = NoD.filter(e => e.id === event.nodes[0])[0]
 
-            if (node.group == 'schools') {
-              document.getElementById("INFO1").innerHTML = `BIN: <span id="nodeIin">${node.bin_IIN}</span>`;
-              document.getElementById("INFO4").innerHTML = "";
-              document.getElementById("INFO5").innerHTML = "";
-            } else {
-              document.getElementById("INFO1").innerHTML = `IIN: <span id="nodeIin">${node.bin_IIN}</span>`;
+            console.log(node)
 
-              let startDateText = "START DATE: ";
-              let endDateText = "END DATE: ";
+            // if (node.group == 'schools') {
+            //   document.getElementById("INFO1").innerHTML = `BIN: <span id="nodeIin">${node.bin_IIN}</span>`;
+            //   document.getElementById("INFO4").innerHTML = "";
+            //   document.getElementById("INFO5").innerHTML = "";
+            // } else {
+            //   document.getElementById("INFO1").innerHTML = `IIN: <span id="nodeIin">${node.bin_IIN}</span>`;
 
-              EdG.filter(item => item.from == node.id).map(item => {
-                startDateText += `<span id="nodeStart">${item.start_date.substring(0, 10)}</span>`
-                endDateText += `<span id="nodeStart">${item.end_date.substring(0, 10)}</span>`
-              })
+            //   let startDateText = "START DATE: ";
+            //   let endDateText = "END DATE: ";
+
+            //   EdG.filter(item => item.from == node.id).map(item => {
+            //     startDateText += `<span id="nodeStart">${item.start_date.substring(0, 10)}</span>`
+            //     endDateText += `<span id="nodeStart">${item.end_date.substring(0, 10)}</span>`
+            //   })
               
-              let edge = EdG.filter(e => e.id === event.edges[0])
-              document.getElementById("INFO4").innerHTML = startDateText;
-              document.getElementById("INFO5").innerHTML = endDateText;
-            }
+            //   let edge = EdG.filter(e => e.id === event.edges[0])
+            //   document.getElementById("INFO4").innerHTML = startDateText;
+            //   document.getElementById("INFO5").innerHTML = endDateText;
+            // }
 
-            document.getElementById("nodeName").innerHTML = node.name;
-            document.getElementById("nodeLabel").innerHTML = node.labl;
+            // document.getElementById("nodeName").innerHTML = node.name;
+            // document.getElementById("nodeLabel").innerHTML = node.labl;
 
             
           } else {
@@ -119,91 +120,45 @@ export default class GraphNet extends Component {
       this.state.isLoading = true
       this.setState({nodes: [], edges: []})
       this.state.counter = this.state.counter+1
-      if (options.mode==='con1') {
-        this.handleSubmit(options)
-      } else if (options.mode==='con2') {
-        this.handleSubmitConn(options) 
-      } else {
-        this.handleSubmitDate(options)
-      }
-    }
-    handleSubmitConn = (options) => {
-      this.setState({iin: options.iin.toUpperCase(), iin2: options.iin2.toUpperCase()})
 
-      axios.get("http://localhost:9090/double/"+ options.iin + "/" + options.iin2 )
-            .then(res => {
-                const nodes = res.data.nodes
-                const edges = res.data.edges
-                this.state.isLoading = false
+      this.movies(options);
+    };
 
-                
-                nodes.filter(e => e.main === true).map(item => (
-                  item.group = 'schools',
-                  item["newTitle"] = item.title
-                  // item.title = this.createTitleBlockSchool(item)
-                ))
-                nodes.filter(e => e.main === false && e.bin_IIN !== this.state.iin && e.bin_IIN !== this.state.iin2 &&  !e.name.toLowerCase().includes(this.state.iin.toLowerCase()) &&  !e.name.toLowerCase().includes(this.state.iin2.toLowerCase())).map(item => (
-                  item.group = 'students2',
-                  item["newTitle"] = item.title
-                  // item.title = this.createTitleBlockStudent(item)
-                ))
-                nodes.filter(e => e.bin_IIN === this.state.iin || e.bin_IIN === this.state.iin2 ||  e.name.toLowerCase().includes(this.state.iin.toLowerCase()) ||  e.name.toLowerCase().includes(this.state.iin2.toLowerCase())).map(item => (
-                  item.group = 'selected',
-                  item["newTitle"] = item.title
-                  // item.title = this.createTitleBlockStudent(item)
-                ))
+    movies = (options) => {
 
-                nodes.map(item => {
-                  item.label = item.name
-                })
-    
-                this.setState({nodes, edges})
-                this.numbers.objects = nodes.length
-                this.numbers.relations = edges.length
-                NoD = nodes
-                EdG = edges
+      axios.get("http://localhost:9090/persons/").then(res => {
+        let nodes = []
+        const edges = res.data.edges;
 
-                this.state.nodes.map(item => (
-                  item.onclick = this.nodeInfo(item)
-                ))
+        res.data.nodes.map(item => {
+          let node = item
+          node.group = "actors"
 
-                Network.fit({});
-            })
-    }
-    handleSubmit = (options) => {
-      this.setState({iin: options.iin.toUpperCase()})
-      axios.get("http://localhost:9090/tree/"+ options.iin +"/rel_final" )
-          .then(res => {
-              const nodes = res.data.nodes
-              const edges = res.data.edges
+          nodes.push(node);
 
-              nodes.filter(e => e.main === true).map(item => (
-                item.group = 'schools'
-              ))
-              nodes.filter(e => e.main === false && (e.bin_IIN !== this.state.iin || e.name.toLowerCase().includes(this.state.iin.toLowerCase()))).map(item => (
-                item.group = 'students'
-              ))
-              nodes.filter(e => (e.bin_IIN === this.state.iin || e.name.toLowerCase().includes(this.state.iin.toLowerCase()))).map(item => (
-                item.group = 'selected'
-              ))
+          item.acted_ins.map(element => {
+            element["name"] = element.movie.title
+            node.group = "movies"
+            nodes.push(element)
+          });
 
-              nodes.map(item => {
-                item.label = item.name
-              })
+          item.directeds.map(element => {
+            element["name"] = element.movie.title
+            node.group = "movies"
+            nodes.push(element)
+          });
+        })
 
-              this.setState({nodes, edges})
-              this.state.isLoading = false
-              this.numbers.objects = nodes.length
-              this.numbers.relations = edges.length
-              NoD = nodes
-              EdG = edges
+        NoD = nodes
+        EdG = edges 
+        this.state.isLoading = false
 
-              this.state.nodes.map(item => (
-                item.onclick = this.nodeInfo(item)
-              ))
-
-              Network.fit({});
-          })
+        nodes.map(item => {
+          item.label = item.name
+        })
+        this.setState({nodes, edges})
+      })
+      
     }
     handleSubmitDate = (options) => {
       this.state.iin=""
@@ -240,6 +195,7 @@ export default class GraphNet extends Component {
                 Network.fit({});
             })
     }
+
     setChange = (event) => {
       this.setState({iin: event.target.value})
     }
@@ -272,7 +228,7 @@ export default class GraphNet extends Component {
         }
       },
       groups: {
-        schools: {
+        actors: {
           shape: "icon",
           icon: {
             face: '"Font Awesome 5 Free"',
@@ -288,7 +244,7 @@ export default class GraphNet extends Component {
           },
           // physics: false
         },
-        students: {
+        movies: {
           shape: "icon",
           icon: {
             face: '"Font Awesome 5 Free"',
@@ -302,7 +258,7 @@ export default class GraphNet extends Component {
             weight: 300,
           }
         },
-        students2: {
+        directors: {
           shape: "icon",
           icon: {
             face: '"Font Awesome 5 Free"',
@@ -339,12 +295,13 @@ export default class GraphNet extends Component {
       height: "100%",
     };
 
-
     manipulation = {
       deleteNode: true,
     }
 
     search(value) {
+      console.log(value)
+
       const searchNodes = NoD.filter(elem => {
         if (elem.name.toLowerCase().includes(value.toLowerCase())) {
           return elem;
@@ -352,25 +309,25 @@ export default class GraphNet extends Component {
       });
 
       const item = searchNodes[0];
-      document.getElementById("nodeIin").innerHTML = item.bin_IIN;
-      document.getElementById("nodeName").innerHTML = item.name;
-      document.getElementById("nodeLabel").innerHTML = item.labl;
+      // document.getElementById("nodeIin").innerHTML = item.bin_IIN;
+      // document.getElementById("nodeName").innerHTML = item.name;
+      // document.getElementById("nodeLabel").innerHTML = item.labl;
 
-      for (const [key, value] of Object.entries(Network.body.nodes)) {
-        if (value.options.group != 'selected') {
-          value.options.icon.color = this.colors.studentColor;
-        }
+      // for (const [key, value] of Object.entries(Network.body.nodes)) {
+      //   if (value.options.group != 'selected') {
+      //     value.options.icon.color = this.colors.studentColor;
+      //   }
 
-        if (value.options.group == 'schools') {
-          value.options.icon.color = this.colors.schoolColor;
-        } else if (value.options.group == 'selected') {
-          value.options.icon.color = this.colors.selectedColor;
-        }
+      //   if (value.options.group == 'schools') {
+      //     value.options.icon.color = this.colors.schoolColor;
+      //   } else if (value.options.group == 'selected') {
+      //     value.options.icon.color = this.colors.selectedColor;
+      //   }
 
-        if (value.options.id == item.id) {
-          value.options.icon.color = this.colors.searchedColor;
-        }
-      }
+      //   if (value.options.id == item.id) {
+      //     value.options.icon.color = this.colors.searchedColor;
+      //   }
+      // }
 
       Network.focus(item.id, {
         scale: 2.5,

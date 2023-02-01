@@ -72,8 +72,8 @@ public class Person {
         this.acted_ins = acted_ins;
     }
 
-    public Long getId() {
-        return id;
+    public String getId() {
+        return "actor_"+id;
     }
     public String getName() {
         return name;
