@@ -1,13 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import Navbar from './Components/Navbar';
+import Navbar from './Components/NavBar/Navbar';
 import { Component } from "react";
 import axios from 'axios';
-import AllStudents from './Components/Students';
-import RegisterStPage from './Components/RegisterStudent';
-import SearchBar from './Components/SearchBar';
-import Companies from './Components/Companies';
-import CompanyDetails from './Components/CompanyDetails'
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,10 +14,10 @@ import {
 import React from "react";
 import ReactDOM from "react-dom";
 import Graph from "react-vis-network-graph";
-import GraphNet from './Components/Graphs';
-import LeftBar from './Components/LeftBar';
-import RightBar from './Components/RightBar';
-import MainPage from './Components/MainPage';
+import GraphNet from './pages/Graphs/Graphs';
+import LeftBar from './Components/LeftBar/LeftBar';
+import RightBar from './Components/RightBar/RightBar';
+import MainPage from './pages/MainPage/MainPage';
 
 function App() {
 
@@ -34,10 +29,6 @@ function App() {
           <Route path="/searchtool" element={<GraphNet/>} />
           <Route path="/" element={<MainPage/>} />
         </Routes>
-        {/* <div className='mainSection'>
-            <GraphNet />
-        </div> */}
-        {/* <MainPage/> */}
       </div>
     </Router>
   )
