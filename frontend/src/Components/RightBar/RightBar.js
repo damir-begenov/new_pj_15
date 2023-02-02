@@ -10,17 +10,16 @@ class RightBar extends Component{
           <div>
             <div className="infoBlockTitle">Информация о объекте</div>                
             <div className="nodeInfo">
-              <div id="INFO1">IIN: <span id="nodeIin"></span></div>
-              <div id="INFO2">NAME: <span id="nodeName"></span></div>
-              <div id="INFO3">LABEL: <span id="nodeLabel"></span></div>
-              {/* <div>RELATIONS: <span id="nodeRel">SCHOOL 4</span></div> */}
-              <div id="INFO4">START DATE: <span id="nodeStart"></span></div>
-              <div id="INFO5">END DATE: <span id="nodeEnd"></span></div>
+              <div id="INFO1">NAME: <span id="nodeName"></span></div>
+              <div id="INFO2">Acted in: <span id="nodeActedIn"></span></div>
+              <div id="INFO3">Directed in: <span id="nodeDirectedIn"></span></div>
+              <div id="INFO4">Produced: <span id="nodeProduced"></span></div>
+              <div id="INFO5">Wrote: <span id="nodeWrote"></span></div>
+              <div id="INFO6">Reviewed: <span id="nodeReviewed"></span></div>
             </div>
           </div>
         </div>
       </div>
-
     );
   }
 }
