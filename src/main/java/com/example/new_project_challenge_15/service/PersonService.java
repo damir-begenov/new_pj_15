@@ -146,7 +146,6 @@ public class PersonService {
                 }
             }
             List<FOLLOWS> follows = person.getFollows();
-            System.out.println(follows);
             for (FOLLOWS follows1 : follows) {
                 List<propertiesModel> properties = new ArrayList<>();
                 relationModel currRel = new relationModel(person.getId(), follows1.getPerson().getId(), properties);
@@ -156,7 +155,6 @@ public class PersonService {
                     ids.add(follows1.getPerson().getId());
                     Nodes currMovie = new Nodes(follows1.getPerson().getId(), follows1.getPerson().getName(), "", follows1.getPerson().getBorn());
                     nodes.add(currMovie);
-                    System.out.println(currMovie);
                 }
             }
         }
