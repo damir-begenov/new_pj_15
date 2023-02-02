@@ -26,24 +26,21 @@ export default class GraphNet extends Component {
         edges: [],
         temp: '',
         counter: 0,
-        select: (event) => {
-          var { nodes, edges } = event;
+        selectNode: (event) => {
+          const selectedNode = Network.selectionHandler.selectionObj.nodes[Object.keys(Network.selectionHandler.selectionObj.nodes)[0]]
+          console.log(selectedNode)
 
-          if (nodes.length > 0) {
-            let node = NoD.filter(e => e.id === event.nodes[0])[0]
+          this.createContextMenu(selectedNode.x, selectedNode.y)
 
-            console.log(node.group)
-
-            
-          } else {
-
-          }
-          
-          
         },
         oncontext: (event) => {
         } 
     }
+
+    createContextMenu = (x, y) => {
+      console.log(x, y)
+    }
+
     numbers = {
       objects: 0,
       relations: 0
@@ -60,28 +57,40 @@ export default class GraphNet extends Component {
       this.setState({nodes: [], edges: []})
       this.state.counter = this.state.counter+1
 
-      this.movies(options);
+      let url = "";
+      switch(options.mode) {
+        case "con1":
+          url = "http://localhost:9091/ogreturn/";
+          break;
+        case "con2":
+          url = "http://localhost:9091/ogreturn/";
+          break;
+        case "con3":
+          url = "http://localhost:9091/ogreturn/";
+          break;
+        case "con4": 
+          url = "http://localhost:9091/ogreturn/";
+          break
+        case "con5":
+          url = "http://localhost:9091/ogreturn/";
+          break;
+      }
+
+      this.movies(url);
     };
 
-    movies = (options) => {
+    movies = (url) => {
 
-      axios.get("http://localhost:9091/ogreturn/").then(res => {
+      axios.get(url).then(res => {
         let nodes = []
         const edges = res.data.edges;
-
-        console.log(res.data.nodes)
 
         let subNodes = []
         res.data.nodes.map(item => {
           item.group = "selected"
 
-          console.log(item)
-
           nodes.push(item);
-
-
         })
-        console.log("works")
         // NoD = nodes
         // EdG = edges 
 
