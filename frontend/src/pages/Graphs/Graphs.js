@@ -136,17 +136,17 @@ export default class GraphNet extends Component {
 
           nodes.push(node);
 
-          item.acted_ins.map(element => {
-            element["name"] = element.movie.title
-            node.group = "movies"
-            nodes.push(element)
-          });
+        //   item.acted_ins.map(element => {
+        //     element["name"] = element.movie.title
+        //     node.group = "movies"
+        //     nodes.push(element)
+        //   });
 
-          item.directeds.map(element => {
-            element["name"] = element.movie.title
-            node.group = "movies"
-            nodes.push(element)
-          });
+        //   item.directeds.map(element => {
+        //     element["name"] = element.movie.title
+        //     node.group = "movies"
+        //     nodes.push(element)
+        //   });
         })
 
         NoD = nodes

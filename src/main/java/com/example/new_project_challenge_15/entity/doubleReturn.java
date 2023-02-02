@@ -2,28 +2,35 @@ package com.example.new_project_challenge_15.entity;
 
 import java.util.List;
 
+import lombok.Data;
 import lombok.ToString;
 
+@Data
 public class doubleReturn {
-    private List<Person> nodes;
-    private List<edgesModel> edges;
+    private List<Nodes> nodes;
+    private List<relationModel> edges;
 
     public doubleReturn() {
     }
 
-    public List<Person> getNodes() {
+    public doubleReturn(List<Nodes> nodes, List<relationModel> edges) {
+        this.nodes = nodes;
+        this.edges = edges;
+    }
+
+    public List<Nodes> getNodes() {
         return nodes;
     }
 
-    public void setNodes(List<Person> nodes) {
+    public void setNodes(List<Nodes> nodes) {
         this.nodes = nodes;
     }
 
-    public List<edgesModel> getEdges() {
+    public List<relationModel> getEdges() {
         return edges;
     }
 
-    public void setEdges(List<edgesModel> edges) {
+    public void setEdges(List<relationModel> edges) {
         this.edges = edges;
     }
 

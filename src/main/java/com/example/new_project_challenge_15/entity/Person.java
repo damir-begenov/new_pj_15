@@ -22,18 +22,6 @@ public class Person {
     private Long id;
     private String name;
     private Integer born;
-    private String title;
-    private Integer released;
-    private String tagline;
-    private Long idd;
-
-    public String getIdd() {
-        return "movie_id_" + idd;
-    }
-
-    public void setIdd(Long idd) {
-        this.idd = idd;
-    }
 
     @Relationship(type="ACTED_IN", direction = Relationship.Direction.OUTGOING)
     private List<ACTED_IN> acted_ins;
@@ -45,30 +33,6 @@ public class Person {
     private List<REVIEWED> revieweds;
     @Relationship(type="WROTE", direction = Relationship.Direction.OUTGOING)
     private List<WROTE> wrotes;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Integer getReleased() {
-        return released;
-    }
-
-    public void setReleased(Integer released) {
-        this.released = released;
-    }
-
-    public String getTagline() {
-        return tagline;
-    }
-
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
-    }
 
     public List<WROTE> getWrotes() {
         return wrotes;
@@ -110,8 +74,8 @@ public class Person {
         this.acted_ins = acted_ins;
     }
 
-    public String getId() {
-        return "actor_"+id;
+    public Long getId() {
+        return id;
     }
     public String getName() {
         return name;
@@ -129,20 +93,20 @@ public class Person {
         this.born = born;
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", born=" + born +
-                ", title='" + title + '\'' +
-                ", released=" + released +
-                ", tagline='" + tagline + '\'' +
-                ", acted_ins=" + acted_ins +
-                ", directeds=" + directeds +
-                ", produceds=" + produceds +
-                ", revieweds=" + revieweds +
-                ", wrotes=" + wrotes +
-                '}';
-    }
+    // @Override
+    // public String toString() {
+    //     return "Person{" +
+    //             "id=" + id +
+    //             ", name='" + name + '\'' +
+    //             ", born=" + born +
+    //             ", title='" + title + '\'' +
+    //             ", released=" + released +
+    //             ", tagline='" + tagline + '\'' +
+    //             ", acted_ins=" + acted_ins +
+    //             ", directeds=" + directeds +
+    //             ", produceds=" + produceds +
+    //             ", revieweds=" + revieweds +
+    //             ", wrotes=" + wrotes +
+    //             '}';
+    // }
 }
