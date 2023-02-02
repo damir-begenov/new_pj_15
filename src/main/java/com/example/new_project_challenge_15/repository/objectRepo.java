@@ -12,4 +12,7 @@ import com.example.new_project_challenge_15.entity.Person;
 public interface objectRepo extends Neo4jRepository<Person, Long> {
     @Query("match (n)-[r]->(i) return n,r,i")
     List<Person> getAll();
+
+    @Query("WITH ($ID) AS id MATCH p1 = (n)<-[r1]-() WHERE id(n) = id WITH id, p1 MATCH p2 = (n)-[r2]->() WHERE id(n) = id RETURN  COLLECT(p1) + COLLECT(p2) as p")
+    List<Person> getById(Long ID);
 }

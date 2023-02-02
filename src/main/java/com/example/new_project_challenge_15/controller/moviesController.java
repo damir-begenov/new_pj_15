@@ -11,10 +11,12 @@ import com.example.new_project_challenge_15.service.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -22,10 +24,11 @@ import java.util.List;
 public class moviesController {
     private final movieRepo mRepo;
     PersonService personService;
-    // @GetMapping("/persons")
-    // public doubleReturn getAllObjects() {
-    //     return personService.getAllObjects();
-    // }
+    @GetMapping("/persons/{ID}")
+    public doubleReturn getAllObjects(@PathVariable String ID) {
+        Long iii = Long.parseLong(ID);
+        return personService.getById(iii);
+    }
     @GetMapping("/ogreturn")
     public doubleReturn getAllPersons() {
         return personService.getAllPersons();

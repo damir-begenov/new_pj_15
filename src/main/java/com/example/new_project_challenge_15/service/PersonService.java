@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.management.relation.Relation;
 
@@ -24,54 +25,8 @@ public class PersonService {
     objectRepo oRepo;
     @Autowired
     movieRepo movieRepo;
-    
-//     public doubleReturn getAllObjects() {
-//         doubleReturn doubleReturn = new doubleReturn();
-//         List<Person> list = oRepo.findAll();
-//         List<Person> movie_p = new ArrayList<>();
-//         List<Movie> listMovie = movieRepo.getAll();
 
-// //        System.out.println(movie_p);
-//         List<edgesModel> edgesModels = new ArrayList<>();
-//         for(Person lists : list){
-//             List<ACTED_IN> lolActed = lists.getActed_ins();
-//             List<DIRECTED> lolDirected = lists.getDirecteds();
-//             for(ACTED_IN lols : lolActed){
-//                 edgesModel edgesModel = new edgesModel();
-//                 lols.setId_movie(lols.getMovie().getId());
-//                 lols.setMovie(null);
-//                 edgesModel.setFrom(lists.getId());
-//                 edgesModel.setTo(lols.getId());
-//                 edgesModels.add(edgesModel);
-//             }
-// //            for(DIRECTED lolsDirected : lolDirected){
-// //                edgesModel edgesModel = new edgesModel();
-// //                edgesModel.setFrom(lists.getId());
-// //                edgesModel.setTo(lolsDirected.getId());
-// //                edgesModels.add(edgesModel);
-// //            }
-//         }
-//         for(Movie listM : listMovie){
-//             Person newPers = new Person();
-//             newPers.setIdd(listM.getId());
-//             newPers.setId(null);
-//             newPers.setReleased(listM.getReleased());
-//             newPers.setTagline(listM.getTagline());
-//             newPers.setTitle(listM.getTitle());
-// //            System.out.println(listM);
-//             movie_p.add(newPers);
-//             System.out.println(newPers);
-//             list.add(newPers);
-
-//         }
-//         doubleReturn.setNodes(list);
-//         doubleReturn.setEdges(edgesModels);
-//         System.out.println(edgesModels);
-//         return doubleReturn;
-//     }
-
-    public doubleReturn getAllPersons() {
-        List<Person> db  = oRepo.findAll();
+    private doubleReturn ConstructDoubleReturn(List<Person> db) {
         List<Nodes> nodes = new ArrayList<>();
         List<relationModel> edges = new ArrayList<>();
         List<Long> ids = new ArrayList<>();
@@ -156,5 +111,15 @@ public class PersonService {
         }
         doubleReturn doubleReturn = new doubleReturn(nodes, edges);
         return doubleReturn;
+    }
+
+    public doubleReturn getById(Long id) {
+        List<Person> db  = oRepo.getById(id);
+        return ConstructDoubleReturn(db);
+    }
+
+    public doubleReturn getAllPersons() {
+        List<Person> db  = oRepo.findAll();
+        return ConstructDoubleReturn(db);
     }
 }
