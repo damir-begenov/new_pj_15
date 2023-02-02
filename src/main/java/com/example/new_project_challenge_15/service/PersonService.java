@@ -151,11 +151,7 @@ public class PersonService {
                 relationModel currRel = new relationModel(person.getId(), follows1.getPerson().getId(), properties);
                 currRel.setType("follows");
                 edges.add(currRel);
-                if (!ids.contains(follows1.getPerson().getId())) {
-                    ids.add(follows1.getPerson().getId());
-                    Nodes currMovie = new Nodes(follows1.getPerson().getId(), follows1.getPerson().getName(), "", follows1.getPerson().getBorn());
-                    nodes.add(currMovie);
-                }
+
             }
         }
         doubleReturn doubleReturn = new doubleReturn(nodes, edges);

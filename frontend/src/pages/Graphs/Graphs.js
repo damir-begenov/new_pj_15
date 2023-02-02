@@ -65,7 +65,7 @@ export default class GraphNet extends Component {
 
     movies = (options) => {
 
-      axios.get("http://localhost:9090/ogreturn/").then(res => {
+      axios.get("http://localhost:9091/ogreturn/").then(res => {
         let nodes = []
         const edges = res.data.edges;
 
