@@ -9,6 +9,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.data.neo4j.core.schema.Relationship;
+import org.springframework.data.neo4j.core.schema.RelationshipProperties;
 
 import java.util.List;
 
@@ -33,7 +34,17 @@ public class Person {
     private List<REVIEWED> revieweds;
     @Relationship(type="WROTE", direction = Relationship.Direction.OUTGOING)
     private List<WROTE> wrotes;
+    @Relationship(type="FOLLOWS", direction = Relationship.Direction.OUTGOING)
     private List<FOLLOWS> follows;
+
+    public List<FOLLOWS> getFollows() {
+        return follows;
+    }
+
+    public void setFollows(List<FOLLOWS> follows) {
+        this.follows = follows;
+    }
+
 
     public List<WROTE> getWrotes() {
         return wrotes;
