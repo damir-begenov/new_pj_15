@@ -7,11 +7,7 @@ import com.example.new_project_challenge_15.entity.doubleReturn;
 import com.example.new_project_challenge_15.entity.edgesModel;
 import com.example.new_project_challenge_15.entity.propertiesModel;
 import com.example.new_project_challenge_15.entity.relationModel;
-import com.example.new_project_challenge_15.entity.rels.ACTED_IN;
-import com.example.new_project_challenge_15.entity.rels.DIRECTED;
-import com.example.new_project_challenge_15.entity.rels.PRODUCED;
-import com.example.new_project_challenge_15.entity.rels.REVIEWED;
-import com.example.new_project_challenge_15.entity.rels.WROTE;
+import com.example.new_project_challenge_15.entity.rels.*;
 import com.example.new_project_challenge_15.repository.movieRepo;
 import com.example.new_project_challenge_15.repository.objectRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,7 +145,20 @@ public class PersonService {
                     nodes.add(currMovie);
                 }
             }
-
+            List<FOLLOWS> follows = person.getFollows();
+            System.out.println(follows);
+            for (FOLLOWS follows1 : follows) {
+                List<propertiesModel> properties = new ArrayList<>();
+                relationModel currRel = new relationModel(person.getId(), follows1.getPerson().getId(), properties);
+                currRel.setType("follows");
+                edges.add(currRel);
+                if (!ids.contains(follows1.getPerson().getId())) {
+                    ids.add(follows1.getPerson().getId());
+                    Nodes currMovie = new Nodes(follows1.getPerson().getId(), follows1.getPerson().getName(), "", follows1.getPerson().getBorn());
+                    nodes.add(currMovie);
+                    System.out.println(currMovie);
+                }
+            }
         }
         doubleReturn doubleReturn = new doubleReturn(nodes, edges);
         return doubleReturn;
