@@ -33,6 +33,7 @@ public class Person {
     private List<REVIEWED> revieweds;
     @Relationship(type="WROTE", direction = Relationship.Direction.OUTGOING)
     private List<WROTE> wrotes;
+    private List<FOLLOWS> follows;
 
     public List<WROTE> getWrotes() {
         return wrotes;
