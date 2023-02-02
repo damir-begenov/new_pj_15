@@ -32,30 +32,7 @@ export default class GraphNet extends Component {
           if (nodes.length > 0) {
             let node = NoD.filter(e => e.id === event.nodes[0])[0]
 
-            console.log(node)
-
-            // if (node.group == 'schools') {
-            //   document.getElementById("INFO1").innerHTML = `BIN: <span id="nodeIin">${node.bin_IIN}</span>`;
-            //   document.getElementById("INFO4").innerHTML = "";
-            //   document.getElementById("INFO5").innerHTML = "";
-            // } else {
-            //   document.getElementById("INFO1").innerHTML = `IIN: <span id="nodeIin">${node.bin_IIN}</span>`;
-
-            //   let startDateText = "START DATE: ";
-            //   let endDateText = "END DATE: ";
-
-            //   EdG.filter(item => item.from == node.id).map(item => {
-            //     startDateText += `<span id="nodeStart">${item.start_date.substring(0, 10)}</span>`
-            //     endDateText += `<span id="nodeStart">${item.end_date.substring(0, 10)}</span>`
-            //   })
-              
-            //   let edge = EdG.filter(e => e.id === event.edges[0])
-            //   document.getElementById("INFO4").innerHTML = startDateText;
-            //   document.getElementById("INFO5").innerHTML = endDateText;
-            // }
-
-            // document.getElementById("nodeName").innerHTML = node.name;
-            // document.getElementById("nodeLabel").innerHTML = node.labl;
+            console.log(node.group)
 
             
           } else {
@@ -78,44 +55,6 @@ export default class GraphNet extends Component {
       label: ''
     }
 
-    nodeInfo(item) {
-      let text = "";
-
-      text += `<h3>School</h3>`;
-      text += `<p><span>id:</span> ${item.id}</p>`;
-      text += `<p><span>name:</span> ${item.label}</p>`;
-      text += `<p><span>BIN:</span> ${item.newTitle}</p>`;
-      document.getElementById("infoIIN").innerHTML = text;
-    }
-    createTitleBlockStudent(item) {
-      const container = document.createElement("div");
-      container.classList.add("nodeTitleBlock");
-
-      let text = "";
-
-      text += `<h3>Student</h3>`;
-      text += `<p><span>id:</span> ${item.id}</p>`;
-      text += `<p><span>name:</span> ${item.label}</p>`;
-      text += `<p><span>IIN:</span> ${item.title}</p>`;
-
-      container.innerHTML = text;
-      return container;
-    }
-    createTitleBlockSchool(item) {
-      const container = document.createElement("div");
-      container.classList.add("nodeTitleBlock");
-
-      let text = "";
-
-      text += `<h3>School</h3>`;
-      text += `<p><span>id:</span> ${item.id}</p>`;
-      text += `<p><span>name:</span> ${item.label}</p>`;
-      text += `<p><span>BIN:</span> ${item.title}</p>`;
-      // document.getElementById("infoIIN").innerHTML = text;
-
-      container.innerHTML = text;
-      return container;
-    }
     Submit = async (options) => {
       this.state.isLoading = true
       this.setState({nodes: [], edges: []})
@@ -130,33 +69,73 @@ export default class GraphNet extends Component {
         let nodes = []
         const edges = res.data.edges;
 
+        console.log(res.data.nodes)
+
+        let subNodes = []
         res.data.nodes.map(item => {
-          let node = item
-          node.group = "actors"
+          item.group = "selected"
 
-          nodes.push(node);
+          console.log(item)
 
-          item.acted_ins.map(element => {
-            element["name"] = element.movie.title
-            node.group = "movies"
-            nodes.push(element)
-          });
 
-          item.directeds.map(element => {
-            element["name"] = element.movie.title
-            node.group = "movies"
-            nodes.push(element)
-          });
+          if (item.id === "actor_null") {
+            item.id = item.idd
+            item.group = 'actors'
+            item.name = item.title
+          }
+
+          nodes.push(item);
+
+          // if (item.acted_ins.length !== 0 && item.acted_ins !== null && item !== null)
+          // item.acted_ins.map(elem => {
+          //     // nodes.push(elem)
+          //     console.log(elem)
+          //   })
+
+  
+
+
+          // if (node.acted_ins.length > 0)
+            // subNodes.push(node.acted_ins)
+
+          // item.acted_ins.map(element => {
+          //   element["name"] = element.roles[0]
+          //   item.group = "movies"
+
+          //   nodes.push(element)
+          // });
+
+          // item.directeds.map(element => {
+          //   element["name"] = element.movie.title
+          //   node.group = "movies"
+          //   nodes.push(element)
+          // });
+
+
         })
+        console.log("works")
 
-        NoD = nodes
-        EdG = edges 
-        this.state.isLoading = false
+
+        // subNodes.map(element => {
+        //   element["name"] = element.roles[0]
+        //   element.group = "movies"
+
+        //   nodes.push(element)
+
+        //   console.log(element)
+        // });
+
+        // NoD = nodes
+        // EdG = edges 
 
         nodes.map(item => {
-          item.label = item.name
+          item.label = item.name || item.roles[0]
         })
+
         this.setState({nodes, edges})
+
+        this.state.isLoading = false
+        Network.fit({});
       })
       
     }
@@ -188,9 +167,6 @@ export default class GraphNet extends Component {
                 this.numbers.relations = edges.length
                 NoD = nodes
                 EdG = edges
-                this.state.nodes.map(item => (
-                  item.onclick = this.nodeInfo(item)
-                ))
 
                 Network.fit({});
             })
