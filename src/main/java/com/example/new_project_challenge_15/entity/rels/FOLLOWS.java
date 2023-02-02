@@ -4,8 +4,12 @@ import com.example.new_project_challenge_15.entity.Movie;
 import com.example.new_project_challenge_15.entity.Person;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.RelationshipProperties;
 import org.springframework.data.neo4j.core.schema.TargetNode;
 
+@RelationshipProperties
+@Node
 public class FOLLOWS {
     @Id
     @GeneratedValue

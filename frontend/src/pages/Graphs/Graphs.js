@@ -77,54 +77,11 @@ export default class GraphNet extends Component {
 
           console.log(item)
 
-
-          if (item.id === "actor_null") {
-            item.id = item.idd
-            item.group = 'actors'
-            item.name = item.title
-          }
-
           nodes.push(item);
-
-          // if (item.acted_ins.length !== 0 && item.acted_ins !== null && item !== null)
-          // item.acted_ins.map(elem => {
-          //     // nodes.push(elem)
-          //     console.log(elem)
-          //   })
-
-  
-
-
-          // if (node.acted_ins.length > 0)
-            // subNodes.push(node.acted_ins)
-
-          // item.acted_ins.map(element => {
-          //   element["name"] = element.roles[0]
-          //   item.group = "movies"
-
-          //   nodes.push(element)
-          // });
-
-          // item.directeds.map(element => {
-          //   element["name"] = element.movie.title
-          //   node.group = "movies"
-          //   nodes.push(element)
-          // });
 
 
         })
         console.log("works")
-
-
-        // subNodes.map(element => {
-        //   element["name"] = element.roles[0]
-        //   element.group = "movies"
-
-        //   nodes.push(element)
-
-        //   console.log(element)
-        // });
-
         // NoD = nodes
         // EdG = edges 
 

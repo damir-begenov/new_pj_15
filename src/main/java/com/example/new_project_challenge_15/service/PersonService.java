@@ -9,6 +9,7 @@ import com.example.new_project_challenge_15.entity.propertiesModel;
 import com.example.new_project_challenge_15.entity.relationModel;
 import com.example.new_project_challenge_15.entity.rels.ACTED_IN;
 import com.example.new_project_challenge_15.entity.rels.DIRECTED;
+import com.example.new_project_challenge_15.entity.rels.FOLLOWS;
 import com.example.new_project_challenge_15.entity.rels.PRODUCED;
 import com.example.new_project_challenge_15.entity.rels.REVIEWED;
 import com.example.new_project_challenge_15.entity.rels.WROTE;
@@ -148,6 +149,13 @@ public class PersonService {
                     Nodes currMovie = new Nodes(wrote.getMovie().getId(), wrote.getMovie().getTitle(), wrote.getMovie().getTagline(), wrote.getMovie().getReleased());
                     nodes.add(currMovie);
                 }
+            }
+            List<FOLLOWS> follows = person.getFollows();
+            for (FOLLOWS follow : follows) {
+                List<propertiesModel> properties = new ArrayList<>();
+                relationModel currRel = new relationModel(person.getId(), follow.getPerson().getId(), properties);
+                currRel.setType("follows");
+                edges.add(currRel);
             }
 
         }
