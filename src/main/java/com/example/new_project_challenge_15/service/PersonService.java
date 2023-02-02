@@ -149,6 +149,7 @@ public class PersonService {
                     nodes.add(currMovie);
                 }
             }
+
         }
         doubleReturn doubleReturn = new doubleReturn(nodes, edges);
         return doubleReturn;
