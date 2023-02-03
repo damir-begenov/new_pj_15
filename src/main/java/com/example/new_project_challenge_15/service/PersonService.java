@@ -123,11 +123,13 @@ public class PersonService {
         return doubleReturn;
     }
 
-    public doubleReturn getById(Long id) {
-        List<Person> db  = oRepo.getByIdandDepth(id, 2);
-        // if (db.isEmpty()) {
-        //     db = oRepo.getByIdandDepth(id, 2);
-        // }
+    public doubleReturn getShortestPaths(Long id, Long endid) {
+        List<Person> db = oRepo.getShortestPaths(id, endid);
+        return ConstructDoubleReturn(db);
+    }
+
+    public doubleReturn getById(Long id, int LIMIT) {
+        List<Person> db  = oRepo.getById(id, LIMIT);
         return ConstructDoubleReturn(db);
     }
 

@@ -61,10 +61,9 @@ export default class GraphNet extends Component {
       switch(options.mode) {
         case "con1":
           url = "http://localhost:9091/persons/" + options.iin;
-          console.log(url)
           break;
         case "con2":
-          url = "http://localhost:9091/ogreturn/";
+          url = "http://localhost:9091/persons/" + options.iin + "/" + options.iin2;
           break;
         case "con3":
           url = "http://localhost:9091/ogreturn/";

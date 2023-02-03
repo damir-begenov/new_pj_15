@@ -24,11 +24,16 @@ public class moviesController {
     private final movieRepo mRepo;
     private final objectRepo oRepo;
     PersonService personService;
-    @GetMapping("/persons/{ID}")
-    public doubleReturn getAllObjects(@PathVariable String ID) {
+    @GetMapping("/persons/{ID}/limit/{LIMIT}")
+    public doubleReturn getAllObjects(@PathVariable String ID, @PathVariable int LIMIT) {
         Long iii = Long.parseLong(ID);
-        // return personService.getById(iii);
-        return personService.getById(iii);
+        return personService.getById(iii, LIMIT);
+    }
+
+    @GetMapping("/persons/{ID}/{ENDID}") 
+    public doubleReturn getShortPaths(@PathVariable Long ID, @PathVariable Long ENDID) {
+        return personService.getShortestPaths(ID, ENDID);
+        // return oRepo.getShortestPaths(ID, ENDID);
     }
     @GetMapping("/ogreturn")
     public doubleReturn getAllPersons() {

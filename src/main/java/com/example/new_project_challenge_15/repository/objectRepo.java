@@ -13,9 +13,12 @@ public interface objectRepo extends Neo4jRepository<Person, Long> {
     @Query("match (n)-[r]->(i) return n,r,i")
     List<Person> getAll();
 
-    @Query("WITH ($ID) AS id MATCH p1 = (n)<-[r1]-() WHERE id(n) = id WITH id, p1 MATCH p2 = (n)-[r2]->() WHERE id(n) = id RETURN  COLLECT(p1) + COLLECT(p2) as p")
-    List<Person> getById(Long ID);
+    @Query("MATCH p=(n1:Person)-[*]-() WHERE id(n1) = ($ID) RETURN p LIMIT 10")
+    List<Person> getById(Long ID, int LIMIT);
 
     @Query("WITH ($ID) AS id MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[*1..2]-(endNode) RETURN COLLECT(DISTINCT p)")
-    List<Person> getByIdandDepth(Long ID, int DEPTH);
+    List<Person> getByIdandDepth(Long ID, int DEPTH); //////////////////////////////////////////////////////DEPTH
+    // @Query("MATCH p = allShortestPaths((startNode:Person)-[*]-(endNode)) WHERE id(startNode) = ($ID) and id(endNode) = ($ENDID)  RETURN p")
+    @Query("WITH ($ID) AS id MATCH (startNode), (endNode) WHERE id(startNode) = id and id(endNode) = ($ENDID) OPTIONAL MATCH p = shortestPath((startNode)-[*]-(endNode)) RETURN p")
+    List<Person> getShortestPaths(Long ID, Long ENDID); 
 }
