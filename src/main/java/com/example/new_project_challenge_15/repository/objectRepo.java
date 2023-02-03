@@ -15,4 +15,7 @@ public interface objectRepo extends Neo4jRepository<Person, Long> {
 
     @Query("WITH ($ID) AS id MATCH p1 = (n)<-[r1]-() WHERE id(n) = id WITH id, p1 MATCH p2 = (n)-[r2]->() WHERE id(n) = id RETURN  COLLECT(p1) + COLLECT(p2) as p")
     List<Person> getById(Long ID);
+
+    @Query("WITH ($ID) AS id MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[*1..2]-(endNode) RETURN COLLECT(DISTINCT p)")
+    List<Person> getByIdandDepth(Long ID, int DEPTH);
 }

@@ -60,7 +60,8 @@ export default class GraphNet extends Component {
       let url = "";
       switch(options.mode) {
         case "con1":
-          url = "http://localhost:9091/ogreturn/";
+          url = "http://localhost:9091/persons/" + options.iin;
+          console.log(url)
           break;
         case "con2":
           url = "http://localhost:9091/ogreturn/";
@@ -138,9 +139,9 @@ export default class GraphNet extends Component {
             })
     }
 
-    setChange = (event) => {
-      this.setState({iin: event.target.value})
-    }
+    // setChange = (event) => {
+    //   this.setState({person: event.target.value})
+    // }
 
     colors = {
       schoolColor: '#636951',

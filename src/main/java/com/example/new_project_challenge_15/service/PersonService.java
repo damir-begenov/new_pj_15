@@ -31,9 +31,11 @@ public class PersonService {
         List<relationModel> edges = new ArrayList<>();
         List<Long> ids = new ArrayList<>();
         for (Person person : db) {
-            ids.add(person.getId());
-            Nodes currNode = new Nodes(person.getId(), person.getName(), "", person.getBorn());
-            nodes.add(currNode);
+            if (!ids.contains(person.getId())) {
+                ids.add(person.getId());
+                Nodes currNode = new Nodes(person.getId(), person.getName(), "", person.getBorn());
+                nodes.add(currNode);
+            }
             List<ACTED_IN> acted_INs = person.getActed_ins();
             for (ACTED_IN acted : acted_INs) {
                 List<propertiesModel> properties = new ArrayList<>();
@@ -79,6 +81,14 @@ public class PersonService {
             List<REVIEWED> revieweds = person.getRevieweds();
             for (REVIEWED reviewed : revieweds) {
                 List<propertiesModel> properties = new ArrayList<>();
+                propertiesModel newprop = new propertiesModel();
+                newprop.setName("rating");
+                newprop.setValue(""+reviewed.getRating());
+                properties.add(0, newprop);
+                propertiesModel newprop2 = new propertiesModel();
+                newprop2.setName("summary");
+                newprop2.setValue(""+reviewed.getSummary());
+                properties.add(0, newprop2);
                 relationModel currRel = new relationModel(person.getId(), reviewed.getMovie().getId(), properties);
                 currRel.setType("reviewed");
                 edges.add(currRel);
@@ -114,7 +124,10 @@ public class PersonService {
     }
 
     public doubleReturn getById(Long id) {
-        List<Person> db  = oRepo.getById(id);
+        List<Person> db  = oRepo.getByIdandDepth(id, 2);
+        // if (db.isEmpty()) {
+        //     db = oRepo.getByIdandDepth(id, 2);
+        // }
         return ConstructDoubleReturn(db);
     }
 

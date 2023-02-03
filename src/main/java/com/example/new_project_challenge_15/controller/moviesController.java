@@ -5,8 +5,7 @@ import com.example.new_project_challenge_15.entity.Movie;
 import com.example.new_project_challenge_15.entity.Person;
 import com.example.new_project_challenge_15.entity.doubleReturn;
 import com.example.new_project_challenge_15.repository.movieRepo;
-
-
+import com.example.new_project_challenge_15.repository.objectRepo;
 import com.example.new_project_challenge_15.service.PersonService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,10 +22,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class moviesController {
     private final movieRepo mRepo;
+    private final objectRepo oRepo;
     PersonService personService;
     @GetMapping("/persons/{ID}")
     public doubleReturn getAllObjects(@PathVariable String ID) {
         Long iii = Long.parseLong(ID);
+        // return personService.getById(iii);
         return personService.getById(iii);
     }
     @GetMapping("/ogreturn")
