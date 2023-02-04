@@ -27,8 +27,6 @@ import java.util.Map;
 public class moviesController {
     private final movieRepo mRepo;
     private final objectRepo oRepo;
-    private final ACTED_INRepo aRepo;
-    private final relationRepo rRepo;
     PersonService personService;
     
 
@@ -36,22 +34,14 @@ public class moviesController {
     public doubleReturn getByIdLevelAndLimit(@PathVariable Long ID, @PathVariable int DEPTH, @PathVariable int LIMIT) {
         return personService.getByIdLevelAndLimit(ID, DEPTH, LIMIT);
     }
-    @GetMapping("/per") 
-    public List<Person> getByRel() {
-        return oRepo.getAll();
-        // List<Person> list = oRepo.getPersonAndRelationships(438);
-        // for (Person person : list) {
-        //     System.out.println("ID: " + person.getId());
-        //     System.out.println("Name: " + person.getName());
-        //     System.out.println("Born: " + person.getBorn());
-        // }
 
-        // return list;
+    @GetMapping("/shortestpaths/{ID}/{SECONDID}")
+    public doubleReturn getShortestPaths(@PathVariable Long ID, @PathVariable Long SECONDID) {
+        return personService.getShortestPaths(ID, SECONDID);
     }
 
-    // @GetMapping("/ac")
-    // public ACTED_IN getACT() {
-    //     return aRepo.getAll(910);
-    // }
-
+    @GetMapping("/filter/{ID}")
+    public List<Person> getByFilter(@PathVariable Long ID){
+        return oRepo.getByRelation(ID, "REVIEWED", "", "", "", "", "", 10);
+    }
 }
