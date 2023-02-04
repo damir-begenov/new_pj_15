@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.management.relation.Relation;
 
@@ -24,61 +25,19 @@ public class PersonService {
     objectRepo oRepo;
     @Autowired
     movieRepo movieRepo;
-    
-//     public doubleReturn getAllObjects() {
-//         doubleReturn doubleReturn = new doubleReturn();
-//         List<Person> list = oRepo.findAll();
-//         List<Person> movie_p = new ArrayList<>();
-//         List<Movie> listMovie = movieRepo.getAll();
 
-// //        System.out.println(movie_p);
-//         List<edgesModel> edgesModels = new ArrayList<>();
-//         for(Person lists : list){
-//             List<ACTED_IN> lolActed = lists.getActed_ins();
-//             List<DIRECTED> lolDirected = lists.getDirecteds();
-//             for(ACTED_IN lols : lolActed){
-//                 edgesModel edgesModel = new edgesModel();
-//                 lols.setId_movie(lols.getMovie().getId());
-//                 lols.setMovie(null);
-//                 edgesModel.setFrom(lists.getId());
-//                 edgesModel.setTo(lols.getId());
-//                 edgesModels.add(edgesModel);
-//             }
-// //            for(DIRECTED lolsDirected : lolDirected){
-// //                edgesModel edgesModel = new edgesModel();
-// //                edgesModel.setFrom(lists.getId());
-// //                edgesModel.setTo(lolsDirected.getId());
-// //                edgesModels.add(edgesModel);
-// //            }
-//         }
-//         for(Movie listM : listMovie){
-//             Person newPers = new Person();
-//             newPers.setIdd(listM.getId());
-//             newPers.setId(null);
-//             newPers.setReleased(listM.getReleased());
-//             newPers.setTagline(listM.getTagline());
-//             newPers.setTitle(listM.getTitle());
-// //            System.out.println(listM);
-//             movie_p.add(newPers);
-//             System.out.println(newPers);
-//             list.add(newPers);
 
-//         }
-//         doubleReturn.setNodes(list);
-//         doubleReturn.setEdges(edgesModels);
-//         System.out.println(edgesModels);
-//         return doubleReturn;
-//     }
 
-    public doubleReturn getAllPersons() {
-        List<Person> db  = oRepo.findAll();
+    private doubleReturn ConstructDoubleReturn(List<Person> db) {
         List<Nodes> nodes = new ArrayList<>();
         List<relationModel> edges = new ArrayList<>();
         List<Long> ids = new ArrayList<>();
         for (Person person : db) {
-            ids.add(person.getId());
-            Nodes currNode = new Nodes(person.getId(), person.getName(), "", person.getBorn());
-            nodes.add(currNode);
+            if (!ids.contains(person.getId())) {
+                ids.add(person.getId());
+                Nodes currNode = new Nodes(person.getId(), person.getName(), "", person.getBorn());
+                nodes.add(currNode);
+            }
             List<ACTED_IN> acted_INs = person.getActed_ins();
             for (ACTED_IN acted : acted_INs) {
                 List<propertiesModel> properties = new ArrayList<>();
@@ -124,6 +83,14 @@ public class PersonService {
             List<REVIEWED> revieweds = person.getRevieweds();
             for (REVIEWED reviewed : revieweds) {
                 List<propertiesModel> properties = new ArrayList<>();
+                propertiesModel newprop = new propertiesModel();
+                newprop.setName("rating");
+                newprop.setValue(""+reviewed.getRating());
+                properties.add(0, newprop);
+                propertiesModel newprop2 = new propertiesModel();
+                newprop2.setName("summary");
+                newprop2.setValue(""+reviewed.getSummary());
+                properties.add(0, newprop2);
                 relationModel currRel = new relationModel(person.getId(), reviewed.getMovie().getId(), properties);
                 currRel.setType("reviewed");
                 edges.add(currRel);
@@ -157,4 +124,58 @@ public class PersonService {
         doubleReturn doubleReturn = new doubleReturn(nodes, edges);
         return doubleReturn;
     }
+
+    public doubleReturn getByIdLevelAndLimit(Long ID, int DEPTH, int LIMIT) {
+        List<Person> db = oRepo.getWithFilter(ID, DEPTH, LIMIT);
+        return ConstructDoubleReturn(db);
+    }
+//     public List<Person> executeQuery(String query) {
+//         Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
+
+// String query = "MATCH (n)-[r*1..2]-(m) WHERE id(n) = 438 " +
+//                "WITH n, m, COLLECT(r) AS rels " +
+//                "UNWIND rels AS r " +
+//                "WITH n, m, " +
+//                "COLLECT(CASE WHEN type(r) = 'ACTED_IN' THEN r END) AS acted_ins, " +
+//                "COLLECT(CASE WHEN type(r) = 'DIRECTED' THEN r END) AS directeds, " +
+//                "COLLECT(CASE WHEN type(r) = 'PRODUCED' THEN r END) AS produceds, " +
+//                "COLLECT(CASE WHEN type(r) = 'REVIEWED' THEN r END) AS revieweds, " +
+//                "COLLECT(CASE WHEN type(r) = 'WROTE' THEN r END) AS wrotes " +
+//                "RETURN {id: id(n), name: n.name, born: n.born, " +
+//                "acted_ins: act_ins, directeds: directeds, produceds: produceds, " +
+//                "revieweds: revieweds, wrotes: wrotes} " +
+//                "LIMIT 10";
+
+// StatementResult result = session.run(query);
+
+// List<Person> persons = new ArrayList<>();
+// while (result.hasNext()) {
+//   Record record = result.next();
+//   Map<String, Object> map = record.get("{id: id(n), name: n.name, born: n.born, acted_ins: act_ins, directeds: directeds, produceds: produceds, revieweds: revieweds, wrotes: wrotes}").asMap();
+
+//   Person person = new Person();
+//   person.setId(map.get("id").asLong());
+//   person.setName(map.get("name").asString());
+//   person.setBorn(map.get("born").asInt());
+  
+//   List<ACTED_IN> act_ins = (List<ACTED_IN>) map.get("acted_ins");
+//   List<DIRECTED> directeds = (List<DIRECTED>) map.get("directeds");
+//   List<PRODUCED> produceds = (List<PRODUCED>) map.get("produceds");
+//   List<REVIEWED> revieweds = (List<REVIEWED>) map.get("revieweds");
+//   List<WROTE> wrotes = (List<WROTE>) map.get("wrotes");
+  
+//   person.setActed_ins(act_ins);
+//   person.setDirecteds(directeds);
+//   person.setProduceds(produceds);
+//   person.setRevieweds(revieweds);
+//   person.setWrotes(wrotes);
+  
+//   persons.add(person);
+// }
+
+// session.close();
+
+// return persons;
+
+//     }
 }

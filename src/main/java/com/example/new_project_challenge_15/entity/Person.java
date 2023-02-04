@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Node;
+import org.springframework.data.neo4j.core.schema.Property;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,6 @@ import java.util.List;
 @Node
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class Person {
     @Id
     @GeneratedValue
@@ -24,7 +24,7 @@ public class Person {
     private String name;
     private Integer born;
 
-    @Relationship(type="ACTED_IN", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type="ACTED_IN")
     private List<ACTED_IN> acted_ins;
     @Relationship(type="DIRECTED", direction = Relationship.Direction.OUTGOING)
     private List<DIRECTED> directeds;
@@ -105,20 +105,20 @@ public class Person {
         this.born = born;
     }
 
-    // @Override
-    // public String toString() {
-    //     return "Person{" +
-    //             "id=" + id +
-    //             ", name='" + name + '\'' +
-    //             ", born=" + born +
-    //             ", title='" + title + '\'' +
-    //             ", released=" + released +
-    //             ", tagline='" + tagline + '\'' +
-    //             ", acted_ins=" + acted_ins +
-    //             ", directeds=" + directeds +
-    //             ", produceds=" + produceds +
-    //             ", revieweds=" + revieweds +
-    //             ", wrotes=" + wrotes +
-    //             '}';
-    // }
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", born=" + born +
+                // ", title='" + title + '\'' +
+                // ", released=" + released +
+                // ", tagline='" + tagline + '\'' +
+                ", acted_ins=" + acted_ins +
+                ", directeds=" + directeds +
+                ", produceds=" + produceds +
+                ", revieweds=" + revieweds +
+                ", wrotes=" + wrotes +
+                '}';
+    }
 }
