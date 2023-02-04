@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -43,5 +45,16 @@ public class moviesController {
     @GetMapping("/filter/{ID}")
     public List<Person> getByFilter(@PathVariable Long ID){
         return oRepo.getByRelation(ID, "REVIEWED", "", "", "", "", "", 10);
+    }
+
+    @GetMapping("/filter")
+     public List<Person> getFoos(@RequestParam Long id, @RequestParam List<String> list, @RequestParam int limit) {
+        String[] rels = {"", "", "", "", "", ""};
+        int i = 0;
+        for (String rel: list) {
+            rels[i] = rel;
+            i++;
+        }
+        return oRepo.getByRelation(id, rels[0], rels[1], rels[2], rels[3], rels[4], rels[5],limit);
     }
 }
