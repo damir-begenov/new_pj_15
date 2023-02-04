@@ -78,3 +78,26 @@
   
     text-align: start;
   }
+
+  .nodeContextMenu {
+    position: absolute;
+    left: 30px;
+    bottom: 30px;
+  
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    z-index: 1;
+
+    padding: 5px;
+  }
+
+  .nodeContextMenu input {
+    background-color: yellow;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    padding: 5px;
+  }

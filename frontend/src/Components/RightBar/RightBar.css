@@ -11,7 +11,7 @@
     border-right: none;
     border-top: none;
   
-    padding-top: 10px;
+    padding-top: 20px;
     padding-bottom: 40px;
     width: 250px;
   
@@ -22,9 +22,10 @@
     box-shadow: 0px 4px 38px -38px rgba(255, 255, 255, 0.7) inset;
   }
   
-  .rightBar .infoBlock {
-    margin: 10px 0 20px 0;
-  
+  .rightBar > div {
+    /* margin: 10px 0 20px 0; */
+    margin-left: 30px;
+
     text-align: start;
   }
   
@@ -35,7 +36,7 @@
   }
   
   .rightBar .infoBlock .infoBlockTitle {
-    margin-left: 30px;
+    /* margin-left: 30px; */
   
     font-style: normal;
     font-weight: 700;
@@ -44,7 +45,7 @@
   }
   
   .nodeInfo {
-    margin: 10px 30px;
+    margin: 10px 0px;
   
     display: flex;
     flex-direction: column;
