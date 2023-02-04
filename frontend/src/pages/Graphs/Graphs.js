@@ -60,7 +60,7 @@ export default class GraphNet extends Component {
       let url = "";
       switch(options.mode) {
         case "con1":
-          url = "http://localhost:9091/persons/" + options.iin;
+          url = "http://localhost:9091/persons/" + options.iin + "/2/9";
           break;
         case "con2":
           url = "http://localhost:9091/persons/" + options.iin + "/" + options.iin2;
