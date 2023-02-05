@@ -18,6 +18,7 @@ import GraphNet from './pages/Graphs/Graphs';
 import LeftBar from './Components/LeftBar/LeftBar';
 import RightBar from './Components/RightBar/RightBar';
 import MainPage from './pages/MainPage/MainPage';
+import RegistrationPage from './pages/Registration/RegistrationPage';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path="/searchtool" element={<GraphNet/>} />
           <Route path="/" element={<MainPage/>} />
+          <Route path="/registration" element={<RegistrationPage/>} />
         </Routes>
       </div>
     </Router>
