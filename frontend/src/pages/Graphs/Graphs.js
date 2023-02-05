@@ -81,7 +81,7 @@ export default class GraphNet extends Component {
           url = "http://localhost:9091/persons/" + options.iin + "/2/9";
           break;
         case "con2":
-          url = "http://localhost:9091/persons/" + options.iin + "/" + options.iin2;
+          url = "http://localhost:9091/shortestpaths/" + options.iin + "/" + options.iin2;
           break;
         case "con3":
           url = "http://localhost:9091/ogreturn/";
@@ -93,6 +93,7 @@ export default class GraphNet extends Component {
           url = "http://localhost:9091/ogreturn/";
           break;
       }
+      console.log(url)
 
       this.movies(url);
     };

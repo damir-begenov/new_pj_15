@@ -17,11 +17,19 @@ public interface objectRepo extends Neo4jRepository<Person, Long> {
     List<Person> getAll();
     
     // @Query("WITH ($ID) AS id MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[*1..1]-(endNode) return COLLECT(DISTINCT p) limit ($LIMIT)")
-    @Query("WITH $id AS id MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[*1..2]-(endNode) return p limit $limit")
-    List<Person> getWithFilter(@Param("id") Long id,@Param("depth") int depth,@Param("limit") int limit);
+    // @Query("WITH $id AS id MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[*1..2]-(endNode) return p limit $limit")
+    @Query("WITH ($ID)  AS id, ($DEPTH) as d MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[*1..7]-(endNode)  WHERE length(p)<d return COLLECT(DISTINCT p) limit ($LIMIT)")
+    List<Person> getWithFilter(Long ID,int DEPTH, int LIMIT);
     
     @Query("MATCH p=(n)-[r*1..2]-(m) WHERE id(n) = 438 UNWIND relationships(p) AS rel WITH n, m, rel WITH n, m, COLLECT(CASE WHEN type(rel) = 'ACTED_IN' THEN rel END) AS acted_ins, COLLECT(CASE WHEN type(rel) = 'DIRECTED' THEN rel END) AS directeds, COLLECT(CASE WHEN type(rel) = 'PRODUCED' THEN rel END) AS produceds, COLLECT(CASE WHEN type(rel) = 'REVIEWED' THEN rel END) AS revieweds, COLLECT(CASE WHEN type(rel) = 'WROTE' THEN rel END) AS wrotes RETURN {id: id(n), name: n.name, born: n.born, acted_ins: acted_ins, directeds: directeds, produceds: produceds,  wrotes: wrotes} LIMIT 10 ")
     List<Person> getByIdLevelAndLimit(Long ID, Long DEPTH, Long LIMIT);
+
+    @Query("MATCH p=allShortestPaths((a:Person)-[*]-(b:Person)) where id(a)=$ID and id(b)= $SECONDID RETURN COLLECT(DISTINCT p)")
+    List<Person> getAllShortestPaths(Long ID, Long SECONDID);
+    
+    @Query("WITH $ID AS id MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[r*1..2]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in [$REL1, $REL2, $REL3, $REL4, $REL5, $REL6]) RETURN COLLECT(DISTINCT p) LIMIT $LIMIT")
+    List<Person> getByRelation(Long ID, String REL1, String REL2, String REL3, String REL4, String REL5, String REL6, int LIMIT);
+
     
     // @Query("WITH ($ID) AS id MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[*1..2]-(endNode) UNWIND nodes(p) AS n WITH n, relationships(p) AS rel, labels(n) AS label WITH  COLLECT(CASE WHEN 'Person' in label THEN n END) AS m, COLLECT(CASE WHEN 'Movie' in label THEN n END) AS i, rel RETURN m, rel, i LIMIT ($LIMIT)") RETURNS persons and movies ase arrays with only one element
     // @Query("WITH 438 AS id, 2 AS depth, 10 AS limit MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[*1..2]-(endNode) WITH startNode, relationships(p) AS rels, endNode LIMIT 10 RETURN startNode, rels, endNode")

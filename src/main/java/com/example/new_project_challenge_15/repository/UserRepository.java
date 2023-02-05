@@ -1,10 +1,16 @@
-//package com.example.new_project_challenge_15.repository;
-//
-//import com.example.new_project_challenge_15.entity.User;
-//import org.springframework.data.neo4j.repository.Neo4jRepository;
-//import org.springframework.data.neo4j.repository.query.Query;
-//
-//public interface UserRepository extends Neo4jRepository<User, String> {
-//    @Query("MATCH (n:User) WHERE n.email=~ ('(?i).*'+$email+'.*') RETURN n")
-//    User findByEmail(String email);
-//}
+package com.example.new_project_challenge_15.repository;
+
+import com.example.new_project_challenge_15.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+  Optional<User> findByUsername(String username);
+
+  Boolean existsByUsername(String username);
+
+  Boolean existsByEmail(String email);
+}

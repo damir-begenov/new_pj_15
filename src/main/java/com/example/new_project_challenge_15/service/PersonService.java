@@ -129,6 +129,12 @@ public class PersonService {
         List<Person> db = oRepo.getWithFilter(ID, DEPTH, LIMIT);
         return ConstructDoubleReturn(db);
     }
+
+    public doubleReturn getShortestPaths(Long ID, Long SECONDID) {
+        List<Person> db = oRepo.getAllShortestPaths(ID, SECONDID);
+        return ConstructDoubleReturn(db);
+    }
+
 //     public List<Person> executeQuery(String query) {
 //         Session session = Neo4jSessionFactory.getInstance().getNeo4jSession();
 
