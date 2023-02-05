@@ -75,22 +75,25 @@ export default class GraphNet extends Component {
       this.setState({nodes: [], edges: []})
       this.state.counter = this.state.counter+1
 
+      const userSession = JSON.parse(localStorage.getItem("user"))
+
       let url = "";
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
       switch(options.mode) {
         case "con1":
-          url = "http://localhost:9091/persons/" + options.iin + "/2/9";
+          url = "http://localhost:9091/api/finpol/main/persons/" + options.iin + "/2/9";
           break;
         case "con2":
-          url = "http://localhost:9091/shortestpaths/" + options.iin + "/" + options.iin2;
+          url = "http://localhost:9091/api/finpol/main/shortestpaths/" + options.iin + "/" + options.iin2;
           break;
         case "con3":
-          url = "http://localhost:9091/ogreturn/";
+          url = "http://localhost:9091/api/finpol/main/ogreturn/";
           break;
         case "con4": 
-          url = "http://localhost:9091/ogreturn/";
+          url = "http://localhost:9091/api/finpol/main/ogreturn/";
           break
         case "con5":
-          url = "http://localhost:9091/ogreturn/";
+          url = "http://localhost:9091/api/finpol/main/ogreturn/";
           break;
       }
       console.log(url)

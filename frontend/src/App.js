@@ -19,6 +19,7 @@ import LeftBar from './Components/LeftBar/LeftBar';
 import RightBar from './Components/RightBar/RightBar';
 import MainPage from './pages/MainPage/MainPage';
 import RegistrationPage from './pages/Registration/RegistrationPage';
+import SignInPage from './pages/SignIn/SignInPage';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/searchtool" element={<GraphNet/>} />
           <Route path="/" element={<MainPage/>} />
           <Route path="/registration" element={<RegistrationPage/>} />
+          <Route path="/login" element={<SignInPage/>} />
         </Routes>
       </div>
     </Router>

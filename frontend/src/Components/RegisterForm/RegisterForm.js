@@ -1,10 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import './RegisterForm.css'
 
+import authService from "../../services/auth.service";
+
 const RegisterForm = () => {
+    const navigate = useNavigate();
+
     const { 
         register, 
         handleSubmit, 
@@ -13,6 +18,7 @@ const RegisterForm = () => {
     } = useForm({
         defaultValues: {
             username: "",
+            email: "",
             level: "",
             password: "",
             password_conf: ""
@@ -20,6 +26,19 @@ const RegisterForm = () => {
     });
     const handleRegistration = (data) => {
         console.log(data);
+        authService.register(
+            data.username,
+            data.email,
+            data.password
+        ).then(
+            response => {
+                console.log(response)
+                navigate('/login', { replace: true });
+            },
+            error => {
+                console.log(error)
+            }
+        );
     }
     const handleErrors = (errors) => {
         console.log(errors)
@@ -31,6 +50,14 @@ const RegisterForm = () => {
             minLength: {
                 value: 4,
                 message: "Minimum length is 4"
+            }
+        },
+        email: {
+            required: "Email is required",
+            validate: (val) => {
+                if (val.length < 4) {
+                    return "Email is invalid"
+                }
             }
         },
         level: { 
@@ -83,6 +110,17 @@ const RegisterForm = () => {
 
                     <div className="secondLine">
                         <div>
+                            <label >Почта</label>
+                            <input 
+                                type="text" 
+                                {...register("email", registerOptions.email)} 
+                                id="email" placeholder="Введите почту" 
+                            />
+                        </div>
+                    </div>
+
+                    <div className="secondLine">
+                        <div>
                             <label>Пароль</label>
                             <input type="password" {...register("password", registerOptions.password)} id="password" placeholder="Введите пароль"/>
                         </div>
@@ -108,6 +146,7 @@ const RegisterForm = () => {
                         <div className="title">Invalid Registration</div>
                         <div className="errors">
                             {errors.username ? <span>{errors.username?.message}</span> : ""}
+                            {errors.email ? <span>{errors.email?.message}</span> : ""}
                             {errors.level ? <span>{errors.level?.message}</span> : ""}
                             {errors.password ? <span>{errors.password?.message}</span>: ""}
                             {errors.password_conf ? <span>{errors.password_conf?.message}</span> : ""}
