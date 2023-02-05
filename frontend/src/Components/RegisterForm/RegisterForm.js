@@ -107,7 +107,7 @@ const RegisterForm = () => {
                     <div className="errorsBlock">
                         <div className="title">Invalid Registration</div>
                         <div className="errors">
-                            {errors.username ? <span>{errors.login?.message}</span> : ""}
+                            {errors.username ? <span>{errors.username?.message}</span> : ""}
                             {errors.level ? <span>{errors.level?.message}</span> : ""}
                             {errors.password ? <span>{errors.password?.message}</span>: ""}
                             {errors.password_conf ? <span>{errors.password_conf?.message}</span> : ""}
