@@ -169,8 +169,8 @@ public class PersonService {
         return ConstructDoubleReturn(db);
     }
 
-    public doubleReturn shortOpen(String NAME) {
-        List<Person> db = oRepo.shortOpern(NAME);
+    public doubleReturn shortOpen(Long id) {
+        List<Person> db = oRepo.shortOpern(id);
         return ConstructDoubleReturn(db);
     }
 }

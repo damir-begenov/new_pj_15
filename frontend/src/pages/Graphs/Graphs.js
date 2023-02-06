@@ -123,15 +123,14 @@ export default class GraphNet extends Component {
     };
 
     shortOpen = () => {
-      axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {name: "Charlize Theron" }}).then(res => {
+      axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id }}).then(res => {
         let nodes = []
         const edges = res.data.edges;
+
 
         edges.map(item => {
           this.setEdgeSettings(item);
         })
-
-        let subNodes = []
         res.data.nodes.map(item => {
           this.setNodeSettings(item)
           nodes.push(item);
@@ -143,9 +142,6 @@ export default class GraphNet extends Component {
 
         Network.body.data.nodes.update(nodes)
         Network.body.data.edges.update(edges)
-
-
-        // this.state.isLoading = false
         Network.fit({});
       })
     }

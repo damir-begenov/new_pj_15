@@ -25,6 +25,6 @@ public interface objectRepo extends Neo4jRepository<Person, Long> {
     @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:Movie)) where a.name=($PERSON) and b.title=($MOVIE) and ALL(rel in relationships(p) WHERE type(rel) in [$REL1, $REL2, $REL3, $REL4, $REL5, $REL6]) RETURN COLLECT(DISTINCT p)")
     List<Person> getMoviePersonRelation(String PERSON, String MOVIE, String REL1, String REL2, String REL3, String REL4, String REL5, String REL6);
 
-    @Query("MATCH (startNode) WHERE startNode.name =($NAME) OPTIONAL MATCH p = (startNode)-[r]-(endNode) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
-    List<Person> shortOpern(String NAME);
+    @Query("MATCH (startNode) WHERE id(startNode)=$ID OPTIONAL MATCH p = (startNode)-[r]-(endNode) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
+    List<Person> shortOpern(Long ID);
 }
