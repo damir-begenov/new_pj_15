@@ -77,31 +77,7 @@ export default class GraphNet extends Component {
       this.setState({nodes: [], edges: []})
       this.state.counter = this.state.counter+1
 
-      let url = "";
-      switch(options.mode) {
-        case "con1":
-          url = "http://localhost:9091/persons/" + options.iin + "/2/9";
-          break;
-        case "con2":
-          url = "http://localhost:9091/shortestpaths/" + options.iin + "/" + options.iin2;
-          break;
-        case "con3":
-          url = "http://localhost:9091/ogreturn/";
-          break;
-        case "con4": 
-          url = "http://localhost:9091/ogreturn/";
-          break
-        case "con5":
-          url = "http://localhost:9091/ogreturn/";
-          break;
-      }
-      console.log(url)
-
-      this.movies(url);
-    };
-
-    movies = (url) => {
-      axios.get(url).then(res => {
+      axios.get("http://localhost:9091/filter", { params: { id: 438, list: "ACTED_IN,REVIEWED", limit: 7, depth:3 } }).then(res => {
         let nodes = []
         const edges = res.data.edges;
 
@@ -124,8 +100,7 @@ export default class GraphNet extends Component {
         this.state.isLoading = false
         Network.fit({});
       })
-      
-    }
+    };
 
     setEdgeSettings = (edge) => {
       edge.label = edge.type
@@ -173,10 +148,6 @@ export default class GraphNet extends Component {
       }
 
     }
-
-    // setChange = (event) => {
-    //   this.setState({person: event.target.value})
-    // }
 
     colors = {
       actorIcon: '#cfcc53',
