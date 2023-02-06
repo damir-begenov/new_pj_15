@@ -26,10 +26,10 @@ var onSelectNode = false;
 
 export default class GraphNet extends Component {
     state = {
-        nodes: [],
-        edges: [],
-        temp: '',
-        counter: 0
+      nodes: [],
+      edges: [],
+      temp: '',
+      counter: 0
     }
 
     assignInfoBlock = (options) => {
@@ -43,22 +43,20 @@ export default class GraphNet extends Component {
       });
     }
 
-    createContextMenu = (x, y) => {
-      const contextMenu = document.createElement("div")
-      contextMenu.classList.add("nodeContextMenu")
-      contextMenu.style.left = x+"px"
-      contextMenu.style.top = y+"px"
+    createContextMenu = (params) => {
+      var canvas = Network.body.container.firstChild;
 
-      Network.focus(SelectedNode.id, {
-        scale: 0.6,
-        offset: {
-          x: 0,
-          y: 0
-        }
-      })
+      if (canvas.getContext) {
+        var ctx = canvas.getContext("webgl");
+        console.log("first")
 
-      Network.canvas.body.container.style.position = "relative"
-      Network.canvas.body.container.appendChild(contextMenu)
+        ctx.fillStyle = "red";
+
+
+        ctx.beginPath();
+        ctx.arc(params.pointer.DOM.x, params.pointer.DOM.y, 50, 0, 2 * Math.PI);
+        ctx.fill();
+      }
     }
 
     numbers = {
@@ -77,7 +75,29 @@ export default class GraphNet extends Component {
       this.setState({nodes: [], edges: []})
       this.state.counter = this.state.counter+1
 
-      axios.get("http://localhost:9091/filter", { params: { id: 438, list: "ACTED_IN,REVIEWED", limit: 7, depth:3 } }).then(res => {
+      const userSession = JSON.parse(localStorage.getItem("user"))
+
+      let url = "";
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
+      switch(options.mode) {
+        case "con1":
+          url = "http://localhost:9091/api/finpol/main/person";
+          break;
+        case "con2":
+          url = "http://localhost:9091/api/finpol/main/shortestpaths/" + options.iin + "/" + options.iin2;
+          break;
+        case "con3":
+          url = "http://localhost:9091/api/finpol/main/ogreturn/";
+          break;
+        case "con4": 
+          url = "http://localhost:9091/api/finpol/main/ogreturn/";
+          break
+        case "con5":
+          url = "http://localhost:9091/api/finpol/main/ogreturn/";
+          break;
+      }
+
+      axios.get(url, {params: {person: options.iin, relations: "ACTED_IN", depth: options.depth, limit: options.limit }}).then(res => {
         let nodes = []
         const edges = res.data.edges;
 
@@ -101,6 +121,36 @@ export default class GraphNet extends Component {
         Network.fit({});
       })
     };
+
+    shortOpen = () => {
+      axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {name: "Charlize Theron" }}).then(res => {
+        let nodes = []
+        const edges = res.data.edges;
+
+        edges.map(item => {
+          this.setEdgeSettings(item);
+        })
+
+        let subNodes = []
+        res.data.nodes.map(item => {
+          this.setNodeSettings(item)
+          nodes.push(item);
+        })
+
+        nodes.map(item => {
+          item.label = item.name || item.roles[0]
+        })
+
+        Network.body.data.nodes.update(nodes)
+        Network.body.data.edges.update(edges)
+
+
+        // this.state.isLoading = false
+        Network.fit({});
+      })
+    }
+
+
 
     setEdgeSettings = (edge) => {
       edge.label = edge.type
@@ -202,22 +252,6 @@ export default class GraphNet extends Component {
         solver: "barnesHut",
         timestep: 0.5,
         wind: { x: 0, y: 0 }
-
-        // forceAtlas2Based: {
-        //   gravitationalConstant: -26,
-        //   centralGravity: 0.005,
-        //   springLength: 230,
-        //   springConstant: 0.18,
-        //   avoidOverlap: 1.5
-        // },
-        // maxVelocity: 146,
-        // solver: 'forceAtlas2Based',
-        // timestep: 0.35,
-        // stabilization: {
-        //   enabled: true,
-        //   iterations: 1000,
-        //   updateInterval: 25
-        // }
       },
       groups: {
         actors: {
@@ -311,7 +345,6 @@ export default class GraphNet extends Component {
 
         let edgeRoles = "none"
         Object.entries(edgeProperties).forEach(item => {
-          console.log(item)
           if (edgeRoles == "none") edgeRoles = item[1].value
           else edgeRoles += ", " + item[1].value
         })
@@ -328,7 +361,6 @@ export default class GraphNet extends Component {
     search(value) {
       const searchNodes = Object.values(Network.body.nodes).filter(elem => {
         if (elem.options.label != undefined && elem.options.label.toLowerCase().includes(value.toLowerCase())) {
-          // console.log(elem.options.label)
           return true;
         }
       });
@@ -421,13 +453,19 @@ export default class GraphNet extends Component {
               events={this.events}
               getNetwork={network => {
                 Network = network;
+                network.once("afterDrawing", function () {
+                  Network.on('doubleClick', (event) => {
+                    // this.createContextMenu(event)
+                    console.log(event)
+                  })
+                });
               }}
               manipulation={this.manipulation}
               className={"graph"}
             />
         </div>
           
-        <RightBar></RightBar>
+        <RightBar shortOpen={this.shortOpen}></RightBar>
         </>
         </div>
       )

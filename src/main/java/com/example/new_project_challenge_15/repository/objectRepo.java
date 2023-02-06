@@ -16,12 +16,15 @@ public interface objectRepo extends Neo4jRepository<Person, Long> {
     @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:Person)) where a.name=($FIRST) and b.name=($SECOND) and ALL(rel in relationships(p) WHERE type(rel) in [$REL1, $REL2, $REL3, $REL4, $REL5, $REL6]) RETURN COLLECT(DISTINCT p)")
     List<Person> getAllShortestPaths(String FIRST, String SECOND, String REL1, String REL2, String REL3, String REL4, String REL5, String REL6 );
     
-    @Query("WITH $ID AS id, $DEPTH as d MATCH (startNode) WHERE id(startNode) = id OPTIONAL MATCH p = (startNode)-[r*1..7]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in [$REL1, $REL2, $REL3, $REL4, $REL5, $REL6]) AND length(p)<=d RETURN COLLECT(DISTINCT p) LIMIT $LIMIT")
-    List<Person> getByRelation(Long ID, String REL1, String REL2, String REL3, String REL4, String REL5, String REL6, int DEPTH, int LIMIT);
+    @Query("WITH $DEPTH as d MATCH (startNode) WHERE startNode.name = ($PERSON) OPTIONAL MATCH p = (startNode)-[r*1..7]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in [$REL1, $REL2, $REL3, $REL4, $REL5, $REL6]) AND length(p)<=d WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Person> getPersonTree(String PERSON, String REL1, String REL2, String REL3, String REL4, String REL5, String REL6, int DEPTH, int LIMIT);
 
     @Query("MATCH p=((a:Movie)<-[r*1]-(b:Person)) where a.title=($TITLE) and ALL(rel in relationships(p) WHERE type(rel) in [$REL1, $REL2, $REL3, $REL4, $REL5, $REL6])  return COLLECT(DISTINCT p)")
     List<Person> getByMovie(String TITLE, String REL1, String REL2, String REL3, String REL4, String REL5, String REL6);    
 
     @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:Movie)) where a.name=($PERSON) and b.title=($MOVIE) and ALL(rel in relationships(p) WHERE type(rel) in [$REL1, $REL2, $REL3, $REL4, $REL5, $REL6]) RETURN COLLECT(DISTINCT p)")
     List<Person> getMoviePersonRelation(String PERSON, String MOVIE, String REL1, String REL2, String REL3, String REL4, String REL5, String REL6);
+
+    @Query("MATCH (startNode) WHERE startNode.name =($NAME) OPTIONAL MATCH p = (startNode)-[r]-(endNode) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
+    List<Person> shortOpern(String NAME);
 }

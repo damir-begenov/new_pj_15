@@ -137,14 +137,14 @@ public class PersonService {
         return ConstructDoubleReturn(db);
     }
     
-    public doubleReturn getByRelation(Long ID,List<String> list, int depth,  int LIMIT) {
+    public doubleReturn getPersonTree(String person,List<String> list, int depth,  int LIMIT) {
         int i = 0;
         String[] rels = {"", "", "", "", "", ""};
         for (String rel: list) {
             rels[i] = rel;
             i++;
         }
-        List<Person> db = oRepo.getByRelation(ID, rels[0], rels[1], rels[2], rels[3], rels[4], rels[5], depth, LIMIT);
+        List<Person> db = oRepo.getPersonTree(person, rels[0], rels[1], rels[2], rels[3], rels[4], rels[5], depth, LIMIT);
         return ConstructDoubleReturn(db);
     }
     public doubleReturn getByMovie(String TITLE, List<String> list) {
@@ -169,4 +169,8 @@ public class PersonService {
         return ConstructDoubleReturn(db);
     }
 
+    public doubleReturn shortOpen(String NAME) {
+        List<Person> db = oRepo.shortOpern(NAME);
+        return ConstructDoubleReturn(db);
+    }
 }

@@ -6,8 +6,8 @@ class LeftBar extends Component {
     options = {
         iin: "",
         iin2: "",
-        date: Date,
-        date2: Date,
+        limit: 0,
+        depth: 0,
         mode: "",
         categories: {
             rel_final: false,
@@ -20,6 +20,7 @@ class LeftBar extends Component {
     clearOptions = () => {
         this.options.iin = "";
         this.options.iin2 = "";
+        this.options.limit = 0;
         this.mode = "";
 
         document.getElementById("input_IIN").value = "";
@@ -103,36 +104,40 @@ class LeftBar extends Component {
                                 let input4 = document.getElementsByClassName("formBlock")[4];
                                 let input5 = document.getElementsByClassName("formBlock")[5];
 
-                                if (this.options.mode === "con2" || this.options.mode === "con3" || this.options.mode === "con4") { // Фл
-                                    input1.style.display = 'flex';
-                                    input2.style.display = 'flex';
-                                    input3.style.display = 'none';
-                                    input4.style.display = 'none';
-                                    input5.style.display = 'flex';
-                                }
-                                else if (this.options.mode === "con1"){ // ФЛ + ФЛ
-                                    input1.style.display = 'flex';
-                                    input2.style.display = 'none';
-                                    input3.style.display = 'none';
-                                    input4.style.display = 'none';
-                                    input5.style.display = 'flex';
-
-                                } 
-                                else if (this.options.mode ==="con5") { // ЮЛ + Время
+                                if (this.options.mode === "con1") {
                                     input1.style.display = 'flex';
                                     input2.style.display = 'none';
                                     input3.style.display = 'flex';
                                     input4.style.display = 'flex';
                                     input5.style.display = 'flex';
-
+                                } 
+                                else if (this.options.mode ==="con2") {
+                                    input1.style.display = 'flex';
+                                    input2.style.display = 'flex';
+                                    input3.style.display = 'flex';
+                                    input4.style.display = 'flex';
+                                    input5.style.display = 'flex';
+                                }
+                                else if (this.options.mode ==="con3") {
+                                    input1.style.display = 'flex';
+                                    input2.style.display = 'flex';
+                                    input3.style.display = 'flex';
+                                    input4.style.display = 'flex';
+                                    input5.style.display = 'flex';
+                                }
+                                else if (this.options.mode === "con4") {
+                                    input1.style.display = 'flex';
+                                    input2.style.display = 'none';
+                                    input3.style.display = 'flex';
+                                    input4.style.display = 'flex';
+                                    input5.style.display = 'flex';
                                 }
                             }}>
                                 <option value="none">Выберите режим</option>
                                 <option value="con1">Раскрыть сзязи Фл</option>
                                 <option value="con2">Фл - Фл</option>
-                                <option value="con3" disabled >Фл - Юл (disabled)</option>
-                                <option value="con4" disabled>Юл - Юл (disabled)</option>
-                                <option value="con5">Юл + Интервал времени</option>
+                                <option value="con3">Фл - Юл</option>
+                                <option value="con4">Раскрыть связи Юл</option>
                             </select>
                         </div>
                     </div>
@@ -160,28 +165,28 @@ class LeftBar extends Component {
                             placeholder="Введите ИИН"
                             />
                     </div>
-
                     <div className="formBlock">
-                        <label for="IIN">Начало интервала</label>
-                        <input type="date" 
+                        <label for="IIN">LIMIT</label>
+                        <input type="number" 
                             // value=""
-                            onChange={event => {this.options.date = event.target.value}} 
-                            id="input_date"
+                            onChange={event => {this.options.limit = event.target.value}} 
+                            id="input_IIN2"
                             className="input_IIN" 
                             name="input_IIN" 
+                            placeholder="Введите лимит объектов"
                             />
                     </div>
-
                     <div className="formBlock">
-                        <label for="IIN">Конец интервала</label>
-                        <input type="date" 
-                            // value=""
-                            onChange={event => {this.options.date2 = event.target.value}} 
-                            id="input_date2"
-                            className="input_IIN" 
-                            name="input_IIN" 
-                            />
-                    </div>
+                    <label for="IIN">DEPTH</label>
+                    <input type="number" 
+                        // value=""
+                        onChange={event => {this.options.depth = event.target.value}} 
+                        id="input_IIN2"
+                        className="input_IIN" 
+                        name="input_IIN" 
+                        placeholder="Введите глубину поиска"
+                        />
+                </div>
 
                     <div className="formBlock">
                         <label for="IIN">Вид связи</label>
@@ -195,12 +200,28 @@ class LeftBar extends Component {
                         </div>    
 
                         <div className="checkBoxBlock" id="uncheckedBlock">
-                            <div className="checkBox unchecked" id="rel_final">
-                                <span id="conLabel">rel_final</span>
+                            <div className="checkBox unchecked" id="acted_in">
+                                <span id="conLabel">acted_in</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
-                            <div className="checkBox unchecked" id="rel_final1">
-                                <span id="conLabel">rel_final_2</span>
+                            <div className="checkBox unchecked" id="follows">
+                                <span id="conLabel">follows</span>
+                                <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
+                            </div>
+                            <div className="checkBox unchecked" id="wrote">
+                                <span id="conLabel">wrote</span>
+                                <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
+                            </div>
+                            <div className="checkBox unchecked" id="produced">
+                                <span id="conLabel">produced</span>
+                                <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
+                            </div>
+                            <div className="checkBox unchecked" id="reviewed">
+                                <span id="conLabel">reviewed</span>
+                                <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
+                            </div>
+                            <div className="checkBox unchecked" id="directed">
+                                <span id="conLabel">directed</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
                         </div>
