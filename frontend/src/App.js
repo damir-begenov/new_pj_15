@@ -1,8 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
 import Navbar from './Components/NavBar/Navbar';
-import { Component } from "react";
-import axios from 'axios';
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,11 +9,7 @@ import {
   useSearchParams
 } from "react-router-dom";
 import React from "react";
-import ReactDOM from "react-dom";
-import Graph from "react-vis-network-graph";
 import GraphNet from './pages/Graphs/Graphs';
-import LeftBar from './Components/LeftBar/LeftBar';
-import RightBar from './Components/RightBar/RightBar';
 import MainPage from './pages/MainPage/MainPage';
 import RegistrationPage from './pages/Registration/RegistrationPage';
 import SignInPage from './pages/SignIn/SignInPage';
