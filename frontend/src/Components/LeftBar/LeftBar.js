@@ -66,10 +66,6 @@ class LeftBar extends Component {
         }
     }
     checkAll = (event) => {
-        // Object.keys(this.options.categories).forEach(key => {
-        //     this.options.categories[key] = true;
-        // });
-
         const uncheckedBlock = document.getElementById("uncheckedBlock");
         let uncheckeds = [...uncheckedBlock.childNodes];
 
@@ -204,24 +200,24 @@ class LeftBar extends Component {
                                 <span id="conLabel">acted_in</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
-                            <div className="checkBox unchecked" id="follows">
-                                <span id="conLabel">follows</span>
-                                <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
-                            </div>
-                            <div className="checkBox unchecked" id="wrote">
-                                <span id="conLabel">wrote</span>
+                            <div className="checkBox unchecked" id="directed">
+                                <span id="conLabel">directed</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
                             <div className="checkBox unchecked" id="produced">
                                 <span id="conLabel">produced</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
+                            <div className="checkBox unchecked" id="wrote">
+                                <span id="conLabel">wrote</span>
+                                <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
+                            </div>
                             <div className="checkBox unchecked" id="reviewed">
                                 <span id="conLabel">reviewed</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
-                            <div className="checkBox unchecked" id="directed">
-                                <span id="conLabel">directed</span>
+                            <div className="checkBox unchecked" id="follows">
+                                <span id="conLabel">follows</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
                         </div>
