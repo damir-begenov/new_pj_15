@@ -26,6 +26,7 @@ var onSelectNode = false;
 
 export default class GraphNet extends Component {
     state = {
+      ids: [],
       nodes: [],
       edges: [],
       temp: '',
@@ -72,7 +73,7 @@ export default class GraphNet extends Component {
 
     Submit = async (options) => {
       this.state.isLoading = true
-      this.setState({nodes: [], edges: []})
+      this.setState({nodes: [], edges: [], ids: []})
       this.state.counter = this.state.counter+1
 
       const userSession = JSON.parse(localStorage.getItem("user"))
@@ -101,6 +102,7 @@ export default class GraphNet extends Component {
         let nodes = []
         const edges = res.data.edges;
 
+
         edges.map(item => {
           this.setEdgeSettings(item);
         })
@@ -109,6 +111,7 @@ export default class GraphNet extends Component {
         res.data.nodes.map(item => {
           this.setNodeSettings(item)
           nodes.push(item);
+          this.state.ids.push(item.id)
         })
 
         nodes.map(item => {
@@ -125,7 +128,15 @@ export default class GraphNet extends Component {
     shortOpen = () => {
       axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id }}).then(res => {
         let nodes = []
-        const edges = res.data.edges;
+        const edgesFinal = res.data.edges;
+        let edges = []
+        edgesFinal.filter(item => 
+          (!this.state.ids.includes(item.to) || !this.state.ids.includes(item.from))).
+          map(item => {
+            edges.push(item)
+             // Потом с направлениями связей омогут возникнуть проблемы
+        })
+
 
 
         edges.map(item => {
@@ -134,6 +145,7 @@ export default class GraphNet extends Component {
         res.data.nodes.map(item => {
           this.setNodeSettings(item)
           nodes.push(item);
+          this.state.ids.push(item.id)
         })
 
         nodes.map(item => {
