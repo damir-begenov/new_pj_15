@@ -10,11 +10,25 @@ class LeftBar extends Component {
         depth: 0,
         mode: "",
         categories: {
-            rel_final: false,
-            rel_final1: false
-        }
+            acted_in: false,
+            directed: false,
+            produced: false,
+            wrote: false,
+            reviewed: false,
+            follows: false,
+
+        },
+        relations: ""
     }
     filter = (event) => {
+        this.options.relations = ""
+        Object.keys(this.options.categories).forEach(key => {
+            if (this.options.categories[key]) {
+                if (this.options.relations == "") this.options.relations = key
+                else this.options.relations += "," + key
+            }
+        })
+        console.log(this.options.relations)
         this.props.handleSubmit(this.options).bind(this)
     }
     clearOptions = () => {
@@ -196,27 +210,27 @@ class LeftBar extends Component {
                         </div>    
 
                         <div className="checkBoxBlock" id="uncheckedBlock">
-                            <div className="checkBox unchecked" id="acted_in">
+                            <div className="checkBox unchecked" id="ACTED_IN">
                                 <span id="conLabel">acted_in</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
-                            <div className="checkBox unchecked" id="directed">
+                            <div className="checkBox unchecked" id="DIRECTED">
                                 <span id="conLabel">directed</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
-                            <div className="checkBox unchecked" id="produced">
+                            <div className="checkBox unchecked" id="PRODUCED">
                                 <span id="conLabel">produced</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
-                            <div className="checkBox unchecked" id="wrote">
+                            <div className="checkBox unchecked" id="WROTE">
                                 <span id="conLabel">wrote</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
-                            <div className="checkBox unchecked" id="reviewed">
+                            <div className="checkBox unchecked" id="REVIEWED">
                                 <span id="conLabel">reviewed</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>
-                            <div className="checkBox unchecked" id="follows">
+                            <div className="checkBox unchecked" id="FOLLOWS">
                                 <span id="conLabel">follows</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => this.checkUncheck(event)}></i>
                             </div>

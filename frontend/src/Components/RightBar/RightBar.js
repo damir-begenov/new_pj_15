@@ -14,8 +14,9 @@ class RightBar extends Component {
         </div>
         <div className="actionBlock">
           {true ? 
-            (<input type="button" visible="false" value="Show/Hide" onClick={ event => this.props.shortOpen().bind(this)}/>) 
+            (<input type="button" visible="false" value="Show" onClick={ event => this.props.shortOpen().bind(this)}/>) 
             : ""}
+            <input type="button" visible="false" value="Hide" onClick={ event => this.props.shortHide().bind(this)}/>
         </div>
       </div>
     );

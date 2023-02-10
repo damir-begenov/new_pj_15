@@ -79,26 +79,28 @@ export default class GraphNet extends Component {
       const userSession = JSON.parse(localStorage.getItem("user"))
 
       let url = "";
+      let params ={};
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
       switch(options.mode) {
         case "con1":
           url = "http://localhost:9091/api/finpol/main/person";
+          params = {person: options.iin, relations: options.relations, depth: options.depth, limit: options.limit }
           break;
         case "con2":
-          url = "http://localhost:9091/api/finpol/main/shortestpaths/" + options.iin + "/" + options.iin2;
+          url = "http://localhost:9091/api/finpol/main/shortestpaths";
+          params = {person: options.iin, person2: options.iin2, relations: options.relations}
           break;
         case "con3":
-          url = "http://localhost:9091/api/finpol/main/ogreturn/";
+          url = "http://localhost:9091/api/finpol/main/movieperson";
+          params = {person: options.iin, movie: options.iin2, relations: options.relations}
           break;
         case "con4": 
-          url = "http://localhost:9091/api/finpol/main/ogreturn/";
+          url = "http://localhost:9091/api/finpol/main/movie";
+          params = {title: options.iin, relations: options.relations}
           break
-        case "con5":
-          url = "http://localhost:9091/api/finpol/main/ogreturn/";
-          break;
       }
 
-      axios.get(url, {params: {person: options.iin, relations: "ACTED_IN", depth: options.depth, limit: options.limit }}).then(res => {
+      axios.get(url, {params: params}).then(res => {
         let nodes = []
         const edges = res.data.edges;
 
@@ -157,7 +159,9 @@ export default class GraphNet extends Component {
         Network.fit({});
       })
     }
-
+    shortHide = () => {
+      Network.body.data.nodes.remove([{id: SelectedNode.options.id}]);
+    }
 
 
     setEdgeSettings = (edge) => {
@@ -473,7 +477,7 @@ export default class GraphNet extends Component {
             />
         </div>
           
-        <RightBar shortOpen={this.shortOpen}></RightBar>
+        <RightBar shortOpen={this.shortOpen} shortHide={this.shortHide}></RightBar>
         </>
         </div>
       )
