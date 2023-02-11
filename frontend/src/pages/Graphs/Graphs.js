@@ -139,8 +139,6 @@ export default class GraphNet extends Component {
              // Потом с направлениями связей омогут возникнуть проблемы
         })
 
-
-
         edges.map(item => {
           this.setEdgeSettings(item);
         })
