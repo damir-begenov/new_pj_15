@@ -24,13 +24,22 @@
 
 .nav-menu {
 
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-gap: 150px;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
     font-size: 1.2rem;
     align-items: center;
     text-align: center;
     list-style: none;
     font-family: 'Montserrat';
     font-weight: 400;
+}
+
+.nav-links span {
+    font-weight: 700;
+}
+
+.nav-links .userRole {
+    font-weight: 400;
+    color: rgba(116, 116, 116, 0.5)
 }

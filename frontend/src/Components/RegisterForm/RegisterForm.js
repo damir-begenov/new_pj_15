@@ -135,7 +135,7 @@ const RegisterForm = () => {
                 </div>
 
                 <div className="actions">
-                    <Link to='/login'><a>Войти через окно</a></Link>
+                    <Link to='/login'><a>Войти в аккаунт</a></Link>
                     <input id="clear" type="button" value="Очистить"/>
                     <input id="register" type="submit" value="Зарегистрировать"/>
                 </div>

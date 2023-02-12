@@ -1,12 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 import './SignInForm.css'
 
 import authService from "../../services/auth.service";
 
 const SignInForm = () => {
+    const navigate = useNavigate();
+
     const { 
         register, 
         handleSubmit, 
@@ -26,6 +29,7 @@ const SignInForm = () => {
         ).then(
             response => {
                 console.log(response)
+                navigate('/searchtool', { replace: true });
             },
             error => {
                 console.log(error)

@@ -77,6 +77,7 @@ export default class GraphNet extends Component {
       this.state.counter = this.state.counter+1
 
       const userSession = JSON.parse(localStorage.getItem("user"))
+      console.log(userSession)
 
       let url = "";
       let params ={};

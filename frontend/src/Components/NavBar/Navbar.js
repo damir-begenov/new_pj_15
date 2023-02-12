@@ -1,25 +1,43 @@
 import { Component } from "react";
-import { MenuData } from "../../MenuData";
 import { Link } from 'react-router-dom'
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import './NavBar.css'
 
-class Navbar extends Component {
-    render() {
-        return (
-            <div className="nav-back">
-                <nav className="NavbarItems">
+import authService from "../../services/auth.service";
+
+const Navbar = () => {
+    const userSession = JSON.parse(localStorage.getItem("user"))
+    const navigat = useNavigate()    
+
+    const logoutHandler = () => {
+
+        authService.logout();
+
+        navigat('/login', { replace: true });
+    }
+
+    return (
+        <div className="nav-back">
+            <nav className="NavbarItems">
                 <h1 className="logo"><Link to='/'>NEXUS</Link></h1>
                 <ul className="nav-menu">
-                    {MenuData.map((item, index)=> {
-                        return (
-                            <li key={index}><a className={item.cName} href={item.url}>{item.title}</a></li>
-                        )
-                    })}
+                    {userSession ? 
+                        <>
+                            <li><a className={"nav-links"} href={""}><span>{userSession.username}</span>:<span className="userRole">{userSession.roles[0].substring(5)}</span></a></li>
+                            <li><a className={"nav-links"} href={""} onClick={logoutHandler}>LOG OUT</a></li>
+                        </> 
+                        :
+                        <>
+                            <li><a className={"nav-links"} href={"http://localhost:3000/login"}>LOG IN</a></li>
+                            <li><a className={"nav-links"} href={"http://localhost:3000/registration"}>SIGN UP</a></li>
+                        </>
+                    }
                 </ul>
             </nav>
-            </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default Navbar
