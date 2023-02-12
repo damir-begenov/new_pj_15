@@ -43,3 +43,17 @@
     font-weight: 400;
     color: rgba(116, 116, 116, 0.5)
 }
+
+.NavbarItems > div {
+    display: flex;
+    align-items: center;
+    
+    gap: 60px;
+}
+
+.admin {
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.3);
+
+    cursor: pointer;
+}

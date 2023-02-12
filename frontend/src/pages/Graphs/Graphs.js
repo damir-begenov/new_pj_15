@@ -484,5 +484,4 @@ export default class GraphNet extends Component {
   }
 
 }
-  
-  
+

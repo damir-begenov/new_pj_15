@@ -29,7 +29,7 @@ const SignInForm = () => {
         ).then(
             response => {
                 console.log(response)
-                navigate('/searchtool', { replace: true });
+                navigate('/searchtool');
             },
             error => {
                 console.log(error)

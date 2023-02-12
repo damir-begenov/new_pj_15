@@ -15,14 +15,25 @@ const Navbar = () => {
 
         authService.logout();
 
-        navigate('/login', { replace: true });
+        navigate('/login');
     }
 
     return (
         <div className="nav-back">
             <nav className="NavbarItems">
                 <h1 className="logo"><Link to='/'>NEXUS</Link></h1>
-                <ul className="nav-menu">
+                <div>
+                    {
+                        userSession && 
+                        userSession.roles[0] == "ROLE_ADMIN"
+                        ?  (
+                            <Link to={"/admin"}><div className="admin">
+                                Admin panel
+                            </div></Link>
+                        ) : ("")
+                    }
+                   
+                    <ul className="nav-menu">
                     {userSession ? 
                         <>
                             <li><a className={"nav-links"} href={""}><span>{userSession.username}</span>:<span className="userRole">{userSession.roles[0].substring(5)}</span></a></li>
@@ -30,11 +41,13 @@ const Navbar = () => {
                         </> 
                         :
                         <>
-                            <li><a className={"nav-links"} href={"http://localhost:3000/login"}>LOG IN</a></li>
                             <li><a className={"nav-links"} href={"http://localhost:3000/registration"}>SIGN UP</a></li>
+                            <li><a className={"nav-links"} href={"http://localhost:3000/login"}>LOG IN</a></li>
                         </>
                     }
                 </ul>
+                </div>
+                
             </nav>
         </div>
     )

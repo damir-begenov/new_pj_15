@@ -19,7 +19,7 @@ const RegisterForm = () => {
         defaultValues: {
             username: "",
             email: "",
-            level: "",
+            // level: "",
             password: "",
             password_conf: ""
         }
@@ -60,9 +60,9 @@ const RegisterForm = () => {
                 }
             }
         },
-        level: { 
-            required: "Level is required. Please choose уровень доступа" 
-        },
+        // level: { 
+        //     required: "Level is required. Please choose уровень доступа" 
+        // },
         password: {
             required: "Password is required",
             minLength: {
@@ -95,7 +95,7 @@ const RegisterForm = () => {
                             />
                         </div>
 
-                        <div>
+                        {/* <div>
                             <label >Уровень доступа</label>
                             <div className="level">
                                 <select {...register("level", registerOptions.level)} id='level'>
@@ -105,7 +105,7 @@ const RegisterForm = () => {
                                 </select>
                             </div>
 
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="secondLine">
@@ -147,7 +147,7 @@ const RegisterForm = () => {
                         <div className="errors">
                             {errors.username ? <span>{errors.username?.message}</span> : ""}
                             {errors.email ? <span>{errors.email?.message}</span> : ""}
-                            {errors.level ? <span>{errors.level?.message}</span> : ""}
+                            {/* {errors.level ? <span>{errors.level?.message}</span> : ""} */}
                             {errors.password ? <span>{errors.password?.message}</span>: ""}
                             {errors.password_conf ? <span>{errors.password_conf?.message}</span> : ""}
                         </div>
