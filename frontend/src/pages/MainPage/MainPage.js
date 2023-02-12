@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import './MainPage.css'
 
 export default class MainPage extends Component {
+    userSession = JSON.parse(localStorage.getItem("user"))
+
     render() {
         return (
             
@@ -16,9 +18,10 @@ export default class MainPage extends Component {
                         <div>SERVICE</div>
                     </div>
                     <div className="actionBtn">
-                        <div className="tryBtn">
-                        <Link to='/searchtool'><a>TRY</a></Link>
-                        </div>
+                        {this.userSession 
+                            ? <Link to='/searchtool'><div className="tryBtn"><a>TRY</a></div></Link>
+                            : <Link to='/login'><div className="tryBtn"><a>TRY</a></div></Link>
+                        }
                     </div>
                 </div>
             </header>

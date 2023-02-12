@@ -9,13 +9,13 @@ import authService from "../../services/auth.service";
 
 const Navbar = () => {
     const userSession = JSON.parse(localStorage.getItem("user"))
-    const navigat = useNavigate()    
+    const navigate = useNavigate()    
 
     const logoutHandler = () => {
 
         authService.logout();
 
-        navigat('/login', { replace: true });
+        navigate('/login', { replace: true });
     }
 
     return (
