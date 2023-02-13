@@ -1,12 +1,6 @@
 package com.example.new_project_challenge_15.service;
 
-import com.example.new_project_challenge_15.entity.Movie;
-import com.example.new_project_challenge_15.entity.Nodes;
-import com.example.new_project_challenge_15.entity.Person;
-import com.example.new_project_challenge_15.entity.doubleReturn;
-import com.example.new_project_challenge_15.entity.edgesModel;
-import com.example.new_project_challenge_15.entity.propertiesModel;
-import com.example.new_project_challenge_15.entity.relationModel;
+import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.entity.rels.*;
 import com.example.new_project_challenge_15.repository.movieRepo;
 import com.example.new_project_challenge_15.repository.objectRepo;
@@ -15,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.management.relation.Relation;
 
 @Service
 public class PersonService {
@@ -25,6 +16,11 @@ public class PersonService {
     objectRepo oRepo;
     @Autowired
     movieRepo movieRepo;
+    @Autowired
+    com.example.new_project_challenge_15.repository.logRepo logRepo;
+
+
+
 
 
 
@@ -156,7 +152,10 @@ public class PersonService {
         }
         List<Person> db = oRepo.getByMovie(TITLE, rels[0], rels[1], rels[2], rels[3], rels[4], rels[5]);
         return ConstructDoubleReturn(db);
-    } 
+    }
+    public log SaveLog(log log){
+        return logRepo.save(log);
+    }
 
     public doubleReturn getMoviePersonRelation(String PERSON, String MOVIE, List<String> list) {
         int i = 0;

@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
@@ -22,5 +24,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     return UserDetailsImpl.build(user);
   }
+  @Transactional
+  public User loadUserByUsernamek(Principal principal) throws UsernameNotFoundException {
+    User user = userRepository.findByUsername(principal.getName())
+            .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + principal.getName()));
+    return user;
+  }
+
 
 }

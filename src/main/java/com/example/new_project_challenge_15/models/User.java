@@ -1,5 +1,7 @@
 package com.example.new_project_challenge_15.models;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -30,6 +32,15 @@ public class User {
   @NotBlank
   @Size(max = 120)
   private String password;
+  private boolean active;
+
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
+  }
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(  name = "user_roles", 
@@ -84,5 +95,17 @@ public class User {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", active=" + active +
+            ", roles=" + roles +
+            '}';
   }
 }
