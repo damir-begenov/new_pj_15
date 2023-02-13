@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useState, Component} from "react";
 import ReactDOM, { render } from "react-dom";
 import './LeftBar.css'
 import { useNavigate } from "react-router-dom";
@@ -6,47 +6,50 @@ import { useNavigate } from "react-router-dom";
 const LeftBar = (props) => {
     const navigate = useNavigate()
 
-    let options = {
-        iin: "",
-        iin2: "",
-        limit: 0,
-        depth: 0,
-        mode: "",
-        categories: {
-            acted_in: false,
-            directed: false,
-            produced: false,
-            wrote: false,
-            reviewed: false,
-            follows: false,
+    const [name1, setName1] = useState("")
+    const [name2, setName2] = useState("")
+    const [limit, setLimit] = useState(0)
+    const [depth, setDepth] = useState("")
 
-        },
-        relations: ""
-    }
+    const [mode, setMode] = useState("")
+    const [categories, setCategories] = useState({
+        ACTED_IN: false,
+        DIRECTED: false,
+        PRODUCED: false,
+        WROTE: false,
+        REVIEWED: false,
+        FOLLOWS: false
+    })
+
     const filter = (event) => { 
         if (!checkAuth()) navigate('/login', {replace: true}) 
 
-        options.relations = ""
-        Object.keys(options.categories).forEach(key => {
-            if (options.categories[key]) {
-                if (options.relations == "") options.relations = key
-                else options.relations += "," + key
+        let relations = ""
+        Object.keys(categories).forEach(key => {
+            if (categories[key]) {
+                if (relations == "") relations = key
+                else relations += "," + key
             }
         })
-        console.log(options.relations)
+
+        let options = {
+            name1, name2, limit, depth, mode, relations
+        }
+
+        console.log("in left bar", options)
         props.handleSubmit(options).bind(this)
     }
+
     const clearOptions = () => {
-        options.iin = "";
-        options.iin2 = "";
-        options.limit = 0;
-        options.mode = "";
+        setName1("")
+        setName2("")
+        setLimit(0)
+        setMode("")
 
         document.getElementById("input_IIN").value = "";
         document.getElementById("input_IIN2").value = "";
 
         uncheckAll("");
-
         document.getElementById("input_date").value = "";
         document.getElementById("input_date2").value = "";
     }
@@ -64,7 +67,12 @@ const LeftBar = (props) => {
             element = event;
         }
 
-        options.categories[parent.id] = !options.categories[parent.id];
+        let cat = categories
+        cat[parent.id] = !cat[parent.id]
+
+        setCategories(cat)
+
+        // options.categories[parent.id] = !options.categories[parent.id];
 
         if (parent.classList[1] == "checked") {
             element.classList.remove("fa-xmark");
@@ -116,40 +124,49 @@ const LeftBar = (props) => {
                     <div className="select">
                         <select name="connections" id='connections' 
                         onChange={event => {
-                            options.mode = document.getElementById("connections").value;
+                            let value = document.getElementById("connections").value;
                             let input1 = document.getElementsByClassName("formBlock")[1];
                             let input2 = document.getElementsByClassName("formBlock")[2];
                             let input3 = document.getElementsByClassName("formBlock")[3];
                             let input4 = document.getElementsByClassName("formBlock")[4];
                             let input5 = document.getElementsByClassName("formBlock")[5];
 
-                            if (options.mode === "con1") {
+                            setMode(value)
+
+                            if (value === "con1") {
                                 input1.style.display = 'flex';
                                 input2.style.display = 'none';
                                 input3.style.display = 'flex';
                                 input4.style.display = 'flex';
                                 input5.style.display = 'flex';
                             } 
-                            else if (options.mode ==="con2") {
+                            else if (value ==="con2") {
                                 input1.style.display = 'flex';
                                 input2.style.display = 'flex';
                                 input3.style.display = 'flex';
                                 input4.style.display = 'flex';
                                 input5.style.display = 'flex';
                             }
-                            else if (options.mode ==="con3") {
+                            else if (value ==="con3") {
                                 input1.style.display = 'flex';
                                 input2.style.display = 'flex';
                                 input3.style.display = 'flex';
                                 input4.style.display = 'flex';
                                 input5.style.display = 'flex';
                             }
-                            else if (options.mode === "con4") {
+                            else if (value === "con4") {
                                 input1.style.display = 'flex';
                                 input2.style.display = 'none';
                                 input3.style.display = 'flex';
                                 input4.style.display = 'flex';
                                 input5.style.display = 'flex';
+                            }
+                            else if (value === "none") {
+                                input1.style.display = 'none';
+                                input2.style.display = 'none';
+                                input3.style.display = 'none';
+                                input4.style.display = 'none';
+                                input5.style.display = 'none';
                             }
                         }}>
                             <option value="none">Выберите режим</option>
@@ -162,53 +179,53 @@ const LeftBar = (props) => {
                 </div>
 
                 <div className="formBlock">
-                    <label for="IIN">Объект</label>
+                    <label>Объект</label>
                     <input type="text" 
-                        // value=""
-                        onChange={event => {options.iin = event.target.value}} 
+                        value={name1}
+                        onChange={event => { setName1(event.target.value) }} 
                         id="input_IIN" 
                         className="input_IIN" 
-                        name="input_IIN" 
-                        placeholder="Введите ИИН"
+                        name="name1" 
+                        placeholder="Введите имя/название первого объекта"
                         />
                 </div>
 
                 <div className="formBlock">
-                    <label for="IIN">Второй объект</label>
+                    <label>Второй объект</label>
                     <input type="text" 
-                        // value=""
-                        onChange={event => {options.iin2 = event.target.value}} 
+                        value={name2}
+                        onChange={event => { setName2(event.target.value) }} 
                         id="input_IIN2"
                         className="input_IIN" 
-                        name="input_IIN" 
-                        placeholder="Введите ИИН"
+                        name="name2" 
+                        placeholder="Введите имя/название второго объекта"
                         />
                 </div>
                 <div className="formBlock">
-                    <label for="IIN">LIMIT</label>
+                    <label>LIMIT</label>
                     <input type="number" 
                         // value=""
-                        onChange={event => {options.limit = event.target.value}} 
+                        onChange={event => { setLimit(event.target.value) }} 
                         id="input_IIN2"
                         className="input_IIN" 
-                        name="input_IIN" 
+                        name="limit" 
                         placeholder="Введите лимит объектов"
                         />
                 </div>
                 <div className="formBlock">
-                <label for="IIN">DEPTH</label>
+                <label>DEPTH</label>
                 <input type="number" 
                     // value=""
-                    onChange={event => {options.depth = event.target.value}} 
+                    onChange={event => {setDepth(event.target.value)}} 
                     id="input_IIN2"
                     className="input_IIN" 
-                    name="input_IIN" 
+                    name="depth" 
                     placeholder="Введите глубину поиска"
                     />
             </div>
 
                 <div className="formBlock">
-                    <label for="IIN">Вид связи</label>
+                    <label>Вид связи</label>
                     <div className="checkBoxBlock checkedBlock" id="checkedBlock">
                         
                     </div>

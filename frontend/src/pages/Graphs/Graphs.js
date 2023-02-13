@@ -30,7 +30,8 @@ export default class GraphNet extends Component {
       nodes: [],
       edges: [],
       temp: '',
-      counter: 0
+      counter: 0,
+      showActionBtn: false,
     }
 
     assignInfoBlock = (options) => {
@@ -72,58 +73,64 @@ export default class GraphNet extends Component {
     }
 
     Submit = async (options) => {
+      console.log(options)
+
       this.state.isLoading = true
       this.setState({nodes: [], edges: [], ids: []})
       this.state.counter = this.state.counter+1
-
+      
       const userSession = JSON.parse(localStorage.getItem("user"))
       console.log(userSession)
-
+      
       let url = "";
       let params ={};
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
       switch(options.mode) {
         case "con1":
           url = "http://localhost:9091/api/finpol/main/person";
-          params = {person: options.iin, relations: options.relations, depth: options.depth, limit: options.limit }
+          params = {person: options.name1, relations: options.relations, depth: options.depth, limit: options.limit }
           break;
         case "con2":
           url = "http://localhost:9091/api/finpol/main/shortestpaths";
-          params = {person: options.iin, person2: options.iin2, relations: options.relations}
+          params = {person: options.name1, person2: options.name2, relations: options.relations}
           break;
         case "con3":
           url = "http://localhost:9091/api/finpol/main/movieperson";
-          params = {person: options.iin, movie: options.iin2, relations: options.relations}
+          params = {person: options.name1, movie: options.name2, relations: options.relations}
           break;
         case "con4": 
           url = "http://localhost:9091/api/finpol/main/movie";
-          params = {title: options.iin, relations: options.relations}
-          break
-      }
+          params = {title: options.name1, relations: options.relations}
+          break;
+        }
+        
+        console.log({url, params})
 
-      axios.get(url, {params: params}).then(res => {
-        let nodes = []
-        const edges = res.data.edges;
-
-
-        edges.map(item => {
-          this.setEdgeSettings(item);
-        })
-
+        axios.get(url, {params: params}).then(res => {
+          let nodes = []
+          const edges = res.data.edges;
+          
+          
+          edges.map(item => {
+            this.setEdgeSettings(item);
+          })
+        
         let subNodes = []
         res.data.nodes.map(item => {
           this.setNodeSettings(item)
           nodes.push(item);
           this.state.ids.push(item.id)
         })
-
+        
         nodes.map(item => {
           item.label = item.name || item.roles[0]
         })
-
+        
         this.setState({nodes, edges})
-
+        
         this.state.isLoading = false
+
+        this.setState({showActionBtn: true})
         Network.fit({});
       })
     };
@@ -392,14 +399,14 @@ export default class GraphNet extends Component {
         return (
           <div className='mainSection'>
           <>
-            <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
+            <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
             <div className='centralBar'>
               <div className="waiterBox">
                 {/* <a>Make a search</a> */}
                 <i id="waiter" class="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
-            <RightBar></RightBar>
+            <RightBar showAction={this.state.showActionBtn}></RightBar>
           </>
           </div>
         )
@@ -407,13 +414,13 @@ export default class GraphNet extends Component {
         return (
           <div className='mainSection'>
           <>
-            <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
+            <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
               <div className="waiterBox">
                   <a>No objects found</a>
                 </div>
               </div>
-            <RightBar></RightBar>
+            <RightBar showAction={this.state.showActionBtn}></RightBar>
           </>
           </div>
         )
@@ -421,7 +428,7 @@ export default class GraphNet extends Component {
         return (
           <div className='mainSection'>
           <>
-            <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
+            <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
                 <div class="loader">
                   <div class="inner one"></div>
@@ -429,7 +436,7 @@ export default class GraphNet extends Component {
                   <div class="inner three"></div>
                 </div>
               </div>
-            <RightBar></RightBar>
+            <RightBar showAction={this.state.showActionBtn}></RightBar>
           </>
           </div>
         )
@@ -437,7 +444,7 @@ export default class GraphNet extends Component {
       return (
         <div className='mainSection'>
         <>
-        <LeftBar iin={this.state.iin} iin2={this.state.iin2} handleSubmit={this.Submit} setIIN={this.setChange}></LeftBar>
+        <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
         <div className='centralBar' id="centralBar">
             <div className="nodeSearch">
               <input type="text" id="nodeSearchInput" placeholder="Еще один поиск.." 
@@ -476,7 +483,7 @@ export default class GraphNet extends Component {
             />
         </div>
           
-        <RightBar shortOpen={this.shortOpen} shortHide={this.shortHide}></RightBar>
+        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide}></RightBar>
         </>
         </div>
       )
