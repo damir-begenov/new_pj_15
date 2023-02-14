@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom'
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 
+import TableLog from "../../Components/TableLog/TableLog";
+
 function withParams(Component) {
     return props => <Component {...props} username={useParams()} />;
 }
@@ -24,7 +26,11 @@ class UserDetails extends Component {
 
     render() {
         return(
-            <div>{this.state.user.username}</div>
+            <div>
+                <div>{this.state.user.username}</div>
+                <TableLog logs={this.state.stat.logs}></TableLog>
+
+            </div>
         )
     }
 }

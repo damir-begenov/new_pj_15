@@ -35,7 +35,7 @@ export default class TableLog extends Component {
             </thead>
             <tbody>
                 
-                {this.state.logs.map((log, index) => 
+                {this.props.logs.map((log, index) => 
             <tr className="row">
                 <th scope="row">{index+1}</th>
                 <td>{log.date}</td>

@@ -32,6 +32,8 @@ export default class GraphNet extends Component {
       temp: '',
       counter: 0,
       showActionBtn: false,
+      sliderPage: 0,
+      searchedNodes: []
     }
 
     assignInfoBlock = (options) => {
@@ -50,7 +52,6 @@ export default class GraphNet extends Component {
 
       if (canvas.getContext) {
         var ctx = canvas.getContext("webgl");
-        console.log("first")
 
         ctx.fillStyle = "red";
 
@@ -73,8 +74,6 @@ export default class GraphNet extends Component {
     }
 
     Submit = async (options) => {
-      console.log(options)
-
       this.state.isLoading = true
       this.setState({nodes: [], edges: [], ids: []})
       this.state.counter = this.state.counter+1
@@ -102,25 +101,26 @@ export default class GraphNet extends Component {
           url = "http://localhost:9091/api/finpol/main/movie";
           params = {title: options.name1, relations: options.relations}
           break;
-        }
+      }
       
-
-        axios.get(url, {params: params}).then(res => {
-          let nodes = []
-          const edges = res.data.edges;
-          
-          
-          edges.map(item => {
-            this.setEdgeSettings(item);
-          })
+      axios.get(url, {params: params}).then(res => {
+        let nodes = []
+        const edges = res.data.edges;
         
-        let subNodes = []
+        
+        edges.map(item => {
+          this.setEdgeSettings(item);
+        })
+      
         res.data.nodes.map(item => {
           this.setNodeSettings(item)
+          if (item.name == options.name1 || item.name == options.name2) {
+            item.group = "selectedActors"
+          }
+          console.log(item)
           nodes.push(item);
-          this.state.ids.push(item.id)
         })
-        
+      
         nodes.map(item => {
           item.label = item.name || item.roles[0]
         })
@@ -168,7 +168,6 @@ export default class GraphNet extends Component {
       Network.body.data.nodes.remove([{id: SelectedNode.options.id}]);
     }
 
-
     setEdgeSettings = (edge) => {
       edge.label = edge.type
       Object.assign(edge, {properties: edge.properties})
@@ -201,6 +200,8 @@ export default class GraphNet extends Component {
     }
 
     setNodeSettings = (node) => {
+      this.state.ids.push(node.id)
+
       if (node.description === "") {
         // settings for actors
         node.group = "actors"
@@ -210,7 +211,8 @@ export default class GraphNet extends Component {
       } else {
         // settings for movies
         node.group = "movies"
-        node.physics = false
+        node.physics = true
+        node.mass = 10
 
       }
 
@@ -220,8 +222,14 @@ export default class GraphNet extends Component {
       actorIcon: '#cfcc53',
       actorFont: '#cfcc53',
 
+      selectedActorIcon: '#db353d',
+      selectedActorFont: '#db353d',
+
       movieIcon: '#1c4709',
       movieFont: '#1c4709',
+
+      selectedMovieIcon: '#db353d',
+      selectedMovieFont: '#db353d',
 
       wroteEdge: 'yellow',
       reviewEdge: 'blue',
@@ -287,6 +295,22 @@ export default class GraphNet extends Component {
           },
           // physics: false
         },
+        selectedActors: {
+          shape: "icon",
+          icon: {
+            face: '"Font Awesome 5 Free"',
+            code: '\uf007',
+            weight: 700,
+            size: 70,
+            color: this.colors.selectedActorIcon
+          },
+          font: {
+            color: this.colors.selectedActorFont,
+            weight: 500,
+            size: 40
+          },
+          // physics: false
+        },
         movies: {
           shape: "icon",
           icon: {
@@ -298,6 +322,20 @@ export default class GraphNet extends Component {
           },
           font: {
             color: this.colors.movieFont,
+            weight: 300,
+          }
+        },
+        selectedMovies: {
+          shape: "icon",
+          icon: {
+            face: '"Font Awesome 5 Free"',
+            code: '\uf03d',
+            weight: 700,
+            size: 50,
+            color: this.colors.selectedMovieIcon
+          },
+          font: {
+            color: this.colors.selectedMovieFont,
             weight: 300,
           }
         }
@@ -375,17 +413,44 @@ export default class GraphNet extends Component {
       },
     }
 
-    search(value) {
+    search() {
+      this.updateSearched()
+      this.showSearched()
+    }
+
+    searchNext() {
+      this.state.sliderPage = this.state.sliderPage + 1;
+      if (this.state.sliderPage >= this.state.searchedNodes.length) {
+        this.state.sliderPage = 0;
+      }
+      this.showSearched();
+    }
+
+    searchPrev() {
+      this.state.sliderPage = this.state.sliderPage - 1;
+      if (this.state.sliderPage < 0) {
+        this.state.sliderPage = this.state.searchedNodes.length - 1;
+      }
+      this.showSearched();
+    }
+
+    updateSearched() {
+      const value = document.getElementById("nodeSearchInput").value;
       const searchNodes = Object.values(Network.body.nodes).filter(elem => {
         if (elem.options.label != undefined && elem.options.label.toLowerCase().includes(value.toLowerCase())) {
           return true;
         }
       });
 
-      const item = searchNodes[0];
+      this.state.sliderPage = 0;
+      this.state.searchedNodes = searchNodes;
+    }
+
+    showSearched() {
+      const item = this.state.searchedNodes[this.state.sliderPage];
 
       Network.focus(item.id, {
-        scale: 2.5,
+        scale: 1.5,
         offset: {
           x: 0,
           y: 0
@@ -446,23 +511,31 @@ export default class GraphNet extends Component {
         <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
         <div className='centralBar' id="centralBar">
             <div className="nodeSearch">
-              <input type="text" id="nodeSearchInput" placeholder="Еще один поиск.." 
-                onKeyDown={event => {
-                  if (event.key === 'Enter') {
-                    if(event.target.value != "") {
-                      this.search(event.target.value)
-                    } else {
+              <div>
+                <input type="text" id="nodeSearchInput" placeholder="Еще один поиск.." 
+                  onKeyDown={event => {
+                    if (event.key === 'Enter') {
+                      if(event.target.value != "") {
+                        this.search(event.target.value)
+                      } else {
+                        Network.fit({});
+                      }
+                    }
+                  }}
+                  onChange={event => {
+                    if (event.target.value == "") {
                       Network.fit({});
                     }
-                  }
-                }}
-                onChange={event => {
-                  if (event.target.value == "") {
-                    Network.fit({});
-                  }
-                }}/>
-              <i class="fa-solid fa-magnifying-glass"
-                onClick={() => this.search(document.getElementById("nodeSearchInput").value)}></i>
+                  }}/>
+                <i class="fa-solid fa-magnifying-glass"
+                  onClick={() => this.search()}></i>
+              </div>
+              <div>
+                <i class="fa-solid fa-caret-left"
+                  onClick={() => this.searchPrev()}></i>
+                <i class="fa-solid fa-caret-right"
+                  onClick={() => this.searchNext()}></i>
+              </div>
             </div>
             <Graph
               graph={this.state}

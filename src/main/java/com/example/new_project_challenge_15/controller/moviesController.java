@@ -77,7 +77,7 @@ public class moviesController {
     }
     @GetMapping("/shortestpaths")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public doubleReturn getShortestPaths(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations,Principal principal) {
+    public doubleReturn getShortestPaths(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations, Principal principal) {
         User user  = userDetailsService.loadUserByUsernamek(principal);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(person);
@@ -96,7 +96,7 @@ public class moviesController {
         return personService.getShortestPaths(person, person2, relations);
     }
     @GetMapping("/movie")
-    public doubleReturn retrieveMovie(@RequestParam String title, @RequestParam List<String> relations,Principal principal) {
+    public doubleReturn retrieveMovie(@RequestParam String title, @RequestParam List<String> relations, Principal principal) {
         User user  = userDetailsService.loadUserByUsernamek(principal);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(title);
@@ -114,7 +114,7 @@ public class moviesController {
         return personService.getByMovie(title, relations);
     }
     @GetMapping("/movieperson")
-    public doubleReturn moviePersonRelation(@RequestParam String person, @RequestParam String movie, @RequestParam List<String> relations ,Principal principal) {
+    public doubleReturn moviePersonRelation(@RequestParam String person, @RequestParam String movie, @RequestParam List<String> relations, Principal principal ) {
         User user  = userDetailsService.loadUserByUsernamek(principal);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(person);

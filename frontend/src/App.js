@@ -43,7 +43,7 @@ const App = () => {
               <Route path="/admin" element={<AdminPage/>}/>
             ) : (
               <>
-                
+
               </>
             )
           }

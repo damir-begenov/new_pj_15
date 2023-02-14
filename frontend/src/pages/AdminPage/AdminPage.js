@@ -1,18 +1,28 @@
 import React, { Component } from "react";
-import TableLog from '../../Components/TableLog/TableLog'
+
+import './AdminPage.css'
+import UsersTable from "../../Components/UsersTable/UsersTable";
+
 
 const check = (props) => {
 
 }
 
 class AdminPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+        }
+    }
+
     componentDidMount() {
-        console.log("works")
     }
 
     render() {
         return (
           <div>
+            <UsersTable></UsersTable>
           </div>
         );
     }

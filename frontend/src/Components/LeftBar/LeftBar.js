@@ -8,17 +8,17 @@ const LeftBar = (props) => {
 
     const [name1, setName1] = useState("")
     const [name2, setName2] = useState("")
-    const [limit, setLimit] = useState(0)
-    const [depth, setDepth] = useState("")
+    const [limit, setLimit] = useState(20)
+    const [depth, setDepth] = useState(1)
 
     const [mode, setMode] = useState("")
     const [categories, setCategories] = useState({
-        ACTED_IN: false,
-        DIRECTED: false,
-        PRODUCED: false,
-        WROTE: false,
-        REVIEWED: false,
-        FOLLOWS: false
+        ACTED_IN: true,
+        DIRECTED: true,
+        PRODUCED: true,
+        WROTE: true,
+        REVIEWED: true,
+        FOLLOWS: true
     })
 
     const filter = (event) => { 
@@ -117,8 +117,7 @@ const LeftBar = (props) => {
 
     return (
         <div className='leftBar'>
-            <form 
-                >
+            <form >
                 <div className="formBlock">
                     <label for="connections">Режим поиска</label>
                     <div className="select">
@@ -204,7 +203,7 @@ const LeftBar = (props) => {
                 <div className="formBlock">
                     <label>LIMIT</label>
                     <input type="number" 
-                        // value=""
+                        value={limit}
                         onChange={event => { setLimit(event.target.value) }} 
                         id="input_IIN2"
                         className="input_IIN" 
@@ -215,7 +214,7 @@ const LeftBar = (props) => {
                 <div className="formBlock">
                 <label>DEPTH</label>
                 <input type="number" 
-                    // value=""
+                    value={depth}
                     onChange={event => {setDepth(event.target.value)}} 
                     id="input_IIN2"
                     className="input_IIN" 
@@ -227,7 +226,30 @@ const LeftBar = (props) => {
                 <div className="formBlock">
                     <label>Вид связи</label>
                     <div className="checkBoxBlock checkedBlock" id="checkedBlock">
-                        
+                        <div className="checkBox checked" id="ACTED_IN">
+                            <span id="conLabel">acted_in</span>
+                            <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
+                        </div>
+                        <div className="checkBox checked" id="DIRECTED">
+                            <span id="conLabel">directed</span>
+                            <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
+                        </div>
+                        <div className="checkBox checked" id="PRODUCED">
+                            <span id="conLabel">produced</span>
+                            <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
+                        </div>
+                        <div className="checkBox checked" id="WROTE">
+                            <span id="conLabel">wrote</span>
+                            <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
+                        </div>
+                        <div className="checkBox checked" id="REVIEWED">
+                            <span id="conLabel">reviewed</span>
+                            <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
+                        </div>
+                        <div className="checkBox checked" id="FOLLOWS">
+                            <span id="conLabel">follows</span>
+                            <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
+                        </div>
                     </div>
 
                     <div className="checkBoxBtns">
@@ -236,30 +258,7 @@ const LeftBar = (props) => {
                     </div>    
 
                     <div className="checkBoxBlock" id="uncheckedBlock">
-                        <div className="checkBox unchecked" id="ACTED_IN">
-                            <span id="conLabel">acted_in</span>
-                            <i class="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
-                        </div>
-                        <div className="checkBox unchecked" id="DIRECTED">
-                            <span id="conLabel">directed</span>
-                            <i class="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
-                        </div>
-                        <div className="checkBox unchecked" id="PRODUCED">
-                            <span id="conLabel">produced</span>
-                            <i class="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
-                        </div>
-                        <div className="checkBox unchecked" id="WROTE">
-                            <span id="conLabel">wrote</span>
-                            <i class="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
-                        </div>
-                        <div className="checkBox unchecked" id="REVIEWED">
-                            <span id="conLabel">reviewed</span>
-                            <i class="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
-                        </div>
-                        <div className="checkBox unchecked" id="FOLLOWS">
-                            <span id="conLabel">follows</span>
-                            <i class="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
-                        </div>
+                        
                     </div>
                 </div>
 
