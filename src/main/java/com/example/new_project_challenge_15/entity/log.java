@@ -20,7 +20,9 @@ public class log implements Serializable {
     private LocalDateTime date;
 
     private String username;
-    private String request_body;
+    @Type(type = "list-array")
+
+    private List<String> request_body;
     private Integer limit_;
     private Integer depth_;
 
@@ -76,14 +78,11 @@ public class log implements Serializable {
         this.username = username;
     }
 
-    public String getRequest_body() {
+    public List<String> getRequest_body() {
         return request_body;
     }
 
-    public void setRequest_body(String request_body) {
+    public void setRequest_body(List<String> request_body) {
         this.request_body = request_body;
     }
-
-
-
 }

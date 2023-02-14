@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,12 +33,14 @@ public class moviesController {
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public doubleReturn getByIdLevelAndLimit(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit, Principal principal) throws Exception{
         User user  = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);
         try{
         log log = new log();
             LocalDateTime current = LocalDateTime.now();
             log.setDate(current);
             log.setUsername(user.getUsername());
-            log.setRequest_body(person);
+            log.setRequest_body(request_bodies);
             log.setLimit_(limit);
             log.setDepth_(depth);
             log.setRequest_rels(relations);
@@ -51,15 +54,59 @@ public class moviesController {
     }
     @GetMapping("/shortestpaths")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public doubleReturn getShortestPaths(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations) {
+    public doubleReturn getShortestPaths(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations,Principal principal) {
+        User user  = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);
+        request_bodies.add(person2);
+        try{
+            log log = new log();
+            LocalDateTime current = LocalDateTime.now();
+            log.setDate(current);
+            log.setUsername(user.getUsername());
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            personService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personService.getShortestPaths(person, person2, relations);
     }
     @GetMapping("/movie")
-    public doubleReturn retrieveMovie(@RequestParam String title, @RequestParam List<String> relations) {
+    public doubleReturn retrieveMovie(@RequestParam String title, @RequestParam List<String> relations,Principal principal) {
+        User user  = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(title);
+        try{
+            log log = new log();
+            LocalDateTime current = LocalDateTime.now();
+            log.setDate(current);
+            log.setUsername(user.getUsername());
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            personService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personService.getByMovie(title, relations);
     }
     @GetMapping("/movieperson")
-    public doubleReturn moviePersonRelation(@RequestParam String person, @RequestParam String movie, @RequestParam List<String> relations ) {
+    public doubleReturn moviePersonRelation(@RequestParam String person, @RequestParam String movie, @RequestParam List<String> relations ,Principal principal) {
+        User user  = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);
+        request_bodies.add(movie);
+        try{
+            log log = new log();
+            LocalDateTime current = LocalDateTime.now();
+            log.setDate(current);
+            log.setUsername(user.getUsername());
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            personService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personService.getMoviePersonRelation(person, movie, relations);
     }
     @GetMapping("/shortopen")
