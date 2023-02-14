@@ -16,6 +16,9 @@ import MainPage from './pages/MainPage/MainPage';
 import RegistrationPage from './pages/Registration/RegistrationPage';
 import SignInPage from './pages/SignIn/SignInPage';
 import AdminPage from './pages/AdminPage/AdminPage';
+import TableLog from './Components/TableLog/TableLog';
+import UsersTable from './Components/UsersTable/UsersTable';
+import UserDetails from './pages/userDetails/userDetails';
 
 
 const App = () => {
@@ -32,6 +35,9 @@ const App = () => {
           <Route path="/" element={<MainPage/>} />
           <Route path="/registration" element={<RegistrationPage/>} />
           <Route path="/login" element={<SignInPage/>} />
+          <Route path="/table" element={<TableLog/>} />
+          <Route path="/userTable" element={<UsersTable/>} />
+          <Route path="/users/:username" element={<UserDetails/>}/>
           {userSession 
             ? (
               <Route path="/admin" element={<AdminPage/>}/>

@@ -143,22 +143,22 @@ const LeftBar = (props) => {
                             else if (value ==="con2") {
                                 input1.style.display = 'flex';
                                 input2.style.display = 'flex';
-                                input3.style.display = 'flex';
-                                input4.style.display = 'flex';
+                                input3.style.display = 'none';
+                                input4.style.display = 'none';
                                 input5.style.display = 'flex';
                             }
                             else if (value ==="con3") {
                                 input1.style.display = 'flex';
                                 input2.style.display = 'flex';
-                                input3.style.display = 'flex';
-                                input4.style.display = 'flex';
+                                input3.style.display = 'none';
+                                input4.style.display = 'none';
                                 input5.style.display = 'flex';
                             }
                             else if (value === "con4") {
                                 input1.style.display = 'flex';
                                 input2.style.display = 'none';
-                                input3.style.display = 'flex';
-                                input4.style.display = 'flex';
+                                input3.style.display = 'none';
+                                input4.style.display = 'none';
                                 input5.style.display = 'flex';
                             }
                             else if (value === "none") {

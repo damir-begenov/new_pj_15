@@ -2,11 +2,14 @@ package com.example.new_project_challenge_15.controller;
 
 
 import com.example.new_project_challenge_15.entity.log;
+import com.example.new_project_challenge_15.entity.statisticModel;
 import com.example.new_project_challenge_15.entity.doubleReturn;
 import com.example.new_project_challenge_15.models.User;
 import com.example.new_project_challenge_15.repository.UserRepository;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
 import com.example.new_project_challenge_15.service.PersonService;
+import com.example.new_project_challenge_15.service.statisticService;
+
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +27,30 @@ import java.util.List;
 public class moviesController {
     PersonService personService;
     UserDetailsServiceImpl userDetailsService;
-
+    statisticService statisticService;
     com.example.new_project_challenge_15.repository.logRepo logRepo;
     UserRepository userRepository;
 
+
+
+    @GetMapping("/statistic")
+    public statisticModel getUserLogs(@RequestParam String username) {
+        return statisticService.getByUsername(username);
+    }
+
+    @GetMapping("/role")
+    public int getRole(@RequestParam Integer id) {
+        return userRepository.getRoleById(id);
+    }
+
+    @GetMapping("/logs")
+    public List<log> getLogs() {
+        return logRepo.findAll();
+    }
+    @GetMapping("/users")
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
     @GetMapping("/person")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public doubleReturn getByIdLevelAndLimit(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit, Principal principal) throws Exception{

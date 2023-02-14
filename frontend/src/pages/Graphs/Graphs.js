@@ -103,8 +103,7 @@ export default class GraphNet extends Component {
           params = {title: options.name1, relations: options.relations}
           break;
         }
-        
-        console.log({url, params})
+      
 
         axios.get(url, {params: params}).then(res => {
           let nodes = []

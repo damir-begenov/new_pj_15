@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TableLog from '../../Components/TableLog/TableLog'
 
 const check = (props) => {
 
@@ -12,7 +13,6 @@ class AdminPage extends Component {
     render() {
         return (
           <div>
-            <h1>Hello</h1>
           </div>
         );
     }
