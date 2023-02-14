@@ -62,7 +62,7 @@ public class AuthController {
     return ResponseEntity.ok(new JwtResponse(jwt, 
                          userDetails.getId(), 
                          userDetails.getUsername(), 
-                         userDetails.getEmail(), 
+                         userDetails.getEmail(),
                          roles));
   }
 
@@ -114,7 +114,7 @@ public class AuthController {
         }
       });
     }
-
+    user.setActive(true);
     user.setRoles(roles);
     userRepository.save(user);
 
