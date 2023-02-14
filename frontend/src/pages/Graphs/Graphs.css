@@ -34,9 +34,24 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 10px;
     z-index: 1;
   }
+
+  .nodeSearch div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
   
+  .nodeSearch i {
+    cursor: pointer;
+  
+    font-size: 17px;
+  
+    color: rgb(139, 139, 139);
+  }
+
   .nodeSearch input {
     outline: none;
     min-width: 300px;
@@ -59,15 +74,19 @@
     outline: none;
   }
   
-  .nodeSearch i {
+  .nodeSearch > div:nth-child(1) {
+    position: relative;
+  }
+
+  .nodeSearch > div:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .nodeSearch > div:nth-child(1) > i {
     position: absolute;
     right: 10px;
-  
-    cursor: pointer;
-  
-    font-size: 17px;
-  
-    color: rgb(139, 139, 139);
   }
   
   /* Node Title Block styles */
