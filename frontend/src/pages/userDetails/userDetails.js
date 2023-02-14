@@ -12,14 +12,16 @@ function withParams(Component) {
 class UserDetails extends Component {
     state = {
         user: {},
-        stat: {}
+        stat: {},
+        logs: []
     }
     
     componentDidMount() {
         axios.get(`http://localhost:9091/api/finpol/main/statistic`, {params: {username: this.props.username.username}})
-          .then(res => {
+            .then(res => {
             const user = res.data;
-            this.setState({user: user.user, stat: user})
+            this.setState({user: user.user, stat: user, logs: user.logs})
+            console.log(user.logs)
         })
     }
 
@@ -28,8 +30,35 @@ class UserDetails extends Component {
         return(
             <div>
                 <div>{this.state.user.username}</div>
-                <TableLog logs={this.state.stat.logs}></TableLog>
-
+                <table className="table">
+            <thead >
+                <tr>
+                <th scope="col"><a className="sort">#</a></th>
+                <th scope="col"><a className="sort">Date</a></th>
+                <th scope="col"><a className="sort">Username</a></th>
+                <th scope="col"><a className="sort">Request Body</a></th>
+                <th scope="col"><a className="sort">LIMIT</a></th>
+                <th scope="col"><a className="sort">DEPTH</a></th>
+                <th scope="col"><a className="sort">RELATIONS</a></th>
+                <th scope="col"></th>
+                 </tr>
+            </thead>
+            <tbody>
+                
+                {this.state.logs.map((log, index) => 
+            <tr className="row">
+                <th scope="row">{index+1}</th>
+                <td>{log.date}</td>
+                <td className="FIO"><Link className="rowInfo" to={`/schools`}>{log.username}</Link></td>
+                <td>{log.request_body}</td>
+                <td>{log.limit_}</td>
+                <td>{log.depth_}</td>
+                <td>{log.request_rels}</td>
+            </tr>
+            
+            )}
+            </tbody>
+        </table>
             </div>
         )
     }
