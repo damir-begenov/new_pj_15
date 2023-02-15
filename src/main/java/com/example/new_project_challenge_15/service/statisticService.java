@@ -20,6 +20,18 @@ public class statisticService {
     @Autowired
     com.example.new_project_challenge_15.repository.logRepo logRepo;
 
+    public void userBan(Long id){
+        User user = userRepository.findById(id).orElse(null);
+        if(user != null){
+            if(user.isActive()) {
+                user.setActive(false);
+            }else{
+                user.setActive(true);
+            }
+        }
+        userRepository.save(user);
+    }
+
     public statisticModel getByUsername(String username) {
         User user = userRepository.findByUsernameTwo(username);
         log lastLog = logRepo.findLastDate(username);

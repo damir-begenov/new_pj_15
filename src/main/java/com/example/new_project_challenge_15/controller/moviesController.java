@@ -36,6 +36,10 @@ public class moviesController {
     public statisticModel getUserLogs(@RequestParam String username) {
         return statisticService.getByUsername(username);
     }
+    @PostMapping("/admin/user/ban/{id}")
+    public void userBan(@PathVariable("id") Long id){
+        statisticService.userBan(id);
+    }
 
     @GetMapping("/role")
     public int getRole(@RequestParam Integer id) {
@@ -46,6 +50,7 @@ public class moviesController {
     public List<log> getLogs() {
         return logRepo.findAll();
     }
+
 
     @GetMapping("/users")
     public List<User> getUsers() {
