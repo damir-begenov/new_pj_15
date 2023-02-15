@@ -25,7 +25,7 @@ const Navbar = () => {
                 <div>
                     {
                         userSession && 
-                        userSession.roles[0] == "ROLE_ADMIN"
+                        userSession.roles.includes("ROLE_ADMIN")
                         ?  (
                             <Link to={"/admin"}><div className="admin">
                                 Admin panel
@@ -36,7 +36,15 @@ const Navbar = () => {
                     <ul className="nav-menu">
                     {userSession ? 
                         <>
-                            <li><a className={"nav-links"} href={""}><span>{userSession.username}</span>:<span className="userRole">{userSession.roles[0].substring(5)}</span></a></li>
+                            <li>
+                                <a className={"nav-links"} href={""}>
+                                    <span>{userSession.username}</span>
+                                    :
+                                    <span className="userRole">
+                                        {userSession && userSession.roles.includes("ROLE_ADMIN") ? "ADMIN" : "USER"}
+                                    </span>
+                                </a>
+                            </li>
                             <li><a className={"nav-links"} href={""} onClick={logoutHandler}>LOG OUT</a></li>
                         </> 
                         :

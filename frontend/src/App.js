@@ -36,11 +36,13 @@ const App = () => {
           <Route path="/registration" element={<RegistrationPage/>} />
           <Route path="/login" element={<SignInPage/>} />
           <Route path="/table" element={<TableLog/>} />
-          <Route path="/userTable" element={<UsersTable/>} />
-          <Route path="/users/:username" element={<UserDetails/>}/>
-          {userSession 
+          {/* <Route path="/userTable" element={<UsersTable/>} /> */}
+          {userSession && userSession.roles.includes("ROLE_ADMIN")
             ? (
+              <>
+              <Route path="/users/:username" element={<UserDetails/>}/>
               <Route path="/admin" element={<AdminPage/>}/>
+              </>
             ) : (
               <>
 

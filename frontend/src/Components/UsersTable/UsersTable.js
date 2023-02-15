@@ -9,17 +9,39 @@ export default class UsersTable extends Component {
 
     componentDidMount() {
         axios.get(`http://localhost:9091/api/finpol/main/users`)
-          .then(res => {
+            .then(res => {
             const users = res.data;
             this.setState({ users });
-          })
-      }
+        })
+    }
+
+    setActive(userEvent, selectEvent) {
+        console.log(userEvent, selectEvent)
+        // /admin/user/ban/{id}
+        axios.post('http://localhost:9091/api/finpol/main/admin/user/ban/'+userEvent.id)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     active(e) {
         if (e.active) {
-            return <td className="finished">True</td>
+            return (<td className="finished">
+                        <select onChange={event => this.setActive(e, event)}>
+                            <option selected>True</option>
+                            <option>False</option>
+                        </select>
+                    </td>)
         } else {
-            return <td className="unfinished">False</td>
+            return (<td className="unfinished">
+                        <select onChange={event => this.setActive(e, event)}>
+                            <option>True</option>
+                            <option selected>False</option>
+                        </select>
+                    </td>)
         }
     }
 
