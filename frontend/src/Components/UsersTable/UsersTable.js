@@ -17,7 +17,14 @@ export default class UsersTable extends Component {
 
     setActive(userEvent, selectEvent) {
         console.log(userEvent, selectEvent)
-        
+        // /admin/user/ban/{id}
+        axios.post('http://localhost:9091/api/finpol/main/admin/user/ban/'+userEvent.id)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     active(e) {
