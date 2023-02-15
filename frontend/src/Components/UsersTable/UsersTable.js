@@ -45,6 +45,49 @@ export default class UsersTable extends Component {
         }
     }
 
+    // moderator(e) {
+    //     console.log(e)
+    //     let role = "ROLE_USER";
+    //     e.roles.forEach(element => {
+    //         console.log(element)
+    //         if (element.name == "ROLE_ADMIN") role = "ROLE_ADMIN";
+    //         else if (role != "ROLE_ADMIN" && element.name == "ROLE_MODERATOR") role = "ROLE_MODERATOR"
+    //     });
+
+    //     if (role) {
+    //         return(
+    //             <td className="finished">
+    //                 <select>
+    //                     <option disabled>User</option>
+    //                     <option disabled>Moderator</option>
+    //                     <option selected disabled>Admin</option>
+    //                 </select>
+    //             </td>
+    //         )
+    //     }
+    //     else if (role) {
+    //         return(
+    //             <td className="finished">
+    //                 <select>
+    //                     <option>User</option>
+    //                     <option selected>Moderator</option>
+    //                     <option disabled>Admin</option>
+    //                 </select>
+    //             </td>
+    //         )
+    //     } else if (role) {
+    //         return(
+    //             <td className="finished">
+    //                 <select>
+    //                     <option selected>User</option>
+    //                     <option>Moderator</option>
+    //                     <option disabled>Admin</option>
+    //                 </select>
+    //             </td>
+    //         )
+    //     }
+    // }
+
     render() {
         return(
         <table className="table">
@@ -54,7 +97,7 @@ export default class UsersTable extends Component {
                     <th scope="col"><a className="sort">Username</a></th>
                     <th scope="col"><a className="sort">Email</a></th>
                     <th scope="col"><a className="sort">Active</a></th>
-                    <th scope="col"></th>
+                    {/* <th scope="col"><a className="sort">Moderator</a></th> */}
                  </tr>
             </thead>
             <tbody>
@@ -71,6 +114,7 @@ export default class UsersTable extends Component {
                 </td>
                 <td>{user.email}</td>
                 {this.active(user)}
+                {/* {this.moderator(user)} */}
             </tr>
             
             )}

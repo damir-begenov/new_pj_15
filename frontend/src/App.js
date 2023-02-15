@@ -37,7 +37,8 @@ const App = () => {
           <Route path="/login" element={<SignInPage/>} />
           <Route path="/table" element={<TableLog/>} />
           {/* <Route path="/userTable" element={<UsersTable/>} /> */}
-          {userSession && userSession.roles.includes("ROLE_ADMIN")
+          {userSession 
+          // && userSession.roles.includes("ROLE_ADMIN")
             ? (
               <>
               <Route path="/users/:username" element={<UserDetails/>}/>
