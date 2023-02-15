@@ -45,8 +45,12 @@ public class statisticService {
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(userRole);
-        user.setRoles(roles);
+        if(user.getRoles().contains(userRole)){
+            user.getRoles().remove(userRole);
+        }else{
+            roles.add(userRole);
+            user.setRoles(roles);
+        }
         userRepository.save(user);
     }
 
