@@ -4,11 +4,6 @@ import axios from 'axios';
 import './AdminPage.css'
 import UsersTable from "../../Components/UsersTable/UsersTable";
 
-
-const check = (props) => {
-
-}
-
 class AdminPage extends Component {
     constructor(props) {
         super(props);

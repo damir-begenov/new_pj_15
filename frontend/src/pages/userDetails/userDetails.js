@@ -34,7 +34,7 @@ class UserDetails extends Component {
     }
 
     promote = async e => {
-        // axios.
+        axios.post(`http://localhost:9091/api/finpol/main/admin/user/moderator/` + e)
     }
 
 

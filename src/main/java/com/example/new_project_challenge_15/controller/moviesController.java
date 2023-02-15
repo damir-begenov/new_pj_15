@@ -43,6 +43,15 @@ public class moviesController {
     public statisticModel getUserLogs(@RequestParam String username) {
         return statisticService.getByUsername(username);
     }
+    @PostMapping("/admin/user/ban/{id}")
+    public void userBan(@PathVariable("id") Long id){
+        statisticService.userBan(id);
+    }
+    @PostMapping("/admin/user/moderator/{id}")
+    public void userModerator(@PathVariable("id") Long id){
+        statisticService.userSetAdministrator(id);
+    }
+
     @PostMapping("/updaterole")
     public void updateRole(@RequestParam Integer id, @RequestParam Integer Role) {
         userRepository.updateRole(id, Role);
@@ -57,6 +66,7 @@ public class moviesController {
     public List<log> getLogs() {
         return logRepo.findAll();
     }
+
 
     @GetMapping("/users")
     public List<User> getUsers() {
@@ -97,7 +107,6 @@ public class moviesController {
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(person);
         request_bodies.add(person2);
-        
         try{
             log log = new log();
             LocalDateTime current = LocalDateTime.now();

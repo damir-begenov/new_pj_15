@@ -116,3 +116,8 @@ section > div:nth-child(2) {
     margin-top: 0;
     width: 100%;
 }
+
+.finished select,
+.unfinished select {
+    width: 100px;
+}
