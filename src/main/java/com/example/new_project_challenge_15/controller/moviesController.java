@@ -91,7 +91,6 @@ public class moviesController {
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(person);
         request_bodies.add(person2);
-        
         try{
             log log = new log();
             LocalDateTime current = LocalDateTime.now();
