@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface RoleRepository extends JpaRepository<Role, Long> {
   Optional<Role> findByName(ERole name);
 
-  @Query(value = "select r.name from roles r join user_roles on r.id = role_id where user_id = ?1", nativeQuery = true)
+  @Query(value = "select r.name from roles r join user_roles on r.id = role_id where user_id = ?1 order by role_id desc limit 1", nativeQuery = true)
   String FindRole(Integer id);
 }
