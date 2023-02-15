@@ -2,8 +2,6 @@ import { Component } from "react";
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 
-
-
 export default class UsersTable extends Component {
     state = {
         users: [],
@@ -30,18 +28,18 @@ export default class UsersTable extends Component {
         <table className="table">
             <thead >
                 <tr>
-                <th scope="col"><a className="sort">#</a></th>
-                <th scope="col"><a className="sort">Username</a></th>
-                <th scope="col"><a className="sort">Email</a></th>
-                <th scope="col"><a className="sort">Active</a></th>
-                <th scope="col"></th>
+                    <th scope="col"><a className="sort">#</a></th>
+                    <th scope="col"><a className="sort">Username</a></th>
+                    <th scope="col"><a className="sort">Email</a></th>
+                    <th scope="col"><a className="sort">Active</a></th>
+                    <th scope="col"></th>
                  </tr>
             </thead>
             <tbody>
                 
                 {this.state.users.map((user) => 
             <tr className="row">
-                <th scope="row">{user.id}</th>
+                <td scope="row">{user.id}</td>
                 <td className="FIO">
                     <Link className="rowInfo" 
                     to={{

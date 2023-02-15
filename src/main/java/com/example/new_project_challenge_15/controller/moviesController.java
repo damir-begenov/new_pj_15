@@ -34,8 +34,6 @@ public class moviesController {
     UserRepository userRepository;
     RoleRepository rRepo;
 
-
-
     @GetMapping("/statistic")
     public statisticModel getUserLogs(@RequestParam String username) {
         return statisticService.getByUsername(username);
@@ -50,18 +48,22 @@ public class moviesController {
     public List<log> getLogs() {
         return logRepo.findAll();
     }
+
     @GetMapping("/users")
     public List<User> getUsers() {
         return userRepository.findAll();
     }
+
     @GetMapping("/person")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public doubleReturn getByIdLevelAndLimit(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit, Principal principal) throws Exception{
         User user  = userDetailsService.loadUserByUsernamek(principal);
         List<String> request_bodies = new ArrayList<>();
+
         request_bodies.add(person);
+        
         try{
-        log log = new log();
+            log log = new log();
             LocalDateTime current = LocalDateTime.now();
             log.setDate(current);
             log.setUsername(user.getUsername());
@@ -70,13 +72,15 @@ public class moviesController {
             log.setDepth_(depth);
             log.setRequest_rels(relations);
             personService.SaveLog(log);
-            }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
+
         List<User> users = userRepository.findAll();
         System.out.println(users);
         return personService.getPersonTree(person, relations, depth, limit);
     }
+
     @GetMapping("/shortestpaths")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public doubleReturn getShortestPaths(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations, Principal principal) {
@@ -84,6 +88,7 @@ public class moviesController {
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(person);
         request_bodies.add(person2);
+        
         try{
             log log = new log();
             LocalDateTime current = LocalDateTime.now();
@@ -97,6 +102,7 @@ public class moviesController {
         }
         return personService.getShortestPaths(person, person2, relations);
     }
+
     @GetMapping("/movie")
     public doubleReturn retrieveMovie(@RequestParam String title, @RequestParam List<String> relations, Principal principal) {
         User user  = userDetailsService.loadUserByUsernamek(principal);

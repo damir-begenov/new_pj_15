@@ -1,0 +1,120 @@
+.userDetailsBlock {
+
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: 70px;
+}
+
+.userDetailsBlock > div {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    width: 1100px;
+}
+
+.userDetailsBlock > div > div:nth-child(1) {
+    
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+
+    width: 90%;
+    /* border: red 1px solid; */
+}
+
+.userInfo > div {
+    margin: 0;
+}
+
+.userInfo > div:nth-child(1) > span {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 35px;
+}
+
+.userInfo > div:nth-child(1) {
+    font-size: 35px;
+}
+
+.userInfo > div:nth-child(1) > span:nth-child(1) {
+    color: #ffffff;
+}
+
+.userInfo > div:nth-child(1) > span:nth-child(2) {
+    color: #616161;
+}
+
+.userInfo > div:nth-child(2) {
+    color: #808080;
+    margin-top: -2px;
+    margin-left: 2px;
+}
+
+.countStatsUser {
+
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    /* flex-wrap: wrap; */
+
+    /* border: red 1px solid; */
+}
+
+.countStatsUser > div {
+    width: 324px;
+
+    border: 1px rgba(255, 255, 255, .4) solid;
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+
+    padding: 15px 0 0 15px;
+    border-radius: 2px;
+
+}
+
+.countStatsUser > div div:nth-child(1) {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+
+    color: #717171;
+}
+
+
+.countStatsUser > div:nth-child(2) div:nth-child(2),
+.countStatsUser > div:nth-child(3) div:nth-child(2) 
+{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 96px;
+
+    margin-left: 0px;
+    margin-top: -8px;
+}
+
+.countStatsUser > div:nth-child(1) div:nth-child(2),
+.countStatsUser > div:nth-child(1) div:nth-child(3) 
+{
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+
+    margin-left: 0px;
+    margin-top: -8px;
+}
+
+.countStatsUser > div:nth-child(1) div:nth-child(1) {
+    margin-bottom: 15px;
+}
