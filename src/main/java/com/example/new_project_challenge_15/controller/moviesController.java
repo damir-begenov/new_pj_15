@@ -9,6 +9,7 @@ import com.example.new_project_challenge_15.repository.UserRepository;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
 import com.example.new_project_challenge_15.service.PersonService;
 import com.example.new_project_challenge_15.service.statisticService;
+import com.example.new_project_challenge_15.repository.RoleRepository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,6 +32,7 @@ public class moviesController {
     statisticService statisticService;
     com.example.new_project_challenge_15.repository.logRepo logRepo;
     UserRepository userRepository;
+    RoleRepository rRepo;
 
 
 
@@ -40,8 +42,8 @@ public class moviesController {
     }
 
     @GetMapping("/role")
-    public int getRole(@RequestParam Integer id) {
-        return userRepository.getRoleById(id);
+    public String getRole(@RequestParam Integer id) {
+        return rRepo.FindRole(id);
     }
 
     @GetMapping("/logs")

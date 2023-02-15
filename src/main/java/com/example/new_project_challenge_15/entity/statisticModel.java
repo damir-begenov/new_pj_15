@@ -13,6 +13,13 @@ public class statisticModel {
     public void setUser(User user) {
         this.user = user;
     }
+    private String role;
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
     private LocalDateTime lastDate;
     private int allRequsetNum;
     private int todayRequsetNum;
