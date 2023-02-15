@@ -17,7 +17,7 @@ const LeftBar = (props) => {
         DIRECTED: true,
         PRODUCED: true,
         WROTE: true,
-        REVIEWED: true,
+        REVIEWED: false,
         FOLLOWS: false
     })
 
@@ -117,7 +117,17 @@ const LeftBar = (props) => {
 
     const checkAdmin = () => {
         const userSession = JSON.parse(localStorage.getItem("user"))
+        console.log(userSession)
         if (userSession && userSession.roles.includes('ROLE_ADMIN')) {
+            return true;
+        }
+        return false;
+    }
+
+    const checkModerator = () => {
+        const userSession = JSON.parse(localStorage.getItem("user"))
+        console.log(userSession)
+        if (userSession && userSession.roles.includes('ROLE_MODERATOR')) {
             return true;
         }
         return false;
@@ -250,11 +260,6 @@ const LeftBar = (props) => {
                             <span id="conLabel">wrote</span>
                             <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
                         </div>
-                        <div className="checkBox checked" id="REVIEWED">
-                            <span id="conLabel">reviewed</span>
-                            <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
-                        </div>
-                        
                     </div>
 
                     <div className="checkBoxBtns">
@@ -263,12 +268,18 @@ const LeftBar = (props) => {
                     </div>    
 
                     <div className="checkBoxBlock" id="uncheckedBlock">
-                        {checkAdmin() ?
+                        {checkAdmin() || checkModerator()?
                         (
+                            <>
                             <div className="checkBox unchecked" id="FOLLOWS">
                                 <span id="conLabel">follows</span>
                                 <i class="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
                             </div>
+                            <div className="checkBox unchecked" id="REVIEWED">
+                                <span id="conLabel">reviewed</span>
+                                <i class="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
+                                </div>
+                            </>
                         ) : (
                             ""
                         )}
