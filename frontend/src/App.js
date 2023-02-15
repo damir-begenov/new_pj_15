@@ -36,11 +36,13 @@ const App = () => {
           <Route path="/registration" element={<RegistrationPage/>} />
           <Route path="/login" element={<SignInPage/>} />
           <Route path="/table" element={<TableLog/>} />
-          <Route path="/userTable" element={<UsersTable/>} />
-          <Route path="/users/:username" element={<UserDetails/>}/>
+          {/* <Route path="/userTable" element={<UsersTable/>} /> */}
           {userSession 
             ? (
+              <>
+              <Route path="/users/:username" element={<UserDetails/>}/>
               <Route path="/admin" element={<AdminPage/>}/>
+              </>
             ) : (
               <>
 
