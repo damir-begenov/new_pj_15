@@ -40,6 +40,11 @@ public class moviesController {
     public void userBan(@PathVariable("id") Long id){
         statisticService.userBan(id);
     }
+    @PostMapping("/admin/user/moderator/{id}")
+    public void userModerator(@PathVariable("id") Long id){
+        statisticService.userSetAdministrator(id);
+    }
+
 
     @GetMapping("/role")
     public int getRole(@RequestParam Integer id) {
