@@ -56,7 +56,7 @@ header {
 .comName div:nth-child(2) {
     
 
-    color: var(--bar-color);
+    color: #0D0F11;
     text-shadow: 1px 0 #fff, -1px 0 #fff, 0 1px #fff, 0 -1px #fff,
              1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
 }

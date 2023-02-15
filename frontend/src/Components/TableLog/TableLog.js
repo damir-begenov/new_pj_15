@@ -19,35 +19,36 @@ export default class TableLog extends Component {
     //   }
 
     render() {
-        return(
-        <table className="table">
-            <thead >
-                <tr>
-                <th scope="col"><a className="sort">#</a></th>
-                <th scope="col"><a className="sort">Date</a></th>
-                <th scope="col"><a className="sort">Username</a></th>
-                <th scope="col"><a className="sort">Request Body</a></th>
-                <th scope="col"><a className="sort">LIMIT</a></th>
-                <th scope="col"><a className="sort">DEPTH</a></th>
-                <th scope="col"><a className="sort">RELATIONS</a></th>
-                <th scope="col"></th>
-                 </tr>
-            </thead>
-            <tbody>
-                
-                {this.props.logs.map((log, index) => 
-            <tr className="row">
-                <th scope="row">{index+1}</th>
-                <td>{log.date}</td>
-                <td className="FIO"><Link className="rowInfo" to={`/schools`}>{log.username}</Link></td>
-                <td>{log.request_body}</td>
-                <td>{log.limit_}</td>
-                <td>{log.depth_}</td>
-                <td>{log.request_rels}</td>
-            </tr>
-            
-            )}
-            </tbody>
-        </table>)
+        return (
+            <table className="table">
+                <thead >
+                    <tr>
+                    <th scope="col"><a className="sort">#</a></th>
+                    <th scope="col"><a className="sort">Date</a></th>
+                    <th scope="col"><a className="sort">Username</a></th>
+                    <th scope="col"><a className="sort">Request Body</a></th>
+                    <th scope="col"><a className="sort">LIMIT</a></th>
+                    <th scope="col"><a className="sort">DEPTH</a></th>
+                    <th scope="col"><a className="sort">RELATIONS</a></th>
+                    <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {this.props.logs.map((log, index) => 
+                        <tr className="row">
+                            <td>{index+1}</td>
+                            <td>{log.date}</td>
+                            <td className="FIO"><Link className="rowInfo" to={`/schools`}>{log.username}</Link></td>
+                            <td>{log.request_body}</td>
+                            <td>{log.limit_}</td>
+                            <td>{log.depth_}</td>
+                            <td>{log.request_rels}</td>
+                        </tr>
+                    )}
+
+                </tbody>
+            </table>
+        )
     }
 }

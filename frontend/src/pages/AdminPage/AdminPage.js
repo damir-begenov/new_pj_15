@@ -21,9 +21,27 @@ class AdminPage extends Component {
 
     render() {
         return (
-          <div>
-            <UsersTable></UsersTable>
-          </div>
+            <section>
+                <div className="countStats">
+                    <div className="lastQuery">
+                        <div>Количество посещений</div>
+                        <div>1123</div>
+                    </div>
+
+                    <div>
+                        <div>Количество пользователей</div>
+                        <div>23</div>
+                    </div>
+
+                    <div>
+                        <div>Количество запросов</div>
+                        <div>1.2m</div>
+                    </div>
+                </div>
+                <div>
+                    <UsersTable></UsersTable>
+                </div>
+          </section>
         );
     }
 }
