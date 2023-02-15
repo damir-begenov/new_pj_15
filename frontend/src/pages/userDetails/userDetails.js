@@ -33,11 +33,17 @@ class UserDetails extends Component {
         })
     }
 
+    promote = async e => {
+        // axios.
+    }
+
 
     render() {
         return(
             <div className="userDetailsBlock">
                 <div>
+                    <div className="userFirstBlock">
+
                     <div className="userInfo">
                         <div>
                             <span>
@@ -52,6 +58,10 @@ class UserDetails extends Component {
                             {this.state.user.email}
                         </div>
                     </div>
+                    <button onClick={e => this.promote(this.state.user.id)} >PROMOTE</button>
+                    </div>
+                    
+                    
                     <div className="countStatsUser">
                         <div className="lastQuery">
                             <div>Последний запрос</div>

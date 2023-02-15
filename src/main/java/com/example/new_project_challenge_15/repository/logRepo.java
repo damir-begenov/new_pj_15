@@ -23,4 +23,8 @@ public interface logRepo extends JpaRepository<log,Long> {
 
     @Query(value = "select count(*) from public.log where username like ?1 and to_char(date, 'YYYY-MM-dd') = to_char(NOW(), 'YYYY-MM-dd')", nativeQuery = true)
     Integer findTodayRequestNum(String username);
+
+    @Query(value = "SELECT COUNT(*) FROM public.log", nativeQuery = true)
+    Integer Number();
+
 }

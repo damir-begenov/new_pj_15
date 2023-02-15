@@ -32,4 +32,11 @@ public class statisticService {
         stat.setTodayRequsetNum(logRepo.findTodayRequestNum(username));
         return stat;
     }
+
+    public statisticModel general() {
+        statisticModel stat = new statisticModel();
+        stat.setAllRequsetNum(userRepository.getUserNum());
+        stat.setTodayRequsetNum(logRepo.Number());
+        return stat;
+    }
 }

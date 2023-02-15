@@ -34,9 +34,18 @@ public class moviesController {
     UserRepository userRepository;
     RoleRepository rRepo;
 
+    @GetMapping("/general")
+    public statisticModel getAllStat() {
+        return statisticService.general();
+    }
+
     @GetMapping("/statistic")
     public statisticModel getUserLogs(@RequestParam String username) {
         return statisticService.getByUsername(username);
+    }
+    @PostMapping("/updaterole")
+    public void updateRole(@RequestParam Integer id, @RequestParam Integer Role) {
+        userRepository.updateRole(id, Role);
     }
 
     @GetMapping("/role")
