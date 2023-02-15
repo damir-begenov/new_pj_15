@@ -20,6 +20,33 @@
     
 }
 
+.userFirstBlock {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-right: 40px;
+}
+
+.userFirstBlock button {
+    font-size: 20px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, .4);
+    padding: 5px 10px;
+    cursor: pointer;
+
+    border: 3px black solid;
+}
+
+.userFirstBlock button:hover {
+    background-color: rgba(133, 133, 133, 0.4);
+}
+
+.userFirstBlock button:active {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
 .userInfo {
     display: flex;
     flex-direction: column;

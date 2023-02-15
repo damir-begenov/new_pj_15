@@ -18,7 +18,7 @@ const LeftBar = (props) => {
         PRODUCED: true,
         WROTE: true,
         REVIEWED: true,
-        FOLLOWS: true
+        FOLLOWS: false
     })
 
     const filter = (event) => { 
@@ -113,6 +113,14 @@ const LeftBar = (props) => {
         const userSession = JSON.parse(localStorage.getItem("user"))
         if (!userSession) return false;
         return true;
+    }
+
+    const checkAdmin = () => {
+        const userSession = JSON.parse(localStorage.getItem("user"))
+        if (userSession && userSession.roles.includes('ROLE_ADMIN')) {
+            return true;
+        }
+        return false;
     }
 
     return (
@@ -246,10 +254,7 @@ const LeftBar = (props) => {
                             <span id="conLabel">reviewed</span>
                             <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
                         </div>
-                        <div className="checkBox checked" id="FOLLOWS">
-                            <span id="conLabel">follows</span>
-                            <i class="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
-                        </div>
+                        
                     </div>
 
                     <div className="checkBoxBtns">
@@ -258,6 +263,15 @@ const LeftBar = (props) => {
                     </div>    
 
                     <div className="checkBoxBlock" id="uncheckedBlock">
+                        {checkAdmin() ?
+                        (
+                            <div className="checkBox unchecked" id="FOLLOWS">
+                                <span id="conLabel">follows</span>
+                                <i class="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
+                            </div>
+                        ) : (
+                            ""
+                        )}
                         
                     </div>
                 </div>

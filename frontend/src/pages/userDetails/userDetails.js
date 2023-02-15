@@ -31,20 +31,26 @@ class UserDetails extends Component {
         return(
             <div className="userDetailsBlock">
                 <div>
-                    <div className="userInfo">
-                        <div>
-                            <span>
-                                Maku9
-                            </span>
-                            :
-                            <span>
-                                ADMIN
-                            </span>
+                    <div className="userFirstBlock">
+                        <div className="userInfo">
+                            <div>
+                                <span>
+                                    Maku9
+                                </span>
+                                :
+                                <span>
+                                    ADMIN
+                                </span>
+                            </div>
+                            <div>
+                                maku9@mail.me
+                            </div>
                         </div>
                         <div>
-                            maku9@mail.me
+                            <button >PROMOTE</button>
                         </div>
                     </div>
+                    
                     <div className="countStatsUser">
                         <div className="lastQuery">
                             <div>Последний запрос</div>
