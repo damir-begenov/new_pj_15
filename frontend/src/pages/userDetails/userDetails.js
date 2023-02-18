@@ -35,6 +35,14 @@ class UserDetails extends Component {
 
     promote = async e => {
         axios.post(`http://localhost:9091/api/finpol/main/admin/user/moderator/` + e)
+        console.log(e)
+
+        window.location.reload(false); 
+    }
+
+    rels = (e) => {
+        console.log(e)
+
     }
 
 
@@ -102,7 +110,7 @@ class UserDetails extends Component {
                                         <td>{log.request_body}</td>
                                         <td>{log.limit_}</td>
                                         <td>{log.depth_}</td>
-                                        <td>{log.request_rels}</td>
+                                        <td>{log.request_rels.join(",")}</td>
                                     </tr>
                                 )}
                             </tbody>

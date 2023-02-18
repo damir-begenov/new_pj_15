@@ -115,7 +115,10 @@ export default class GraphNet extends Component {
         res.data.nodes.map(item => {
           this.setNodeSettings(item)
           if (item.name == options.name1 || item.name == options.name2) {
-            item.group = "selectedActors"
+            if (item.group == "actors")
+              item.group = "selectedActors"
+            if (item.group == "movies")
+              item.group = "selectedMovies" 
           }
           console.log(item)
           nodes.push(item);

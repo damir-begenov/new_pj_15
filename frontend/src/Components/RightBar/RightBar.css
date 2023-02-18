@@ -68,3 +68,15 @@
 .nodeInfo div span {
   font-weight: 300;
 }
+
+.actionBlock {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.actionBlock input {
+  font-size: 1em;
+  padding: 5px 10px;
+  font-weight: 500;
+}
