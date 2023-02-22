@@ -5,7 +5,7 @@
 
   color: #808080;
 
-  background-color: 0D0F11;
+  background-color: #0D0F11;
 
   border: 2px var(--bar-border-color) solid;
   border-right: none;
@@ -76,7 +76,20 @@
 }
 
 .actionBlock input {
-  font-size: 1em;
+  border-radius: 4px;
   padding: 5px 10px;
-  font-weight: 500;
+  font-size: 1em;
+  background-color: #484848;
+  color: white;
+  cursor: pointer;
+}
+
+.actionBlock input:hover {
+  background-color: #2e2e2e;
+  color: white;
+}
+
+.actionBlock input:active {
+  background-color: #696969;
+  color: white;
 }
