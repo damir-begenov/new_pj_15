@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from 'axios';
 
 import './AdminPage.css'
 import UsersTable from "../../Components/UsersTable/UsersTable";
@@ -10,8 +11,16 @@ class AdminPage extends Component {
         this.state = {
         }
     }
+    state = {
+        users: 0,
+        logs: 0
+    }
 
     componentDidMount() {
+        axios.get(`http://localhost:9091/api/finpol/main/general`)
+        .then(res => {
+            this.setState({users: res.data.allRequsetNum, logs: res.data.todayRequsetNum})
+    })
     }
 
     render() {
@@ -25,12 +34,12 @@ class AdminPage extends Component {
 
                     <div>
                         <div>Количество пользователей</div>
-                        <div>23</div>
+                        <div>{this.state.users}</div>
                     </div>
 
                     <div>
                         <div>Количество запросов</div>
-                        <div>1.2m</div>
+                        <div>{this.state.logs}</div>
                     </div>
                 </div>
                 <div>

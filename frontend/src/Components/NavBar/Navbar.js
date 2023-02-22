@@ -41,7 +41,8 @@ const Navbar = () => {
                                     <span>{userSession.username}</span>
                                     :
                                     <span className="userRole">
-                                        {userSession && userSession.roles.includes("ROLE_ADMIN") ? "ADMIN" : "USER"}
+                                        {userSession && userSession.roles.includes("ROLE_ADMIN") ? "ADMIN" :
+                                         userSession && userSession.roles.includes("ROLE_MODERATOR") ? "MODERATOR" : "USER"}
                                     </span>
                                 </a>
                             </li>
