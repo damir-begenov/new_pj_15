@@ -1,7 +1,12 @@
 package com.example.new_project_challenge_15.entity;
 
+import com.example.new_project_challenge_15.entity.rels.BUHGALTER;
+import com.example.new_project_challenge_15.entity.rels.DETDOM_HIST;
+import com.example.new_project_challenge_15.entity.rels.DFO_AFF_FIZ;
+import com.example.new_project_challenge_15.entity.rels.REG_ADDRESS_CUR;
 import org.springframework.data.neo4j.core.schema.*;
-import org.springframework.security.core.parameters.P;
+
+import java.util.List;
 
 @Node("Person")
 public class Persons {
@@ -58,6 +63,46 @@ public class Persons {
     private String Date_of_Death;
     @Property("RIP_date:")
     private String RIP_date;
+    @Relationship(type="REG_ADDRESS_CUR", direction = Relationship.Direction.OUTGOING)
+    private List<REG_ADDRESS_CUR> regAddress;
+    @Relationship(type="BUHGALTER", direction = Relationship.Direction.OUTGOING)
+    private List<BUHGALTER> buhgalter;
+    @Relationship(type="DETDOM_HIST", direction = Relationship.Direction.OUTGOING)
+    private List<DETDOM_HIST> detdomHist;
+    @Relationship(type="DFO_AFF_FIZ", direction = Relationship.Direction.OUTGOING)
+    private List<DFO_AFF_FIZ> dfo_aff_fiz;
+
+    public List<DFO_AFF_FIZ> getDfo_aff_fiz() {
+        return dfo_aff_fiz;
+    }
+
+    public void setDfo_aff_fiz(List<DFO_AFF_FIZ> dfo_aff_fiz) {
+        this.dfo_aff_fiz = dfo_aff_fiz;
+    }
+
+    public List<DETDOM_HIST> getDetdomHist() {
+        return detdomHist;
+    }
+
+    public void setDetdomHist(List<DETDOM_HIST> detdomHist) {
+        this.detdomHist = detdomHist;
+    }
+
+    public List<BUHGALTER> getBuhgalter() {
+        return buhgalter;
+    }
+
+    public void setBuhgalter(List<BUHGALTER> buhgalter) {
+        this.buhgalter = buhgalter;
+    }
+
+    public List<REG_ADDRESS_CUR> getRegAddress() {
+        return regAddress;
+    }
+
+    public void setRegAddress(List<REG_ADDRESS_CUR> regAddress) {
+        this.regAddress = regAddress;
+    }
 
     public Long getId() {
         return id;
@@ -305,6 +350,7 @@ public class Persons {
                 ", Propal='" + Propal + '\'' +
                 ", Date_of_Death='" + Date_of_Death + '\'' +
                 ", RIP_date='" + RIP_date + '\'' +
+                ", regAddress=" + regAddress +
                 '}';
     }
 }

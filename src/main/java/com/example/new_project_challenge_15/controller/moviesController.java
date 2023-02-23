@@ -1,15 +1,12 @@
 package com.example.new_project_challenge_15.controller;
 
 
-import com.example.new_project_challenge_15.entity.log;
-import com.example.new_project_challenge_15.entity.statisticModel;
-import com.example.new_project_challenge_15.entity.doubleReturn;
+import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.models.User;
-import com.example.new_project_challenge_15.repository.UserRepository;
+import com.example.new_project_challenge_15.repository.*;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
 import com.example.new_project_challenge_15.service.PersonService;
 import com.example.new_project_challenge_15.service.statisticService;
-import com.example.new_project_challenge_15.repository.RoleRepository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,10 +30,24 @@ public class moviesController {
     com.example.new_project_challenge_15.repository.logRepo logRepo;
     UserRepository userRepository;
     RoleRepository rRepo;
-
+    newPersonService newPersonService;
+    newAddressRepo newAddressRepo;
+    newCompanyRepo newCompanyRepo;
     @GetMapping("/general")
-    public statisticModel getAllStat() {
-        return statisticService.general();
+    public List<Persons> getAllStat() {
+        List<Persons> persons = newPersonService.getPersons();
+
+        
+        return newPersonService.getPersons();
+    }
+    
+    @GetMapping("/general1")
+    public List<Address> getAllStatA() {
+        return newAddressRepo.getAddress();
+    }
+    @GetMapping("/general2")
+    public List<Company> getAllStatAg() {
+        return newCompanyRepo.getCompany();
     }
 
     @GetMapping("/statistic")
