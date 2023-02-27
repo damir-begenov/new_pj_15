@@ -6,10 +6,10 @@ import org.springframework.data.neo4j.core.schema.*;
 import java.util.List;
 
 @Node("Person")
-public class Persons extends Nodee{
-//    @Id
-//    @GeneratedValue
-//    private Long id;
+public class Persons {
+    @Id
+    @GeneratedValue
+    private Long id;
     private String PersonID;
     @Property("Дата рождения")
     private String Data_Rozhdenya;
@@ -61,56 +61,100 @@ public class Persons extends Nodee{
     @Property("RIP_date:")
     private String RIP_date;
     @Relationship(type="REG_ADDRESS_CUR", direction = Relationship.Direction.OUTGOING)
-    private List<REG_ADDRESS_CUR> regAddress;
+    private List<REG_ADDRESS_CUR> reg_address_cur;
     @Relationship(type="BUHGALTER", direction = Relationship.Direction.OUTGOING)
     private List<BUHGALTER> buhgalter;
     @Relationship(type="DETDOM_HIST", direction = Relationship.Direction.OUTGOING)
     private List<DETDOM_HIST> detdomHist;
     @Relationship(type="DFO_AFF_FIZ", direction = Relationship.Direction.OUTGOING)
     private List<DFO_AFF_FIZ> dfo_aff_fiz;
+    @Relationship(type="ZAGS_IIN", direction = Relationship.Direction.OUTGOING)
+    private List<ZAGS_IIN> zagsIin;
+    @Relationship(type="ZAGS_FIO", direction = Relationship.Direction.OUTGOING)
+    private List<ZAGS_FIO> zagsFio;
+    @Relationship(type="ZAGS", direction = Relationship.Direction.OUTGOING)
+    private List<ZAGS> zags;
+    @Relationship(type="SLUZHIL", direction = Relationship.Direction.OUTGOING)
+    private List<SLUZHIL> sluzhil;
+    @Relationship(type="REG_ADDRESS_HIST", direction = Relationship.Direction.OUTGOING)
+    private List<REG_ADDRESS_HIST> reg_address_hist;
+    @Relationship(type="REG_ADDRESS", direction = Relationship.Direction.OUTGOING)
+    private List<REG_ADDRESS> regAddress;
+    @Relationship(type="PDL", direction = Relationship.Direction.OUTGOING)
+    private List<PDL> pdls;
+    @Relationship(type="NTR_FL", direction = Relationship.Direction.OUTGOING)
+    private List<NTR_FL> ntrFl;
 
-    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
-    private List<ESF_10and100> esf_10and100s;
-
-    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.OUTGOING)
-    private List<ESF_10and50> esf10and50s;
-
-    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.OUTGOING)
-    private List<ESF_50and100> esf50and100s;
-
-    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
-    private List<ESF_5and10> esf5and10s;
-
-    public void setEsf5and10s(List<ESF_5and10> esf5and10s) {
-        this.esf5and10s = esf5and10s;
+    public List<NTR_FL> getNtrFl() {
+        return ntrFl;
     }
 
-    public List<ESF_5and10> getEsf5and10s() {
-        return esf5and10s;
+    public void setNtrFl(List<NTR_FL> ntrFl) {
+        this.ntrFl = ntrFl;
     }
 
-    public void setEsf50and100s(List<ESF_50and100> esf50and100s) {
-        this.esf50and100s = esf50and100s;
+    public List<PDL> getPdls() {
+        return pdls;
     }
 
-    public List<ESF_50and100> getEsf50and100s() {
-        return esf50and100s;
+    public void setPdls(List<PDL> pdls) {
+        this.pdls = pdls;
     }
 
-    public List<ESF_10and50> getEsf10and50s() {
-        return esf10and50s;
+    public List<REG_ADDRESS_CUR> getReg_address_cur() {
+        return reg_address_cur;
     }
 
-    public void setEsf10and50s(List<ESF_10and50> esf10and50s) {
-        this.esf10and50s = esf10and50s;
+    public void setReg_address_cur(List<REG_ADDRESS_CUR> reg_address_cur) {
+        this.reg_address_cur = reg_address_cur;
     }
 
-    public void setEsf_10and100s(List<ESF_10and100> esf_10and100s) {
-        this.esf_10and100s = esf_10and100s;
+    public List<ZAGS_FIO> getZagsFio() {
+        return zagsFio;
     }
 
-    public List<ESF_10and100> getEsf_10and100s() {
-        return esf_10and100s;
+    public void setZagsFio(List<ZAGS_FIO> zagsFio) {
+        this.zagsFio = zagsFio;
+    }
+
+    public List<ZAGS> getZags() {
+        return zags;
+    }
+
+    public void setZags(List<ZAGS> zags) {
+        this.zags = zags;
+    }
+
+    public List<SLUZHIL> getSluzhil() {
+        return sluzhil;
+    }
+
+    public void setSluzhil(List<SLUZHIL> sluzhil) {
+        this.sluzhil = sluzhil;
+    }
+
+    public List<REG_ADDRESS_HIST> getReg_address_hist() {
+        return reg_address_hist;
+    }
+
+    public void setReg_address_hist(List<REG_ADDRESS_HIST> reg_address_hist) {
+        this.reg_address_hist = reg_address_hist;
+    }
+
+    public List<REG_ADDRESS> getRegAddress() {
+        return regAddress;
+    }
+
+    public void setRegAddress(List<REG_ADDRESS> regAddress) {
+        this.regAddress = regAddress;
+    }
+
+    public List<ZAGS_IIN> getZagsIin() {
+        return zagsIin;
+    }
+
+    public void setZagsIin(List<ZAGS_IIN> zagsIin) {
+        this.zagsIin = zagsIin;
     }
 
     public List<DFO_AFF_FIZ> getDfo_aff_fiz() {
@@ -137,21 +181,14 @@ public class Persons extends Nodee{
         this.buhgalter = buhgalter;
     }
 
-    public List<REG_ADDRESS_CUR> getRegAddress() {
-        return regAddress;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setRegAddress(List<REG_ADDRESS_CUR> regAddress) {
-        this.regAddress = regAddress;
+    public void setId(Long id) {
+        this.id = id;
     }
-
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
 
     public String getPersonID() {
         return PersonID;
@@ -364,7 +401,7 @@ public class Persons extends Nodee{
     @Override
     public String toString() {
         return "Persons{" +
-//                "id=" + id +
+                "id=" + id +
                 ", PersonID='" + PersonID + '\'' +
                 ", Data_Rozhdenya='" + Data_Rozhdenya + '\'' +
                 ", Familia='" + Familia + '\'' +

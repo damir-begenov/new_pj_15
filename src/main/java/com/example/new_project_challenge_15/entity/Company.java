@@ -57,6 +57,138 @@ public class Company extends Nodee{
     private List<DIRECTOR_HIST> directorHist;
     @Relationship(type="ESF_100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_100> esf100;
+    @Relationship(type="ESF_10and100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_10and50> esf10and50;
+    @Relationship(type="WORKER_HIST", direction = Relationship.Direction.OUTGOING)
+    private List<WORKER_HIST> workerHist;
+    @Relationship(type="WORKER_CUR", direction = Relationship.Direction.OUTGOING)
+    private List<WORKER_CUR> workerCur;
+    @Relationship(type="UCHILSYA", direction = Relationship.Direction.OUTGOING)
+    private List<UCHILSYA> uchilsya;
+    @Relationship(type="SUDIM", direction = Relationship.Direction.OUTGOING)
+    private List<SUDIM> sudim;
+    @Relationship(type="REG_ADDRESS_UL", direction = Relationship.Direction.OUTGOING)
+    private List<REG_ADDESS_UL> regAddessUl;
+    @Relationship(type="OPG", direction = Relationship.Direction.INCOMING)
+    private List<OPG> opgs;
+    @Relationship(type="NTR_UL_FL", direction = Relationship.Direction.OUTGOING)
+    private List<NTR_UL_FL> ntrUlFls;
+    @Relationship(type="IP", direction = Relationship.Direction.OUTGOING)
+    private List<IP> ips;
+    @Relationship(type="IP-KX", direction = Relationship.Direction.OUTGOING)
+    private List<IP_KX> ipKx;
+    @Relationship(type="GOSZAKUP", direction = Relationship.Direction.OUTGOING)
+    private List<GOSZAKUP> goszakup;
+    @Relationship(type="FPG", direction = Relationship.Direction.OUTGOING)
+    private List<FPG> fpgs;
+    @Relationship(type="FOUNDER_CUR", direction = Relationship.Direction.OUTGOING)
+    private List<Company> founderCur;
+    @Relationship(type="FOUNDER_CUR", direction = Relationship.Direction.OUTGOING)
+    private List<Persons> founderCurPersons;
+
+    public List<Company> getFounderCur() {
+        return founderCur;
+    }
+
+    public void setFounderCur(List<Company> founderCur) {
+        this.founderCur = founderCur;
+    }
+
+    public List<ESF_10and50> getEsf10and50() {
+        return esf10and50;
+    }
+
+    public void setEsf10and50(List<ESF_10and50> esf10and50) {
+        this.esf10and50 = esf10and50;
+    }
+
+    public List<com.example.new_project_challenge_15.entity.rels.FPG> getFpgs() {
+        return fpgs;
+    }
+
+    public void setFpgs(List<com.example.new_project_challenge_15.entity.rels.FPG> fpgs) {
+        this.fpgs = fpgs;
+    }
+
+    public List<IP_KX> getIpKx() {
+        return ipKx;
+    }
+
+    public void setIpKx(List<IP_KX> ipKx) {
+        this.ipKx = ipKx;
+    }
+
+    public List<GOSZAKUP> getGoszakup() {
+        return goszakup;
+    }
+
+    public void setGoszakup(List<GOSZAKUP> goszakup) {
+        this.goszakup = goszakup;
+    }
+
+    public List<IP> getIps() {
+        return ips;
+    }
+
+    public void setIps(List<IP> ips) {
+        this.ips = ips;
+    }
+
+    public List<REG_ADDESS_UL> getRegAddessUl() {
+        return regAddessUl;
+    }
+
+    public void setRegAddessUl(List<REG_ADDESS_UL> regAddessUl) {
+        this.regAddessUl = regAddessUl;
+    }
+
+    public List<OPG> getOpgs() {
+        return opgs;
+    }
+
+    public void setOpgs(List<OPG> opgs) {
+        this.opgs = opgs;
+    }
+
+    public List<NTR_UL_FL> getNtrUlFls() {
+        return ntrUlFls;
+    }
+
+    public void setNtrUlFls(List<NTR_UL_FL> ntrUlFls) {
+        this.ntrUlFls = ntrUlFls;
+    }
+
+    public List<WORKER_CUR> getWorkerCur() {
+        return workerCur;
+    }
+
+    public void setWorkerCur(List<WORKER_CUR> workerCur) {
+        this.workerCur = workerCur;
+    }
+
+    public List<UCHILSYA> getUchilsya() {
+        return uchilsya;
+    }
+
+    public void setUchilsya(List<UCHILSYA> uchilsya) {
+        this.uchilsya = uchilsya;
+    }
+
+    public List<SUDIM> getSudim() {
+        return sudim;
+    }
+
+    public void setSudim(List<SUDIM> sudim) {
+        this.sudim = sudim;
+    }
+
+    public List<WORKER_HIST> getWorkerHist() {
+        return workerHist;
+    }
+
+    public void setWorkerHist(List<WORKER_HIST> workerHist) {
+        this.workerHist = workerHist;
+    }
 
     @Relationship(type="ESF_10and100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_10and100> esf_10and100;

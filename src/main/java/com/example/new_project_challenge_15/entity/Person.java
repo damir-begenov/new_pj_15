@@ -36,6 +36,8 @@ public class Person {
     private List<WROTE> wrotes;
     @Relationship(type="FOLLOWS", direction = Relationship.Direction.OUTGOING)
     private List<FOLLOWS> follows;
+    @Relationship(type="ZAGS_IIN", direction = Relationship.Direction.OUTGOING)
+    private List<ZAGS_IIN> zagsIin;
 
     public List<FOLLOWS> getFollows() {
         return follows;

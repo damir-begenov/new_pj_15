@@ -7,6 +7,6 @@ import org.springframework.data.neo4j.repository.query.Query;
 import java.util.List;
 
 public interface newPersonService extends Neo4jRepository<Persons,Long> {
-    @Query("MATCH (p:Person)-[r:DFO_AFF_FIZ]->(m) where p.`ИИН` = '780113400527' RETURN p,r,m LIMIT 25")
+    @Query("match p=(n:Person)-[r:NTR_FL]->() return p limit 25")
     List<Persons> getPersons();
 }

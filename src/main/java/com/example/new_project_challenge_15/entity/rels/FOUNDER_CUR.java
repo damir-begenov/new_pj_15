@@ -6,7 +6,7 @@ import com.example.new_project_challenge_15.entity.Persons;
 import org.springframework.data.neo4j.core.schema.*;
 
 @RelationshipProperties
-
+@Node
 public class FOUNDER_CUR {
     @Id
     @GeneratedValue
@@ -32,7 +32,16 @@ public class FOUNDER_CUR {
     @TargetNode
 
     private Company company;
-//    @TargetNode
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    //    @TargetNode
 //    private Persons persons;
 //
 //    public Nodee getPersons() {
@@ -43,13 +52,7 @@ public class FOUNDER_CUR {
 //        this.persons = persons;
 //    }
 
-    public Nodee getCompany() {
-        return company;
-    }
 
-    public void setCompany(Company company) {
-        this.company = company;
-    }
 //    @TargetNode
 //    private Persons persons;
 //
