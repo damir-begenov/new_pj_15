@@ -1,18 +1,15 @@
 package com.example.new_project_challenge_15.entity;
 
-import com.example.new_project_challenge_15.entity.rels.BUHGALTER;
-import com.example.new_project_challenge_15.entity.rels.DETDOM_HIST;
-import com.example.new_project_challenge_15.entity.rels.DFO_AFF_FIZ;
-import com.example.new_project_challenge_15.entity.rels.REG_ADDRESS_CUR;
+import com.example.new_project_challenge_15.entity.rels.*;
 import org.springframework.data.neo4j.core.schema.*;
 
 import java.util.List;
 
 @Node("Person")
-public class Persons {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Persons extends Nodee{
+//    @Id
+//    @GeneratedValue
+//    private Long id;
     private String PersonID;
     @Property("Дата рождения")
     private String Data_Rozhdenya;
@@ -72,6 +69,50 @@ public class Persons {
     @Relationship(type="DFO_AFF_FIZ", direction = Relationship.Direction.OUTGOING)
     private List<DFO_AFF_FIZ> dfo_aff_fiz;
 
+    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_10and100> esf_10and100s;
+
+    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_10and50> esf10and50s;
+
+    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_50and100> esf50and100s;
+
+    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_5and10> esf5and10s;
+
+    public void setEsf5and10s(List<ESF_5and10> esf5and10s) {
+        this.esf5and10s = esf5and10s;
+    }
+
+    public List<ESF_5and10> getEsf5and10s() {
+        return esf5and10s;
+    }
+
+    public void setEsf50and100s(List<ESF_50and100> esf50and100s) {
+        this.esf50and100s = esf50and100s;
+    }
+
+    public List<ESF_50and100> getEsf50and100s() {
+        return esf50and100s;
+    }
+
+    public List<ESF_10and50> getEsf10and50s() {
+        return esf10and50s;
+    }
+
+    public void setEsf10and50s(List<ESF_10and50> esf10and50s) {
+        this.esf10and50s = esf10and50s;
+    }
+
+    public void setEsf_10and100s(List<ESF_10and100> esf_10and100s) {
+        this.esf_10and100s = esf_10and100s;
+    }
+
+    public List<ESF_10and100> getEsf_10and100s() {
+        return esf_10and100s;
+    }
+
     public List<DFO_AFF_FIZ> getDfo_aff_fiz() {
         return dfo_aff_fiz;
     }
@@ -104,13 +145,13 @@ public class Persons {
         this.regAddress = regAddress;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public String getPersonID() {
         return PersonID;
@@ -323,7 +364,7 @@ public class Persons {
     @Override
     public String toString() {
         return "Persons{" +
-                "id=" + id +
+//                "id=" + id +
                 ", PersonID='" + PersonID + '\'' +
                 ", Data_Rozhdenya='" + Data_Rozhdenya + '\'' +
                 ", Familia='" + Familia + '\'' +

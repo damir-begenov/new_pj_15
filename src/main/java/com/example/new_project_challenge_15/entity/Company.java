@@ -6,10 +6,10 @@ import org.springframework.data.neo4j.core.schema.*;
 import java.util.List;
 
 @Node("COMPANY")
-public class Company {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Company extends Nodee{
+//    @Id
+//    @GeneratedValue
+//    private Long id;
     private String PersonID;
     @Property("ИИН/БИН")
     private String IINBIN;
@@ -58,6 +58,72 @@ public class Company {
     @Relationship(type="ESF_100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_100> esf100;
 
+    @Relationship(type="ESF_10and100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_10and100> esf_10and100;
+
+    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_10and50> esf10and50s;
+
+    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_50and100> esf50and100s;
+    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_5and10> esf5and10s;
+
+    @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.OUTGOING)
+    private List<FOUNDER_CUR> founderCurs;
+
+//    @Relationship(type = "FOUNDER_CUR_TP", direction = Relationship.Direction.OUTGOING)
+//    private List<FOUNDER_CUR_TP> founderCurTps;
+//
+//    public List<FOUNDER_CUR_TP> getFounderCurTps() {
+//        return founderCurTps;
+//    }
+//
+//    public void setFounderCurTps(List<FOUNDER_CUR_TP> founderCurTps) {
+//        this.founderCurTps = founderCurTps;
+//    }
+
+    public List<FOUNDER_CUR> getFounderCurs() {
+        return founderCurs;
+    }
+
+    public void setFounderCurs(List<FOUNDER_CUR> founderCurs) {
+        this.founderCurs = founderCurs;
+    }
+
+    public void setEsf5and10s(List<ESF_5and10> esf5and10s) {
+        this.esf5and10s = esf5and10s;
+    }
+
+    public List<ESF_5and10> getEsf5and10s() {
+        return esf5and10s;
+    }
+
+
+    public void setEsf50and100s(List<ESF_50and100> esf50and100s) {
+        this.esf50and100s = esf50and100s;
+    }
+
+    public List<ESF_50and100> getEsf50and100s() {
+        return esf50and100s;
+    }
+
+    public List<ESF_10and50> getEsf10and50s() {
+        return esf10and50s;
+    }
+
+    public void setEsf10and50s(List<ESF_10and50> esf10and50s) {
+        this.esf10and50s = esf10and50s;
+    }
+
+    public List<ESF_10and100> getEsf_10and100() {
+        return esf_10and100;
+    }
+
+    public void setEsf_10and100(List<ESF_10and100> esf_10and100) {
+        this.esf_10and100 = esf_10and100;
+    }
+
     public List<ESF_100> getEsf100() {
         return esf100;
     }
@@ -98,13 +164,13 @@ public class Company {
         this.dfo_aff_ul = dfo_aff_ul;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public String getIINBIN() {
         return IINBIN;

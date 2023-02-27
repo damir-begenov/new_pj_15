@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.repository.query.Query;
 import java.util.List;
 
 public interface newCompanyRepo extends Neo4jRepository<Company,Long> {
-    @Query("MATCH (p:COMPANY)-[r:DFO-AFF_UL]->(m) where p.PersonID = '151240008361' RETURN p,r,m LIMIT 1")
+    @Query("MATCH p=(n:COMPANY)-[r:FOUNDER_CUR]->() RETURN p LIMIT 100")
     List<Company> getCompany();
 
-        }
+}
