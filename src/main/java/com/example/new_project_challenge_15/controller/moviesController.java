@@ -47,6 +47,7 @@ public class moviesController {
     }
     @GetMapping("/general2")
     public List<Company> getAllStatAg() {
+//        System.out.println(newCompanyRepo.getCompany().get(0).getFounderCurs().get(0).getIIN_BIN());
         return newCompanyRepo.getCompany();
     }
 

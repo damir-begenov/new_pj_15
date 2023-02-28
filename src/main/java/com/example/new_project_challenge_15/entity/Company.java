@@ -6,10 +6,10 @@ import org.springframework.data.neo4j.core.schema.*;
 import java.util.List;
 
 @Node("COMPANY")
-public class Company extends Nodee{
-//    @Id
-//    @GeneratedValue
-//    private Long id;
+public class Company {
+    @Id
+    @GeneratedValue
+    private Long id;
     private String PersonID;
     @Property("ИИН/БИН")
     private String IINBIN;
@@ -201,7 +201,7 @@ public class Company extends Nodee{
     @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
     private List<ESF_5and10> esf5and10s;
 
-    @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.INCOMING)
     private List<FOUNDER_CUR> founderCurs;
 
 //    @Relationship(type = "FOUNDER_CUR_TP", direction = Relationship.Direction.OUTGOING)
