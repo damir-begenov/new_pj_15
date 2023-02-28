@@ -1,40 +1,26 @@
 package com.example.new_project_challenge_15.entity;
 
+import java.util.List;
+import java.util.Map;
+
 public class Nodes {
     private Long id;
-    private String name;
-    private String description;
-    private Integer Year;
 
-    public Nodes(Long id, String name, String description, Integer year) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.Year = year;
-    }
+    private Map<String, Object> properties;
 
     public Long getId() {
         return id;
     }
-    public String getName() {
-        return name;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public Integer getYear() {
-        return Year;
-    }
+
     public void setId(Long id) {
         this.id = id;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public Map<String, Object> getProperties() {
+        return properties;
     }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public void setYear(Integer year) {
-        Year = year;
+
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = properties;
     }
 }

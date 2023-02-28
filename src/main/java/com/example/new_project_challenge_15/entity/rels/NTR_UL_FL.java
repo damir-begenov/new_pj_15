@@ -8,19 +8,19 @@ import org.springframework.data.neo4j.core.schema.*;
 public class NTR_UL_FL {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @Property("Дата")
-    private String data;
+    public String data;
     @Property("Номер сделки")
-    private String nomer_sdelki;
+    public String nomer_sdelki;
     @Property("Представитель")
-    private String predstavitel;
+    public String predstavitel;
     @Property("Тип сделки")
-    private String type_sdelki;
+    public String type_sdelki;
     @TargetNode
     private Company company;
 

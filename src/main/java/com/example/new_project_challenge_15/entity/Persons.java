@@ -9,88 +9,204 @@ import java.util.List;
 public class Persons {
     @Id
     @GeneratedValue
-    private Long id;
-    private String PersonID;
+    public Long id;
+    public String PersonID;
     @Property("Дата рождения")
-    private String Data_Rozhdenya;
+    public String Data_Rozhdenya;
     @Property("Фамилия")
-    private String Familia;
+    public String Familia;
     @Property("Отчество")
-    private String Otchestvo;
+    public String Otchestvo;
     @Property("ФИО")
-    private String FIO;
-    private String Source;
-    private String Label;
+    public String FIO;
+    public String Source;
+    public String Label;
     @Property("ИИН")
-    private String IIN;
+    public String IIN;
     @Property("Статус смерти")
-    private String Death_Status;
+    public String Death_Status;
     @Property("Мед. Орг.")
-    private String Med_org;
+    public String Med_org;
     @Property("Стату Минздрав")
-    private String Status_Minzdrav;
+    public String Status_Minzdrav;
     @Property("Статус КУИС")
 
-    private String Status_KUIS;
+    public String Status_KUIS;
     @Property("Приставание в общественных местах")
-    private String Pristavanie;
+    public String Pristavanie;
     @Property("Дата решения")
-    private String Data_reshenya;
+    public String Data_reshenya;
     @Property("Размер наложенного штрафа")
-    private String Razmer_Shtrafa;
+    public String Razmer_Shtrafa;
     @Property("Орган, выявивший правонарушение")
-    private String Organ_pravanarushenya;
+    public String Organ_pravanarushenya;
     @Property("Статья")
-    private String Statya;
+    public String Statya;
     @Property("Информация ПФР")
-    private String PFR_Info;
+    public String PFR_Info;
     @Property("Аудитор")
-    private String Autditor;
+    public String Autditor;
     @Property("Нотариус")
-    private String Notarius;
+    public String Notarius;
     @Property("Адвокат")
-    private String Advocat;
+    public String Advocat;
     @Property("Частный судебный исполнитель")
-    private String Sud_ispolnitel;
+    public String Sud_ispolnitel;
     @Property("GLK")
-    private String GLK;
+    public String GLK;
     @Property("Пропавший без вести")
-    private String Propal;
+    public String Propal;
     @Property("Дата смерти:")
-    private String Date_of_Death;
+    public String Date_of_Death;
     @Property("RIP_date:")
-    private String RIP_date;
-    @Relationship(type="REG_ADDRESS_CUR", direction = Relationship.Direction.OUTGOING)
-    private List<REG_ADDRESS_CUR> reg_address_cur;
-    @Relationship(type="BUHGALTER", direction = Relationship.Direction.OUTGOING)
-    private List<BUHGALTER> buhgalter;
-    @Relationship(type="DETDOM_HIST", direction = Relationship.Direction.OUTGOING)
-    private List<DETDOM_HIST> detdomHist;
-    @Relationship(type="DFO_AFF_FIZ", direction = Relationship.Direction.OUTGOING)
-    private List<DFO_AFF_FIZ> dfo_aff_fiz;
-    @Relationship(type="ZAGS_IIN", direction = Relationship.Direction.OUTGOING)
-    private List<ZAGS_IIN> zagsIin;
-    @Relationship(type="ZAGS_FIO", direction = Relationship.Direction.OUTGOING)
-    private List<ZAGS_FIO> zagsFio;
-    @Relationship(type="ZAGS", direction = Relationship.Direction.OUTGOING)
-    private List<ZAGS> zags;
-    @Relationship(type="SLUZHIL", direction = Relationship.Direction.OUTGOING)
-    private List<SLUZHIL> sluzhil;
-    @Relationship(type="REG_ADDRESS_HIST", direction = Relationship.Direction.OUTGOING)
-    private List<REG_ADDRESS_HIST> reg_address_hist;
-    @Relationship(type="REG_ADDRESS", direction = Relationship.Direction.OUTGOING)
-    private List<REG_ADDRESS> regAddress;
-    @Relationship(type="PDL", direction = Relationship.Direction.OUTGOING)
-    private List<PDL> pdls;
-    @Relationship(type="NTR_FL", direction = Relationship.Direction.OUTGOING)
-    private List<NTR_FL> ntrFl;
+    public String RIP_date;
 
-    public List<NTR_FL> getNtrFl() {
-        return ntrFl;
+    @Relationship(type = "BUHGALTER", direction = Relationship.Direction.OUTGOING)
+    private List<BUHGALTER> buhgalters;
+
+    @Relationship(type = "DETDOM_HIST", direction = Relationship.Direction.OUTGOING)
+    private List<DETDOM_HIST> detdomHistList;
+
+    @Relationship(type = "DFO_AFF_FIZ", direction = Relationship.Direction.OUTGOING)
+    private List<DFO_AFF_FIZ> dfoAffFizs;
+
+    @Relationship(type = "ESF_100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_100> esf100s;
+
+    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_10and100> esf_10and100s;
+
+    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_10and50> esf10and50s;
+
+    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_50and100> esf50and100s;
+
+    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_5and10> esf5and10s;
+
+    @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.INCOMING)
+    private List<FOUNDER_CUR> founderCurs;
+
+    @Relationship(type = "NTR_FL", direction = Relationship.Direction.OUTGOING)
+    private List<NTR_FL> ntrFls;
+
+    @Relationship(type = "OPG", direction = Relationship.Direction.OUTGOING)
+    private List<OPG> opgs;
+
+    @Relationship(type = "PDL", direction = Relationship.Direction.OUTGOING)
+    private List<PDL> pdls;
+
+    @Relationship(type = "REG_ADDRESS", direction = Relationship.Direction.OUTGOING)
+    private List<REG_ADDRESS> regAddresses;
+
+    @Relationship(type = "REG_ADDRESS_CUR", direction = Relationship.Direction.OUTGOING)
+    private List<REG_ADDRESS_CUR> regAddressCurs;
+
+    @Relationship(type = "REG_ADDRESS_HIST", direction = Relationship.Direction.OUTGOING)
+    private List<REG_ADDRESS_HIST> regAddressHists;
+
+    @Relationship(type = "SLUZHIL", direction = Relationship.Direction.OUTGOING)
+    private List<SLUZHIL> sluzhils;
+
+    @Relationship(type = "SUDIM", direction = Relationship.Direction.OUTGOING)
+    private List<SUDIM> sudims;
+
+    @Relationship(type = "ZAGS", direction = Relationship.Direction.OUTGOING)
+    private List<ZAGS> zags;
+
+    @Relationship(type = "ZAGS_FIO", direction = Relationship.Direction.OUTGOING)
+    private List<ZAGS_FIO> zagsFios;
+
+    @Relationship(type = "ZAGS_IIN", direction = Relationship.Direction.OUTGOING)
+    private List<ZAGS_IIN> zagsIins;
+
+    public List<BUHGALTER> getBuhgalters() {
+        return buhgalters;
     }
 
-    public void setNtrFl(List<NTR_FL> ntrFl) {
-        this.ntrFl = ntrFl;
+    public void setBuhgalters(List<BUHGALTER> buhgalters) {
+        this.buhgalters = buhgalters;
+    }
+
+    public List<DETDOM_HIST> getDetdomHistList() {
+        return detdomHistList;
+    }
+
+    public void setDetdomHistList(List<DETDOM_HIST> detdomHistList) {
+        this.detdomHistList = detdomHistList;
+    }
+
+    public List<DFO_AFF_FIZ> getDfoAffFizs() {
+        return dfoAffFizs;
+    }
+
+    public void setDfoAffFizs(List<DFO_AFF_FIZ> dfoAffFizs) {
+        this.dfoAffFizs = dfoAffFizs;
+    }
+
+    public List<ESF_100> getEsf100s() {
+        return esf100s;
+    }
+
+    public void setEsf100s(List<ESF_100> esf100s) {
+        this.esf100s = esf100s;
+    }
+
+    public List<ESF_10and100> getEsf_10and100s() {
+        return esf_10and100s;
+    }
+
+    public void setEsf_10and100s(List<ESF_10and100> esf_10and100s) {
+        this.esf_10and100s = esf_10and100s;
+    }
+
+    public List<ESF_10and50> getEsf10and50s() {
+        return esf10and50s;
+    }
+
+    public void setEsf10and50s(List<ESF_10and50> esf10and50s) {
+        this.esf10and50s = esf10and50s;
+    }
+
+    public List<ESF_50and100> getEsf50and100s() {
+        return esf50and100s;
+    }
+
+    public void setEsf50and100s(List<ESF_50and100> esf50and100s) {
+        this.esf50and100s = esf50and100s;
+    }
+
+    public List<ESF_5and10> getEsf5and10s() {
+        return esf5and10s;
+    }
+
+    public void setEsf5and10s(List<ESF_5and10> esf5and10s) {
+        this.esf5and10s = esf5and10s;
+    }
+
+    public List<FOUNDER_CUR> getFounderCurs() {
+        return founderCurs;
+    }
+
+    public void setFounderCurs(List<FOUNDER_CUR> founderCurs) {
+        this.founderCurs = founderCurs;
+    }
+
+    public List<NTR_FL> getNtrFls() {
+        return ntrFls;
+    }
+
+    public void setNtrFls(List<NTR_FL> ntrFls) {
+        this.ntrFls = ntrFls;
+    }
+
+    public List<OPG> getOpgs() {
+        return opgs;
+    }
+
+    public void setOpgs(List<OPG> opgs) {
+        this.opgs = opgs;
     }
 
     public List<PDL> getPdls() {
@@ -101,20 +217,44 @@ public class Persons {
         this.pdls = pdls;
     }
 
-    public List<REG_ADDRESS_CUR> getReg_address_cur() {
-        return reg_address_cur;
+    public List<REG_ADDRESS> getRegAddresses() {
+        return regAddresses;
     }
 
-    public void setReg_address_cur(List<REG_ADDRESS_CUR> reg_address_cur) {
-        this.reg_address_cur = reg_address_cur;
+    public void setRegAddresses(List<REG_ADDRESS> regAddresses) {
+        this.regAddresses = regAddresses;
     }
 
-    public List<ZAGS_FIO> getZagsFio() {
-        return zagsFio;
+    public List<REG_ADDRESS_CUR> getRegAddressCurs() {
+        return regAddressCurs;
     }
 
-    public void setZagsFio(List<ZAGS_FIO> zagsFio) {
-        this.zagsFio = zagsFio;
+    public void setRegAddressCurs(List<REG_ADDRESS_CUR> regAddressCurs) {
+        this.regAddressCurs = regAddressCurs;
+    }
+
+    public List<REG_ADDRESS_HIST> getRegAddressHists() {
+        return regAddressHists;
+    }
+
+    public void setRegAddressHists(List<REG_ADDRESS_HIST> regAddressHists) {
+        this.regAddressHists = regAddressHists;
+    }
+
+    public List<SLUZHIL> getSluzhils() {
+        return sluzhils;
+    }
+
+    public void setSluzhils(List<SLUZHIL> sluzhils) {
+        this.sluzhils = sluzhils;
+    }
+
+    public List<SUDIM> getSudims() {
+        return sudims;
+    }
+
+    public void setSudims(List<SUDIM> sudims) {
+        this.sudims = sudims;
     }
 
     public List<ZAGS> getZags() {
@@ -125,62 +265,21 @@ public class Persons {
         this.zags = zags;
     }
 
-    public List<SLUZHIL> getSluzhil() {
-        return sluzhil;
+    public List<ZAGS_FIO> getZagsFios() {
+        return zagsFios;
     }
 
-    public void setSluzhil(List<SLUZHIL> sluzhil) {
-        this.sluzhil = sluzhil;
+    public void setZagsFios(List<ZAGS_FIO> zagsFios) {
+        this.zagsFios = zagsFios;
     }
 
-    public List<REG_ADDRESS_HIST> getReg_address_hist() {
-        return reg_address_hist;
+    public List<ZAGS_IIN> getZagsIins() {
+        return zagsIins;
     }
 
-    public void setReg_address_hist(List<REG_ADDRESS_HIST> reg_address_hist) {
-        this.reg_address_hist = reg_address_hist;
+    public void setZagsIins(List<ZAGS_IIN> zagsIins) {
+        this.zagsIins = zagsIins;
     }
-
-    public List<REG_ADDRESS> getRegAddress() {
-        return regAddress;
-    }
-
-    public void setRegAddress(List<REG_ADDRESS> regAddress) {
-        this.regAddress = regAddress;
-    }
-
-    public List<ZAGS_IIN> getZagsIin() {
-        return zagsIin;
-    }
-
-    public void setZagsIin(List<ZAGS_IIN> zagsIin) {
-        this.zagsIin = zagsIin;
-    }
-
-    public List<DFO_AFF_FIZ> getDfo_aff_fiz() {
-        return dfo_aff_fiz;
-    }
-
-    public void setDfo_aff_fiz(List<DFO_AFF_FIZ> dfo_aff_fiz) {
-        this.dfo_aff_fiz = dfo_aff_fiz;
-    }
-
-    public List<DETDOM_HIST> getDetdomHist() {
-        return detdomHist;
-    }
-
-    public void setDetdomHist(List<DETDOM_HIST> detdomHist) {
-        this.detdomHist = detdomHist;
-    }
-
-    public List<BUHGALTER> getBuhgalter() {
-        return buhgalter;
-    }
-
-    public void setBuhgalter(List<BUHGALTER> buhgalter) {
-        this.buhgalter = buhgalter;
-    }
-
 
     public Long getId() {
         return id;
@@ -428,7 +527,7 @@ public class Persons {
                 ", Propal='" + Propal + '\'' +
                 ", Date_of_Death='" + Date_of_Death + '\'' +
                 ", RIP_date='" + RIP_date + '\'' +
-                ", regAddress=" + regAddress +
+//                ", regAddress=" + regAddress +
                 '}';
     }
 }

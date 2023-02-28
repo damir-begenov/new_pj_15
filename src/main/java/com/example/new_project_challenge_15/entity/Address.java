@@ -10,76 +10,76 @@ public class Address {
     @Id
     @GeneratedValue
     private Long id;
-    private String PersonID;
+    public String PersonID;
     @Property("Код страны")
-    private String Kod_Strani;
+    public String Kod_Strani;
 
     @Property("Код области")
-    private String Kod_oblasti;
+    public String Kod_oblasti;
     @Property("Код района")
-    private String Kod_rayona;
+    public String Kod_rayona;
     @Property("РКА")
 
-    private String PKA;
-    private String Label;
-    private String Source;
+    public String PKA;
+    public String Label;
+    public String Source;
     @Property("Адрес прописки")
 
-    private String Adress_propiski;
+    public String Adress_propiski;
     @Property("Город")
 
-    private String Gorod;
+    public String Gorod;
     @Property("Улица")
 
-    private String Ulica;
+    public String Ulica;
     @Property("Строение")
 
-    private String Stroenie;
+    public String Stroenie;
     @Property("Корпус")
 
-    private String Korpus;
+    public String Korpus;
     @Property("Область")
 
-    private String Oblast;
+    public String Oblast;
     @Property("Район")
 
-    private String Rayon;
+    public String Rayon;
     @Property("Тип адреса")
 
-    private String Type_adresa;
+    public String Type_adresa;
     @Property("Квартира")
 
-    private String Kvartira;
+    public String Kvartira;
     @Property("IP адрес")
 
-    private String IP_address;
+    public String IP_address;
     @Property("Дом")
 
-    private String Dom;
+    public String Dom;
     @Property("Населенный пункт")
 
-    private String Naselenni_punct;
+    public String Naselenni_punct;
     @Property("Участок")
 
-    private String Uchastok;
+    public String Uchastok;
     @Property("Доп. 1")
 
-    private String Dop_1;
+    public String Dop_1;
     @Property("Доп. 3")
 
-    private String Dop_3;
+    public String Dop_3;
     @Property("Кадастровый номер")
 
-    private String Kadastr_nomer;
+    public String Kadastr_nomer;
     @Property("Описание")
 
-    private String Opisanie;
+    public String Opisanie;
     @Property("Тип строения")
 
-    private String type_stroenie;
+    public String type_stroenie;
     @Property("Доп. 2")
 
-    private String Dop_2;
+    public String Dop_2;
 
 
     public Long getId() {

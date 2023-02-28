@@ -8,13 +8,13 @@ import org.springframework.data.neo4j.core.schema.*;
 public class REG_ADDESS_UL {
     @Id
     @GeneratedValue
-    private Long id;
+    public Long id;
     @Property("Адрес")
-    private String address_of_reg;
+    public String address_of_reg;
     @Property("Дата регистрационного действия")
-    private String data_reg;
+    public String data_reg;
     @Property("РКА")
-    private String rka;
+    public String rka;
     @TargetNode
     private Address address;
 

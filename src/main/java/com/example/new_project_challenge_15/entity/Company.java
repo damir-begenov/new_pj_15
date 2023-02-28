@@ -10,234 +10,152 @@ public class Company {
     @Id
     @GeneratedValue
     private Long id;
-    private String PersonID;
+    public String PersonID;
     @Property("ИИН/БИН")
-    private String IINBIN;
+    public String IINBIN;
     @Property("Тип")
-    private String Type;
-    private String Label;
+    public String Type;
+    public String Label;
     @Property("Наименование")
-    private String Name;
-    private String Source;
+    public String Name;
+    public String Source;
     @Property("Бухгалтер")
-    private String Buhgalter;
+    public String Buhgalter;
     @Property("НДС")
-    private String NDS;
+    public String NDS;
     @Property("Приказ о снятии с регистрационного учета")
-    private String PRIKAZ_O_SNYATYA;
+    public String PRIKAZ_O_SNYATYA;
     @Property("Бездействующие ЮЛ")
-    private String BEZDEYSTVIA_UL;
+    public String BEZDEYSTVIA_UL;
     @Property("Статус ОПГ")
-    private String STATUS_OPG;
+    public String STATUS_OPG;
     @Property("Блок ЭСФ")
-    private String BLOCK_ESF;
+    public String BLOCK_ESF;
     @Property("Статья ЕРДР")
-    private String STATYA_ERDR;
+    public String STATYA_ERDR;
     @Property("Статус ЕРДР")
-    private String STATUS_ERDR;
+    public String STATUS_ERDR;
     @Property("Орган регистрации")
-    private String ORGAN_REGISTER;
+    public String ORGAN_REGISTER;
     @Property("ФПГ")
-    private String FPG;
+    public String FPG;
     @Property("Направлено в")
-    private String Napravlenio_V;
+    public String Napravlenio_V;
     @Property("Лицензия")
-    private String License;
+    public String License;
     @Property("Статус участника МФЦА")
-    private String Status_Uchastnika_MFCA;
+    public String Status_Uchastnika_MFCA;
     @Property("Номер сделки")
-    private String Nomer_sdelki;
+    public String Nomer_sdelki;
     @Property("Уникальный ID сделки")
-    private String Unique_id;
-    @Relationship(type="DFO_AFF_UL", direction = Relationship.Direction.OUTGOING)
-    private List<DFO_AFF_UL> dfo_aff_ul;
-    @Relationship(type="DIRECTOR_CUR", direction = Relationship.Direction.OUTGOING)
-    private List<DIRECTOR_CUR> directorCur;
-    @Relationship(type="DIRECTOR_HIST", direction = Relationship.Direction.OUTGOING)
-    private List<DIRECTOR_HIST> directorHist;
-    @Relationship(type="ESF_100", direction = Relationship.Direction.OUTGOING)
-    private List<ESF_100> esf100;
-    @Relationship(type="ESF_10and100", direction = Relationship.Direction.OUTGOING)
-    private List<ESF_10and50> esf10and50;
-    @Relationship(type="WORKER_HIST", direction = Relationship.Direction.OUTGOING)
-    private List<WORKER_HIST> workerHist;
-    @Relationship(type="WORKER_CUR", direction = Relationship.Direction.OUTGOING)
-    private List<WORKER_CUR> workerCur;
-    @Relationship(type="UCHILSYA", direction = Relationship.Direction.OUTGOING)
-    private List<UCHILSYA> uchilsya;
-    @Relationship(type="SUDIM", direction = Relationship.Direction.OUTGOING)
-    private List<SUDIM> sudim;
-    @Relationship(type="REG_ADDRESS_UL", direction = Relationship.Direction.OUTGOING)
-    private List<REG_ADDESS_UL> regAddessUl;
-    @Relationship(type="OPG", direction = Relationship.Direction.INCOMING)
-    private List<OPG> opgs;
-    @Relationship(type="NTR_UL_FL", direction = Relationship.Direction.OUTGOING)
-    private List<NTR_UL_FL> ntrUlFls;
-    @Relationship(type="IP", direction = Relationship.Direction.OUTGOING)
-    private List<IP> ips;
-    @Relationship(type="IP-KX", direction = Relationship.Direction.OUTGOING)
-    private List<IP_KX> ipKx;
-    @Relationship(type="GOSZAKUP", direction = Relationship.Direction.OUTGOING)
-    private List<GOSZAKUP> goszakup;
-    @Relationship(type="FPG", direction = Relationship.Direction.OUTGOING)
-    private List<FPG> fpgs;
-    @Relationship(type="FOUNDER_CUR", direction = Relationship.Direction.OUTGOING)
-    private List<Company> founderCur;
-    @Relationship(type="FOUNDER_CUR", direction = Relationship.Direction.OUTGOING)
-    private List<Persons> founderCurPersons;
+    public String Unique_id;
 
-    public List<Company> getFounderCur() {
-        return founderCur;
-    }
+    @Relationship(type = "BUHGALTER", direction = Relationship.Direction.OUTGOING)
+    private List<BUHGALTER> buhgalters;
 
-    public void setFounderCur(List<Company> founderCur) {
-        this.founderCur = founderCur;
-    }
+    @Relationship(type = "DETDOM_HIST", direction = Relationship.Direction.OUTGOING)
+    private List<DETDOM_HIST> detdomHistList;
+    @Relationship(type = "DFO_AFF_UL", direction = Relationship.Direction.OUTGOING)
+    private List<DFO_AFF_UL> dfoAffUls;
 
-    public List<ESF_10and50> getEsf10and50() {
-        return esf10and50;
-    }
+    @Relationship(type = "ESF_100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_100> esf100s;
 
-    public void setEsf10and50(List<ESF_10and50> esf10and50) {
-        this.esf10and50 = esf10and50;
-    }
-
-    public List<com.example.new_project_challenge_15.entity.rels.FPG> getFpgs() {
-        return fpgs;
-    }
-
-    public void setFpgs(List<com.example.new_project_challenge_15.entity.rels.FPG> fpgs) {
-        this.fpgs = fpgs;
-    }
-
-    public List<IP_KX> getIpKx() {
-        return ipKx;
-    }
-
-    public void setIpKx(List<IP_KX> ipKx) {
-        this.ipKx = ipKx;
-    }
-
-    public List<GOSZAKUP> getGoszakup() {
-        return goszakup;
-    }
-
-    public void setGoszakup(List<GOSZAKUP> goszakup) {
-        this.goszakup = goszakup;
-    }
-
-    public List<IP> getIps() {
-        return ips;
-    }
-
-    public void setIps(List<IP> ips) {
-        this.ips = ips;
-    }
-
-    public List<REG_ADDESS_UL> getRegAddessUl() {
-        return regAddessUl;
-    }
-
-    public void setRegAddessUl(List<REG_ADDESS_UL> regAddessUl) {
-        this.regAddessUl = regAddessUl;
-    }
-
-    public List<OPG> getOpgs() {
-        return opgs;
-    }
-
-    public void setOpgs(List<OPG> opgs) {
-        this.opgs = opgs;
-    }
-
-    public List<NTR_UL_FL> getNtrUlFls() {
-        return ntrUlFls;
-    }
-
-    public void setNtrUlFls(List<NTR_UL_FL> ntrUlFls) {
-        this.ntrUlFls = ntrUlFls;
-    }
-
-    public List<WORKER_CUR> getWorkerCur() {
-        return workerCur;
-    }
-
-    public void setWorkerCur(List<WORKER_CUR> workerCur) {
-        this.workerCur = workerCur;
-    }
-
-    public List<UCHILSYA> getUchilsya() {
-        return uchilsya;
-    }
-
-    public void setUchilsya(List<UCHILSYA> uchilsya) {
-        this.uchilsya = uchilsya;
-    }
-
-    public List<SUDIM> getSudim() {
-        return sudim;
-    }
-
-    public void setSudim(List<SUDIM> sudim) {
-        this.sudim = sudim;
-    }
-
-    public List<WORKER_HIST> getWorkerHist() {
-        return workerHist;
-    }
-
-    public void setWorkerHist(List<WORKER_HIST> workerHist) {
-        this.workerHist = workerHist;
-    }
-
-    @Relationship(type="ESF_10and100", direction = Relationship.Direction.OUTGOING)
-    private List<ESF_10and100> esf_10and100;
+    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_10and100> esf_10and100s;
 
     @Relationship(type = "ESF_10and50", direction = Relationship.Direction.OUTGOING)
     private List<ESF_10and50> esf10and50s;
 
     @Relationship(type = "ESF_50and100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_50and100> esf50and100s;
+
     @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
     private List<ESF_5and10> esf5and10s;
 
     @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.INCOMING)
     private List<FOUNDER_CUR> founderCurs;
 
-//    @Relationship(type = "FOUNDER_CUR_TP", direction = Relationship.Direction.OUTGOING)
-//    private List<FOUNDER_CUR_TP> founderCurTps;
-//
-//    public List<FOUNDER_CUR_TP> getFounderCurTps() {
-//        return founderCurTps;
-//    }
-//
-//    public void setFounderCurTps(List<FOUNDER_CUR_TP> founderCurTps) {
-//        this.founderCurTps = founderCurTps;
-//    }
+    @Relationship(type = "FOUNDER_HIST", direction = Relationship.Direction.INCOMING)
+    private List<FOUNDER_HIST> founderHists;
 
-    public List<FOUNDER_CUR> getFounderCurs() {
-        return founderCurs;
+    @Relationship(type = "FPG", direction = Relationship.Direction.OUTGOING)
+    private List<FPG> fpgs;
+
+    @Relationship(type = "GOSZAKUP", direction = Relationship.Direction.OUTGOING)
+    private List<GOSZAKUP> goszakups;
+
+    @Relationship(type = "IP", direction = Relationship.Direction.OUTGOING)
+    private List<IP> ips;
+
+    @Relationship(type = "IP_KX", direction = Relationship.Direction.OUTGOING)
+    private List<IP_KX> ipKxes;
+
+    @Relationship(type = "NTR_UL_FL", direction = Relationship.Direction.OUTGOING)
+    private List<NTR_UL_FL> ntrUlFls;
+
+    @Relationship(type = "OPG", direction = Relationship.Direction.OUTGOING)
+    private List<OPG> opgs;
+
+    @Relationship(type = "PDL", direction = Relationship.Direction.OUTGOING)
+    private List<PDL> pdls;
+
+    @Relationship(type = "REG_ADDRESS", direction = Relationship.Direction.OUTGOING)
+    private List<REG_ADDRESS> regAddresses;
+
+    @Relationship(type = "REG_ADDRESS_UL", direction = Relationship.Direction.OUTGOING)
+    private List<REG_ADDESS_UL> regAddessUls;
+
+    @Relationship(type = "SUDIM", direction = Relationship.Direction.OUTGOING)
+    private List<SUDIM> sudims;
+
+    @Relationship(type = "UCHILSYA", direction = Relationship.Direction.OUTGOING)
+    private List<UCHILSYA> uchilsyas;
+
+    @Relationship(type = "WORKER_CUR", direction = Relationship.Direction.OUTGOING)
+    private List<WORKER_CUR> workerCurs;
+
+    @Relationship(type = "WORKER_HIST", direction = Relationship.Direction.OUTGOING)
+    private List<WORKER_HIST> workerHists;
+
+    public List<BUHGALTER> getBuhgalters() {
+        return buhgalters;
     }
 
-    public void setFounderCurs(List<FOUNDER_CUR> founderCurs) {
-        this.founderCurs = founderCurs;
+    public void setBuhgalters(List<BUHGALTER> buhgalters) {
+        this.buhgalters = buhgalters;
     }
 
-    public void setEsf5and10s(List<ESF_5and10> esf5and10s) {
-        this.esf5and10s = esf5and10s;
+    public List<DETDOM_HIST> getDetdomHistList() {
+        return detdomHistList;
     }
 
-    public List<ESF_5and10> getEsf5and10s() {
-        return esf5and10s;
+    public void setDetdomHistList(List<DETDOM_HIST> detdomHistList) {
+        this.detdomHistList = detdomHistList;
     }
 
-
-    public void setEsf50and100s(List<ESF_50and100> esf50and100s) {
-        this.esf50and100s = esf50and100s;
+    public List<DFO_AFF_UL> getDfoAffUls() {
+        return dfoAffUls;
     }
 
-    public List<ESF_50and100> getEsf50and100s() {
-        return esf50and100s;
+    public void setDfoAffUls(List<DFO_AFF_UL> dfoAffUls) {
+        this.dfoAffUls = dfoAffUls;
+    }
+
+    public List<ESF_100> getEsf100s() {
+        return esf100s;
+    }
+
+    public void setEsf100s(List<ESF_100> esf100s) {
+        this.esf100s = esf100s;
+    }
+
+    public List<ESF_10and100> getEsf_10and100s() {
+        return esf_10and100s;
+    }
+
+    public void setEsf_10and100s(List<ESF_10and100> esf_10and100s) {
+        this.esf_10and100s = esf_10and100s;
     }
 
     public List<ESF_10and50> getEsf10and50s() {
@@ -248,29 +166,152 @@ public class Company {
         this.esf10and50s = esf10and50s;
     }
 
-    public List<ESF_10and100> getEsf_10and100() {
-        return esf_10and100;
+    public List<ESF_50and100> getEsf50and100s() {
+        return esf50and100s;
     }
 
-    public void setEsf_10and100(List<ESF_10and100> esf_10and100) {
-        this.esf_10and100 = esf_10and100;
+    public void setEsf50and100s(List<ESF_50and100> esf50and100s) {
+        this.esf50and100s = esf50and100s;
     }
 
-    public List<ESF_100> getEsf100() {
-        return esf100;
+    public List<ESF_5and10> getEsf5and10s() {
+        return esf5and10s;
     }
 
-    public void setEsf100(List<ESF_100> esf100) {
-        this.esf100 = esf100;
+    public void setEsf5and10s(List<ESF_5and10> esf5and10s) {
+        this.esf5and10s = esf5and10s;
     }
 
-    public List<DIRECTOR_HIST> getDirectorHist() {
-        return directorHist;
+    public List<FOUNDER_CUR> getFounderCurs() {
+        return founderCurs;
     }
 
-    public void setDirectorHist(List<DIRECTOR_HIST> directorHist) {
-        this.directorHist = directorHist;
+    public void setFounderCurs(List<FOUNDER_CUR> founderCurs) {
+        this.founderCurs = founderCurs;
     }
+
+    public List<FOUNDER_HIST> getFounderHists() {
+        return founderHists;
+    }
+
+    public void setFounderHists(List<FOUNDER_HIST> founderHists) {
+        this.founderHists = founderHists;
+    }
+
+    public List<com.example.new_project_challenge_15.entity.rels.FPG> getFpgs() {
+        return fpgs;
+    }
+
+    public void setFpgs(List<com.example.new_project_challenge_15.entity.rels.FPG> fpgs) {
+        this.fpgs = fpgs;
+    }
+
+    public List<GOSZAKUP> getGoszakups() {
+        return goszakups;
+    }
+
+    public void setGoszakups(List<GOSZAKUP> goszakups) {
+        this.goszakups = goszakups;
+    }
+
+    public List<IP> getIps() {
+        return ips;
+    }
+
+    public void setIps(List<IP> ips) {
+        this.ips = ips;
+    }
+
+    public List<IP_KX> getIpKxes() {
+        return ipKxes;
+    }
+
+    public void setIpKxes(List<IP_KX> ipKxes) {
+        this.ipKxes = ipKxes;
+    }
+
+    public List<NTR_UL_FL> getNtrUlFls() {
+        return ntrUlFls;
+    }
+
+    public void setNtrUlFls(List<NTR_UL_FL> ntrUlFls) {
+        this.ntrUlFls = ntrUlFls;
+    }
+
+    public List<OPG> getOpgs() {
+        return opgs;
+    }
+
+    public void setOpgs(List<OPG> opgs) {
+        this.opgs = opgs;
+    }
+
+    public List<PDL> getPdls() {
+        return pdls;
+    }
+
+    public void setPdls(List<PDL> pdls) {
+        this.pdls = pdls;
+    }
+
+    public List<REG_ADDRESS> getRegAddresses() {
+        return regAddresses;
+    }
+
+    public void setRegAddresses(List<REG_ADDRESS> regAddresses) {
+        this.regAddresses = regAddresses;
+    }
+
+    public List<REG_ADDESS_UL> getRegAddessUls() {
+        return regAddessUls;
+    }
+
+    public void setRegAddessUls(List<REG_ADDESS_UL> regAddessUls) {
+        this.regAddessUls = regAddessUls;
+    }
+
+    public List<SUDIM> getSudims() {
+        return sudims;
+    }
+
+    public void setSudims(List<SUDIM> sudims) {
+        this.sudims = sudims;
+    }
+
+    public List<UCHILSYA> getUchilsyas() {
+        return uchilsyas;
+    }
+
+    public void setUchilsyas(List<UCHILSYA> uchilsyas) {
+        this.uchilsyas = uchilsyas;
+    }
+
+    public List<WORKER_CUR> getWorkerCurs() {
+        return workerCurs;
+    }
+
+    public void setWorkerCurs(List<WORKER_CUR> workerCurs) {
+        this.workerCurs = workerCurs;
+    }
+
+    public List<WORKER_HIST> getWorkerHists() {
+        return workerHists;
+    }
+
+    public void setWorkerHists(List<WORKER_HIST> workerHists) {
+        this.workerHists = workerHists;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+
+
 
     public String getPersonID() {
         return PersonID;
@@ -280,29 +321,8 @@ public class Company {
         PersonID = personID;
     }
 
-    public List<DIRECTOR_CUR> getDirectorCur() {
-        return directorCur;
-    }
 
-    public void setDirectorCur(List<DIRECTOR_CUR> directorCur) {
-        this.directorCur = directorCur;
-    }
 
-    public List<DFO_AFF_UL> getDfo_aff_ul() {
-        return dfo_aff_ul;
-    }
-
-    public void setDfo_aff_ul(List<DFO_AFF_UL> dfo_aff_ul) {
-        this.dfo_aff_ul = dfo_aff_ul;
-    }
-
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
 
     public String getIINBIN() {
         return IINBIN;

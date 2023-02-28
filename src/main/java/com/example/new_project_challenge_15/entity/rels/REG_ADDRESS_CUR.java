@@ -8,13 +8,13 @@ import org.springframework.data.neo4j.core.schema.*;
 public class REG_ADDRESS_CUR {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @Property("Дата начала прописки")
-    private String  Data_nachali_propiski;
+    public String  Data_nachali_propiski;
 
     @TargetNode
     private Address address;

@@ -8,13 +8,13 @@ import org.springframework.data.neo4j.core.schema.*;
 public class PDL {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @Property("ПДЛ")
-    private String pdl;
+    public String pdl;
     @TargetNode
     private Company company;
 
