@@ -1,8 +1,10 @@
 package com.example.new_project_challenge_15.entity;
 
 import com.example.new_project_challenge_15.entity.rels.*;
+import org.hibernate.annotations.Type;
 import org.springframework.data.neo4j.core.schema.*;
 
+import javax.persistence.Lob;
 import java.util.List;
 
 @Node("Person")
@@ -10,6 +12,7 @@ public class Persons {
     @Id
     @GeneratedValue
     public Long id;
+
     public String PersonID;
     @Property("Дата рождения")
     public String Data_Rozhdenya;
@@ -120,6 +123,8 @@ public class Persons {
 
     @Relationship(type = "ZAGS_IIN", direction = Relationship.Direction.OUTGOING)
     private List<ZAGS_IIN> zagsIins;
+
+
 
     public List<BUHGALTER> getBuhgalters() {
         return buhgalters;
