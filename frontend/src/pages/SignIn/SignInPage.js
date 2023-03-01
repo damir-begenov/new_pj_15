@@ -4,19 +4,25 @@ import { Link } from 'react-router-dom'
 
 import { useForm } from "react-hook-form"
 import SignInForm from "../../Components/SignInForm/SignInForm";
+import './SignInPage.css'
 
 export default class RegistrationPage extends Component {
     render() {
         return (
-            <section>
-                <div className="title">
-                    <div>NEXUS</div>
-                    <div>LOGIN</div>
-                </div>
+            <div className="signInBlock">
+                    
+                <section className="signInPageSection">
+                    
+                    <div className="title">
+                        <div>iTap</div>
+                        <div>login</div>
+                    </div>
 
-                <SignInForm></SignInForm>
+                    <SignInForm></SignInForm>
 
-            </section>
+                </section>
+            </div>
+
         )
     }
 }

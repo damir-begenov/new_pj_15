@@ -21,7 +21,7 @@ const Navbar = () => {
     return (
         <div className="nav-back">
             <nav className="NavbarItems">
-                <h1 className="logo"><Link to='/'>NEXUS</Link></h1>
+                <h1 className="logo"><Link to='/'>ITap</Link></h1>
                 <div>
                     {
                         userSession && 
@@ -50,7 +50,7 @@ const Navbar = () => {
                         </> 
                         :
                         <>
-                            <li><a className={"nav-links"} href={"http://localhost:3000/registration"}>SIGN UP</a></li>
+                            {/* <li><a className={"nav-links"} href={"http://localhost:3000/registration"}>SIGN UP</a></li> */}
                             <li><a className={"nav-links"} href={"http://localhost:3000/login"}>LOG IN</a></li>
                         </>
                     }
