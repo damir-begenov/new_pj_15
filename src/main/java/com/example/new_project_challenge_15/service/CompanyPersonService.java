@@ -2,6 +2,7 @@ package com.example.new_project_challenge_15.service;
 
 import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.entity.rels.*;
+import com.example.new_project_challenge_15.models.photoDb;
 import com.example.new_project_challenge_15.repository.newCompanyRepo;
 import com.example.new_project_challenge_15.repository.newPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class CompanyPersonService {
 
     @Autowired
     newCompanyRepo companyRepo;
+    @Autowired
+
+    newPhotoService newPhotoService;
 
     private Map<String, Object> getPropertyMap(Object obj) {
         Map<String, Object> properties = new HashMap<>();
@@ -357,6 +361,7 @@ public class CompanyPersonService {
                 Nodes currNode = new Nodes();
                 Map<String, Object> properties = getPropertyMap(object);
                 currNode.setId(object.getId());
+                currNode.setPhotoDbf(newPhotoService.getPhotoByIIN(object.getIIN()));
                 currNode.setProperties(properties);
                 nodes.add(currNode);
             }
