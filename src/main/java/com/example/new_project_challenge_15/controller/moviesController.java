@@ -58,6 +58,11 @@ public class moviesController {
     public doubleReturn testDoubleReturn() {
         return companyPersonService.Test();
     }
+
+    @GetMapping("/fltree")
+    public doubleReturn getPersonTree(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+        return companyPersonService.getPersonTree(person, relations, depth, limit);
+    }
 //
 //    @GetMapping("/statistic")
 //    public statisticModel getUserLogs(@RequestParam String username) {

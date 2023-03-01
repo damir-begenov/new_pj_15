@@ -38,79 +38,12 @@ public class CompanyPersonService {
         return properties;
     }
 
-//    private List<propertiesModel> collectPerosonProperties(Persons person) {
-//        List<propertiesModel> properties = new ArrayList<>();
-//        propertiesModel property = new propertiesModel();
-//        property.setName("PersonID");
-//        property.setValue(person.getPersonID());
-//        properties.add(property);
-//        property.setName("Data_birth");
-//        property.setValue(person.getData_reshenya());
-//        properties.add(property);
-//        property.setName("Familia");
-//        property.setValue(person.getFamilia());
-//        properties.add(property);
-//        property.setName("Orchestvo");
-//        property.setValue(person.getOtchestvo());
-//        properties.add(property);
-//        property.setName("FIO");
-//        property.setValue(person.getFIO());
-//        properties.add(property);
-//        property.setName("Source");
-//        property.setValue(person.getSource());
-//        properties.add(property);
-//        property.setName("Label");
-//        property.setValue(person.getLabel());
-//        properties.add(property);
-//        property.setName("IIN");
-//        property.setValue(person.getIIN());
-//        properties.add(property);
-//        property.setName("Status_death");
-//        property.setValue(person.getDeath_Status());
-//        properties.add(property);
-//        property.setName("MedOrg");
-//        property.setValue(person.getMed_org());
-//        properties.add(property);
-//        property.setName("Status_Minzdrav");
-//        property.setValue(person.getStatus_Minzdrav());
-//        properties.add(property);
-//        property.setName("Status_KUIS");
-//        property.setValue(person.getStatus_KUIS());
-//        properties.add(property);
-//        property.setName("Pristavanie");
-//        property.setValue(person.getPristavanie());
-//        properties.add(property);
-//        property.setName("Data_reshenya");
-//        property.setValue(person.getData_reshenya());
-//        properties.add(property);
-//        property.setName("Razmer_Shtrafa");
-//        property.setValue(person.getRazmer_Shtrafa());
-//        properties.add(property);
-//        property.setName("Organ_pravanarushenya");
-//        property.setValue(person.getOrgan_pravanarushenya());
-//        properties.add(property);
-//        property.setName("");
-//        property.setValue();
-//        properties.add(property);
-//        property.setName();
-//        property.setValue();
-//        properties.add(property);
-//        property.setName();
-//        property.setValue();
-//        properties.add(property);
-//        property.setName();
-//        property.setValue();
-//        properties.add(property);
-//        property.setName();
-//        property.setValue();
-//        properties.add(property);
-//        property.setName();
-//        property.setValue();
-//        properties.add(property);
-//        property.setName();
-//        property.setValue();
-//        properties.add(property);
-//    }
+    public doubleReturn getPersonTree(String PERSON, List<String> RELS, int DEPTH, int LIMIT) {
+        List<Persons> persons =  personRepo.getPersonTree(PERSON, RELS, DEPTH, LIMIT);
+        List<Company> companies = companyRepo.getPersonTree(PERSON, RELS, DEPTH, LIMIT);
+        doubleReturn doubleReturn = ConstructDoubleReturn(persons, companies);
+        return doubleReturn;
+    }
 
     private doubleReturn ConstructDoubleReturn(List<Persons> personsList, List<Company> companies) {
         List<Nodes> nodes = new ArrayList<>();

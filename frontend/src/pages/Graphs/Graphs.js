@@ -81,30 +81,30 @@ export default class GraphNet extends Component {
       const userSession = JSON.parse(localStorage.getItem("user"))
       console.log(userSession)
       
-      let url = "";
+      let url = "http://localhost:9091/api/finpol/main/test";
       let params ={};
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
-      switch(options.mode) {
-        case "con1":
-          url = "http://localhost:9091/api/finpol/main/person";
-          params = {person: options.name1, relations: options.relations, depth: options.depth, limit: options.limit }
-          break;
-        case "con2":
-          url = "http://localhost:9091/api/finpol/main/shortestpaths";
-          params = {person: options.name1, person2: options.name2, relations: options.relations}
-          break;
-        case "con3":
-          url = "http://localhost:9091/api/finpol/main/movieperson";
-          params = {person: options.name1, movie: options.name2, relations: options.relations}
-          break;
-        case "con4": 
-          url = "http://localhost:9091/api/finpol/main/movie";
-          params = {title: options.name1, relations: options.relations}
-          break;
-      }
+      // switch(options.mode) {
+      //   case "con1":
+      //     url = "http://localhost:9091/api/finpol/main/fltree";
+      //     params = {person: options.name1, relations: options.relations, depth: options.depth, limit: options.limit }
+      //     break;
+      //   case "con2":
+      //     url = "http://localhost:9091/api/finpol/main/shortestpaths";
+      //     params = {person: options.name1, person2: options.name2, relations: options.relations}
+      //     break;
+      //   case "con3":
+      //     url = "http://localhost:9091/api/finpol/main/movieperson";
+      //     params = {person: options.name1, movie: options.name2, relations: options.relations}
+      //     break;
+      //   case "con4":
+      //     url = "http://localhost:9091/api/finpol/main/movie";
+      //     params = {title: options.name1, relations: options.relations}
+      //     break;
+      // }
       
-      axios.get(url, {params: params}).then(res => {
-        let nodes = []
+      axios.get(url).then(res => {
+        let nodes = res.data.nodes
         const edges = res.data.edges;
         
         
@@ -112,21 +112,22 @@ export default class GraphNet extends Component {
           this.setEdgeSettings(item);
         })
       
-        res.data.nodes.map(item => {
-          this.setNodeSettings(item)
-          if (item.name == options.name1 || item.name == options.name2) {
-            if (item.group == "actors")
-              item.group = "selectedActors"
-            if (item.group == "movies")
-              item.group = "selectedMovies" 
-          }
-          console.log(item)
-          nodes.push(item);
-        })
+        // res.data.nodes.map(item => {
+        //   this.setNodeSettings(item)
+        //   if (item.name == options.name1 || item.name == options.name2) {
+        //     if (item.group == "actors")
+        //       item.group = "selectedActors"
+        //     if (item.group == "movies")
+        //       item.group = "selectedMovies"
+        //   }
+        //   console.log(item)
+        //   nodes.push(item);
+        // })
       
-        nodes.map(item => {
-          item.label = item.name || item.roles[0]
-        })
+        // nodes.map(item => {
+        //   item.label = item.name || item.roles[0]
+        // })
+        console.log(res.data)
         
         this.setState({nodes, edges})
         
@@ -172,34 +173,34 @@ export default class GraphNet extends Component {
     }
 
     setEdgeSettings = (edge) => {
-      edge.label = edge.type
-      Object.assign(edge, {properties: edge.properties})
-
-      if (edge.type === 'acted_in') {
-        Object.assign(edge, {font: {color: this.colors.actedInEdge}})
-        Object.assign(edge, {color: this.colors.actedInEdge})
-
-      } else if (edge.type == 'directed') {
-        Object.assign(edge, {font: {color: this.colors.directedEdge}})
-        Object.assign(edge, {color: this.colors.directedEdge})
-
-      } else if (edge.type == 'reviewed') {
-        Object.assign(edge, {font: {color: this.colors.reviewEdge}})
-        Object.assign(edge, {color: this.colors.reviewEdge})
-
-      } else if (edge.type == 'wrote') {
-        Object.assign(edge, {font: {color: this.colors.wroteEdge}})
-        Object.assign(edge, {color: this.colors.wroteEdge})
-
-      } else if (edge.type == 'produced') {
-        Object.assign(edge, {font: {color: this.colors.producedEdge}})
-        Object.assign(edge, {color: this.colors.producedEdge})
-
-      } else if (edge.type == 'follows') {
-        Object.assign(edge, {font: {color: this.colors.followsEdge}})
-        Object.assign(edge, {color: this.colors.followsEdge})
-
-      }
+      // edge.label = edge.type
+      // Object.assign(edge, {properties: edge.properties})
+      //
+      // if (edge.type === 'acted_in') {
+      //   Object.assign(edge, {font: {color: this.colors.actedInEdge}})
+      //   Object.assign(edge, {color: this.colors.actedInEdge})
+      //
+      // } else if (edge.type == 'directed') {
+      //   Object.assign(edge, {font: {color: this.colors.directedEdge}})
+      //   Object.assign(edge, {color: this.colors.directedEdge})
+      //
+      // } else if (edge.type == 'reviewed') {
+      //   Object.assign(edge, {font: {color: this.colors.reviewEdge}})
+      //   Object.assign(edge, {color: this.colors.reviewEdge})
+      //
+      // } else if (edge.type == 'wrote') {
+      //   Object.assign(edge, {font: {color: this.colors.wroteEdge}})
+      //   Object.assign(edge, {color: this.colors.wroteEdge})
+      //
+      // } else if (edge.type == 'produced') {
+      //   Object.assign(edge, {font: {color: this.colors.producedEdge}})
+      //   Object.assign(edge, {color: this.colors.producedEdge})
+      //
+      // } else if (edge.type == 'follows') {
+      //   Object.assign(edge, {font: {color: this.colors.followsEdge}})
+      //   Object.assign(edge, {color: this.colors.followsEdge})
+      //
+      // }
     }
 
     setNodeSettings = (node) => {
