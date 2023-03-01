@@ -8,13 +8,21 @@ import org.springframework.data.neo4j.core.schema.*;
 public class OPG {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @TargetNode
     private Company company;
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 
     public Long getId() {
         return id;

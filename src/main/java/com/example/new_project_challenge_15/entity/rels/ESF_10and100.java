@@ -9,23 +9,23 @@ import org.springframework.data.neo4j.core.schema.*;
 public class ESF_10and100 {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @Property("Общая сумма ЭСФ")
-    private String obshaya_summa;
+    public String obshaya_summa;
     @Property("ЭСФ за 2019 год")
-    private String esf_2019;
+    public String esf_2019;
     @Property("ЭСФ за 2020 год")
-    private String esf_2020;
+    public String esf_2020;
 
     @Property("ЭСФ за 2021 год")
-    private String esf_2021;
+    public String esf_2021;
 
     @Property("ЭСФ за 2022 год")
-    private String esf_2022;
+    public String esf_2022;
     @TargetNode
     private Company company;
 

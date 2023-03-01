@@ -8,27 +8,27 @@ import org.springframework.data.neo4j.core.schema.*;
 public class WORKER_HIST {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @Property("БИН/ИИН работадателя")
-    private String IINBIN_rabotadatelya;
+    public String IINBIN_rabotadatelya;
     @Property("ИИН")
-    private String IIN;
+    public String IIN;
     @Property("Дата начала отчисления ОПВ/СО")
-    private String data_nachalo;
+    public String data_nachalo;
     @Property("Дата окончания отчисления ОПВ/СО")
-    private String data_oconchanya;
+    public String data_oconchanya;
     @Property("Количество месяцев пенсионных отчислений")
-    private String mesyac_pensionnih;
+    public String mesyac_pensionnih;
     @Property("Пенсионные отчисления")
-    private String pensionnoe_otchislenie;
+    public String pensionnoe_otchislenie;
     @Property("Социальные отчисления")
-    private String soc_ochislenya;
+    public String soc_ochislenya;
     @Property("Средняя заработная плата")
-    private String average_zp;
+    public String average_zp;
     @TargetNode
     private Persons person;
 

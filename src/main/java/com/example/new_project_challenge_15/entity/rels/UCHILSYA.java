@@ -9,15 +9,15 @@ import org.springframework.security.core.parameters.P;
 public class UCHILSYA {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @Property("Дата начала обучения")
-    private String data_nachalo;
+    public String data_nachalo;
     @Property("Дата конца обучения")
-    private String data_konca;
+    public String data_konca;
     @TargetNode
     private Persons person;
 

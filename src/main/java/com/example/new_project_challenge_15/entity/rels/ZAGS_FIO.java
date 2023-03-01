@@ -8,9 +8,9 @@ import org.springframework.data.neo4j.core.schema.*;
 public class ZAGS_FIO {
     @Id
     @GeneratedValue
-    private Long id;
+    public Long id;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @TargetNode
     private Persons person;
 

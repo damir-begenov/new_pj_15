@@ -1,5 +1,6 @@
 package com.example.new_project_challenge_15.entity.rels;
 
+import com.example.new_project_challenge_15.entity.Company;
 import com.example.new_project_challenge_15.entity.Persons;
 import org.springframework.data.neo4j.core.schema.*;
 
@@ -26,16 +27,16 @@ public class FOUNDER_HIST {
     @Property("Вид связи")
     private String Vid_svyaziey;
 
-//    @TargetNode
-//    private Persons person;
-//
-//    public void setPerson(Persons person) {
-//        this.person = person;
-//    }
-//
-//    public Persons getPerson() {
-//        return person;
-//    }
+    @TargetNode
+    private Company company;
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
 
     public Long getId() {
         return id;

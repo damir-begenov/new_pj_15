@@ -8,21 +8,21 @@ import org.springframework.data.neo4j.core.schema.*;
 public class DIRECTOR_HIST {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @Property("БИН/ИИН работадателя")
-    private String IINBIN_rabotadatelya;
+    public String IINBIN_rabotadatelya;
     @Property("Дата начала")
-    private String data_nachalo;
+    public String data_nachalo;
     @Property("Дата окончания")
-    private String data_oconchanya;
+    public String data_oconchanya;
     @Property("ИИН")
-    private String IIN;
+    public String IIN;
     @Property("Наименование типа должности на русском")
-    private String naimenovanie_tipa_dolzhnosty;
+    public String naimenovanie_tipa_dolzhnosty;
     @TargetNode
     private Persons person;
 

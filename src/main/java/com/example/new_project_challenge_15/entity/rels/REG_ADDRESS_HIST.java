@@ -8,15 +8,15 @@ import org.springframework.data.neo4j.core.schema.*;
 public class REG_ADDRESS_HIST {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @Property("Дата начала прописки")
-    private String data_nachalo;
+    public String data_nachalo;
     @Property("Дата окончания прописки")
-    private String data_oconchanya;
+    public String data_oconchanya;
     @TargetNode
     private Address address;
 

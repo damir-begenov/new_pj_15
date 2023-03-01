@@ -4,6 +4,10 @@ public class propertiesModel {
     private String name;
     private String value;
 
+    public propertiesModel() {
+
+    }
+
     public String getName() {
         return name;
     }

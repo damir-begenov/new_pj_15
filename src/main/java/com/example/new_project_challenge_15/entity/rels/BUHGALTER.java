@@ -9,10 +9,10 @@ public class BUHGALTER {
     @Id
     @GeneratedValue
     private Long id;
-    private String Label;
-    private String Source;
+    public String Label;
+    public String Source;
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
     @TargetNode
     private Company company;
 
