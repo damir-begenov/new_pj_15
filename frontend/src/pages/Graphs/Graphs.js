@@ -44,17 +44,30 @@ export default class GraphNet extends Component {
       counter: 0,
       showActionBtn: false,
       sliderPage: 0,
-      searchedNodes: []
+      searchedNodes: [],
+      showNodeInfo: false,
+      showEdgeInfo: false,
     }
 
     assignInfoBlock = (options) => {
-      const infoBlock = document.querySelector(".nodeInfoInner")
+      const infoBlock = document.querySelector("#nodeInfoInner")
       Object.entries(options).forEach(entry => {
         const [key, value] = entry;
         const info = document.createElement("div")
         info.innerHTML = `${key.toUpperCase()}: <span>${value}</span>`
 
         infoBlock.appendChild(info)
+      });
+    }
+
+    assignAddInfoBlock = (options) => {
+      const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+      Object.entries(options).forEach(entry => {
+        const [key, value] = entry;
+        const info = document.createElement("div")
+        info.innerHTML = `${key.toUpperCase()}: <span>${value}</span>`
+
+        addInfoBlock.appendChild(info)
       });
     }
 
@@ -343,10 +356,15 @@ export default class GraphNet extends Component {
 
     events = {
       selectNode: (event) => {
+        this.setState({showNodeInfo: true})
         SelectedNode = Network.selectionHandler.selectionObj.nodes[Object.keys(Network.selectionHandler.selectionObj.nodes)[0]]
+
         onSelectNode = true
 
-        const infoBlock = document.querySelector(".nodeInfoInner")
+        const infoBlock = document.querySelector("#nodeInfoInner")
+        const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+
+        addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
 
         console.log(SelectedNode)
@@ -364,6 +382,13 @@ export default class GraphNet extends Component {
             "Отчество": sp.Otchestvo || "Нет отчества",
             "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения"
           })
+
+          this.assignAddInfoBlock({
+            "class": "Person",
+            "PersonID": sp.PersonID,
+            "Label": sp.Label,
+            "Source": sp.Source,
+          })
         
         } else if (sg == "judgeCompany" || sg == "company" || sg == "keyCompany") {
           
@@ -377,17 +402,27 @@ export default class GraphNet extends Component {
       }, 
 
       deselectNode: (event) => {
-        const infoBlock = document.querySelector(".nodeInfoInner")
+        const infoBlock = document.querySelector("#nodeInfoInner")
+        const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+
         infoBlock.innerHTML = ""
+        addInfoBlock.innerHTML = ""
+
         onSelectNode = false
+        this.setState({showNodeInfo: false})
       },
 
       selectEdge: (event) => {
+        this.setState({showNodeInfo: true})
+
         SelectedEdge = Network.selectionHandler.selectionObj.edges[Object.keys(Network.selectionHandler.selectionObj.edges)[0]]
 
         if (onSelectNode == true) return
 
-        const infoBlock = document.querySelector(".nodeInfoInner")
+        const infoBlock = document.querySelector("#nodeInfoInner")
+        const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+
+        addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
 
         const fromNode = Network.body.nodes[SelectedEdge.options.from]
@@ -416,8 +451,12 @@ export default class GraphNet extends Component {
           roles: edgeRoles
         })
       },
-    }
 
+      deselectEdge: (event) => {
+        this.setState({showNodeInfo: false})
+      }
+
+    }
     search() {
       this.updateSearched()
       this.showSearched()
@@ -475,7 +514,7 @@ export default class GraphNet extends Component {
                 <i id="waiter" class="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
-            <RightBar showAction={this.state.showActionBtn}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo}></RightBar>
           </>
           </div>
         )
@@ -505,7 +544,7 @@ export default class GraphNet extends Component {
                   <div class="inner three"></div>
                 </div>
               </div>
-            <RightBar showAction={this.state.showActionBtn}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo}></RightBar>
           </>
           </div>
         )
@@ -560,7 +599,7 @@ export default class GraphNet extends Component {
             />
         </div>
           
-        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide}></RightBar>
+        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo}></RightBar>
         </>
         </div>
       )
