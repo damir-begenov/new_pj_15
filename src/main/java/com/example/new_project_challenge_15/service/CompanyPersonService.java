@@ -43,7 +43,7 @@ public class CompanyPersonService {
     }
 
     public doubleReturn getPersonTree(String PERSON, List<String> RELS, int DEPTH, int LIMIT) {
-        List<Persons> persons =  personRepo.getPersonTree(PERSON, RELS, DEPTH, LIMIT);
+        List<Persons> persons =  personRepo.getPersonTree(PERSON, DEPTH, LIMIT, RELS);
         List<Company> companies = companyRepo.getPersonTree(PERSON, RELS, DEPTH, LIMIT);
         doubleReturn doubleReturn = ConstructDoubleReturn(persons, companies);
         return doubleReturn;
