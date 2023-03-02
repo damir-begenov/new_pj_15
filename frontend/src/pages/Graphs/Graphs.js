@@ -16,6 +16,17 @@ import userIconRed from "./../../user-icon-red.png";
 
 import useFetch from "../../hooks/useFetch.js";
 
+// icons
+import address from '../../icons/address.png'
+import company from '../../icons/company.png'
+import judgeCompany from '../../icons/judge_company.png'
+import judgePerson from '../../icons/judge_person.jpg'
+import keyCompany from '../../icons/key_company.png'
+import keyJudgePerson from '../../icons/key_judge_person.jpg'
+import keyPerson from '../../icons/key_person.png'
+import person from '../../icons/person.png'
+import personjai from '../../icons/personjai.png'
+
 var NoD =  [];
 var EdG = [];
 var Network;
@@ -103,8 +114,8 @@ export default class GraphNet extends Component {
       //     break;
       // }
       
-      axios.get(url).then(res => {
-        let nodes = res.data.nodes
+      axios.get("http://localhost:9091/api/finpol/main/test").then(res => {
+        let nodes = []
         const edges = res.data.edges;
         
         
@@ -112,29 +123,20 @@ export default class GraphNet extends Component {
           this.setEdgeSettings(item);
         })
       
-        // res.data.nodes.map(item => {
-        //   this.setNodeSettings(item)
-        //   if (item.name == options.name1 || item.name == options.name2) {
-        //     if (item.group == "actors")
-        //       item.group = "selectedActors"
-        //     if (item.group == "movies")
-        //       item.group = "selectedMovies"
-        //   }
-        //   console.log(item)
-        //   nodes.push(item);
-        // })
-      
-        // nodes.map(item => {
-        //   item.label = item.name || item.roles[0]
-        // })
-        console.log(res.data)
+        res.data.nodes.map(item => {
+          this.setNodeSettings(item)
+          
+          nodes.push(item);
+        })
         
         this.setState({nodes, edges})
+        console.log(nodes)
+        console.log(edges)
         
         this.state.isLoading = false
 
         this.setState({showActionBtn: true})
-        Network.fit({});
+        // Network.fit({});
       })
     };
 
@@ -173,74 +175,36 @@ export default class GraphNet extends Component {
     }
 
     setEdgeSettings = (edge) => {
-      // edge.label = edge.type
-      // Object.assign(edge, {properties: edge.properties})
-      //
-      // if (edge.type === 'acted_in') {
-      //   Object.assign(edge, {font: {color: this.colors.actedInEdge}})
-      //   Object.assign(edge, {color: this.colors.actedInEdge})
-      //
-      // } else if (edge.type == 'directed') {
-      //   Object.assign(edge, {font: {color: this.colors.directedEdge}})
-      //   Object.assign(edge, {color: this.colors.directedEdge})
-      //
-      // } else if (edge.type == 'reviewed') {
-      //   Object.assign(edge, {font: {color: this.colors.reviewEdge}})
-      //   Object.assign(edge, {color: this.colors.reviewEdge})
-      //
-      // } else if (edge.type == 'wrote') {
-      //   Object.assign(edge, {font: {color: this.colors.wroteEdge}})
-      //   Object.assign(edge, {color: this.colors.wroteEdge})
-      //
-      // } else if (edge.type == 'produced') {
-      //   Object.assign(edge, {font: {color: this.colors.producedEdge}})
-      //   Object.assign(edge, {color: this.colors.producedEdge})
-      //
-      // } else if (edge.type == 'follows') {
-      //   Object.assign(edge, {font: {color: this.colors.followsEdge}})
-      //   Object.assign(edge, {color: this.colors.followsEdge})
-      //
-      // }
+      
     }
 
     setNodeSettings = (node) => {
       this.state.ids.push(node.id)
 
-      if (node.description === "") {
-        // settings for actors
-        node.group = "actors"
-        node.mass = 5
+      if (node.properties.Type == "ЮЛ") {
+        // settings for ul
+        node.group = "UL"
+        
+        node.label = node.properties.Name;
         
 
-      } else {
-        // settings for movies
-        node.group = "movies"
-        node.physics = true
-        node.mass = 10
+      } else if (node.properties.Ulica != null) {
+        // settings for propiska
+        node.group = "PROPISKA"
 
+        node.label = node.properties.Adress_propiski;
+
+      } else {
+        // settings for fl
+        node.group = "FL"
+
+        node.label = node.properties.FIO
       }
 
     }
 
     colors = {
-      actorIcon: '#cfcc53',
-      actorFont: '#cfcc53',
-
-      selectedActorIcon: '#db353d',
-      selectedActorFont: '#db353d',
-
-      movieIcon: '#1c4709',
-      movieFont: '#1c4709',
-
-      selectedMovieIcon: '#db353d',
-      selectedMovieFont: '#db353d',
-
-      wroteEdge: 'yellow',
-      reviewEdge: 'blue',
-      directedEdge: 'green',
-      actedInEdge: 'red',
-      producedEdge: 'pink',
-      followsEdge: 'purple'
+      
     }
 
     options = {
@@ -283,65 +247,48 @@ export default class GraphNet extends Component {
         wind: { x: 0, y: 0 }
       },
       groups: {
-        actors: {
-          shape: "icon",
-          icon: {
-            face: '"Font Awesome 5 Free"',
-            code: '\uf007',
-            weight: 700,
-            size: 30,
-            color: this.colors.actorIcon
-          },
+        // actors: {
+        //   shape: "icon",
+        //   icon: {
+        //     face: '"Font Awesome 5 Free"',
+        //     code: '\uf007',
+        //     weight: 700,
+        //     size: 30,
+        //     color: this.colors.actorIcon
+        //   },
+        //   font: {
+        //     color: this.colors.actorFont,
+        //     weight: 300,
+        //     size: 20
+        //   },
+        //   // physics: false
+        // },
+        FL: {
+          shape: "circularImage",
+          image: keyPerson,
           font: {
-            color: this.colors.actorFont,
+            color: "red",
             weight: 300,
             size: 20
           },
-          // physics: false
         },
-        selectedActors: {
-          shape: "icon",
-          icon: {
-            face: '"Font Awesome 5 Free"',
-            code: '\uf007',
-            weight: 700,
-            size: 70,
-            color: this.colors.selectedActorIcon
-          },
+        UL: {
+          shape: "circularImage",
+          image: company,
           font: {
-            color: this.colors.selectedActorFont,
-            weight: 500,
-            size: 40
-          },
-          // physics: false
-        },
-        movies: {
-          shape: "icon",
-          icon: {
-            face: '"Font Awesome 5 Free"',
-            code: '\uf03d',
-            weight: 700,
-            size: 50,
-            color: this.colors.movieIcon
-          },
-          font: {
-            color: this.colors.movieFont,
+            color: "white",
             weight: 300,
-          }
-        },
-        selectedMovies: {
-          shape: "icon",
-          icon: {
-            face: '"Font Awesome 5 Free"',
-            code: '\uf03d',
-            weight: 700,
-            size: 50,
-            color: this.colors.selectedMovieIcon
+            size: 20
           },
+        },
+        PROPISKA: {
+          shape: "circularImage",
+          image: address,
           font: {
-            color: this.colors.selectedMovieFont,
+            color: "white",
             weight: 300,
-          }
+            size: 20
+          },
         }
       },
       nodes: {

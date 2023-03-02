@@ -83,7 +83,7 @@ const SignInForm = () => {
                 </div>
 
                 <div className="actions">
-                    <Link to='/registration'><a>Нет аккаунта</a></Link>
+                    {/* <Link to='/registration'><a>Нет аккаунта</a></Link> */}
                     <input id="clear" type="button" value="Очистить"/>
                     <input id="register" type="submit" value="Войти"/>
                 </div>
