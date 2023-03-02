@@ -1,12 +1,22 @@
 package com.example.new_project_challenge_15.entity;
 
+import com.example.new_project_challenge_15.models.photoDb;
+
 import java.util.List;
 import java.util.Map;
 
 public class Nodes {
     private Long id;
-
+    private photoDb photoDbf;
     private Map<String, Object> properties;
+
+    public photoDb getPhotoDbf() {
+        return photoDbf;
+    }
+
+    public void setPhotoDbf(photoDb photoDbf) {
+        this.photoDbf = photoDbf;
+    }
 
     public Long getId() {
         return id;

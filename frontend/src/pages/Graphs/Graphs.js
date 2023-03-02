@@ -17,15 +17,15 @@ import userIconRed from "./../../user-icon-red.png";
 import useFetch from "../../hooks/useFetch.js";
 
 // icons
-import address from '../../icons/address.png'
-import company from '../../icons/company.png'
-import judgeCompany from '../../icons/judge_company.png'
-import judgePerson from '../../icons/judge_person.jpg'
-import keyCompany from '../../icons/key_company.png'
-import keyJudgePerson from '../../icons/key_judge_person.jpg'
-import keyPerson from '../../icons/key_person.png'
-import person from '../../icons/person.png'
-import personjai from '../../icons/personjai.png'
+import addressIcon from '../../icons/address.png'
+import companyIcon from '../../icons/company.png'
+import judgeCompanyIcon from '../../icons/judge_company.png'
+import judgePersonIcon from '../../icons/judge_person.jpg'
+import keyCompanyIcon from '../../icons/key_company.png'
+import keyJudgePersonIcon from '../../icons/key_judge_person.jpg'
+import keyPersonIcon from '../../icons/key_person.png'
+import personIcon from '../../icons/person.png'
+import personjaiIcon from '../../icons/personjai.png'
 
 var NoD =  [];
 var EdG = [];
@@ -44,17 +44,30 @@ export default class GraphNet extends Component {
       counter: 0,
       showActionBtn: false,
       sliderPage: 0,
-      searchedNodes: []
+      searchedNodes: [],
+      showNodeInfo: false,
+      showEdgeInfo: false,
     }
 
     assignInfoBlock = (options) => {
-      const infoBlock = document.querySelector(".nodeInfo")
+      const infoBlock = document.querySelector("#nodeInfoInner")
       Object.entries(options).forEach(entry => {
         const [key, value] = entry;
         const info = document.createElement("div")
         info.innerHTML = `${key.toUpperCase()}: <span>${value}</span>`
 
         infoBlock.appendChild(info)
+      });
+    }
+
+    assignAddInfoBlock = (options) => {
+      const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+      Object.entries(options).forEach(entry => {
+        const [key, value] = entry;
+        const info = document.createElement("div")
+        info.innerHTML = `${key.toUpperCase()}: <span>${value}</span>`
+
+        addInfoBlock.appendChild(info)
       });
     }
 
@@ -161,10 +174,6 @@ export default class GraphNet extends Component {
           this.state.ids.push(item.id)
         })
 
-        nodes.map(item => {
-          item.label = item.name || item.roles[0]
-        })
-
         Network.body.data.nodes.update(nodes)
         Network.body.data.edges.update(edges)
         Network.fit({});
@@ -175,7 +184,23 @@ export default class GraphNet extends Component {
     }
 
     setEdgeSettings = (edge) => {
+      edge.label = edge.properties.Vid_svyaziey
+      Object.assign(edge, {properties: edge.properties})
+      Object.assign(edge, {font: {color: "white"}})
+
+      if (edge.type === 'UCHILSYA') {
+        Object.assign(edge, {color: "lime"})
       
+      } else if (edge.type == 'REG_ADDRESS_CUR' || edge.type == 'REG_ADDRESS_HIST') {
+        Object.assign(edge, {color: "aqua"})
+      
+      } else if (edge.type == 'ZAGS') {
+        Object.assign(edge, {color: 'pink'})
+
+      } else if (edge.type == 'WORKER_CUR' || edge.type == 'WORKER_HIST') {
+        Object.assign(edge, {color: 'blue'})
+
+      }
     }
 
     setNodeSettings = (node) => {
@@ -183,10 +208,14 @@ export default class GraphNet extends Component {
 
       if (node.properties.Type == "ЮЛ") {
         // settings for ul
-        node.group = "UL"
-        
         node.label = node.properties.Name;
         
+        const p = node.properties;
+        if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null) {
+          node.group = "judgeCompany"
+        } else {
+          node.group = "company"
+        }
 
       } else if (node.properties.Ulica != null) {
         // settings for propiska
@@ -196,9 +225,22 @@ export default class GraphNet extends Component {
 
       } else {
         // settings for fl
-        node.group = "FL"
-
         node.label = node.properties.FIO
+
+        const p = node.properties;
+        if (p.Date_of_Death != null) {
+          node.group = "ripPerson"
+
+        } else if (p.Organ_pravanarushenya != null || p.Pristavanie != null || p.Razmer_Shtrafa != null 
+          || p.Status_KUIS != null || p.Status_Minzdrav != null || p.Statya != null 
+          || p.Sud_ispolnitel != null) {
+
+            node.group = "judgePerson"
+
+        } else {
+
+          node.group = "person"
+        }
       }
 
     }
@@ -211,7 +253,7 @@ export default class GraphNet extends Component {
       autoResize: true,
       edges: {
         // color: 'white',
-        length: 100,
+        length: 200,
         width: 1,
         selectionWidth: 5,
         arrows: {
@@ -228,74 +270,78 @@ export default class GraphNet extends Component {
           align: "top"
         },
       },
-      physics: {
-        enabled: true,
-        barnesHut: {
-          springConstant: 0,
-          theta: 0.5,
-          gravitationalConstant: -2000,
-          centralGravity: 0.3,
-          springLength: 95,
-          springConstant: 0.04,
-          damping: 0.09,
-          avoidOverlap: 0
-        },
-        maxVelocity: 25,
-        minVelocity: 0,
-        solver: "barnesHut",
-        timestep: 0.5,
-        wind: { x: 0, y: 0 }
-      },
+      physics: false,
+      // {
+
+      //   enabled: true,
+      //   barnesHut: {
+      //     springConstant: 0,
+      //     theta: 0.5,
+      //     gravitationalConstant: -2000,
+      //     centralGravity: 0.3,
+      //     springLength: 95,
+      //     springConstant: 0.04,
+      //     damping: 0.09,
+      //     avoidOverlap: 0
+      //   },
+      //   maxVelocity: 25,
+      //   minVelocity: 0,
+      //   solver: "barnesHut",
+      //   timestep: 0.5,
+      //   wind: { x: 0, y: 0 }
+
+      // },
       groups: {
-        // actors: {
-        //   shape: "icon",
-        //   icon: {
-        //     face: '"Font Awesome 5 Free"',
-        //     code: '\uf007',
-        //     weight: 700,
-        //     size: 30,
-        //     color: this.colors.actorIcon
-        //   },
-        //   font: {
-        //     color: this.colors.actorFont,
-        //     weight: 300,
-        //     size: 20
-        //   },
-        //   // physics: false
-        // },
-        FL: {
+        keyPerson: {
           shape: "circularImage",
-          image: keyPerson,
-          font: {
-            color: "red",
-            weight: 300,
-            size: 20
-          },
+          image: keyPersonIcon,
         },
-        UL: {
+        person: {
           shape: "circularImage",
-          image: company,
-          font: {
-            color: "white",
-            weight: 300,
-            size: 20
-          },
+          image: personIcon,
+        },
+        personJai: {
+          shape: "circularImage",
+          image: personjaiIcon,
+        },
+        keyJudgePerson: {
+          shape: "circularImage",
+          image: keyJudgePersonIcon,
+        },
+        ripPerson: {
+          shape: "circularImage",
+          image: judgePersonIcon,
+          size: 10,
+        },
+        judgePerson: {
+          shape: "circularImage",
+          image: judgePersonIcon,
+        },
+        keyCompany: {
+          shape: "circularImage",
+          image: keyCompanyIcon,
+        },
+        company: {
+          shape: "circularImage",
+          image: companyIcon,
+        },
+        judgeCompany: {
+          shape: "circularImage",
+          image: judgeCompanyIcon,
         },
         PROPISKA: {
           shape: "circularImage",
-          image: address,
-          font: {
-            color: "white",
-            weight: 300,
-            size: 20
-          },
-        }
+          image: addressIcon,
+        },
       },
       nodes: {
         font: {
-          size: 14
+          size: 14,
+          color: "white"
         },
+        size: 20
       },
+
       height: "100%",
 
       layout: {
@@ -310,30 +356,73 @@ export default class GraphNet extends Component {
 
     events = {
       selectNode: (event) => {
+        this.setState({showNodeInfo: true})
         SelectedNode = Network.selectionHandler.selectionObj.nodes[Object.keys(Network.selectionHandler.selectionObj.nodes)[0]]
+
         onSelectNode = true
 
-        const infoBlock = document.querySelector(".nodeInfo")
+        const infoBlock = document.querySelector("#nodeInfoInner")
+        const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+
+        addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
 
-        this.assignInfoBlock({
-          name: SelectedNode.options.name, 
-          year: SelectedNode.options.year
-        })
+        console.log(SelectedNode)
 
-        if (SelectedNode.options.group == "movies") {
-          this.assignInfoBlock({description: SelectedNode.options.description})
+        const sp = SelectedNode.options.properties;
+        const sg = SelectedNode.options.group;
+        if (sg == "person" || sg == "judgePerson" || sg == "ripPerson"
+            || sg == "keyJudgePerson" || sg == "personJai" || sg == "keyPerson") {
+
+          this.assignInfoBlock({
+            "ИИН": sp.IIN || "Нет ИИН-а",
+            "Имя": sp.FIO.split(" ")[1] || "Нет имя", 
+            "Фамилия": sp.Familia || "Нет фамилии",
+            "ФИО": sp.FIO || "Нет ФИО",
+            "Отчество": sp.Otchestvo || "Нет отчества",
+            "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения"
+          })
+
+          this.assignAddInfoBlock({
+            "class": "Person",
+            "PersonID": sp.PersonID,
+            "Label": sp.Label,
+            "Source": sp.Source,
+          })
+        
+        } else if (sg == "judgeCompany" || sg == "company" || sg == "keyCompany") {
+          
+          this.assignInfoBlock({
+            "Наименование": sp.Name || "Нет имени",
+            "ИИН/БИН": sp.IINBIN || "Нет ИИН/БИН",
+            "Тип": sp.Type
+          })
+
         }
       }, 
+
       deselectNode: (event) => {
+        const infoBlock = document.querySelector("#nodeInfoInner")
+        const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+
+        infoBlock.innerHTML = ""
+        addInfoBlock.innerHTML = ""
+
         onSelectNode = false
+        this.setState({showNodeInfo: false})
       },
+
       selectEdge: (event) => {
+        this.setState({showNodeInfo: true})
+
         SelectedEdge = Network.selectionHandler.selectionObj.edges[Object.keys(Network.selectionHandler.selectionObj.edges)[0]]
 
         if (onSelectNode == true) return
 
-        const infoBlock = document.querySelector(".nodeInfo")
+        const infoBlock = document.querySelector("#nodeInfoInner")
+        const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+
+        addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
 
         const fromNode = Network.body.nodes[SelectedEdge.options.from]
@@ -362,8 +451,12 @@ export default class GraphNet extends Component {
           roles: edgeRoles
         })
       },
-    }
 
+      deselectEdge: (event) => {
+        this.setState({showNodeInfo: false})
+      }
+
+    }
     search() {
       this.updateSearched()
       this.showSearched()
@@ -421,7 +514,7 @@ export default class GraphNet extends Component {
                 <i id="waiter" class="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
-            <RightBar showAction={this.state.showActionBtn}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo}></RightBar>
           </>
           </div>
         )
@@ -451,7 +544,7 @@ export default class GraphNet extends Component {
                   <div class="inner three"></div>
                 </div>
               </div>
-            <RightBar showAction={this.state.showActionBtn}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo}></RightBar>
           </>
           </div>
         )
@@ -506,7 +599,7 @@ export default class GraphNet extends Component {
             />
         </div>
           
-        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide}></RightBar>
+        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo}></RightBar>
         </>
         </div>
       )

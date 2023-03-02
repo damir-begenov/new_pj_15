@@ -2,7 +2,7 @@ package com.example.new_project_challenge_15.controller;
 
 
 import com.example.new_project_challenge_15.entity.*;
-import com.example.new_project_challenge_15.models.User;
+import com.example.new_project_challenge_15.models.photoDb;
 import com.example.new_project_challenge_15.repository.*;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
 import com.example.new_project_challenge_15.service.CompanyPersonService;
@@ -10,13 +10,9 @@ import com.example.new_project_challenge_15.service.PersonService;
 import com.example.new_project_challenge_15.service.statisticService;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,6 +31,12 @@ public class moviesController {
     newAddressRepo newAddressRepo;
     newCompanyRepo newCompanyRepo;
     CompanyPersonService companyPersonService;
+    newPhotoRepo newPhotoRepo;
+
+    @GetMapping("/photo")
+    public photoDb getPhoto(){
+        return newPhotoRepo.findByIin("040210551264");
+    }
 
     @GetMapping("/general")
     public List<Persons> getAllStat() {
@@ -59,10 +61,6 @@ public class moviesController {
         return companyPersonService.Test();
     }
 
-    @GetMapping("/fltree")
-    public doubleReturn getPersonTree(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
-        return companyPersonService.getPersonTree(person, relations, depth, limit);
-    }
 //
 //    @GetMapping("/statistic")
 //    public statisticModel getUserLogs(@RequestParam String username) {
