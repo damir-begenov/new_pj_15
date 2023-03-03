@@ -485,6 +485,17 @@ export default class GraphNet extends Component {
     updateSearched() {
       const value = document.getElementById("nodeSearchInput").value;
       const searchNodes = Object.values(Network.body.nodes).filter(elem => {
+        for ( var key in elem.options.properties) {
+          // console.log(elem.options.properties[key])
+          if (elem.options.properties.hasOwnProperty(key) && elem.options.properties[key] != null) {
+            let result = elem.options.properties[key].toString().replace(/[a-zA-Z]/g, function(char) {
+              return char.toLowerCase()
+            })
+            if (result.includes(value.toLowerCase())) {
+              return true;
+            }
+          }
+        }
         if (elem.options.label != undefined && elem.options.label.toLowerCase().includes(value.toLowerCase())) {
           return true;
         }
