@@ -42,41 +42,31 @@ public class moviesController {
     FiPersonsService personsService;
     newPhotoRepo newPhotoRepo;
 
+    @GetMapping("/fltree")
+    public doubleReturn getFlTree(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+        return personsService.getPersonTree(person, depth, limit, relations);
+    }
 
-//    @Autowired
-//    PersonRepoRX personRepoRX;
+    @GetMapping("/shortestpaths")
+//    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public doubleReturn getShortestPaths(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations) {
+        return personsService.getShortestPaths(person, person2, relations);
+    }
+//    @GetMapping("/ultree")
+////    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+//    public doubleReturn getUlTree(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations) {
+//        return personsService.getUlTree(person, person2, relations);
+//    }
 
     @GetMapping("/newd")
     public List<Persons> getNdew() {
         return newPersonService.getPersons();
-    }
-    @GetMapping("/new")
-    public doubleReturn getNew(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
-        return personsService.getPersonTree(person, depth, limit, relations);
     }
     @GetMapping("/photo")
     public photoDb getPhoto(){
         photoDb photoDb = newPhotoRepo.findByIin("040210551264");
         System.out.println(photoDb.getPhoto());
         return newPhotoRepo.findByIin("040502651337");
-    }
-
-    @GetMapping("/general")
-    public List<Persons> getAllStat() {
-        List<Persons> persons = newPersonService.getPersons();
-
-        
-        return newPersonService.getPersons();
-    }
-    
-    @GetMapping("/general1")
-    public List<Address> getAllStatA() {
-        return newAddressRepo.getAddress();
-    }
-    @GetMapping("/general2")
-    public List<Company> getAllStatAg() {
-//        System.out.println(newCompanyRepo.getCompany().get(0).getFounderCurs().get(0).getIIN_BIN());
-        return newCompanyRepo.getCompany();
     }
 
     @GetMapping("/test")

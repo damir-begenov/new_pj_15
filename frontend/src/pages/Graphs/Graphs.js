@@ -107,26 +107,27 @@ export default class GraphNet extends Component {
       let url = "";
       let params ={};
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
-      // switch(options.mode) {
-      //   case "con1":
-      //     url = "http://localhost:9091/api/finpol/main/fltree";
-      //     params = {person: options.name1, relations: options.relations, depth: options.depth, limit: options.limit }
-      //     break;
-      //   case "con2":
-      //     url = "http://localhost:9091/api/finpol/main/shortestpaths";
-      //     params = {person: options.name1, person2: options.name2, relations: options.relations}
-      //     break;
-      //   case "con3":
-      //     url = "http://localhost:9091/api/finpol/main/movieperson";
-      //     params = {person: options.name1, movie: options.name2, relations: options.relations}
-      //     break;
-      //   case "con4":
-      //     url = "http://localhost:9091/api/finpol/main/movie";
-      //     params = {title: options.name1, relations: options.relations}
-      //     break;
-      // }
+      switch(options.mode) {
+        case "con1":
+          url = "http://localhost:9091/api/finpol/main/fltree";
+          params = {person: options.name1, relations: options.relString, depth: options.depth, limit: options.limit }
+          console.log(options.relString)
+          break;
+        case "con2":
+          url = "http://localhost:9091/api/finpol/main/shortestpaths";
+          params = {person: options.name1, person2: options.name2, relations: options.relString}
+          break;
+        case "con3":
+          url = "http://localhost:9091/api/finpol/main/movieperson";
+          params = {person: options.name1, movie: options.name2, relations: options.relString}
+          break;
+        case "con4":
+          url = "http://localhost:9091/api/finpol/main/movie";
+          params = {title: options.name1, relations: options.relString}
+          break;
+      }
       
-      axios.get("http://localhost:9091/api/finpol/main/test").then(res => {
+      axios.get(url, {params: params}).then(res => {
         let nodes = []
         const edges = res.data.edges;
         

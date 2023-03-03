@@ -47,6 +47,8 @@ List<Persons> getPersons();
     List<Persons> getPersonTreeDepth13(String PERSON, int LIMIT, List<String> RELS);
 //--------------------------------------------------------------------------------------------------
 
+    @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:Person)) where a.`ИИН`=($FIRST) and b.`ИИН`=($SECOND) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
+    List<Persons> getPathsWithIIN(String FIRST, String SECOND, List<String> RELS);
     @Query("WITH $DEPTH as d MATCH (startNode:Person) WHERE startNode.`ИИН` = ($PERSON) OPTIONAL MATCH p = (startNode)-[*1..10]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=d WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
     List<Persons> getPersonTree(String PERSON, @Param("depth") int DEPTH, int LIMIT, List<String> RELS);
 
