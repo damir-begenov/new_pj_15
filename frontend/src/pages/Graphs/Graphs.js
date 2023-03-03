@@ -107,24 +107,24 @@ export default class GraphNet extends Component {
       let url = "";
       let params ={};
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
-      switch(options.mode) {
-        case "con1":
-          url = "http://localhost:9091/api/finpol/main/person";
-          params = {person: options.name1, relations: options.relations, depth: options.depth, limit: options.limit }
-          break;
-        case "con2":
-          url = "http://localhost:9091/api/finpol/main/shortestpaths";
-          params = {person: options.name1, person2: options.name2, relations: options.relations}
-          break;
-        case "con3":
-          url = "http://localhost:9091/api/finpol/main/movieperson";
-          params = {person: options.name1, movie: options.name2, relations: options.relations}
-          break;
-        case "con4": 
-          url = "http://localhost:9091/api/finpol/main/movie";
-          params = {title: options.name1, relations: options.relations}
-          break;
-      }
+      // switch(options.mode) {
+      //   case "con1":
+      //     url = "http://localhost:9091/api/finpol/main/fltree";
+      //     params = {person: options.name1, relations: options.relations, depth: options.depth, limit: options.limit }
+      //     break;
+      //   case "con2":
+      //     url = "http://localhost:9091/api/finpol/main/shortestpaths";
+      //     params = {person: options.name1, person2: options.name2, relations: options.relations}
+      //     break;
+      //   case "con3":
+      //     url = "http://localhost:9091/api/finpol/main/movieperson";
+      //     params = {person: options.name1, movie: options.name2, relations: options.relations}
+      //     break;
+      //   case "con4":
+      //     url = "http://localhost:9091/api/finpol/main/movie";
+      //     params = {title: options.name1, relations: options.relations}
+      //     break;
+      // }
       
       axios.get("http://localhost:9091/api/finpol/main/test").then(res => {
         let nodes = []

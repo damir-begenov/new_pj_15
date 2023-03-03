@@ -7,6 +7,6 @@ import org.springframework.data.neo4j.repository.query.Query;
 import java.util.List;
 
 public interface newAddressRepo extends Neo4jRepository<Address,Long> {
-    @Query("match (m:Address) return m limit 100")
+    @Query("match (m:Address) return m limit 10")
     List<Address> getAddress();
 }

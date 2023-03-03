@@ -6,14 +6,21 @@ import com.example.new_project_challenge_15.models.photoDb;
 import com.example.new_project_challenge_15.repository.*;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
 import com.example.new_project_challenge_15.service.CompanyPersonService;
+import com.example.new_project_challenge_15.service.FiPersonsService;
 import com.example.new_project_challenge_15.service.PersonService;
 import com.example.new_project_challenge_15.service.statisticService;
 
 import lombok.AllArgsConstructor;
+//import org.neo4j.springframework.data.core.Neo4jTemplate;
+import org.neo4j.driver.Value;
+import org.neo4j.driver.Values;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -31,11 +38,27 @@ public class moviesController {
     newAddressRepo newAddressRepo;
     newCompanyRepo newCompanyRepo;
     CompanyPersonService companyPersonService;
+    @Autowired
+    FiPersonsService personsService;
     newPhotoRepo newPhotoRepo;
 
+
+//    @Autowired
+//    PersonRepoRX personRepoRX;
+
+    @GetMapping("/newd")
+    public List<Persons> getNdew() {
+        return newPersonService.getPersons();
+    }
+    @GetMapping("/new")
+    public doubleReturn getNew(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+        return personsService.getPersonTree(person, depth, limit, relations);
+    }
     @GetMapping("/photo")
     public photoDb getPhoto(){
-        return newPhotoRepo.findByIin("040210551264");
+        photoDb photoDb = newPhotoRepo.findByIin("040210551264");
+        System.out.println(photoDb.getPhoto());
+        return newPhotoRepo.findByIin("040502651337");
     }
 
     @GetMapping("/general")
@@ -60,6 +83,9 @@ public class moviesController {
     public doubleReturn testDoubleReturn() {
         return companyPersonService.Test();
     }
+//
+//    @GetMapping("/fltree")
+//    public
 
 //
 //    @GetMapping("/statistic")
