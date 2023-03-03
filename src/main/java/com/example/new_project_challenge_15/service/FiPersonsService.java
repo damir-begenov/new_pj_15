@@ -8,6 +8,7 @@ import com.example.new_project_challenge_15.repository.newCompanyRepo;
 import com.example.new_project_challenge_15.repository.newPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -24,8 +25,51 @@ public class FiPersonsService {
     @Autowired
     newPhotoService newPhotoService;
 
+    public doubleReturn shortOpen(Long ID) {
+        return ConstructDoubleReturn(personRepo.shortOpen(ID), companyRepo.shortOpen(ID));
+    }
+
     public doubleReturn getShortestPaths(String FIRST, String SECOND, List<String> list) {
         return ConstructDoubleReturn(personRepo.getPathsWithIIN(FIRST, SECOND, list), companyRepo.getPathsWithIIN(FIRST, SECOND, list));
+    }
+
+    public doubleReturn getUlFlPath(String ul, String person, List<String> relations) {
+        return ConstructDoubleReturn(personRepo.getUlFlPath(person, ul, relations), companyRepo.getUlFlPath(person, ul, relations));
+    }
+
+    public doubleReturn getUlUlPath(String ul1, String ul2, List<String> relations) {
+        return ConstructDoubleReturn(personRepo.getUlUlPath(ul1, ul2, relations), companyRepo.getUlUlPath(ul1, ul2, relations));
+    }
+
+    public doubleReturn getUlTree(String ul, List<String> relations, int depth, int limit) {
+        if (depth==1) {
+            return ConstructDoubleReturn(personRepo.getUlTree1(ul, limit, relations), companyRepo.getUlTree1(ul, limit, relations));
+        } else if (depth==2) {
+            return ConstructDoubleReturn(personRepo.getUlTree2(ul, limit, relations), companyRepo.getUlTree2(ul, limit, relations));
+        } else if (depth==3) {
+            return ConstructDoubleReturn(personRepo.getUlTree3(ul, limit, relations), companyRepo.getUlTree3(ul, limit, relations));
+        } else if (depth==4) {
+            return ConstructDoubleReturn(personRepo.getUlTree4(ul, limit, relations), companyRepo.getUlTree4(ul, limit, relations));
+        } else if (depth==5) {
+            return ConstructDoubleReturn(personRepo.getUlTree5(ul, limit, relations), companyRepo.getUlTree5(ul, limit, relations));
+        } else if (depth==6) {
+            return ConstructDoubleReturn(personRepo.getUlTree6(ul, limit, relations), companyRepo.getUlTree6(ul, limit, relations));
+        } else if (depth==7) {
+            return ConstructDoubleReturn(personRepo.getUlTree7(ul, limit, relations), companyRepo.getUlTree7(ul, limit, relations));
+        } else if (depth==8) {
+            return ConstructDoubleReturn(personRepo.getUlTree8(ul, limit, relations), companyRepo.getUlTree8(ul, limit, relations));
+        } else if (depth==9) {
+            return ConstructDoubleReturn(personRepo.getUlTree9(ul, limit, relations), companyRepo.getUlTree9(ul, limit, relations));
+        } else if (depth==10) {
+            return ConstructDoubleReturn(personRepo.getUlTree10(ul, limit, relations), companyRepo.getUlTree10(ul, limit, relations));
+        } else if (depth==11) {
+            return ConstructDoubleReturn(personRepo.getUlTree11(ul, limit, relations), companyRepo.getUlTree11(ul, limit, relations));
+        } else if (depth==12) {
+            return ConstructDoubleReturn(personRepo.getUlTree12(ul, limit, relations), companyRepo.getUlTree12(ul, limit, relations));
+        } else if (depth==13) {
+            return ConstructDoubleReturn(personRepo.getUlTree13(ul, limit, relations), companyRepo.getUlTree13(ul, limit, relations));
+        }
+        return ConstructDoubleReturn(personRepo.getUlTree13(ul, limit, relations), companyRepo.getUlTree13(ul, limit, relations));
     }
 
     public doubleReturn getPersonTree(String person,int depth, int limit, List<String> relations) {
@@ -110,6 +154,8 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -125,6 +171,8 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -140,6 +188,8 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -155,6 +205,8 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -185,6 +237,8 @@ public class FiPersonsService {
                     ids.add(relation.getPersons().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPersons().getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPersons().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -392,6 +446,8 @@ public class FiPersonsService {
                     ids.add(relation.getPersons().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPersons().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -452,6 +508,8 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -467,6 +525,8 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -482,6 +542,8 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -512,6 +574,8 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);

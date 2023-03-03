@@ -40,10 +40,52 @@ public interface newCompanyRepo extends Neo4jRepository<Company,Long> {
     List<Company> getPersonTreeDepth13(String PERSON, int LIMIT, List<String> RELS);
 //--------------------------------------------------------------------------------------------------
 
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..1]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=1 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree1(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..2]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=2 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree2(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..3]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=3 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree3(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..4]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=4 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree4(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..5]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=5 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree5(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..6]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=6 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree6(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..7]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=7 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree7(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..8]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=8 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree8(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..9]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=9 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree9(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..10]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=10 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree10(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..11]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=11 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree11(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..12]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=12 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree12(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..13]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=13 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree13(String UL, int LIMIT, List<String> RELS);
+    @Query("MATCH (startNode:COMPANY) WHERE startNode.`ИИН/БИН` = ($UL) OPTIONAL MATCH p = (startNode)-[*1..14]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=14 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> getUlTree14(String UL, int LIMIT, List<String> RELS);
+//--------------------------------------------------------------
 
+    //GET UL FL PATH
+    @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:COMPANY)) where a.`ИИН`=($PERSON) and b.`ИИН/БИН`=($UL) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
+    List<Company> getUlFlPath(String PERSON, String UL, List<String> RELS);
+    //GET UL FL PATH -----------------------------------------------------------------------------------------------------
+
+    //GET UL UL PATH
+    @Query("MATCH p=allShortestPaths((a:COMPANY)-[r*]-(b:COMPANY)) where a.`ИИН/БИН`=($UL1) and b.`ИИН/БИН`=($UL2) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
+    List<Company> getUlUlPath(String UL1, String UL2, List<String> RELS);
+
+    //GET UL UL PATH --------------------------------------------------------
     @Query("WITH $DEPTH as d MATCH (startNode) WHERE startNode.name = ($PERSON) OPTIONAL MATCH p = (startNode)-[r*1..7]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=d WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
     List<Company> getPersonTree(String PERSON, List<String> RELS, int DEPTH, int LIMIT);
 
+
+    @Query("MATCH (startNode) WHERE id(startNode)=$ID OPTIONAL MATCH p = (startNode)-[r]-(endNode) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
+    List<Company> shortOpen(Long ID);
     @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:Person)) where a.`ИИН`=($FIRST) and b.`ИИН`=($SECOND) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
     List<Company> getPathsWithIIN(String FIRST, String SECOND, List<String> RELS);
 }

@@ -88,6 +88,7 @@ const LeftBar = (props) => {
                             setMode(value)
 
                             if (value === "con1") {
+                                input1.childNodes[0].innerHTML = "Введите ИИН"
                                 input1.style.display = 'flex';
                                 input2.style.display = 'none';
                                 input3.style.display = 'flex';
@@ -95,6 +96,8 @@ const LeftBar = (props) => {
                                 input5.style.display = 'flex';
                             } 
                             else if (value ==="con2") {
+                                input1.childNodes[0].innerHTML = "Введите ИИН"
+                                input2.childNodes[0].innerHTML = "Введите второй ИИН"
                                 input1.style.display = 'flex';
                                 input2.style.display = 'flex';
                                 input3.style.display = 'none';
@@ -102,6 +105,8 @@ const LeftBar = (props) => {
                                 input5.style.display = 'flex';
                             }
                             else if (value ==="con3") {
+                                input1.childNodes[0].innerHTML = "Введите ИИН"
+                                input2.childNodes[0].innerHTML = "Введите БИН"
                                 input1.style.display = 'flex';
                                 input2.style.display = 'flex';
                                 input3.style.display = 'none';
@@ -109,8 +114,18 @@ const LeftBar = (props) => {
                                 input5.style.display = 'flex';
                             }
                             else if (value === "con4") {
+                                input1.childNodes[0].innerHTML = "Введите БИН"
                                 input1.style.display = 'flex';
                                 input2.style.display = 'none';
+                                input3.style.display = 'flex';
+                                input4.style.display = 'flex';
+                                input5.style.display = 'flex';
+                            }
+                            else if (value === "con5") {
+                                input1.childNodes[0].innerHTML = "Введите БИН"
+                                input1.style.display = 'flex';
+                                input2.childNodes[0].innerHTML = "Введите второй БИН"
+                                input2.style.display = 'flex';
                                 input3.style.display = 'none';
                                 input4.style.display = 'none';
                                 input5.style.display = 'flex';
@@ -128,6 +143,7 @@ const LeftBar = (props) => {
                             <option value="con4">Юл</option>
                             <option value="con2">Фл - Фл</option>
                             <option value="con3">Фл - Юл</option>
+                            <option value="con5">Юл - Юл</option>
                         </select>
                     </div>
                 </div>
