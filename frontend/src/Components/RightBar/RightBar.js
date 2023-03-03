@@ -16,8 +16,8 @@ class RightBar extends Component {
       <div className='rightBar'>
         <div className="infoBlock" id="infoBlock">
           <div>
-            <div className="infoBlockTitle">Информация о объекте</div>
-              <div className="nodeInfo" id="nodeInfo" style={{display: this.props.isOnSelectNode ? "flex" : "none"}}>
+            <div className="infoBlockTitle">Информация {this.props.isOnSelectEdge || this.props.isOnSelectEdge ? "о объекте" : ""}</div>
+              <div className="nodeInfo" id="nodeInfo" style={{display: this.props.isOnSelectNode || this.props.isOnSelectEdge ? "flex" : "none"}}>
                 <div className="nodeInfoTitle" 
                     onClick={() => {
                       console.log(this.state.showNodeInfo)
@@ -25,7 +25,7 @@ class RightBar extends Component {
                       document.querySelector('#nodeInfoInner').style.display = this.state.showNodeInfo ? "flex" : "none"
                     }}>
                   <div>Общие сведения</div>
-                  <i>{this.state.showNodeInfo ? "-" : "+"}</i>
+                  <i>+</i>
                 </div>
                 <div className="nodeInfoInner" id="nodeInfoInner">
 
@@ -39,7 +39,7 @@ class RightBar extends Component {
                       document.querySelector('#nodeAddInfoInner').style.display = this.state.showNodeAddInfo ? "flex" : "none"
                     }}>
                   <div>Дополнительные сведения</div>
-                  <i>{this.state.showNodeAddInfo ? "-" : "+"}</i>
+                  <i>+</i>
                 </div>
                 <div className="nodeInfoInner nodeAddInfoInner" id="nodeAddInfoInner">
 

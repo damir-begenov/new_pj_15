@@ -11,16 +11,15 @@ export default class RegistrationPage extends Component {
         return (
             <div className="signInBlock">
                     
-                <section className="signInPageSection">
+                <div className="signInPageSection">
                     
                     <div className="title">
                         <div>iTap</div>
-                        <div>login</div>
                     </div>
 
                     <SignInForm></SignInForm>
 
-                </section>
+                </div>
             </div>
 
         )

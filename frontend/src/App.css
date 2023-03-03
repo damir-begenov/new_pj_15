@@ -20,8 +20,6 @@
 
 * {
   font-family: 'Montserrat', sans-serif;
-  overflow: hidden;
-  -moz-overflow: -moz-hidden-unscrollable;
 }
 
 html {

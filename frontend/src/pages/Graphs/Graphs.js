@@ -103,8 +103,7 @@ export default class GraphNet extends Component {
       this.state.counter = this.state.counter+1
       
       const userSession = JSON.parse(localStorage.getItem("user"))
-      console.log(userSession)
-      
+
       let url = "";
       let params ={};
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
@@ -143,8 +142,6 @@ export default class GraphNet extends Component {
         })
         
         this.setState({nodes, edges})
-        console.log(nodes)
-        console.log(edges)
         
         this.state.isLoading = false
 
@@ -185,8 +182,9 @@ export default class GraphNet extends Component {
 
     setEdgeSettings = (edge) => {
       edge.label = edge.properties.Vid_svyaziey
-      Object.assign(edge, {properties: edge.properties})
+      Object.assign(edge, {"properties": edge.properties})
       Object.assign(edge, {font: {color: "white"}})
+      Object.assign(edge, {id: edge.properties.id})
 
       if (edge.type === 'UCHILSYA') {
         Object.assign(edge, {color: "lime"})
@@ -270,27 +268,26 @@ export default class GraphNet extends Component {
           align: "top"
         },
       },
-      physics: false,
-      // {
+      physics:
+      {
+        enabled: true,
+        barnesHut: {
+          springConstant: 0,
+          theta: 0.5,
+          gravitationalConstant: -2000,
+          centralGravity: 0.3,
+          springLength: 95,
+          springConstant: 0.04,
+          damping: 0.09,
+          avoidOverlap: 0
+        },
+        maxVelocity: 25,
+        minVelocity: 0,
+        solver: "barnesHut",
+        timestep: 0.5,
+        wind: { x: 0, y: 0 }
 
-      //   enabled: true,
-      //   barnesHut: {
-      //     springConstant: 0,
-      //     theta: 0.5,
-      //     gravitationalConstant: -2000,
-      //     centralGravity: 0.3,
-      //     springLength: 95,
-      //     springConstant: 0.04,
-      //     damping: 0.09,
-      //     avoidOverlap: 0
-      //   },
-      //   maxVelocity: 25,
-      //   minVelocity: 0,
-      //   solver: "barnesHut",
-      //   timestep: 0.5,
-      //   wind: { x: 0, y: 0 }
-
-      // },
+      },
       groups: {
         keyPerson: {
           shape: "circularImage",
@@ -357,6 +354,7 @@ export default class GraphNet extends Component {
     events = {
       selectNode: (event) => {
         this.setState({showNodeInfo: true})
+        this.setState({showEdgeInfo: false})
         SelectedNode = Network.selectionHandler.selectionObj.nodes[Object.keys(Network.selectionHandler.selectionObj.nodes)[0]]
 
         onSelectNode = true
@@ -366,8 +364,6 @@ export default class GraphNet extends Component {
 
         addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
-
-        console.log(SelectedNode)
 
         const sp = SelectedNode.options.properties;
         const sg = SelectedNode.options.group;
@@ -410,50 +406,52 @@ export default class GraphNet extends Component {
 
         onSelectNode = false
         this.setState({showNodeInfo: false})
+        this.setState({showEdgeInfo: false})
       },
 
       selectEdge: (event) => {
-        this.setState({showNodeInfo: true})
-
-        SelectedEdge = Network.selectionHandler.selectionObj.edges[Object.keys(Network.selectionHandler.selectionObj.edges)[0]]
+        this.setState({showNodeInfo: false})
+        this.setState({showEdgeInfo: true})
 
         if (onSelectNode == true) return
+        SelectedEdge = this.state.edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
+
+        console.log(SelectedEdge)
 
         const infoBlock = document.querySelector("#nodeInfoInner")
         const addInfoBlock = document.querySelector("#nodeAddInfoInner")
-
         addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
 
-        const fromNode = Network.body.nodes[SelectedEdge.options.from]
-        const toNode = Network.body.nodes[SelectedEdge.options.to]
-
-        let edgeType = SelectedEdge.options.label.replace('_', ' ');
-        edgeType = edgeType.charAt(0).toUpperCase() + edgeType.slice(1)
-
-        let edgeProperties = [];
-        Object.entries(this.state.edges).forEach(item => {
-          if (item[1].id == SelectedEdge.id) {
-            edgeProperties = item[1].properties;
-          }
-        });
-
-        let edgeRoles = "none"
-        Object.entries(edgeProperties).forEach(item => {
-          if (edgeRoles == "none") edgeRoles = item[1].value
-          else edgeRoles += ", " + item[1].value
-        })
-
+        const sp = SelectedEdge.properties
         this.assignInfoBlock({
-          from: fromNode.options.name,
-          to: toNode.options.name,
-          type: edgeType,
-          roles: edgeRoles
+          "id": sp.id,
+          "Вид связи": sp.Vid_svyaziey,
+          "Label": sp.Label,
+          "Source": sp.Source
         })
+
+        if (SelectedEdge.type == "REG_ADDRESS_HIST" || SelectedEdge.type == "REG_ADDRESS_CUR" || SelectedEdge.type == "REG_ADDRESS") {
+          this.assignInfoBlock({"Дата начала прописки": sp.Data_nachali_propiski || sp.data_nachalo})
+          if (sp.data_oconchanya != null) this.assignInfoBlock({"Дата окончания прописки": sp.data_oconchanya}) 
+
+        } 
+        else if (SelectedEdge.type == "WORKER_CUR" || SelectedEdge.type == "WORKER_HIST") {
+          this.assignInfoBlock({"БИН/ИИН работадателя": sp.IINBIN_rabotadatelya})
+          this.assignInfoBlock({"Дата начала отчисления ОПВ/СО": sp.data_nachalo})
+          if (sp.data_oconchanya != null) this.assignInfoBlock({"Дата окончания отчисления ОПВ/СО": sp.data_oconchanya})
+          this.assignInfoBlock({"Средняя заработная плата": sp.average_zp})
+
+        } else {
+          if (sp.data_nachalo != null) this.assignInfoBlock({"Дата начала обучения": sp.data_nachalo})
+          if (sp.data_konca != null) this.assignInfoBlock({"Дата конца обучения": sp.data_konca})
+
+        }
       },
 
       deselectEdge: (event) => {
         this.setState({showNodeInfo: false})
+        this.setState({showEdgeInfo: false})
       }
 
     }
@@ -511,10 +509,10 @@ export default class GraphNet extends Component {
             <div className='centralBar'>
               <div className="waiterBox">
                 {/* <a>Make a search</a> */}
-                <i id="waiter" class="fa-solid fa-magnifying-glass"></i>
+                <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
-            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}></RightBar>
           </>
           </div>
         )
@@ -528,7 +526,7 @@ export default class GraphNet extends Component {
                   <a>No objects found</a>
                 </div>
               </div>
-            <RightBar showAction={this.state.showActionBtn}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectEdge={this.state.showEdgeInfo}></RightBar>
           </>
           </div>
         )
@@ -538,13 +536,13 @@ export default class GraphNet extends Component {
           <>
             <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
-                <div class="loader">
-                  <div class="inner one"></div>
-                  <div class="inner two"></div>
-                  <div class="inner three"></div>
+                <div className="loader">
+                  <div className="inner one"></div>
+                  <div className="inner two"></div>
+                  <div className="inner three"></div>
                 </div>
               </div>
-            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}></RightBar>
           </>
           </div>
         )
@@ -571,13 +569,13 @@ export default class GraphNet extends Component {
                       Network.fit({});
                     }
                   }}/>
-                <i class="fa-solid fa-magnifying-glass"
+                <i className="fa-solid fa-magnifying-glass"
                   onClick={() => this.search()}></i>
               </div>
               <div>
-                <i class="fa-solid fa-caret-left"
+                <i className="fa-solid fa-caret-left"
                   onClick={() => this.searchPrev()}></i>
-                <i class="fa-solid fa-caret-right"
+                <i className="fa-solid fa-caret-right"
                   onClick={() => this.searchNext()}></i>
               </div>
             </div>
@@ -590,7 +588,6 @@ export default class GraphNet extends Component {
                 network.once("afterDrawing", function () {
                   Network.on('doubleClick', (event) => {
                     // this.createContextMenu(event)
-                    console.log(event)
                   })
                 });
               }}
@@ -599,7 +596,7 @@ export default class GraphNet extends Component {
             />
         </div>
           
-        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo}></RightBar>
+        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}></RightBar>
         </>
         </div>
       )
