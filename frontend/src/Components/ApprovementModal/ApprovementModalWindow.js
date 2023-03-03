@@ -10,17 +10,17 @@ const ApprovementModalWindow = (props) => {
             <>
                 <div className="modalItem">
                     <label>Введите номер (приказа) *</label>
-                    <input type="text" class="requiredItem" placeholder="№"/>
+                    <input type="text" name="orderNum" className="sendItem requiredItem" placeholder="№"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" class="requiredItem" placeholder="01.01.23"/>
+                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите статью УК РК *</label>
-                    <input type="text" class="requiredItem" placeholder="№"/>
+                    <input type="text" name="articleName" className="sendItem requiredItem" placeholder="№"/>
                 </div>
             </>
         )
@@ -30,17 +30,17 @@ const ApprovementModalWindow = (props) => {
             <>
                 <div className="modalItem">
                     <label>Введите номер (приказа) *</label>
-                    <input type="text" class="requiredItem" placeholder="№"/>
+                    <input type="text" name="orderNum" className="sendItem requiredItem" placeholder="№"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" class="requiredItem" placeholder="01.01.23"/>
+                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите номер уголовного дела *</label>
-                    <input type="text" class="requiredItem" placeholder="№"/>
+                    <input type="text" name="caseNum" className="sendItem requiredItem" placeholder="№"/>
                 </div>
             </>
         )
@@ -50,27 +50,27 @@ const ApprovementModalWindow = (props) => {
             <>
                 <div className="modalItem">
                     <label>Введите номер (приказа) *</label>
-                    <input type="text" class="requiredItem" placeholder="№"/>
+                    <input type="text" name="orderNum" className="sendItem requiredItem" placeholder="№"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" class="requiredItem" placeholder="01.01.23"/>
+                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите номер уголовного дела *</label>
-                    <input type="text" class="requiredItem" placeholder="№"/>
+                    <input type="text" name="caseNum" className="sendItem requiredItem" placeholder="№"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Проверка</label>
-                    <input type="text" placeholder=""/>
+                    <input type="text" name="checkingName" className="sendItem" placeholder=""/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите иные основания</label>
-                    <input type="text" placeholder=""/>
+                    <input type="text" name="other" className="sendItem" placeholder=""/>
                 </div>
             </>
         )
@@ -80,17 +80,17 @@ const ApprovementModalWindow = (props) => {
             <>
                 <div className="modalItem">
                     <label>Введите номер (приказа) *</label>
-                    <input type="text" class="requiredItem" placeholder="№"/>
+                    <input type="text" name="orderNum" className="sendItem requiredItem" placeholder="№"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" class="requiredItem" placeholder="01.01.23"/>
+                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите название организации *</label>
-                    <input type="text" class="requiredItem" placeholder="Финпол"/>
+                    <input type="text" name="organName" className="sendItem requiredItem" placeholder="Финпол"/>
                 </div>
             </>
         )
@@ -100,12 +100,12 @@ const ApprovementModalWindow = (props) => {
             <>
                 <div className="modalItem">
                     <label>Введите номер (приказа) *</label>
-                    <input type="text" class="requiredItem" placeholder="№"/>
+                    <input type="text" name="orderNum" className="sendItem requiredItem" placeholder="№"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" class="requiredItem" placeholder="01.01.23"/>
+                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"/>
                 </div>
             </>
         )
@@ -115,17 +115,17 @@ const ApprovementModalWindow = (props) => {
             <>
                 <div className="modalItem">
                     <label>Введите номер (приказа) *</label>
-                    <input type="text" class="requiredItem" placeholder="№"/>
+                    <input type="text" name="orderNum" className="sendItem requiredItem" placeholder="№"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" class="requiredItem" placeholder="01.01.23"/>
+                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"/>
                 </div>
 
                 <div className="modalItem">
                     <label>Введите ФИО руководства *</label>
-                    <input type="text" class="requiredItem" placeholder="Куанышбеков Мадияр Еркебуланулы"/>
+                    <input type="text" name="rukName" className="sendItem requiredItem" placeholder="Куанышбеков Мадияр Еркебуланулы"/>
                 </div>
             </>
         )
@@ -135,7 +135,7 @@ const ApprovementModalWindow = (props) => {
             <>
                 <div className="modalItem">
                     <label>Введите название сферы *</label>
-                    <input type="text" class="requiredItem" placeholder=""/>
+                    <input type="text" name="sphereName" className="sendItem requiredItem" placeholder=""/>
                 </div>
             </>
         )
@@ -145,7 +145,7 @@ const ApprovementModalWindow = (props) => {
             <>
                 <div className="modalItem">
                     <label>Введите название тематики *</label>
-                    <input type="text" class="requiredItem" placeholder=""/>
+                    <input type="text" name="tematikName" className="sendItem requiredItem" placeholder=""/>
                 </div>
             </>
         )
@@ -164,6 +164,16 @@ const ApprovementModalWindow = (props) => {
 
     const showError = () => {
         alert(`Заполните все обязательные поля (отмечены *)`)
+    }
+
+    const setApprovements = () => {
+        const sendElems = document.querySelectorAll('.sendItem');
+        let approvementss = {}
+        sendElems.forEach(elem => {
+            approvementss[elem.name] = elem.value
+        })
+
+        props.setApprovementObj(approvementss)
     }
 
     return (
@@ -202,6 +212,7 @@ const ApprovementModalWindow = (props) => {
                         <input onClick={ () => props.setModal(false) } type="button" value="Отмена"/>
                         <input disabled={approvement == 'app_0'} 
                             onClick={() => {
+                                setApprovements()
                                 if ( validate() ) {
                                     props.send()
                                 } else {

@@ -13,6 +13,7 @@ const LeftBar = (props) => {
     const [name2, setName2] = useState("")
     const [limit, setLimit] = useState(20)
     const [depth, setDepth] = useState(1)
+    const [approvementObj, setApprovementObj] = useState({})
 
     const [modal, setModal] = useState(false)
 
@@ -186,13 +187,13 @@ const LeftBar = (props) => {
     //     },
     // })
 
-    const filter = (event) => { 
+    const filter = () => { 
         if (!checkAuth()) navigate('/login', {replace: true}) 
 
         alert(relString)
 
         let options = {
-            name1, name2, limit, depth, mode, relString
+            name1, name2, limit, depth, mode, relString, approvementObj
         }
 
         setModal(false)        
@@ -365,7 +366,7 @@ const LeftBar = (props) => {
             </form>
 
             {modal ?
-            <ApprovementModalWindow send={filter} setModal={setModal}></ApprovementModalWindow> : ("")}
+            <ApprovementModalWindow send={filter} setModal={setModal} setApprovementObj={setApprovementObj}></ApprovementModalWindow> : ("")}
         </div>
     )
 }
