@@ -293,8 +293,9 @@ public class CompanyPersonService {
                 ids.add(object.getId());
                 Nodes currNode = new Nodes();
                 Map<String, Object> properties = getPropertyMap(object);
+                photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+                currNode.setPhotoDbf(photoDb);
                 currNode.setId(object.getId());
-                currNode.setPhotoDbf(newPhotoService.getPhotoByIIN(object.getIIN()));
                 currNode.setProperties(properties);
                 nodes.add(currNode);
             }

@@ -3,6 +3,7 @@ package com.example.new_project_challenge_15.service;
 
 import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.entity.rels.*;
+import com.example.new_project_challenge_15.models.photoDb;
 import com.example.new_project_challenge_15.repository.newPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,23 @@ import java.util.Map;
 public class FiPersonsService {
     @Autowired
     newPersonService personRepo;
+    @Autowired
 
-    public doubleReturn getPersonTree(String PERSON,int DEPTH, int LIMIT, List<String> RELS) {
-        List<Persons> persons = personRepo.getPersonTree(PERSON, DEPTH, LIMIT, RELS);
-        return ConstructDoubleReturn(persons);
+    newPhotoService newPhotoService;
+
+    public doubleReturn getPersonTree(String person,int depth, int limit, List<String> relations) {
+        if(depth==1) {
+            return ConstructDoubleReturn(personRepo.getPersonTreeDepthOne(person, limit, relations));
+        }
+        if(depth==2) {
+            return ConstructDoubleReturn(personRepo.getPersonTreeDepthTwo(person, limit, relations));
+        }
+        if(depth==3) {
+            return ConstructDoubleReturn(personRepo.getPersonTreeDepthThree(person, limit, relations));
+        }
+        return null;
+//        List<Persons> persons = personRepo.getPersonTree(PERSON, DEPTH, LIMIT, RELS);
+//        return ConstructDoubleReturn(persons);
     }
 
     private Map<String, Object> getPropertyMap(Object obj) {
@@ -48,6 +62,8 @@ public class FiPersonsService {
                 ids.add(object.getId());
                 Nodes currNode = new Nodes();
                 Map<String, Object> properties = getPropertyMap(object);
+                photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+                currNode.setPhotoDbf(photoDb);
                 currNode.setId(object.getId());
                 currNode.setProperties(properties);
                 nodes.add(currNode);

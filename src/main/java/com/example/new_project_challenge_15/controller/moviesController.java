@@ -51,21 +51,14 @@ public class moviesController {
         return newPersonService.getPersons();
     }
     @GetMapping("/new")
-    public List<Persons> getNew(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
-        if(depth==1) {
-            return newPersonService.getPersonTreeDepthOne(person, limit, relations);
-        }
-        if(depth==2) {
-            return newPersonService.getPersonTreeDepthTwo(person, limit, relations);
-        }
-        if(depth==3) {
-            return newPersonService.getPersonTreeDepthThree(person, limit, relations);
-        }
-        return null;
+    public doubleReturn getNew(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+        return personsService.getPersonTree(person, depth, limit, relations);
     }
     @GetMapping("/photo")
     public photoDb getPhoto(){
-        return newPhotoRepo.findByIin("040210551264");
+        photoDb photoDb = newPhotoRepo.findByIin("040210551264");
+        System.out.println(photoDb.getPhoto());
+        return newPhotoRepo.findByIin("040502651337");
     }
 
     @GetMapping("/general")
