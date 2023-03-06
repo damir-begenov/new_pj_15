@@ -114,7 +114,48 @@ public class FiPersonsService {
         }
         return ConstructDoubleReturn(personRepo.getPersonTreeDepth13(person, limit, relations), companyRepo.getPersonTreeDepth13(person, limit, relations));
     }
-
+    public doubleReturn getPersonByFIO_(String F,String I,String O,int depth, int limit, List<String> relations) {
+        if(depth==1) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth1(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth1(F,I,O, limit, relations));
+        }
+        if(depth==2) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth2(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth2(F,I,O, limit, relations));
+        }
+        if(depth==3) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth3(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth3(F,I,O, limit, relations));
+        }
+        if(depth==4) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth4(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth4(F,I,O, limit, relations));
+        }
+        if(depth==5) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth5(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth5(F,I,O, limit, relations));
+        }
+        if(depth==6) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth6(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth6(F,I,O, limit, relations));
+        }
+        if(depth==7) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth7(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth7(F,I,O, limit, relations));
+        }
+        if(depth==8) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth8(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth8(F,I,O, limit, relations));
+        }
+        if(depth==9) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth9(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth9(F,I,O, limit, relations));
+        }
+        if(depth==10) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth10(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth10(F,I,O, limit, relations));
+        }
+        if(depth==11) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth11(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth11(F,I,O, limit, relations));
+        }
+        if(depth==12) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth12(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth12(F,I,O, limit, relations));
+        }
+        if(depth==13) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth13(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth13(F,I,O, limit, relations));
+        }
+        return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth13(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth13(F,I,O, limit, relations));
+    }
     private Map<String, Object> getPropertyMap(Object obj) {
         Map<String, Object> properties = new HashMap<>();
 

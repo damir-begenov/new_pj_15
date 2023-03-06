@@ -2,13 +2,11 @@ package com.example.new_project_challenge_15.controller;
 
 
 import com.example.new_project_challenge_15.entity.*;
+import com.example.new_project_challenge_15.models.User;
 import com.example.new_project_challenge_15.models.photoDb;
 import com.example.new_project_challenge_15.repository.*;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
-import com.example.new_project_challenge_15.service.CompanyPersonService;
-import com.example.new_project_challenge_15.service.FiPersonsService;
-import com.example.new_project_challenge_15.service.PersonService;
-import com.example.new_project_challenge_15.service.statisticService;
+import com.example.new_project_challenge_15.service.*;
 
 import lombok.AllArgsConstructor;
 //import org.neo4j.springframework.data.core.Neo4jTemplate;
@@ -18,6 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.Robot;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,11 +49,29 @@ public class moviesController {
     @Autowired
     FiPersonsService personsService;
     newPhotoRepo newPhotoRepo;
+    LogsService logsService;
 
     @GetMapping("/fltree")
     public doubleReturn getFlTree(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);
+        try{
+            log log = new log();
+            LocalDateTime current = LocalDateTime.now();
+            log.setDate(current);
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            logsService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personsService.getPersonTree(person, depth, limit, relations);
     }
+    @GetMapping("/flFIOtree")
+    public doubleReturn getFlTree(@RequestParam String F,@RequestParam String I,@RequestParam String O, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+        return personsService.getPersonByFIO_(F,I,O, depth, limit, relations);
+    }
+
 
     @GetMapping("/shortestpaths")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -77,8 +103,21 @@ public class moviesController {
 
 
     @GetMapping("/newd")
-    public List<Persons> getNdew() {
-        return newPersonService.getPersons();
+    public String getNdew() {
+        try{
+            Robot robot = new Robot();
+            System.out.println("sds");
+            Rectangle rectangle = new Rectangle(0,0,500,500);
+            System.out.println("sds");
+
+            BufferedImage bufferedImage = robot.createScreenCapture(rectangle);
+
+            ImageIO.write(bufferedImage,"JPG",new File("C:\\Users\\123\\Desktop\\project-aitab\\new_pj_15\\sreenshot.jpg"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "privet";
     }
     @GetMapping("/photo")
     public photoDb getPhoto(){
