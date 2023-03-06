@@ -22,7 +22,10 @@ public class FOUNDER_HIST {
     private String NAME_tipa_dolzhnosty;
 
     @Property("Дата начала")
-    private String data_nachalo;
+    private String Data_nachalo;
+
+    @Property("Дата конца")
+    private String Data_konca;
 
     @Property("Вид связи")
     private String Vid_svyaziey;
@@ -36,6 +39,14 @@ public class FOUNDER_HIST {
 
     public Company getCompany() {
         return company;
+    }
+
+    public String getData_konca() {
+        return Data_konca;
+    }
+
+    public void setData_konca(String data_konca) {
+        Data_konca = data_konca;
     }
 
     public Long getId() {
@@ -87,11 +98,11 @@ public class FOUNDER_HIST {
     }
 
     public String getData_nachalo() {
-        return data_nachalo;
+        return Data_nachalo;
     }
 
-    public void setData_nachalo(String data_nachalo) {
-        this.data_nachalo = data_nachalo;
+    public void setData_nachalo(String Data_nachalo) {
+        this.Data_nachalo = Data_nachalo;
     }
 
     public String getVid_svyaziey() {

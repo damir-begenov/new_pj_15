@@ -26,6 +26,7 @@ import keyJudgePersonIcon from '../../icons/key_judge_person.jpg'
 import keyPersonIcon from '../../icons/key_person.png'
 import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
+import ripPersonIcon from '../../icons/ripPersonAA.jpg'
 
 var NoD =  [];
 var EdG = [];
@@ -47,27 +48,21 @@ export default class GraphNet extends Component {
       searchedNodes: [],
       showNodeInfo: false,
       showEdgeInfo: false,
+      showNodeImage: false,
+      showSudInfo: false,
     }
 
-    assignInfoBlock = (options) => {
-      const infoBlock = document.querySelector("#nodeInfoInner")
+    assignInfoBlock = (options, elemId) => {
+      const infoBlock = document.querySelector(elemId)
       Object.entries(options).forEach(entry => {
         const [key, value] = entry;
+
+        if (value == null) return
+
         const info = document.createElement("div")
         info.innerHTML = `${key.toUpperCase()}: <span>${value}</span>`
 
         infoBlock.appendChild(info)
-      });
-    }
-
-    assignAddInfoBlock = (options) => {
-      const addInfoBlock = document.querySelector("#nodeAddInfoInner")
-      Object.entries(options).forEach(entry => {
-        const [key, value] = entry;
-        const info = document.createElement("div")
-        info.innerHTML = `${key.toUpperCase()}: <span>${value}</span>`
-
-        addInfoBlock.appendChild(info)
       });
     }
 
@@ -110,8 +105,7 @@ export default class GraphNet extends Component {
       switch(options.mode) {
         case "con1":
           url = "http://localhost:9091/api/finpol/main/fltree";
-          params = {person: options.name1, relations: options.relString, depth: options.depth, limit: options.limit }
-          console.log(options.relString)
+          params = {person: options.name1, relations: options.relString, depth: options.depth, limit: options.limit}
           break;
         case "con2":
           url = "http://localhost:9091/api/finpol/main/shortestpaths";
@@ -130,7 +124,20 @@ export default class GraphNet extends Component {
           params = {ul1: options.name1, ul2: options.name2, relations: options.relString}
           break;
       }
-      
+
+      params["orderNum"] = options.approvementObj.orderNum
+      params["orderDate"] = options.approvementObj.orderDate
+      params["articleName"] = options.approvementObj.articleName
+      params["caseNum"] = options.approvementObj.caseNum
+      params["checkingName"] = options.approvementObj.checkingName
+      params["otherReasons"] = options.approvementObj.other
+      params["organName"] = options.approvementObj.organName
+      params["rukName"] = options.approvementObj.rukName
+      params["sphereName"] = options.approvementObj.sphereName
+      params["tematikName"] = options.approvementObj.tematikName
+
+      console.log(params)
+
       axios.get(url, {params: params}).then(res => {
         let nodes = []
         const edges = res.data.edges;
@@ -190,20 +197,24 @@ export default class GraphNet extends Component {
     setEdgeSettings = (edge) => {
       edge.label = edge.properties.Vid_svyaziey
       Object.assign(edge, {"properties": edge.properties})
+      Object.assign(edge, {"color": "white"})
       Object.assign(edge, {font: {color: "white"}})
       Object.assign(edge, {id: edge.properties.id})
 
-      if (edge.type === 'UCHILSYA') {
-        Object.assign(edge, {color: "lime"})
+      if (edge.type === 'UCHILSYA' || edge.type === 'SLUZHIL') {
+        edge.color = "lime"
       
-      } else if (edge.type == 'REG_ADDRESS_CUR' || edge.type == 'REG_ADDRESS_HIST') {
-        Object.assign(edge, {color: "aqua"})
+      } else if (edge.type == 'REG_ADDRESS_CUR' || edge.type == 'REG_ADDRESS_HIST' || edge.type == 'REG_ADDRESS') {
+        edge.color = "aqua"
       
-      } else if (edge.type == 'ZAGS') {
-        Object.assign(edge, {color: 'pink'})
+      } else if (edge.type == 'ZAGS' || edge.type == 'ZAGS_FIO' || edge.type == 'ZAGS_IIN') {
+        edge.color = "pink"
 
       } else if (edge.type == 'WORKER_CUR' || edge.type == 'WORKER_HIST') {
-        Object.assign(edge, {color: 'blue'})
+        edge.color = "blue"
+
+      } else if (edge.type == 'SUDIM') {
+        edge.color = "red"
 
       }
     }
@@ -233,12 +244,12 @@ export default class GraphNet extends Component {
         node.label = node.properties.FIO
 
         const p = node.properties;
-        if (p.Date_of_Death != null) {
+        if (p.Death_Status != null) {
           node.group = "ripPerson"
 
         } else if (p.Organ_pravanarushenya != null || p.Pristavanie != null || p.Razmer_Shtrafa != null 
           || p.Status_KUIS != null || p.Status_Minzdrav != null || p.Statya != null 
-          || p.Sud_ispolnitel != null) {
+          || p.Sud_ispolnitel != null || p.Med_org != null) {
 
             node.group = "judgePerson"
 
@@ -314,8 +325,7 @@ export default class GraphNet extends Component {
         },
         ripPerson: {
           shape: "circularImage",
-          image: judgePersonIcon,
-          size: 10,
+          image: ripPersonIcon,
         },
         judgePerson: {
           shape: "circularImage",
@@ -362,6 +372,9 @@ export default class GraphNet extends Component {
       selectNode: (event) => {
         this.setState({showNodeInfo: true})
         this.setState({showEdgeInfo: false})
+        this.setState({showNodeImage: false})
+        this.setState({showSudInfo: false})
+
         SelectedNode = Network.selectionHandler.selectionObj.nodes[Object.keys(Network.selectionHandler.selectionObj.nodes)[0]]
 
         onSelectNode = true
@@ -370,15 +383,26 @@ export default class GraphNet extends Component {
 
         const infoBlock = document.querySelector("#nodeInfoInner")
         const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+        const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
+        const nodeImage = document.querySelector('.nodeImg');
 
         addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
+        sudInfoBlock.innerHTML = ""
 
         const sp = SelectedNode.options.properties;
         const sg = SelectedNode.options.group;
         if (sg == "person" || sg == "judgePerson" || sg == "ripPerson"
             || sg == "keyJudgePerson" || sg == "personJai" || sg == "keyPerson") {
 
+          this.setState({showNodeImage: true})
+
+          if (!SelectedNode.options.photoDbf) {
+            nodeImage.innerHTML = `<h3>Нет фото</h3>`
+          } else {
+            nodeImage.innerHTML = `<img src="data:image/png;base64, ${SelectedNode.options.photoDbf.photo}"/>`
+          }
+              
           this.assignInfoBlock({
             "ИИН": sp.IIN || "Нет ИИН-а",
             "Имя": sp.FIO.split(" ")[1] || "Нет имя", 
@@ -386,36 +410,104 @@ export default class GraphNet extends Component {
             "ФИО": sp.FIO || "Нет ФИО",
             "Отчество": sp.Otchestvo || "Нет отчества",
             "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения"
-          })
+          }, '#nodeInfoInner')
 
-          this.assignAddInfoBlock({
+          this.assignInfoBlock({
             "class": "Person",
             "PersonID": sp.PersonID,
             "Label": sp.Label,
             "Source": sp.Source,
-          })
+          }, '#nodeAddInfoInner')
+
+          this.assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')
+          this.assignInfoBlock({"Нотариус": sp.Notarius}, '#nodeAddInfoInner')
+          this.assignInfoBlock({"Адвокат": sp.Advocat}, '#nodeAddInfoInner')
+          this.assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')
+          this.assignInfoBlock({"Частный судебный исполнитель": sp.Sud_ispolnitel}, '#nodeAddInfoInner')
         
         } else if (sg == "judgeCompany" || sg == "company" || sg == "keyCompany") {
-          
+           
           this.assignInfoBlock({
-            "Наименование": sp.Name || "Нет имени",
-            "ИИН/БИН": sp.IINBIN || "Нет ИИН/БИН",
-            "Тип": sp.Type
-          })
+            "Наименование": sp.Name,
+            "ИИН/БИН": sp.IINBIN, 
+            "Тип": sp.Type,
+          }, '#nodeInfoInner')
+
+          this.assignInfoBlock({
+            "class": sp.Name,
+            "PersonID": sp.PersonID, 
+            "Label": sp.Label,
+            "Source": sp.Source,
+          }, '#nodeAddInfoInner')
+
+          this.assignInfoBlock({"Бухгалтер": sp.Buhgalter}, '#nodeAddInfoInner') 
+          this.assignInfoBlock({"НДС": sp.NDS}, '#nodeAddInfoInner') 
+
+        } else if (sg == 'PROPISKA') {
+
+          this.assignInfoBlock({
+            "Строение": sp.Stroenie,
+            "РКА": sp.PKA, 
+            "Область": sp.Oblast,
+            "Район": sp.Rayon,
+            "Город": sp.Gorod,
+            "Квартира": sp.Kvartira,
+            "Улица": sp.Ulica,
+            "Корпус": sp.Korpus,
+            "Адрес прописки": sp.Adress_propiski,
+          }, '#nodeInfoInner')
+
+          this.assignInfoBlock({
+            "class": sp.Name,
+            "Код области": sp.Kod_oblasti, 
+            "Код страны": sp.Kod_Strani, 
+            "Код района": sp.Kod_rayona, 
+            "PersonID": sp.PersonID, 
+            "Label": sp.Label,
+            "Source": sp.Source,
+          }, '#nodeAddInfoInner')
+
+          this.assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
+        }
+
+        if (sg == 'judgePerson' || sg == 'keyJudgePerson' || sg == 'judgeCompany') {
+          this.setState({showSudInfo: true})
+
+          this.assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Приставание в общественных местах": sp.Pristavanie,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Орган, выявивший правонарушение": sp.Organ_pravanarushenya,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Дата решения": sp.Data_reshenya,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Статус КУИС": sp.Status_KUIS,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Размер наложенного штрафа": sp.Razmer_Shtrafa,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Статус Минздрав": sp.Status_Minzdrav,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Приказ о снятии с регистрационного учета": sp.PRIKAZ_O_SNYATYA,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Бездействующие ЮЛ": sp.BEZDEYSTVIA_UL,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Статус ОПГ": sp.STATUS_OPG,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Статья ЕРДР": sp.STATYA_ERDR,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Статус ЕРДР": sp.STATUS_ERDR,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Орган регистрации": sp.ORGAN_REGISTER,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"ФПГ": sp.FPG,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Направлено в": sp.Napravlenio_V,}, '#nodeSudInfoInner')
 
         }
+
       }, 
 
       deselectNode: (event) => {
         const infoBlock = document.querySelector("#nodeInfoInner")
         const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+        const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
 
         infoBlock.innerHTML = ""
         addInfoBlock.innerHTML = ""
+        sudInfoBlock.innerHTML = ""
 
         onSelectNode = false
         this.setState({showNodeInfo: false})
         this.setState({showEdgeInfo: false})
+        this.setState({showNodeImage: false})
+        this.setState({showSudInfo: false})
+
       },
 
       selectEdge: (event) => {
@@ -423,6 +515,8 @@ export default class GraphNet extends Component {
 
         this.setState({showNodeInfo: false})
         this.setState({showEdgeInfo: true})
+        this.setState({showNodeImage: false})
+        this.setState({showSudInfo: false})
 
         SelectedEdge = this.state.edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
 
@@ -430,6 +524,7 @@ export default class GraphNet extends Component {
 
         const infoBlock = document.querySelector("#nodeInfoInner")
         const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+        const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
         addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
 
@@ -439,22 +534,72 @@ export default class GraphNet extends Component {
           "Вид связи": sp.Vid_svyaziey,
           "Label": sp.Label,
           "Source": sp.Source
-        })
+        }, '#nodeInfoInner')
 
         if (SelectedEdge.type == "REG_ADDRESS_HIST" || SelectedEdge.type == "REG_ADDRESS_CUR" || SelectedEdge.type == "REG_ADDRESS") {
-          this.assignInfoBlock({"Дата начала прописки": sp.Data_nachali_propiski || sp.data_nachalo})
-          if (sp.data_oconchanya != null) this.assignInfoBlock({"Дата окончания прописки": sp.data_oconchanya}) 
+          this.assignInfoBlock({
+            "Дата начала прописки": sp.Data_nachali_propiski || sp.data_nachalo,
+            "Дата окончания прописки": sp.data_oconchanya,
+            "Дата регистрационного действия": sp.data_reg,
+            "Адрес": sp.address_of_reg,
+            "РКА": sp.rka,
+          }, '#nodeInfoInner')
 
-        } 
-        else if (SelectedEdge.type == "WORKER_CUR" || SelectedEdge.type == "WORKER_HIST") {
-          this.assignInfoBlock({"БИН/ИИН работадателя": sp.IINBIN_rabotadatelya})
-          this.assignInfoBlock({"Дата начала отчисления ОПВ/СО": sp.data_nachalo})
-          if (sp.data_oconchanya != null) this.assignInfoBlock({"Дата окончания отчисления ОПВ/СО": sp.data_oconchanya})
-          this.assignInfoBlock({"Средняя заработная плата": sp.average_zp})
+        } else if (SelectedEdge.type == "WORKER_CUR" || SelectedEdge.type == "WORKER_HIST") {
+          this.assignInfoBlock({
+            "БИН/ИИН работадателя": sp.IINBIN_rabotadatelya,
+            "ИИН": sp.IIN,
+            "Дата начала отчисления ОПВ/СО": sp.data_nachalo,
+            "Дата окончания отчисления ОПВ/СО": sp.data_oconchanya,
+            "Средняя заработная плата": sp.average_zp,
+            "Количество месяцев пенсионных отчислений": sp.mesyac_pensionnih,
+            "Пенсионные отчисления": sp.pensionnoe_otchislenie,
+            "Социальные отчисления": sp.soc_ochislenya,
+            "Средняя заработная плата": sp.average_zp,
+
+          }, '#nodeInfoInner')
+
+        } else if (SelectedEdge.type == 'SUDIM') {
+          this.assignInfoBlock({
+            "Дата начала заключения": sp.Data_nachala,
+            "Дата конца заключения": sp.Data_konca,
+            "Статья": sp.Statya,
+
+          }, '#nodeInfoInner')
+
+        } else if (SelectedEdge.type == 'UCHILSYA') {
+          this.assignInfoBlock({
+            "Дата начала обучения": sp.data_nachalo, 
+            "Дата конца обучения": sp.data_konca
+          }, '#nodeInfoInner')
 
         } else {
-          if (sp.data_nachalo != null) this.assignInfoBlock({"Дата начала обучения": sp.data_nachalo})
-          if (sp.data_konca != null) this.assignInfoBlock({"Дата конца обучения": sp.data_konca})
+          this.assignInfoBlock({
+            "Название": sp.company,
+            "Дата начала аффилированности": sp.Data_nachalo_affilirovannosti,
+            "Тип аффилированности": sp.Type_affilirovannosti,
+            "БИН/ИИН работадателя": sp.IINBIN_rabotadatelya,
+            "Наименование типа должности на русском": sp.naimenovanie_tipa_dolzhnosty,
+            "Наименование типа должности на русском": sp.NAME_tipa_dolzhnosty,
+            "Дата начала": sp.data_nachalo,
+            "Дата окончания": sp.data_oconchanya,
+            "ИИН": sp.IIN,
+            "Общая сумма ЭСФ": sp.obshaya_summa,
+            "ЭСФ за 2019 год": sp.esf_2019,
+            "ЭСФ за 2020 год": sp.esf_2020,
+            "ЭСФ за 2021 год": sp.esf_2021,
+            "ЭСФ за 2022 год": sp.esf_2022,
+            "ИИН-БИН поставщика": sp.IINBIN_postavshika,
+            "БИН заказчика": sp.BIN_zakazchika,
+            "Итоговая сумма, без НДС": sp.itog_summa,
+            "Дата": sp.data,
+            "Номер сделки": sp.nomer_sdelki,
+            "Тип сделки": sp.type_sdelki,
+            "Представитель": sp.predstavitel,
+            "ПДЛ": sp.pdl,
+            "РКА": sp.rka,
+            "Год службы": sp.god_sluzhbi,
+          }, '#nodeInfoInner')
 
         }
       },
@@ -462,6 +607,9 @@ export default class GraphNet extends Component {
       deselectEdge: (event) => {
         this.setState({showNodeInfo: false})
         this.setState({showEdgeInfo: false})
+        this.setState({showNodeImage: false})
+        this.setState({showSudInfo: false})
+
       }
 
     }
@@ -533,7 +681,7 @@ export default class GraphNet extends Component {
                 <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
-            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar>
           </>
           </div>
         )
@@ -547,7 +695,7 @@ export default class GraphNet extends Component {
                   <a>No objects found</a>
                 </div>
               </div>
-            <RightBar showAction={this.state.showActionBtn} isOnSelectEdge={this.state.showEdgeInfo}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}></RightBar>
           </>
           </div>
         )
@@ -563,7 +711,7 @@ export default class GraphNet extends Component {
                   <div className="inner three"></div>
                 </div>
               </div>
-            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}></RightBar>
+            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar>
           </>
           </div>
         )
@@ -617,7 +765,7 @@ export default class GraphNet extends Component {
             />
         </div>
           
-        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}></RightBar>
+        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage} showSudInfo={this.state.showSudInfo}></RightBar>
         </>
         </div>
       )

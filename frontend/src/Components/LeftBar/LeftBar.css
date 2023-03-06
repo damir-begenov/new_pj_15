@@ -6,7 +6,7 @@
 
     padding-top: 20px;
 
-    width: 350px;
+    width: 450px;
     border-right: 2px var(--bar-border-color) solid;
     background-color: #0D0F11;
 
@@ -31,7 +31,6 @@
     position: relative;
     margin: 10px 20px;
 
-    /* border: 1px green solid; */
     display: flex;
     flex-direction: column;
     gap: 7px;

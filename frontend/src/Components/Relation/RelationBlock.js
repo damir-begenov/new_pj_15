@@ -262,7 +262,7 @@ const RelationBlock = (props) => {
                 return (
                     <div className="checkbox checked" id={key} key={index}>
                         <span id="conLabel">{categories[key].value}</span>
-                        <i className="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}></i>
+                        <i className="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}>X</i>
                     </div>  
                 )
             })}
@@ -278,7 +278,7 @@ const RelationBlock = (props) => {
                 return (
                     <div className="checkbox unchecked" id={key} key={index}>
                         <span id="conLabel">{categories[key].value}</span>
-                        <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
+                        <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
                     </div>  
                 )
             })}
@@ -288,7 +288,7 @@ const RelationBlock = (props) => {
                     return (
                         <div className="checkbox unchecked" id={key} key={index}>
                             <span id="conLabel">{categories[key].value}</span>
-                            <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
+                            <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
                         </div>  
                     )
                 })
@@ -300,7 +300,7 @@ const RelationBlock = (props) => {
                     return (
                         <div className="checkbox unchecked" id={key} key={index}>
                             <span id="conLabel">{categories[key].value}</span>
-                            <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}></i>
+                            <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
                         </div>  
                     )
                 })

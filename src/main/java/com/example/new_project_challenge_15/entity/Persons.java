@@ -30,7 +30,7 @@ public class Persons {
     public String Death_Status;
     @Property("Мед. Орг.")
     public String Med_org;
-    @Property("Стату Минздрав")
+    @Property("Статус Минздрав")
     public String Status_Minzdrav;
     @Property("Статус КУИС")
 

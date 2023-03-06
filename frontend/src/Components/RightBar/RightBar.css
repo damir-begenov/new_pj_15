@@ -1,9 +1,6 @@
 .rightBar {
   overflow-y: scroll;
-
-  position: absolute;
-  right: 0;
-  top: 0;
+  overflow-x: hidden;
 
   color: #808080;
 
@@ -12,10 +9,12 @@
   border: 2px var(--bar-border-color) solid;
   border-right: none;
   border-top: none;
+  border-bottom: none;
 
   padding-top: 20px;
   padding-bottom: 40px;
-  width: 250px;
+  padding-right: 20px;
+  width: 350px;
 
   display: flex;
   flex-direction: column;

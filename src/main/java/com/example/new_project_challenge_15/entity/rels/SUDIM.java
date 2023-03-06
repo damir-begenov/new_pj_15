@@ -13,6 +13,16 @@ public class SUDIM {
     public String Source;
     @Property("Вид связи")
     public String Vid_svyaziey;
+
+    @Property("Дата начала заключения")
+    public String Data_nachala;
+
+    @Property("Дата конца заключения")
+    public String Data_konca;
+
+    @Property("Статья")
+    public String Statya;
+
     @TargetNode
     private Persons person;
 
@@ -22,6 +32,30 @@ public class SUDIM {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getData_nachala() {
+        return Data_nachala;
+    }
+
+    public void setData_nachala(String data_nachala) {
+        this.Data_nachala = data_nachala;
+    }
+
+    public String getData_konca() {
+        return Data_konca;
+    }
+    
+    public void setData_konca(String data_konca) {
+        Data_konca = data_konca;
+    }
+
+    public String getStatya() {
+        return Statya;
+    }
+
+    public void setStatya(String statya) {
+        Statya = statya;
     }
 
     public String getLabel() {
