@@ -1,4 +1,6 @@
 .rightBar {
+  overflow-y: scroll;
+
   position: absolute;
   right: 0;
   top: 0;
@@ -115,4 +117,12 @@
 .actionBlock input:active {
   background-color: #696969;
   color: white;
+}
+
+.infoBlock .nodeImg {
+  width: 80%;
+}
+
+.infoBlock .nodeImg > img {
+  width: 100%;
 }
