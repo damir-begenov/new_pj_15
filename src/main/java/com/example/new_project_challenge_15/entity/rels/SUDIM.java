@@ -40,22 +40,6 @@ public class SUDIM {
         this.data_nachalo = data_nachalo;
     }
 
-    public String getData_konca() {
-        return data_konca;
-    }
-
-    public void setData_konca(String data_konca) {
-        this.data_konca = data_konca;
-    }
-
-    public String getStatya() {
-        return statya;
-    }
-
-    public void setStatya(String statya) {
-        this.statya = statya;
-    }
-
     public Long getId() {
         return id;
     }

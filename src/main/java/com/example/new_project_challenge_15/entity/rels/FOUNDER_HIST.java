@@ -25,7 +25,7 @@ public class FOUNDER_HIST {
     private String Data_nachalo;
 
     @Property("Дата конца")
-    private String Data_konca;
+    private String data_okonchanya;
 
     @Property("Вид связи")
     private String Vid_svyaziey;
@@ -33,20 +33,20 @@ public class FOUNDER_HIST {
     @TargetNode
     private Company company;
 
+    public String getData_okonchanya() {
+        return data_okonchanya;
+    }
+
+    public void setData_okonchanya(String data_okonchanya) {
+        this.data_okonchanya = data_okonchanya;
+    }
+
     public void setCompany(Company company) {
         this.company = company;
     }
 
     public Company getCompany() {
         return company;
-    }
-
-    public String getData_konca() {
-        return Data_konca;
-    }
-
-    public void setData_konca(String data_konca) {
-        Data_konca = data_konca;
     }
 
     public Long getId() {
