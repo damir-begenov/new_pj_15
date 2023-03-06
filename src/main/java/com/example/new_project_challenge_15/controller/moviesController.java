@@ -2,24 +2,16 @@ package com.example.new_project_challenge_15.controller;
 
 
 import com.example.new_project_challenge_15.entity.*;
+import com.example.new_project_challenge_15.models.User;
 import com.example.new_project_challenge_15.models.photoDb;
 import com.example.new_project_challenge_15.repository.*;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
-import com.example.new_project_challenge_15.service.CompanyPersonService;
-import com.example.new_project_challenge_15.service.FiPersonsService;
-import com.example.new_project_challenge_15.service.PersonService;
-import com.example.new_project_challenge_15.service.statisticService;
+import com.example.new_project_challenge_15.service.*;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.AllArgsConstructor;
 //import org.neo4j.springframework.data.core.Neo4jTemplate;
 import org.neo4j.driver.Value;
 import org.neo4j.driver.Values;
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.io.FileHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +23,9 @@ import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +49,22 @@ public class moviesController {
     @Autowired
     FiPersonsService personsService;
     newPhotoRepo newPhotoRepo;
+    LogsService logsService;
 
     @GetMapping("/fltree")
     public doubleReturn getFlTree(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);
+        try{
+            log log = new log();
+            LocalDateTime current = LocalDateTime.now();
+            log.setDate(current);
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            logsService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personsService.getPersonTree(person, depth, limit, relations);
     }
     @GetMapping("/flFIOtree")
