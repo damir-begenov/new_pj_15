@@ -143,6 +143,7 @@ export default class GraphNet extends Component {
         })
         
         this.setState({nodes, edges})
+        console.log(nodes)
         
         this.state.isLoading = false
 
@@ -360,6 +361,8 @@ export default class GraphNet extends Component {
 
         onSelectNode = true
 
+        console.log(SelectedNode)
+
         const infoBlock = document.querySelector("#nodeInfoInner")
         const addInfoBlock = document.querySelector("#nodeAddInfoInner")
 
@@ -411,10 +414,11 @@ export default class GraphNet extends Component {
       },
 
       selectEdge: (event) => {
+        if (onSelectNode == true) return
+
         this.setState({showNodeInfo: false})
         this.setState({showEdgeInfo: true})
 
-        if (onSelectNode == true) return
         SelectedEdge = this.state.edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
 
         console.log(SelectedEdge)

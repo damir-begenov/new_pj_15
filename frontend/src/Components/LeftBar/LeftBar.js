@@ -23,8 +23,6 @@ const LeftBar = (props) => {
     const filter = () => { 
         if (!checkAuth()) navigate('/login', {replace: true}) 
 
-        alert(relString)
-
         let options = {
             name1, name2, limit, depth, mode, relString, approvementObj
         }
@@ -54,7 +52,6 @@ const LeftBar = (props) => {
 
     const checkAdmin = () => {
         const userSession = JSON.parse(localStorage.getItem("user"))
-        console.log(userSession)
         if (userSession && userSession.roles.includes('ROLE_ADMIN')) {
             return true;
         }
@@ -63,7 +60,6 @@ const LeftBar = (props) => {
 
     const checkModerator = () => {
         const userSession = JSON.parse(localStorage.getItem("user"))
-        console.log(userSession)
         if (userSession && userSession.roles.includes('ROLE_MODERATOR')) {
             return true;
         }
