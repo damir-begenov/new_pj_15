@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Component } from "react";
 import LeftBar from "../../Components/LeftBar/LeftBar";
 import RightBar from "../../Components/RightBar/RightBar";
+import html2canvas from 'html2canvas';
 
 import './../../Loader.css'
 import './Graphs.css'
@@ -520,6 +521,17 @@ export default class GraphNet extends Component {
         },
       })
     }
+    download() {
+      const target = document.getElementById('test')
+      html2canvas(target).then((canvas)=> {
+        const base64image = canvas.toDataURL("image/png")
+        var anchor = document.createElement('a')
+        anchor.setAttribute("href", base64image)
+        anchor.setAttribute("download", "graph-result.png")
+        anchor.click()
+        anchor.remove()
+      })
+    }
 
     render() {
       if (this.state.counter===0 && !this.state.isLoading) {
@@ -614,6 +626,7 @@ export default class GraphNet extends Component {
               }}
               manipulation={this.manipulation}
               className={"graph"}
+              id = {"graph2canvas"}
             />
         </div>
           
