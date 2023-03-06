@@ -118,18 +118,23 @@ export default class GraphNet extends Component {
           params = {person: options.name1, person2: options.name2, relations: options.relString}
           break;
         case "con3":
-          url = "http://localhost:9091/api/finpol/main/movieperson";
-          params = {person: options.name1, movie: options.name2, relations: options.relString}
+          url = "http://localhost:9091/api/finpol/main/flulpath";
+          params = {person: options.name1, ul: options.name2, relations: options.relString}
           break;
         case "con4":
-          url = "http://localhost:9091/api/finpol/main/movie";
-          params = {title: options.name1, relations: options.relString}
+          url = "http://localhost:9091/api/finpol/main/ultree";
+          params = {ul: options.name1, relations: options.relString, depth: options.depth, limit: options.limit }
+          break;
+        case "con5":
+          url = "http://localhost:9091/api/finpol/main/ululpath";
+          params = {ul1: options.name1, ul2: options.name2, relations: options.relString}
           break;
       }
       
       axios.get(url, {params: params}).then(res => {
         let nodes = []
         const edges = res.data.edges;
+        console.log(res.data)
         
         
         edges.map(item => {
@@ -484,6 +489,17 @@ export default class GraphNet extends Component {
     updateSearched() {
       const value = document.getElementById("nodeSearchInput").value;
       const searchNodes = Object.values(Network.body.nodes).filter(elem => {
+        for ( var key in elem.options.properties) {
+          // console.log(elem.options.properties[key])
+          if (elem.options.properties.hasOwnProperty(key) && elem.options.properties[key] != null) {
+            let result = elem.options.properties[key].toString().replace(/[a-zA-Z]/g, function(char) {
+              return char.toLowerCase()
+            })
+            if (result.includes(value.toLowerCase())) {
+              return true;
+            }
+          }
+        }
         if (elem.options.label != undefined && elem.options.label.toLowerCase().includes(value.toLowerCase())) {
           return true;
         }

@@ -52,11 +52,29 @@ public class moviesController {
     public doubleReturn getShortestPaths(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations) {
         return personsService.getShortestPaths(person, person2, relations);
     }
-//    @GetMapping("/ultree")
-////    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-//    public doubleReturn getUlTree(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations) {
-//        return personsService.getUlTree(person, person2, relations);
-//    }
+    @GetMapping("/ultree")
+//    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public doubleReturn getUlTree(@RequestParam String ul, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+        return personsService.getUlTree(ul, relations, depth, limit);
+    }
+    @GetMapping("/flulpath")
+//    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public doubleReturn getUlFlPath(@RequestParam String ul, @RequestParam String person, @RequestParam List<String> relations) {
+        return personsService.getUlFlPath(ul, person, relations);
+    }
+
+    @GetMapping("/ululpath")
+    public doubleReturn getUlUlPath(@RequestParam String ul1,@RequestParam String ul2,@RequestParam List<String> relations) {
+        return personsService.getUlUlPath(ul1, ul2, relations);
+    }
+
+    @GetMapping("/shortopen")
+    public doubleReturn getShortOpen(@RequestParam Long id) {
+        return personsService.shortOpen(id);
+    }
+
+
+
 
     @GetMapping("/newd")
     public List<Persons> getNdew() {
