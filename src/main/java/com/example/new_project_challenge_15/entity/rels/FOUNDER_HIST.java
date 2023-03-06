@@ -23,12 +23,22 @@ public class FOUNDER_HIST {
 
     @Property("Дата начала")
     private String data_nachalo;
+    @Property("Дата окончания")
+    private String data_okonchanya;
 
     @Property("Вид связи")
     private String Vid_svyaziey;
 
     @TargetNode
     private Company company;
+
+    public String getData_okonchanya() {
+        return data_okonchanya;
+    }
+
+    public void setData_okonchanya(String data_okonchanya) {
+        this.data_okonchanya = data_okonchanya;
+    }
 
     public void setCompany(Company company) {
         this.company = company;

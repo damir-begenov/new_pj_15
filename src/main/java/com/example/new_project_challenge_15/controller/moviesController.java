@@ -10,14 +10,27 @@ import com.example.new_project_challenge_15.service.FiPersonsService;
 import com.example.new_project_challenge_15.service.PersonService;
 import com.example.new_project_challenge_15.service.statisticService;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.AllArgsConstructor;
 //import org.neo4j.springframework.data.core.Neo4jTemplate;
 import org.neo4j.driver.Value;
 import org.neo4j.driver.Values;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.io.FileHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.Robot;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +59,11 @@ public class moviesController {
     public doubleReturn getFlTree(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
         return personsService.getPersonTree(person, depth, limit, relations);
     }
+    @GetMapping("/flFIOtree")
+    public doubleReturn getFlTree(@RequestParam String F,@RequestParam String I,@RequestParam String O, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+        return personsService.getPersonByFIO_(F,I,O, depth, limit, relations);
+    }
+
 
     @GetMapping("/shortestpaths")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
@@ -77,8 +95,21 @@ public class moviesController {
 
 
     @GetMapping("/newd")
-    public List<Persons> getNdew() {
-        return newPersonService.getPersons();
+    public String getNdew() {
+        try{
+            Robot robot = new Robot();
+            System.out.println("sds");
+            Rectangle rectangle = new Rectangle(0,0,500,500);
+            System.out.println("sds");
+
+            BufferedImage bufferedImage = robot.createScreenCapture(rectangle);
+
+            ImageIO.write(bufferedImage,"JPG",new File("C:\\Users\\123\\Desktop\\project-aitab\\new_pj_15\\sreenshot.jpg"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "privet";
     }
     @GetMapping("/photo")
     public photoDb getPhoto(){
