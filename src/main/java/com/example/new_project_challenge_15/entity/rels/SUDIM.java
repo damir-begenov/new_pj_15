@@ -13,8 +13,38 @@ public class SUDIM {
     public String Source;
     @Property("Вид связи")
     public String Vid_svyaziey;
+    @Property("Дата начала заключения")
+    public String data_nachalo;
+    @Property("Дата конца заключения")
+    public String data_konca;
+    @Property("Статья")
+    public String statya;
     @TargetNode
     private Persons person;
+
+    public String getData_nachalo() {
+        return data_nachalo;
+    }
+
+    public void setData_nachalo(String data_nachalo) {
+        this.data_nachalo = data_nachalo;
+    }
+
+    public String getData_konca() {
+        return data_konca;
+    }
+
+    public void setData_konca(String data_konca) {
+        this.data_konca = data_konca;
+    }
+
+    public String getStatya() {
+        return statya;
+    }
+
+    public void setStatya(String statya) {
+        this.statya = statya;
+    }
 
     public Long getId() {
         return id;
