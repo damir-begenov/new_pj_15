@@ -58,19 +58,19 @@ public class Company {
     @Relationship(type = "DFO_AFF_UL", direction = Relationship.Direction.OUTGOING)
     private List<DFO_AFF_UL> dfoAffUls;
 
-    @Relationship(type = "ESF_100", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_100", direction = Relationship.Direction.INCOMING)
     private List<ESF_100> esf100s;
 
-    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.INCOMING)
     private List<ESF_10and100> esf_10and100s;
 
-    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.INCOMING)
     private List<ESF_10and50> esf10and50s;
 
-    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.INCOMING)
     private List<ESF_50and100> esf50and100s;
 
-    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.INCOMING)
     private List<ESF_5and10> esf5and10s;
 
     @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.INCOMING)
@@ -117,6 +117,8 @@ public class Company {
 
     @Relationship(type = "WORKER_HIST", direction = Relationship.Direction.OUTGOING)
     private List<WORKER_HIST> workerHists;
+
+
 
     public List<BUHGALTER> getBuhgalters() {
         return buhgalters;
