@@ -25,6 +25,17 @@ public class FiPersonsService {
     @Autowired
     newPhotoService newPhotoService;
 
+    private Nodes tryAddPhoto(Nodes node, String IIN) {
+        try {
+            photoDb photoDb = newPhotoService.getPhotoByIIN(IIN);
+            node.setPhotoDbf(photoDb);
+            return node;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return node;
+    }
+
     public doubleReturn shortOpen(Long ID) {
         return ConstructDoubleReturn(personRepo.shortOpen(ID), companyRepo.shortOpen(ID));
     }
@@ -195,8 +206,9 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, relation.getPerson().getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -212,8 +224,9 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, relation.getPerson().getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -229,8 +242,9 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, relation.getPerson().getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -246,8 +260,9 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, relation.getPerson().getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPerson().getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -278,8 +293,9 @@ public class FiPersonsService {
                     ids.add(relation.getPersons().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPersons().getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, relation.getPersons().getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPersons().getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPersons().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -408,7 +424,7 @@ public class FiPersonsService {
             List<ESF_100> ESF_100 = object.getEsf100s();
             for (ESF_100 relation: ESF_100) {
                 Map<String, Object> properties = getPropertyMap(relation);
-                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                relationModel currRel = new relationModel( object.getId(), relation.getCompany().getId(), properties);
                 currRel.setType("ESF_100");
                 edges.add(currRel);
                 if (!ids.contains(relation.getCompany().getId())) {
@@ -426,8 +442,9 @@ public class FiPersonsService {
                 ids.add(object.getId());
                 Nodes currNode = new Nodes();
                 Map<String, Object> properties = getPropertyMap(object);
-                photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
-                currNode.setPhotoDbf(photoDb);
+                currNode = tryAddPhoto(currNode, object.getIIN());
+//                photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+//                currNode.setPhotoDbf(photoDb);
                 currNode.setId(object.getId());
                 currNode.setProperties(properties);
                 nodes.add(currNode);
@@ -487,8 +504,9 @@ public class FiPersonsService {
                     ids.add(relation.getPersons().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, object.getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPersons().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -549,8 +567,9 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, object.getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -566,8 +585,9 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, object.getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -583,8 +603,9 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, object.getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
@@ -615,8 +636,9 @@ public class FiPersonsService {
                     ids.add(relation.getPerson().getId());
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
-                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
-                    currNode.setPhotoDbf(photoDb);
+                    currNode = tryAddPhoto(currNode, object.getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
+//                    currNode.setPhotoDbf(photoDb);
                     currNode.setId(relation.getPerson().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
