@@ -42,9 +42,30 @@ public class FiPersonsService {
     public doubleReturn getShortestPaths(String FIRST, String SECOND, List<String> list) {
         return ConstructDoubleReturn(personRepo.getPathsWithIIN(FIRST, SECOND, list), companyRepo.getPathsWithIIN(FIRST, SECOND, list));
     }
+    public doubleReturn getShortestPathWithFIO(String F1,String I1,String O1, String F2,String I2,String O2, List<String> RELS) {
+        return ConstructDoubleReturn(personRepo.getPathsWithFIO(F1,I1,O1,F2,I2,O2,RELS), companyRepo.getPathsWithFIO(F1,I1,O1,F2,I2,O2,RELS));
+    }
+    public doubleReturn getShortestPathWithFIObezs(String F1,String I1,String O1, String F2,String I2,String O2, List<String> RELS) {
+        return ConstructDoubleReturn(personRepo.getPathsWithFIObezs(F1,I1,O1,F2,I2,O2,RELS), companyRepo.getPathsWithFIObezs(F1,I1,O1,F2,I2,O2,RELS));
+    }
+    public doubleReturn getShortestPathWithFIOsbez(String F1,String I1,String O1, String F2,String I2,String O2, List<String> RELS) {
+        return ConstructDoubleReturn(personRepo.getPathsWithFIOsbez(F1,I1,O1,F2,I2,O2,RELS), companyRepo.getPathsWithFIOsbez(F1,I1,O1,F2,I2,O2,RELS));
+    }
+    public doubleReturn getShortestPathWithFIObezbez(String F1,String I1,String O1, String F2,String I2,String O2, List<String> RELS) {
+        return ConstructDoubleReturn(personRepo.getPathsWithFIObezbez(F1,I1,O1,F2,I2,O2,RELS), companyRepo.getPathsWithFIObezbez(F1,I1,O1,F2,I2,O2,RELS));
+    }
+
+
+
 
     public doubleReturn getUlFlPath(String ul, String person, List<String> relations) {
         return ConstructDoubleReturn(personRepo.getUlFlPath(person, ul, relations), companyRepo.getUlFlPath(person, ul, relations));
+    }
+    public doubleReturn getUlFlPathByFIO(String F,String I,String O,String ul, List<String> relations) {
+        return ConstructDoubleReturn(personRepo.getUlFlPathByFIO(F,I,O, ul, relations), companyRepo.getUlFlPathByFIO(F,I,O, ul, relations));
+    }
+    public doubleReturn getUlFlPathByFIOwithoutO(String F,String I,String O,String ul, List<String> relations) {
+        return ConstructDoubleReturn(personRepo.getUlFlPathByFIOwithoutO(F,I,O, ul, relations), companyRepo.getUlFlPathByFIOwithoutO(F,I,O, ul, relations));
     }
 
     public doubleReturn getUlUlPath(String ul1, String ul2, List<String> relations) {
@@ -165,6 +186,48 @@ public class FiPersonsService {
             return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth13(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth13(F,I,O, limit, relations));
         }
         return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth13(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth13(F,I,O, limit, relations));
+    }
+    public doubleReturn getPersonByFIO_withoutO(String F,String I,String O,int depth, int limit, List<String> relations) {
+        if(depth==1) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth1withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth1withoutO(F,I,O, limit, relations));
+        }
+        if(depth==2) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth2withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth2withoutO(F,I,O, limit, relations));
+        }
+        if(depth==3) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth3withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth3withoutO(F,I,O, limit, relations));
+        }
+        if(depth==4) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth4withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth4withoutO(F,I,O, limit, relations));
+        }
+        if(depth==5) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth5withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth5withoutO(F,I,O, limit, relations));
+        }
+        if(depth==6) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth6withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth6withoutO(F,I,O, limit, relations));
+        }
+        if(depth==7) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth7withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth7withoutO(F,I,O, limit, relations));
+        }
+        if(depth==8) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth8withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth8withoutO(F,I,O, limit, relations));
+        }
+        if(depth==9) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth9withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth9withoutO(F,I,O, limit, relations));
+        }
+        if(depth==10) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth10withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth10withoutO(F,I,O, limit, relations));
+        }
+        if(depth==11) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth11withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth11withoutO(F,I,O, limit, relations));
+        }
+        if(depth==12) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth12withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth12withoutO(F,I,O, limit, relations));
+        }
+        if(depth==13) {
+            return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth13withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth13withoutO(F,I,O, limit, relations));
+        }
+        return ConstructDoubleReturn(personRepo.getPersonByFIO_Depth13withoutO(F,I,O, limit, relations), companyRepo.getPersonByFIO_Depth13withoutO(F,I,O, limit, relations));
     }
     private Map<String, Object> getPropertyMap(Object obj) {
         Map<String, Object> properties = new HashMap<>();
