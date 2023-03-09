@@ -227,6 +227,21 @@
 //                    nodes.add(currNode);
 //                }
 //            }
+//            List<ESF_10and100> ESF_10and100s = object.getEsf_10and100sOut();
+//            for (ESF_10and100 relation: ESF_10and100s) {
+//                Map<String, Object> properties = getPropertyMap(relation);
+//                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+//                currRel.setType("ESF_10and100");
+//                edges.add(currRel);
+//                if (!ids.contains(relation.getCompany().getId())) {
+//                    ids.add(relation.getCompany().getId());
+//                    Nodes currNode = new Nodes();
+//                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+//                    currNode.setId(relation.getCompany().getId());
+//                    currNode.setProperties(properties2);
+//                    nodes.add(currNode);
+//                }
+//            }
 //            List<ESF_10and50> ESF_10and50 = object.getEsf10and50s();
 //            for (ESF_10and50 relation: ESF_10and50) {
 //                Map<String, Object> properties = getPropertyMap(relation);
@@ -242,11 +257,11 @@
 //                    nodes.add(currNode);
 //                }
 //            }
-//            List<ESF_50and100> ESF_50and100 = object.getEsf50and100s();
-//            for (ESF_50and100 relation: ESF_50and100) {
+//            List<ESF_10and50> ESF_10and50s = object.getEsf10and50sIncome();
+//            for (ESF_10and50 relation: ESF_10and50s) {
 //                Map<String, Object> properties = getPropertyMap(relation);
 //                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
-//                currRel.setType("ESF_50and100");
+//                currRel.setType("ESF_10and50");
 //                edges.add(currRel);
 //                if (!ids.contains(relation.getCompany().getId())) {
 //                    ids.add(relation.getCompany().getId());
@@ -257,6 +272,36 @@
 //                    nodes.add(currNode);
 //                }
 //            }
+////            List<ESF_50and100> ESF_50and100 = object.getEsf50and100s();
+////            for (ESF_50and100 relation: ESF_50and100) {
+////                Map<String, Object> properties = getPropertyMap(relation);
+////                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+////                currRel.setType("ESF_50and100");
+////                edges.add(currRel);
+////                if (!ids.contains(relation.getCompany().getId())) {
+////                    ids.add(relation.getCompany().getId());
+////                    Nodes currNode = new Nodes();
+////                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+////                    currNode.setId(relation.getCompany().getId());
+////                    currNode.setProperties(properties2);
+////                    nodes.add(currNode);
+////                }
+////            }
+////            List<ESF_50and100> ESF_50and100s = object.getEsf50and100sIncome();
+////            for (ESF_50and100 relation: ESF_50and100s) {
+////                Map<String, Object> properties = getPropertyMap(relation);
+////                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+////                currRel.setType("ESF_50and100");
+////                edges.add(currRel);
+////                if (!ids.contains(relation.getCompany().getId())) {
+////                    ids.add(relation.getCompany().getId());
+////                    Nodes currNode = new Nodes();
+////                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+////                    currNode.setId(relation.getCompany().getId());
+////                    currNode.setProperties(properties2);
+////                    nodes.add(currNode);
+////                }
+////            }
 //            List<ESF_5and10> ESF_5and10 = object.getEsf5and10s();
 //            for (ESF_5and10 relation: ESF_5and10) {
 //                Map<String, Object> properties = getPropertyMap(relation);
@@ -272,8 +317,38 @@
 //                    nodes.add(currNode);
 //                }
 //            }
+//            List<ESF_5and10> ESF_5and1s0 = object.getEsf5and10sOut();
+//            for (ESF_5and10 relation: ESF_5and1s0) {
+//                Map<String, Object> properties = getPropertyMap(relation);
+//                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+//                currRel.setType("ESF_5and10");
+//                edges.add(currRel);
+//                if (!ids.contains(relation.getCompany().getId())) {
+//                    ids.add(relation.getCompany().getId());
+//                    Nodes currNode = new Nodes();
+//                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+//                    currNode.setId(relation.getCompany().getId());
+//                    currNode.setProperties(properties2);
+//                    nodes.add(currNode);
+//                }
+//            }
 //            List<ESF_100> ESF_100 = object.getEsf100s();
 //            for (ESF_100 relation: ESF_100) {
+//                Map<String, Object> properties = getPropertyMap(relation);
+//                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+//                currRel.setType("ESF_100");
+//                edges.add(currRel);
+//                if (!ids.contains(relation.getCompany().getId())) {
+//                    ids.add(relation.getCompany().getId());
+//                    Nodes currNode = new Nodes();
+//                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+//                    currNode.setId(relation.getCompany().getId());
+//                    currNode.setProperties(properties2);
+//                    nodes.add(currNode);
+//                }
+//            }
+//            List<ESF_100> ESF_100s = object.getEsf100sIncome();
+//            for (ESF_100 relation: ESF_100s) {
 //                Map<String, Object> properties = getPropertyMap(relation);
 //                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
 //                currRel.setType("ESF_100");

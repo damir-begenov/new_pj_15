@@ -43,11 +43,17 @@ public class moviesController {
     newPersonService newPersonService;
     newAddressRepo newAddressRepo;
     newCompanyRepo newCompanyRepo;
-    CompanyPersonService companyPersonService;
+//    CompanyPersonService companyPersonService;
     @Autowired
     FiPersonsService personsService;
     newPhotoRepo newPhotoRepo;
     LogsService logsService;
+
+
+    @GetMapping("/logtest")
+    public List<log> logTest(){
+        return logRepo.findByUsername("damirdamird");
+    }
 
     @GetMapping("/fltree")
     public doubleReturn getFlTree(Principal principal,@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit,
@@ -64,33 +70,27 @@ public class moviesController {
 //        User user = userDetailsService.loadUserByUsernamek(principal);
 //        List<String> request_bodies = new ArrayList<>();
 //        request_bodies.add(person);
-//        try{
-//            log log = new log();
-//            log.setData(orderDate);
-//            log.setOrder_num(orderNum);
-//            log.setOrder_date(orderDate);
-//            log.setArticle_name(articleName);
-//            log.setCase_num(caseNum);
-//            log.setChecking_name(checkingName);
-//            log.setOther_reasons(otherReasons);
-//            log.setOrgan_name(organName);
-//            log.setRuk_name(rukName);
-//            log.setSphere_name(sphereName);
-//            log.setTematik_name(tematikName);
-//            LocalDateTime current = LocalDateTime.now();
-//            log.setUsername(user.getUsername());
-//            log.setDate(current);
-//            log.setLimit_(limit);
-//            log.setDepth_(depth);
-//            log.setRequest_body(request_bodies);
-//            log.setRequest_rels(relations);
-//            logsService.SaveLog(log);
-//        }catch (Exception e){
-//            System.out.println(e);
-//        }
+//        log log = new log();
+//        log.setOrder_num(orderNum);
+//        log.setOrder_date(orderDate);
+//        log.setArticle_name(articleName);
+//        log.setCase_num(caseNum);
+//        log.setChecking_name(checkingName);
+//        log.setOther_reasons(otherReasons);
+//        log.setOrgan_name(organName);
+//        log.setRuk_name(rukName);
+//        log.setSphere_name(sphereName);
+//        log.setTematik_name(tematikName);
+//        LocalDateTime current = LocalDateTime.now();
+//        log.setUsername(user.getUsername());
+//        log.setDate(current);
+//        log.setLimit_(limit);
+//        log.setDepth_(depth);
+//        log.setRequest_body(request_bodies);
+//        log.setRequest_rels(relations);
+//        logsService.SaveLog(log);
         return personsService.getPersonTree(person, depth, limit, relations);
     }
-
     @GetMapping("/flFIOtree")
     public doubleReturn getFlTree(@RequestParam String F,@RequestParam String I,@RequestParam String O, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit,               @RequestParam(required = false) String orderNum,
                                   @RequestParam(required = false) String caseNum,
@@ -107,7 +107,6 @@ public class moviesController {
         request_bodies.add(F);request_bodies.add(I);request_bodies.add(O);
         try{
             log log = new log();
-            log.setData(orderDate);
             log.setOrder_num(orderNum);
             log.setOrder_date(orderDate);
             log.setArticle_name(articleName);
@@ -145,31 +144,31 @@ public class moviesController {
                                          @RequestParam(required = false) String sphereName,
                                          @RequestParam(required = false) String tematikName,
                                          @RequestParam(required = false) String rukName,Principal principal) {
-        User user = userDetailsService.loadUserByUsernamek(principal);
-        List<String> request_bodies = new ArrayList<>();
-        request_bodies.add(person);
-        try{
-            log log = new log();
-            log.setData(orderDate);
-            log.setOrder_num(orderNum);
-            log.setOrder_date(orderDate);
-            log.setArticle_name(articleName);
-            log.setCase_num(caseNum);
-            log.setChecking_name(checkingName);
-            log.setOther_reasons(otherReasons);
-            log.setOrgan_name(organName);
-            log.setRuk_name(rukName);
-            log.setSphere_name(sphereName);
-            log.setTematik_name(tematikName);
-            LocalDateTime current = LocalDateTime.now();
-            log.setUsername(user.getUsername());
-            log.setDate(current);
-            log.setRequest_body(request_bodies);
-            log.setRequest_rels(relations);
-            logsService.SaveLog(log);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+//        User user = userDetailsService.loadUserByUsernamek(principal);
+//        List<String> request_bodies = new ArrayList<>();
+//        request_bodies.add(person);
+//        try{
+//            log log = new log();
+//            log.setData(orderDate);
+//            log.setOrder_num(orderNum);
+//            log.setOrder_date(orderDate);
+//            log.setArticle_name(articleName);
+//            log.setCase_num(caseNum);
+//            log.setChecking_name(checkingName);
+//            log.setOther_reasons(otherReasons);
+//            log.setOrgan_name(organName);
+//            log.setRuk_name(rukName);
+//            log.setSphere_name(sphereName);
+//            log.setTematik_name(tematikName);
+//            LocalDateTime current = LocalDateTime.now();
+//            log.setUsername(user.getUsername());
+//            log.setDate(current);
+//            log.setRequest_body(request_bodies);
+//            log.setRequest_rels(relations);
+//            logsService.SaveLog(log);
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
         return personsService.getShortestPaths(person, person2, relations);
     }
     @GetMapping("/ultree")
@@ -225,31 +224,31 @@ public class moviesController {
                                     @RequestParam(required = false) String sphereName,
                                     @RequestParam(required = false) String tematikName,
                                     @RequestParam(required = false) String rukName,Principal principal) {
-        User user = userDetailsService.loadUserByUsernamek(principal);
-        List<String> request_bodies = new ArrayList<>();
-        request_bodies.add(person);request_bodies.add(ul);
-        try{
-            log log = new log();
-            log.setData(orderDate);
-            log.setOrder_num(orderNum);
-            log.setOrder_date(orderDate);
-            log.setArticle_name(articleName);
-            log.setCase_num(caseNum);
-            log.setChecking_name(checkingName);
-            log.setOther_reasons(otherReasons);
-            log.setOrgan_name(organName);
-            log.setRuk_name(rukName);
-            log.setSphere_name(sphereName);
-            log.setTematik_name(tematikName);
-            LocalDateTime current = LocalDateTime.now();
-            log.setUsername(user.getUsername());
-            log.setDate(current);
-            log.setRequest_body(request_bodies);
-            log.setRequest_rels(relations);
-            logsService.SaveLog(log);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+//        User user = userDetailsService.loadUserByUsernamek(principal);
+//        List<String> request_bodies = new ArrayList<>();
+//        request_bodies.add(person);request_bodies.add(ul);
+//        try{
+//            log log = new log();
+//            log.setData(orderDate);
+//            log.setOrder_num(orderNum);
+//            log.setOrder_date(orderDate);
+//            log.setArticle_name(articleName);
+//            log.setCase_num(caseNum);
+//            log.setChecking_name(checkingName);
+//            log.setOther_reasons(otherReasons);
+//            log.setOrgan_name(organName);
+//            log.setRuk_name(rukName);
+//            log.setSphere_name(sphereName);
+//            log.setTematik_name(tematikName);
+//            LocalDateTime current = LocalDateTime.now();
+//            log.setUsername(user.getUsername());
+//            log.setDate(current);
+//            log.setRequest_body(request_bodies);
+//            log.setRequest_rels(relations);
+//            logsService.SaveLog(log);
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
         return personsService.getUlFlPath(ul, person, relations);
     }
 
@@ -270,7 +269,6 @@ public class moviesController {
         request_bodies.add(ul2);
         try{
             log log = new log();
-            log.setData(orderDate);
             log.setOrder_num(orderNum);
             log.setOrder_date(orderDate);
             log.setArticle_name(articleName);
@@ -325,10 +323,10 @@ public class moviesController {
         return newPhotoRepo.findByIin("040502651337");
     }
 
-    @GetMapping("/test")
-    public doubleReturn testDoubleReturn() {
-        return companyPersonService.Test();
-    }
+//    @GetMapping("/test")
+//    public doubleReturn testDoubleReturn() {
+//        return companyPersonService.Test();
+//    }
 //
 //    @GetMapping("/fltree")
 //    public
