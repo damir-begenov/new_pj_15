@@ -170,6 +170,7 @@ const ApprovementModalWindow = (props) => {
         const sendElems = document.querySelectorAll('.sendItem');
         let approvementss = {}
         sendElems.forEach(elem => {
+            console.log(elem)
             approvementss[elem.name] = elem.value
         })
 
@@ -185,28 +186,28 @@ const ApprovementModalWindow = (props) => {
                 <div className="modalItems">
                     <div className="modalItem">
                         <label>Выберите основание</label>
-                        <select name="approvements" id='approvements' 
+                        <select name="approvement_type" className="sendItem" id='approvements' 
                             onChange={event => setApprovement(event.target.value)}>
                             <option value="app_0">Основание проверки</option>
-                            <option value="app_1">Уголовное дело / ЕРДР</option>
-                            <option value="app_2">Следственные поручения</option>
-                            <option value="app_3">Поручения прокурора</option>
-                            <option value="app_4">Международные поручения</option>
-                            <option value="app_5">Поручения АФМ РК</option>
-                            <option value="app_6">Поручения вышестоящего руководства</option>
-                            <option value="app_7">Материалы оперативных проверок</option>
-                            <option value="app_8">Тематика аналитической работы</option>
+                            <option value="Уголовное дело / ЕРДР">Уголовное дело / ЕРДР</option>
+                            <option value="Следственные поручения">Следственные поручения</option>
+                            <option value="Поручения прокурора">Поручения прокурора</option>
+                            <option value="Международные поручения">Международные поручения</option>
+                            <option value="Поручения АФМ РК">Поручения АФМ РК</option>
+                            <option value="Поручения вышестоящего руководства">Поручения вышестоящего руководства</option>
+                            <option value="Материалы оперативных проверок">Материалы оперативных проверок</option>
+                            <option value="Тематика аналитической работы">Тематика аналитической работы</option>
                         </select>
                     </div>
                     
-                    {approvement == 'app_1' ? <UgDelo></UgDelo> : ""}
-                    {approvement == 'app_2' ? <SledPoruchenie></SledPoruchenie> : ""}
-                    {approvement == 'app_3' ? <PorProkurora></PorProkurora> : ""}
-                    {approvement == 'app_4' ? <MejdPoruchenie></MejdPoruchenie> : ""}
-                    {approvement == 'app_5' ? <AfmPoruchenie></AfmPoruchenie> : ""}
-                    {approvement == 'app_6' ? <PoruchenieRukovodstva></PoruchenieRukovodstva> : ""}
-                    {approvement == 'app_7' ? <MaterialOP></MaterialOP> : ""}
-                    {approvement == 'app_8' ? <TematikaAnalRabot></TematikaAnalRabot> : ""}
+                    {approvement == 'Уголовное дело / ЕРДР' ? <UgDelo></UgDelo> : ""}
+                    {approvement == 'Следственные поручения' ? <SledPoruchenie></SledPoruchenie> : ""}
+                    {approvement == 'Поручения прокурора' ? <PorProkurora></PorProkurora> : ""}
+                    {approvement == 'Международные поручения' ? <MejdPoruchenie></MejdPoruchenie> : ""}
+                    {approvement == 'Поручения АФМ РК' ? <AfmPoruchenie></AfmPoruchenie> : ""}
+                    {approvement == 'Поручения вышестоящего руководства' ? <PoruchenieRukovodstva></PoruchenieRukovodstva> : ""}
+                    {approvement == 'Материалы оперативных проверок' ? <MaterialOP></MaterialOP> : ""}
+                    {approvement == 'Тематика аналитической работы' ? <TematikaAnalRabot></TematikaAnalRabot> : ""}
 
                     <div className="modalItem actionItems">
                         <input onClick={ () => props.setModal(false) } type="button" value="Отмена"/>

@@ -163,6 +163,7 @@ export default class GraphNet extends Component {
           break;
       }
 
+      params["approvement_type"] = options.approvementObj.approvement_type
       params["orderNum"] = options.approvementObj.orderNum
       params["orderDate"] = options.approvementObj.orderDate
       params["articleName"] = options.approvementObj.articleName

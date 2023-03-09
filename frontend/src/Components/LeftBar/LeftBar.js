@@ -32,7 +32,7 @@ const LeftBar = (props) => {
 
     const filter = () => { 
         if (!checkAuth()) navigate('/login', {replace: true}) 
-
+        console.log("approvement", approvementObj)
         let options = {
             iin1, iin2, limit, depth, mode, relString, approvementObj, searchOption, lname1, lname2, name1, name2, fname1, fname2
         }
@@ -429,7 +429,7 @@ const LeftBar = (props) => {
                     />
                     <input type="button" value="Запустить" id="filterBtn" 
                         onClick={event => {
-                            if (!checkAdmin())
+                            if (checkAdmin())
                                 setModal(true)
                             else 
                                 filter()
