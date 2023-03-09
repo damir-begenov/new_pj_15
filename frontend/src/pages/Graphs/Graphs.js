@@ -104,8 +104,19 @@ export default class GraphNet extends Component {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
       switch(options.mode) {
         case "con1":
-          url = "http://localhost:9091/api/finpol/main/fltree";
-          params = {person: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit}
+          if (options.searchOption == "iinOption") {
+            url = "http://localhost:9091/api/finpol/main/fltree"
+            params = {person: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit}
+
+          } else {
+            url = "http://localhost:9091/api/finpol/main/flFIOtree"
+            params = {
+              // firstName1: options.name1, 
+              // lastName1: options.lname1, 
+              // fatherName1: options.fname1, 
+              relations: options.relString, depth: options.depth, limit: options.limit}
+
+          }
           break;
         case "con2":
           url = "http://localhost:9091/api/finpol/main/shortestpaths";
@@ -259,7 +270,6 @@ export default class GraphNet extends Component {
 
         node.label = p.FIO
 
-        console.log(p.IIN, iin1)
         let key = false;
         if (p.IIN != null && (p.IIN == iin1 || p.IIN == iin2)) key = true; 
 

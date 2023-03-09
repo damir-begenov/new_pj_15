@@ -31,7 +31,6 @@ class RightBar extends Component {
         <div className="infoBlock" id="infoBlock">
           <div>
             <div className="infoBlockTitle">Информация {this.props.isOnSelectNode || this.props.isOnSelectEdge ? "о объекте" : ""}</div>
-            {console.log(JSON.parse(localStorage.getItem("user")))}
             <div className="nodeImg"
                 style={{display: this.props.showImage 
                 ? "flex" : "none"}}>
@@ -42,7 +41,6 @@ class RightBar extends Component {
                   ? "flex" : "none"}}>
                 <div className="nodeInfoTitle" 
                     onClick={() => {
-                      console.log(this.state.showNodeInfo)
                       this.state.showNodeInfo = !this.state.showNodeInfo
                       document.querySelector('#nodeInfoInner').style.display = this.state.showNodeInfo ? "flex" : "none"
                     }}>

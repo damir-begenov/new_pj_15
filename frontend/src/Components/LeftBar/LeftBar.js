@@ -34,7 +34,7 @@ const LeftBar = (props) => {
         if (!checkAuth()) navigate('/login', {replace: true}) 
 
         let options = {
-            iin1, iin2, limit, depth, mode, relString, approvementObj, lname1, lname2, name1, name2, fname1, fname2
+            iin1, iin2, limit, depth, mode, relString, approvementObj, searchOption, lname1, lname2, name1, name2, fname1, fname2
         }
 
         setModal(false)        
