@@ -35,8 +35,8 @@ public class FiPersonsService {
         return node;
     }
 
-    public doubleReturn shortOpen(Long ID) {
-        return ConstructDoubleReturn(personRepo.shortOpen(ID), companyRepo.shortOpen(ID));
+    public doubleReturn shortOpen(Long ID, List<String> relations) {
+        return ConstructDoubleReturn(personRepo.shortOpen(ID, relations), companyRepo.shortOpen(ID, relations));
     }
 
     public doubleReturn getShortestPaths(String FIRST, String SECOND, List<String> list) {

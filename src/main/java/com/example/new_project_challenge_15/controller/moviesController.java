@@ -317,8 +317,8 @@ public class moviesController {
     }
 
     @GetMapping("/shortopen")
-    public doubleReturn getShortOpen(@RequestParam Long id) {
-        return personsService.shortOpen(id);
+    public doubleReturn getShortOpen(@RequestParam Long id, @RequestParam List<String> relations) {
+        return personsService.shortOpen(id, relations);
     }
 
 

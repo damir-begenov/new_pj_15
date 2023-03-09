@@ -110,8 +110,8 @@ List<Company> getPersonByFIO_Depth1(String F,String I,String O,int LIMIT,List<St
     List<Company> getPersonTree(String PERSON, List<String> RELS, int DEPTH, int LIMIT);
 
 
-    @Query("MATCH (startNode) WHERE id(startNode)=$ID OPTIONAL MATCH p = (startNode)-[r]-(endNode) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
-    List<Company> shortOpen(Long ID);
+    @Query("MATCH (startNode) WHERE id(startNode)=$ID OPTIONAL MATCH p = (startNode)-[r]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $relations) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
+    List<Company> shortOpen(Long ID, List<String> relations);
     @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:Person)) where a.`ИИН`=($FIRST) and b.`ИИН`=($SECOND) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
     List<Company> getPathsWithIIN(String FIRST, String SECOND, List<String> RELS);
 }
