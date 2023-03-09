@@ -10,20 +10,13 @@ class RightBar extends Component {
     this.state = {
       showNodeInfo: false,
       showNodeAddInfo: false,
+      showRels: "",
     }
   }
 
-
-  // openToggle() {
-  //   var form = document.getElementById("toggleForm")
-  //   if (form.style.display == "none") {
-  //     form.style.display = "block"
-  //   } else {
-  //     form.style.display = "none"
-  //   }
-  // }
-
-
+  setShowRels = (rels) => {
+    this.state.showRels = rels;
+  }
 
   render() {
     return (
@@ -35,6 +28,7 @@ class RightBar extends Component {
                 style={{display: this.props.showImage 
                 ? "flex" : "none"}}>
             </div>
+            {console.log(this.props.isOnSelectNode, this.props.isOnSelectEdge)}
               <div className="nodeInfo" id="nodeInfo" 
                   style={{display: this.props.isOnSelectNode 
                     || this.props.isOnSelectEdge 
@@ -82,8 +76,12 @@ class RightBar extends Component {
           </div> 
         </div>
         <div className="actionBlock" style={{display: this.props.isOnSelectNode ? "block" : "none"}}>
-            <input type="button" visible="false" value="Show" onClick={ this.openToggle}/>
+            <input type="button" visible="false" value="Show" onClick={ event => this.props.shortOpen(this.state.showRels).bind(this)}/>
             <input type="button" visible="false" value="Hide" onClick={ event => this.props.shortHide().bind(this)}/>
+        </div>
+
+        <div className="showRelsBlock" style={{display: this.props.isOnSelectNode ? "block" : "none"}}>
+          <RelationBlock setRels={this.setShowRels}></RelationBlock>
         </div>
       </div>
     );

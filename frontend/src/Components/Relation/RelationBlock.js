@@ -78,11 +78,11 @@ const RelationBlock = (props) => {
             checked: true,
             level: 0
         },
-        IP: {
-            value: "IP",
-            checked: true,
-            level: 0
-        },
+        // IP: {
+        //     value: "IP",
+        //     checked: true,
+        //     level: 0
+        // },
         IP_KX: {
             value: "ИП-КХ",
             checked: true,

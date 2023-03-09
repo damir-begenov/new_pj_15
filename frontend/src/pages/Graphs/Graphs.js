@@ -111,20 +111,47 @@ export default class GraphNet extends Component {
           } else {
             url = "http://localhost:9091/api/finpol/main/flFIOtree"
             params = {
-              // firstName1: options.name1, 
-              // lastName1: options.lname1, 
-              // fatherName1: options.fname1, 
-              relations: options.relString, depth: options.depth, limit: options.limit}
+              firstName1: options.name1, 
+              lastName1: options.lname1, 
+              fatherName1: options.fname1, 
+              relations: options.relString, depth: options.depth, limit: options.limit
+            }
 
           }
           break;
         case "con2":
-          url = "http://localhost:9091/api/finpol/main/shortestpaths";
-          params = {person: options.iin1, person2: options.iin2, relations: options.relString}
+          if (options.searchOption == "iinOption") {
+            url = "http://localhost:9091/api/finpol/main/shortestpaths";
+            params = {person: options.iin1, person2: options.iin2, relations: options.relString}
+
+          } else {
+            url = "http://localhost:9091/api/finpol/main/shortestpathsByFIO";
+            params = {
+              firstName1: options.name1, 
+              lastName1: options.lname1, 
+              fatherName1: options.fname1,
+              firstName2: options.name2, 
+              lastName2: options.lname2, 
+              fatherName2: options.fname2, 
+              relations: options.relString
+            }
+
+          }
           break;
         case "con3":
-          url = "http://localhost:9091/api/finpol/main/flulpath";
-          params = {person: options.iin1, ul: options.iin2, relations: options.relString}
+          if (options.searchOption == "iinOption") {
+            url = "http://localhost:9091/api/finpol/main/flulpath";
+            params = {person: options.iin1, ul: options.iin2, relations: options.relString}
+
+          } else {
+            url = "http://localhost:9091/api/finpol/main/flulpathByFIO";
+            params = {
+              firstName1: options.name1, 
+              lastName1: options.lname1, 
+              fatherName1: options.fname1, 
+              ul: options.iin2, 
+              relations: options.relString}
+          }
           break;
         case "con4":
           url = "http://localhost:9091/api/finpol/main/ultree";
@@ -147,12 +174,12 @@ export default class GraphNet extends Component {
       params["sphereName"] = options.approvementObj.sphereName
       params["tematikName"] = options.approvementObj.tematikName
 
-      if (options.name1 != "") params["firstName1"] = options.name1 
-      if (options.name2 != "") params["firstName2"] = options.name2 
-      if (options.lname1 != "") params["lastName1"] = options.lname1 
-      if (options.lname2 != "") params["lastName2"] = options.lname2 
-      if (options.fname1 != "") params["fatherName1"] = options.fname1 
-      if (options.fname2 != "") params["fatherName2"] = options.fname2 
+      // if (options.name1 != "") params["firstName1"] = options.name1 
+      // if (options.name2 != "") params["firstName2"] = options.name2 
+      // if (options.lname1 != "") params["lastName1"] = options.lname1 
+      // if (options.lname2 != "") params["lastName2"] = options.lname2 
+      // if (options.fname1 != "") params["fatherName1"] = options.fname1 
+      // if (options.fname2 != "") params["fatherName2"] = options.fname2 
 
       console.log(params)
 
@@ -183,8 +210,8 @@ export default class GraphNet extends Component {
       })
     };
 
-    shortOpen = () => {
-      axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id }}).then(res => {
+    shortOpen = (showRels) => {
+      axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id, relations: showRels }}).then(res => {
         let nodes = []
         const edgesFinal = res.data.edges;
         let edges = []
@@ -421,6 +448,8 @@ export default class GraphNet extends Component {
         infoBlock.innerHTML = ""
         sudInfoBlock.innerHTML = ""
 
+        console.log(SelectedNode)
+
         const sp = SelectedNode.options.properties;
         const sg = SelectedNode.options.group;
         if (sg == "person" || sg == "judgePerson" || sg == "ripPerson"
@@ -542,12 +571,13 @@ export default class GraphNet extends Component {
       },
 
       selectEdge: (event) => {
+        if (onSelectNode == true) return
+
         this.setState({showNodeInfo: false})
         this.setState({showEdgeInfo: true})
         this.setState({showNodeImage: false})
         this.setState({showSudInfo: false})
 
-        if (onSelectNode == true) return
         SelectedEdge = this.state.edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
 
         console.log(SelectedEdge)
