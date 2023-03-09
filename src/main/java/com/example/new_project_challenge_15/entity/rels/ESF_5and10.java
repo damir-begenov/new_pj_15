@@ -1,11 +1,15 @@
 package com.example.new_project_challenge_15.entity.rels;
 
 import com.example.new_project_challenge_15.entity.Company;
+import com.example.new_project_challenge_15.entity.Nodee;
+import com.example.new_project_challenge_15.entity.Persons;
 import org.springframework.data.neo4j.core.schema.*;
+
+import java.util.Optional;
 
 @RelationshipProperties
 @Node
-public class ESF_5and10 {
+public class ESF_5and10   {
     @Id
     @GeneratedValue
     public Long id;
@@ -25,7 +29,8 @@ public class ESF_5and10 {
 
     @Property("ЭСФ за 2022 год")
     public String esf_2022;
-    @TargetNode
+
+//    @TargetNode()
     private Company company;
 
     public Company getCompany() {
@@ -36,7 +41,15 @@ public class ESF_5and10 {
         this.company = company;
     }
 
+    @TargetNode()
+    private Persons persons;
 
+    public Persons getPersons() {
+        return persons;
+    }
+    public void setPersons(Persons persons) {
+        this.persons = persons;
+    }
     public Long getId() {
         return id;
     }

@@ -196,6 +196,162 @@ public class FiPersonsService {
                 currNode.setProperties(properties);
                 nodes.add(currNode);
             }
+            List<OPG> OPG = object.getOpgs();
+            for (OPG relation: OPG) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                currRel.setType("OPG");
+                edges.add(currRel);
+                if (!ids.contains(relation.getCompany().getId())) {
+                    ids.add(relation.getCompany().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+                    currNode.setId(relation.getCompany().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<NTR_UL_FL> NTR_UL_FL = object.getNtrUlFls();
+            for (NTR_UL_FL relation: NTR_UL_FL) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                currRel.setType("NTR_UL_FL");
+                edges.add(currRel);
+                if (!ids.contains(relation.getCompany().getId())) {
+                    ids.add(relation.getCompany().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+                    currNode.setId(relation.getCompany().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<IP> IP = object.getIps();
+            for (IP relation: IP) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getAddress().getId(), properties);
+                currRel.setType("IP");
+                edges.add(currRel);
+                if (!ids.contains(relation.getAddress().getId())) {
+                    ids.add(relation.getAddress().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getAddress());
+                    currNode.setId(relation.getAddress().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<IP_KX> IP_KX = object.getIpKxes();
+            for (IP_KX relation: IP_KX) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getAddress().getId(), properties);
+                currRel.setType("IP_KX");
+                edges.add(currRel);
+                if (!ids.contains(relation.getAddress().getId())) {
+                    ids.add(relation.getAddress().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getAddress());
+                    currNode.setId(relation.getAddress().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<FPG> FPG = object.getFpgs();
+            for (FPG relation: FPG) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                currRel.setType("FPG");
+                edges.add(currRel);
+                if (!ids.contains(relation.getCompany().getId())) {
+                    ids.add(relation.getCompany().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+                    currNode.setId(relation.getCompany().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<GOSZAKUP> GOSZAKUP = object.getGoszakups();
+            for (GOSZAKUP relation: GOSZAKUP) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                currRel.setType("GOSZAKUP");
+                edges.add(currRel);
+                if (!ids.contains(relation.getCompany().getId())) {
+                    ids.add(relation.getCompany().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+                    currNode.setId(relation.getCompany().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<FOUNDER_HIST> FOUNDER_HIST = object.getFounderHists();
+            for (FOUNDER_HIST relation: FOUNDER_HIST) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(relation.getCompany().getId(),object.getId(), properties);
+                currRel.setType("FOUNDER_HIST");
+                edges.add(currRel);
+                if (!ids.contains(relation.getCompany().getId())) {
+                    ids.add(relation.getCompany().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+                    currNode.setId(relation.getCompany().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<FOUNDER_CUR> FOUNDER_CUR = object.getFounderCurs();
+            for (FOUNDER_CUR relation: FOUNDER_CUR) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                currRel.setType("FOUNDER_CUR");
+                edges.add(currRel);
+                if (!ids.contains(relation.getCompany().getId())) {
+                    ids.add(relation.getCompany().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+                    currNode.setId(relation.getCompany().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<DIRECTOR_CUR> DIRECTOR_CUR = object.getDirectorCurs();
+            for (DIRECTOR_CUR relation: DIRECTOR_CUR) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getPerson().getId(), properties);
+                currRel.setType("DIRECTOR_CUR");
+                edges.add(currRel);
+                if (!ids.contains(relation.getPerson().getId())) {
+                    ids.add(relation.getPerson().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    currNode = tryAddPhoto(currNode, relation.getPerson().getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPersons().getIIN());
+//                    currNode.setPhotoDbf(photoDb);
+                    currNode.setId(relation.getPerson().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<DIRECTOR_HIST> DIRECTOR_HIST = object.getDirectorHists();
+            for (DIRECTOR_HIST relation: DIRECTOR_HIST) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getPerson().getId(), properties);
+                currRel.setType("DIRECTOR_HIST");
+                edges.add(currRel);
+                if (!ids.contains(relation.getPerson().getId())) {
+                    ids.add(relation.getPerson().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getPerson());
+                    currNode = tryAddPhoto(currNode, relation.getPerson().getIIN());
+//                    photoDb photoDb = newPhotoService.getPhotoByIIN(relation.getPersons().getIIN());
+//                    currNode.setPhotoDbf(photoDb);
+                    currNode.setId(relation.getPerson().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
             List<WORKER_HIST> WORKER_HIST = object.getWorkerHists();
             for (WORKER_HIST relation: WORKER_HIST) {
                 Map<String, Object> properties = getPropertyMap(relation);
@@ -316,21 +472,6 @@ public class FiPersonsService {
                     nodes.add(currNode);
                 }
             }
-            List<com.example.new_project_challenge_15.entity.rels.FPG> FPG = object.getFpgs();
-            for (FPG relation: FPG) {
-                Map<String, Object> properties = getPropertyMap(relation);
-                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
-                currRel.setType("FPG");
-                edges.add(currRel);
-                if (!ids.contains(relation.getCompany().getId())) {
-                    ids.add(relation.getCompany().getId());
-                    Nodes currNode = new Nodes();
-                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
-                    currNode.setId(relation.getCompany().getId());
-                    currNode.setProperties(properties2);
-                    nodes.add(currNode);
-                }
-            }
             List<DETDOM_HIST> detdomHistList = object.getDetdomHistList();
             for (DETDOM_HIST relation: detdomHistList) {
                 Map<String, Object> properties = getPropertyMap(relation);
@@ -361,10 +502,29 @@ public class FiPersonsService {
                     nodes.add(currNode);
                 }
             }
+            List<DFO_AFF_UL> DFO_AFF_UL = object.getDfoAffUls();
+            for (DFO_AFF_UL relation: DFO_AFF_UL) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                currRel.setType("DFO_AFF_UL");
+                edges.add(currRel);
+                if (!ids.contains(relation.getCompany().getId())) {
+                    ids.add(relation.getCompany().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+                    currNode.setId(relation.getCompany().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
             List<ESF_10and100> ESF_10and100 = object.getEsf_10and100s();
             for (ESF_10and100 relation: ESF_10and100) {
                 Map<String, Object> properties = getPropertyMap(relation);
-                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                Long endId = relation.getCompany().getId();
+                if (relation.getCompany()==null) {
+                    endId = personRepo.getEndNodeId(relation.id);
+                }
+                relationModel currRel = new relationModel(object.getId(), endId, properties);
                 currRel.setType("ESF_10and100");
                 edges.add(currRel);
                 if (!ids.contains(relation.getCompany().getId())) {

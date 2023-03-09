@@ -125,4 +125,9 @@ List<Persons> getPersons();
 
     @Query("MATCH (startNode) WHERE id(startNode)=$ID OPTIONAL MATCH p = (startNode)-[r]-(endNode) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
     List<Persons> shortOpen(Long ID);
+
+    @Query("MATCH p=(n)-[r]->(e)  where id(r) = $ID RETURN id(startNode(r)) LIMIT 1")
+    Long getEndNodeId(Long ID);
+    @Query("MATCH p=(n)-[r]->(e)  where id(r) = $ID RETURN id(startNode(r)) LIMIT 1")
+    Long getStartNodeId(Long ID);
 }

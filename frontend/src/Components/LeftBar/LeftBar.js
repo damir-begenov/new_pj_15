@@ -44,6 +44,22 @@ const LeftBar = (props) => {
         document.getElementById("input_date2").value = "";
     }
 
+    const exportBt = () => {
+        props.exportBt()
+    }
+
+    const importBt = () => {
+        const fileInput = document.getElementById('file-upload')
+        const file = fileInput.files[0]
+
+        const reader = new FileReader()
+        reader.onload = event => {
+            const fileContent = event.target.result
+            props.importBt(fileContent)
+        }
+        reader.readAsText(file)
+    }
+
     const checkAuth = () => {
         const userSession = JSON.parse(localStorage.getItem("user"))
         if (!userSession) return false;
@@ -312,6 +328,12 @@ const LeftBar = (props) => {
                 <div className="btn-block formBlock">
                     <input type="button" value="Очистить" id="clearBtn" 
                     onClick={event => clearOptions()}
+                    />
+                    <input type="button" value="EXPORT" id="clearBtn" 
+                    onClick={event => exportBt()}
+                    />
+                    <input type="file" id="file-upload" 
+                    onChange={event => importBt()} 
                     />
                     <input type="button" value="Запустить" id="filterBtn" 
                         onClick={event => {

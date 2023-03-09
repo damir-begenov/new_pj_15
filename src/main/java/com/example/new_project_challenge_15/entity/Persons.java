@@ -106,7 +106,7 @@ public class Persons {
     @Relationship(type = "ESF_100", direction = Relationship.Direction.INCOMING)
     private List<ESF_100> esf100s;
 
-    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.INCOMING)
+    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_10and100> esf_10and100s;
 
     @Relationship(type = "ESF_10and50", direction = Relationship.Direction.INCOMING)
