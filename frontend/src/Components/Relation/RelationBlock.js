@@ -177,6 +177,8 @@ const RelationBlock = (props) => {
         const uncheckedBlock = document.getElementById("uncheckedBlock");
         let parent, element;
 
+        console.log(event)
+
         try {
             parent = event.target.parentNode;
             element = event.target;
@@ -212,12 +214,12 @@ const RelationBlock = (props) => {
         })
     }
     const uncheckAll = (event) => {
-        const checkedBlock = document.getElementById("checkedBlock");
+        const checkedBlock = document.querySelector("#checkedBlock > div:nth-child(2)");
         let checkeds = [...checkedBlock.childNodes];
 
         checkeds.forEach((item) => {
+            console.log(item)
             checkUncheck(item.childNodes[1]);
-            // console.log(item.childNodes[1])
         })
     }
 
@@ -256,68 +258,131 @@ const RelationBlock = (props) => {
     }
 
     const checkBoxClick = () => {
-        // const uncheckedBlock = document.querySelector("#uncheckedBlock");
-        // uncheckedBlock.style.display = "flex"
+        const uncheckedBlock = document.querySelector('#uncheckedCheckboxBlock .uncheckedBlock');
+        setShowUncheckedBlock(!showUncheckedBlock)
 
-        setShowUncheckedBlock(true)
+
+        uncheckedBlock.style.display = showUncheckedBlock ? "flex" : "none";
     }
+
+    // const checkBoxUnclick = () => {
+    //     const uncheckedBlock = document.querySelector('#uncheckedCheckboxBlock .uncheckedBlock');
+    //     console.log("aaa", uncheckedBlock)
+    //     uncheckedBlock.style.display = "none"
+
+    //     console.log("none")
+
+    //     setShowUncheckedBlock(false)
+    // }
 
     return (
         <>
         {setRelations()}
         <label>По каким связам хотите?</label>
+        <div className="checkboxBlock" id="checkedCheckboxBlock">
+            <div className="addRels" onClick={() => checkBoxClick()}>{showUncheckedBlock ? "+" : "x"}</div>
+            <div className="checkedBlock" >
+                {Object.keys(categories).filter((key) => categories[key].checked && categories[key].level == 0).map((key, index) => {
+                    return (
+                        <div className="checkbox checked" id={key} key={index}>
+                            <span id="conLabel">{categories[key].value}</span>
+                            <i className="" onClick={(event) => checkUncheck(event)}>X</i>
+                        </div>  
+                    )
+                })}
+            </div>
+        </div>
+        <div className="uncheckboxBlock" id="uncheckedCheckboxBlock">
+            <div className="uncheckedBlock">
+                {Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 0).map((key, index) => {
+                    return (
+                        <div className="checkbox unchecked" id={key} key={index}>
+                            <span id="conLabel">{categories[key].value}</span>
+                            <i className="" onClick={(event) => checkUncheck(event)}>+</i>
+                        </div>  
+                    )
+                })}
 
-        <div className="checkBoxBlock checkedBlock" id="checkedBlock" onClick={checkBoxClick}>
-            <div id="checkboxClose" onClick={setShowUncheckedBlock(true)}>Close</div>
-            {Object.keys(categories).filter((key) => categories[key].checked && categories[key].level == 0).map((key, index) => {
-                return (
-                    <div className="checkbox checked" id={key} key={index}>
-                        <span id="conLabel">{categories[key].value}</span>
-                        <i className="fa-solid fa-xmark" onClick={(event) => checkUncheck(event)}>X</i>
-                    </div>  
-                )
-            })}
+                {checkAdmin() || checkModerator() ?
+                    Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 1).map((key, index) => {
+                        return (
+                            <div className="checkbox unchecked" id={key} key={index}>
+                                <span id="conLabel">{categories[key].value}</span>
+                                <i className="" onClick={(event) => checkUncheck(event)}>+</i>
+                            </div>  
+                        )
+                    })
+                    : ""
+                }
+
+                {checkAdmin() ?
+                    Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 2).map((key, index) => {
+                        return (
+                            <div className="checkbox unchecked" id={key} key={index}>
+                                <span id="conLabel">{categories[key].value}</span>
+                                <i className="" onClick={(event) => checkUncheck(event)}>+</i>
+                            </div>  
+                        )
+                    })
+                    : ""
+                }
+            </div>
         </div>
 
-        <div className="checkBoxBlock" id="uncheckedBlock" style={{display: showUncheckedBlock ? "flex" : "none"}}>
-            {Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 0).map((key, index) => {
-                return (
-                    <div className="checkbox unchecked" id={key} key={index}>
-                        <span id="conLabel">{categories[key].value}</span>
-                        <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
-                    </div>  
-                )
-            })}
-
-            {checkAdmin() || checkModerator() ?
-                Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 1).map((key, index) => {
+        {/* <div className="checkBoxBlock checkedBlock" id="checkedBlock" onClick={checkBoxClick}>
+            <div id="checkboxClose" onClick={() => setShowUncheckedBlock(true)}>Close</div>
+            <div className="checkers">
+                {Object.keys(categories).filter((key) => categories[key].checked && categories[key].level == 0).map((key, index) => {
+                    return (
+                        <div className="checkbox checked" id={key} key={index}>
+                            <span id="conLabel">{categories[key].value}</span>
+                            <i className="" onClick={(event) => checkUncheck(event)}>X</i>
+                        </div>  
+                    )
+                })}
+            </div>
+        </div>
+        <div className="checkBoxBlock" id="uncheckedBlock" style={{display: (showUncheckedBlock ? "flex" : "none")}}>
+            <div className="checkers">
+                {Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 0).map((key, index) => {
                     return (
                         <div className="checkbox unchecked" id={key} key={index}>
                             <span id="conLabel">{categories[key].value}</span>
                             <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
                         </div>  
                     )
-                })
-                : ""
-            }
+                })}
 
-            {checkAdmin() ?
-                Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 2).map((key, index) => {
-                    return (
-                        <div className="checkbox unchecked" id={key} key={index}>
-                            <span id="conLabel">{categories[key].value}</span>
-                            <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
-                        </div>  
-                    )
-                })
-                : ""
-            }
-        </div>
+                {checkAdmin() || checkModerator() ?
+                    Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 1).map((key, index) => {
+                        return (
+                            <div className="checkbox unchecked" id={key} key={index}>
+                                <span id="conLabel">{categories[key].value}</span>
+                                <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
+                            </div>  
+                        )
+                    })
+                    : ""
+                }
 
-        <div className="checkBoxBtns">
+                {checkAdmin() ?
+                    Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 2).map((key, index) => {
+                        return (
+                            <div className="checkbox unchecked" id={key} key={index}>
+                                <span id="conLabel">{categories[key].value}</span>
+                                <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
+                            </div>  
+                        )
+                    })
+                    : ""
+                }
+            </div>
+        </div> */}
+
+        {/* <div className="checkBoxBtns">
             <div onClick={(event) => checkAll(event)}>Применить все</div>
             <div onClick={(event) => uncheckAll(event)}>Убрать все</div>
-        </div>    
+        </div>     */}
 
         
         </>

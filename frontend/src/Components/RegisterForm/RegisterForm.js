@@ -21,7 +21,8 @@ const RegisterForm = () => {
             email: "",
             level: "",
             password: "",
-            password_conf: ""
+            password_conf: "",
+            FIO: "",
         }
     });
     const handleRegistration = (data) => {
@@ -29,6 +30,7 @@ const RegisterForm = () => {
         authService.register(
             data.username,
             data.email,
+            data.FIO,
             data.password,
             data.level
         ).then(
@@ -58,6 +60,14 @@ const RegisterForm = () => {
             validate: (val) => {
                 if (val.length < 4) {
                     return "Email is invalid"
+                }
+            }
+        },
+        FIO: {
+            required: "ФИО обязательна",
+            validate: (val) => {
+                if (val.length < 10) {
+                    return "Не менее 10 символов в ФИО"
                 }
             }
         },
@@ -114,6 +124,15 @@ const RegisterForm = () => {
 
                     <div className="secondLine">
                         <div>
+                            <label >ФИО</label>
+                            <input 
+                                type="text" 
+                                {...register("FIO", registerOptions.FIO)} 
+                                id="FIO" placeholder="Введите ФИО" 
+                            />
+                        </div>
+
+                        <div>
                             <label >Почта</label>
                             <input 
                                 type="text" 
@@ -151,6 +170,7 @@ const RegisterForm = () => {
                         <div className="errors">
                             {errors.username ? <span>{errors.username?.message}</span> : ""}
                             {errors.email ? <span>{errors.email?.message}</span> : ""}
+                            {errors.FIO ? <span>{errors.FIO?.message}</span> : ""}
                             {errors.level ? <span>{errors.level?.message}</span> : ""}
                             {errors.password ? <span>{errors.password?.message}</span>: ""}
                             {errors.password_conf ? <span>{errors.password_conf?.message}</span> : ""}
