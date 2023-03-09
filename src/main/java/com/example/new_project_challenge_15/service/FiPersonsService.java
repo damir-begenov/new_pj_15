@@ -35,8 +35,8 @@ public class FiPersonsService {
         return node;
     }
 
-    public doubleReturn shortOpen(Long ID, List<String> relations) {
-        return ConstructDoubleReturn(personRepo.shortOpen(ID, relations), companyRepo.shortOpen(ID, relations));
+    public doubleReturn shortOpen(Long ID, List<String> relations, int limit) {
+        return ConstructDoubleReturn(personRepo.shortOpen(ID, relations, limit), companyRepo.shortOpen(ID, relations, limit));
     }
 
     public doubleReturn getShortestPaths(String FIRST, String SECOND, List<String> list) {
@@ -366,7 +366,7 @@ public class FiPersonsService {
             List<FOUNDER_CUR> FOUNDER_CUR = object.getFounderCurs();
             for (FOUNDER_CUR relation: FOUNDER_CUR) {
                 Map<String, Object> properties = getPropertyMap(relation);
-                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                relationModel currRel = new relationModel(relation.getCompany().getId(), object.getId(), properties);
                 currRel.setType("FOUNDER_CUR");
                 edges.add(currRel);
                 if (!ids.contains(relation.getCompany().getId())) {
@@ -674,8 +674,23 @@ public class FiPersonsService {
             List<FOUNDER_CUR> FOUNDER_CUR = object.getFounderCurs();
             for (FOUNDER_CUR relation: FOUNDER_CUR) {
                 Map<String, Object> properties = getPropertyMap(relation);
-                relationModel currRel = new relationModel( relation.getCompany().getId(), object.getId(), properties);
+                relationModel currRel = new relationModel(relation.getCompany().getId(), object.getId(), properties);
                 currRel.setType("FOUNDER_CUR");
+                edges.add(currRel);
+                if (!ids.contains(relation.getCompany().getId())) {
+                    ids.add(relation.getCompany().getId());
+                    Nodes currNode = new Nodes();
+                    Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
+                    currNode.setId(relation.getCompany().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<FOUNDER_HIST> FOUNDER_HIST = object.getFounderHists();
+            for (FOUNDER_HIST relation: FOUNDER_HIST) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(relation.getCompany().getId(),object.getId(), properties);
+                currRel.setType("FOUNDER_HIST");
                 edges.add(currRel);
                 if (!ids.contains(relation.getCompany().getId())) {
                     ids.add(relation.getCompany().getId());
@@ -914,7 +929,7 @@ public class FiPersonsService {
             List<ESF_10and100> ESF_10and100 = object.getEsf_10and100s();
             for (ESF_10and100 relation: ESF_10and100) {
                 Map<String, Object> properties = getPropertyMap(relation);
-                relationModel currRel = new relationModel(object.getId(), relation.getCompany().getId(), properties);
+                relationModel currRel = new relationModel(relation.getCompany().getId(),object.getId(), properties);
                 currRel.setType("ESF_10and100");
                 edges.add(currRel);
                 if (!ids.contains(relation.getCompany().getId())) {
@@ -1063,6 +1078,9 @@ public class FiPersonsService {
             }
         }
         doubleReturn doubleReturn = new doubleReturn(nodes, edges);
+        for (Long id: ids) {
+            System.out.println(id);
+        }
         return doubleReturn;
     }
 

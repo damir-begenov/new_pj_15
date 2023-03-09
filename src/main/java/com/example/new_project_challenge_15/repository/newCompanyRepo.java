@@ -133,14 +133,14 @@ List<Company> getPersonByFIO_Depth1(String F,String I,String O,int LIMIT,List<St
 //--------------------------------------------------------------
 
     //GET UL FL PATH
-    @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:COMPANY)) where a.`ИИН`=($PERSON) and b.`ИИН/БИН`=($UL) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
+    @Query("MATCH p=shortestPath((a:Person)-[r*]-(b:COMPANY)) where a.`ИИН`=($PERSON) and b.`ИИН/БИН`=($UL) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
     List<Company> getUlFlPath(String PERSON, String UL, List<String> RELS);
     //GET UL FL PATH -----------------------------------------------------------------------------------------------------
     @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:COMPANY)) WHERE a.`Фамилия` =~ ('(?i).*'+'(?i)'+$F+'.*') and a.`Имя` = ($I) and a.`Отчество` =~ ('(?i).*'+'(?i)'+$O+'.*') and b.`ИИН/БИН`=($UL) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
     List<Company> getUlFlPathByFIO(String F,String I,String O, String UL, List<String> RELS);
 
     //GET UL UL PATH
-    @Query("MATCH p=allShortestPaths((a:COMPANY)-[r*]-(b:COMPANY)) where a.`ИИН/БИН`=($UL1) and b.`ИИН/БИН`=($UL2) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
+    @Query("MATCH p=shortestPath((a:COMPANY)-[r*]-(b:COMPANY)) where a.`ИИН/БИН`=($UL1) and b.`ИИН/БИН`=($UL2) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
     List<Company> getUlUlPath(String UL1, String UL2, List<String> RELS);
 
     //GET UL UL PATH --------------------------------------------------------
@@ -148,9 +148,11 @@ List<Company> getPersonByFIO_Depth1(String F,String I,String O,int LIMIT,List<St
     List<Company> getPersonTree(String PERSON, List<String> RELS, int DEPTH, int LIMIT);
 
 
-    @Query("MATCH (startNode) WHERE id(startNode)=$ID OPTIONAL MATCH p = (startNode)-[r]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $relations) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
-    List<Company> shortOpen(Long ID, List<String> relations);
-    @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:Person)) where a.`ИИН`=($FIRST) and b.`ИИН`=($SECOND) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
+//    @Query("MATCH (startNode) WHERE id(startNode)=$ID OPTIONAL MATCH p = (startNode)-[r]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $relations) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
+    @Query("MATCH (startNode) WHERE id(startNode) = $ID OPTIONAL MATCH p = (startNode)-[*1..1]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $RELS) AND length(p)<=1 WITH DISTINCT p as paths LIMIT $LIMIT RETURN COLLECT(distinct paths)")
+    List<Company> shortOpen(Long ID, List<String> RELS, int LIMIT);
+
+    @Query("MATCH p=shortestPath((a:Person)-[r*]-(b:Person)) where a.`ИИН`=($FIRST) and b.`ИИН`=($SECOND) and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
     List<Company> getPathsWithIIN(String FIRST, String SECOND, List<String> RELS);
     @Query("MATCH p=allShortestPaths((a:Person)-[r*]-(b:Person)) where a.`Фамилия` =~ ('(?i).*'+'(?i)'+$F1+'.*') and a.`Имя` = ($I1) and a.`Отчество` =~ ('(?i).*'+'(?i)'+$O1+'.*') and b.`Фамилия` =~ ('(?i).*'+'(?i)'+$F2+'.*') and b.`Имя` = ($I2) and b.`Отчество` =~ ('(?i).*'+'(?i)'+$O2+'.*') and ALL(rel in relationships(p) WHERE type(rel) in $RELS) RETURN COLLECT(DISTINCT p)")
     List<Company> getPathsWithFIO(String F1,String I1,String O1, String F2,String I2,String O2, List<String> RELS);

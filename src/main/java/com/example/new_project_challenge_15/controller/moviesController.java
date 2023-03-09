@@ -373,7 +373,8 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
 
     @GetMapping("/shortopen")
     public doubleReturn getShortOpen(@RequestParam Long id, @RequestParam List<String> relations) {
-        return personsService.shortOpen(id, relations);
+        doubleReturn resul = personsService.shortOpen(id, relations, 20);
+        return resul;
     }
 
 
