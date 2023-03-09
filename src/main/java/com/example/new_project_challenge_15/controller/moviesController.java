@@ -92,7 +92,7 @@ public class moviesController {
         return personsService.getPersonTree(person, depth, limit, relations);
     }
     @GetMapping("/flFIOtree")
-    public doubleReturn getFlTree(@RequestParam String F,@RequestParam String I,@RequestParam String O, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit,               @RequestParam(required = false) String orderNum,
+    public doubleReturn getFlTree(@RequestParam String lastName1,@RequestParam String firstName1,@RequestParam String fathernName1, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit,               @RequestParam(required = false) String orderNum,
                                   @RequestParam(required = false) String caseNum,
                                   @RequestParam(required = false) String orderDate,
                                   @RequestParam(required = false) String articleName,
@@ -104,7 +104,7 @@ public class moviesController {
                                   @RequestParam(required = false) String rukName,Principal principal) {
         User user = userDetailsService.loadUserByUsernamek(principal);
         List<String> request_bodies = new ArrayList<>();
-        request_bodies.add(F);request_bodies.add(I);request_bodies.add(O);
+        request_bodies.add(lastName1);request_bodies.add(firstName1);request_bodies.add(fathernName1);
         try{
             log log = new log();
             log.setOrder_num(orderNum);
@@ -128,7 +128,7 @@ public class moviesController {
         }catch (Exception e){
             System.out.println(e);
         }
-        return personsService.getPersonByFIO_(F,I,O, depth, limit, relations);
+        return personsService.getPersonByFIO_(lastName1,firstName1,fathernName1, depth, limit, relations);
     }
 
 
