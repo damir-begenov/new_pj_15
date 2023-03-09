@@ -27,7 +27,7 @@ import keyJudgePersonIcon from '../../icons/key_judge_person.jpg'
 import keyPersonIcon from '../../icons/key_person.png'
 import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
-import ripPersonIcon from '../../icons/ripPersonAA.jpg'
+import ripPersonIcon from '../../icons/rip_person.png'
 
 var graJSON = {nodes: [], edges: []}
 var Network;
@@ -136,6 +136,14 @@ export default class GraphNet extends Component {
       params["sphereName"] = options.approvementObj.sphereName
       params["tematikName"] = options.approvementObj.tematikName
 
+      if (options.name1 != "") params["firstName1"] = options.name1 
+      if (options.name2 != "") params["firstName2"] = options.name2 
+      if (options.lname1 != "") params["lastName1"] = options.lname1 
+      if (options.lname2 != "") params["lastName2"] = options.lname2 
+      if (options.fname1 != "") params["fatherName1"] = options.fname1 
+      if (options.fname2 != "") params["fatherName2"] = options.fname2 
+
+      console.log(params)
 
       axios.get(url, {params: params}).then(res => {
         let nodes = []

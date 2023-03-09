@@ -36,25 +36,11 @@
     gap: 7px;
 }
 
-.leftBar .formBlock:nth-child(2) {
-    display: none;
-}
-
-.leftBar .formBlock:nth-child(3) {
-    display: none;
-}
-
-.leftBar .formBlock:nth-child(4) {
-    display: none;
-}
-
-.leftBar .formBlock:nth-child(5) {
-    display: none;
-}
-
-.leftBar .formBlock:nth-child(6) {
-    display: none;
-}
+.leftBar #formFio1, .leftBar #formFio2 {
+    border: var(--secondary-color) 2px solid;
+    display: flex;
+    flex-direction: column;
+} 
 
 .leftBar form label {
     font-size: 14px;

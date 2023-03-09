@@ -11,6 +11,16 @@ const LeftBar = (props) => {
 
     const [iin1, setIIN1] = useState("")
     const [iin2, setIIN2] = useState("")
+
+    const [searchOption, setSearchOption] = useState("iinOption")
+
+    const [fname1, setFName1] = useState("")
+    const [fname2, setFName2] = useState("")
+    const [lname1, setLName1] = useState("")
+    const [lname2, setLName2] = useState("")
+    const [name1, setName1] = useState("")
+    const [name2, setName2] = useState("")
+
     const [limit, setLimit] = useState(20)
     const [depth, setDepth] = useState(1)
     const [approvementObj, setApprovementObj] = useState({})
@@ -24,7 +34,7 @@ const LeftBar = (props) => {
         if (!checkAuth()) navigate('/login', {replace: true}) 
 
         let options = {
-            iin1, iin2, limit, depth, mode, relString, approvementObj
+            iin1, iin2, limit, depth, mode, relString, approvementObj, lname1, lname2, name1, name2, fname1, fname2
         }
 
         setModal(false)        
@@ -92,6 +102,8 @@ const LeftBar = (props) => {
                         onChange={event => {
                             let value = document.getElementById("connections").value;
 
+                            let formSearchOptions = document.querySelector("#formSearchOptions");
+
                             let iin1 = document.querySelector("#formIIN1");
                             let iin2 = document.querySelector("#formIIN2");
 
@@ -106,11 +118,24 @@ const LeftBar = (props) => {
 
                             if (value === "con1") {
                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
-                                iin1.style.display = 'flex';
-                                iin2.style.display = 'none';
 
-                                formFio1.style.display = 'none';
-                                formFio2.style.display = 'none';
+                                formSearchOptions.style.display = 'flex';
+
+                                if (searchOption == "iinOption") {
+                                    iin1.style.display = 'flex';
+                                    iin2.style.display = 'none';
+    
+                                    formFio1.style.display = 'none';
+                                    formFio2.style.display = 'none';
+
+                                } else if (searchOption == "fioOption") {
+                                    iin1.style.display = 'none';
+                                    iin2.style.display = 'none';
+    
+                                    formFio1.style.display = 'flex';
+                                    formFio2.style.display = 'none';
+                                }
+                                
 
                                 formLimit.style.display = 'flex';
                                 formDepth.style.display = 'flex';
@@ -120,12 +145,23 @@ const LeftBar = (props) => {
                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
                                 iin2.childNodes[0].innerHTML = "Введите второй ИИН"
 
-                                iin1.style.display = 'flex';
-                                iin2.style.display = 'flex';
+                                formSearchOptions.style.display = 'flex';
 
-                                formFio1.style.display = 'none';
-                                formFio2.style.display = 'none';
+                                if (searchOption == "iinOption") {
+                                    iin1.style.display = 'flex';
+                                    iin2.style.display = 'flex';
 
+                                    formFio1.style.display = 'none';
+                                    formFio2.style.display = 'none';
+
+                                } else if (searchOption == "fioOption") {
+                                    iin1.style.display = 'none';
+                                    iin2.style.display = 'none';
+
+                                    formFio1.style.display = 'flex';
+                                    formFio2.style.display = 'flex';
+                                }
+                            
                                 formLimit.style.display = 'none';
                                 formDepth.style.display = 'none';
 
@@ -135,11 +171,22 @@ const LeftBar = (props) => {
                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
                                 iin2.childNodes[0].innerHTML = "Введите БИН"
 
-                                iin1.style.display = 'flex';
-                                iin2.style.display = 'flex';
+                                formSearchOptions.style.display = 'flex';
 
-                                formFio1.style.display = 'none';
-                                formFio2.style.display = 'none';
+                                if (searchOption == "iinOption") {
+                                    iin1.style.display = 'flex';
+                                    iin2.style.display = 'flex';
+
+                                    formFio1.style.display = 'none';
+                                    formFio2.style.display = 'none';
+
+                                } else if (searchOption == "fioOption") {
+                                    iin1.style.display = 'none';
+                                    iin2.style.display = 'flex';
+
+                                    formFio1.style.display = 'flex';
+                                    formFio2.style.display = 'none';
+                                }
 
                                 formLimit.style.display = 'none';
                                 formDepth.style.display = 'none';
@@ -148,13 +195,15 @@ const LeftBar = (props) => {
                             }
                             else if (value === "con4") {
                                 iin1.childNodes[0].innerHTML = "Введите БИН"
+
+                                formSearchOptions.style.display = 'none';
                                 
                                 iin1.style.display = 'flex';
                                 iin2.style.display = 'none';
 
                                 formFio1.style.display = 'none';
                                 formFio2.style.display = 'none';
-
+                                
                                 formLimit.style.display = 'flex';
                                 formDepth.style.display = 'flex';
 
@@ -163,19 +212,23 @@ const LeftBar = (props) => {
                             else if (value === "con5") {
                                 iin1.childNodes[0].innerHTML = "Введите БИН"
                                 iin2.childNodes[0].innerHTML = "Введите второй БИН"
+
+                                formSearchOptions.style.display = 'none';
                                 
                                 iin1.style.display = 'flex';
                                 iin2.style.display = 'flex';
 
                                 formFio1.style.display = 'none';
                                 formFio2.style.display = 'none';
-
+            
                                 formLimit.style.display = 'none';
                                 formDepth.style.display = 'none';
 
                                 formRels.style.display = 'flex';
                             }
                             else if (value === "none") {
+                                formSearchOptions.style.display = 'none';
+
                                 iin1.style.display = 'none';
                                 iin2.style.display = 'none';
 
@@ -197,6 +250,45 @@ const LeftBar = (props) => {
                     </div>
                 </div>
 
+                <div className="formBlock" id="formSearchOptions" style={{display: "none"}}>
+                    <label for="searchOptions">Поиск по</label>
+                    <div className="select">
+                        <select name="searchOptions" id='searchOptions' value={searchOption}
+                        onChange={event => {
+                            let optionValue = document.getElementById("searchOptions").value;
+                            let iin1 = document.querySelector("#formIIN1");
+                            let iin2 = document.querySelector("#formIIN2");
+
+                            let formFio1 = document.querySelector("#formFio1")
+                            let formFio2 = document.querySelector("#formFio2") 
+
+                            setSearchOption(optionValue)
+
+                            if (optionValue == "fioOption") {
+                                iin1.style.display = "none";
+                                formFio1.style.display = "flex";
+
+                                if (mode == "con5" || mode == "con3" || mode == "con2") {
+                                    iin2.style.display = "none";
+                                    formFio2.style.display = "flex";
+                                }
+
+                            } else if (optionValue == "iinOption") {
+                                iin1.style.display = "flex";
+                                formFio1.style.display = "none";
+
+                                if (mode == "con5" || mode == "con3" || mode == "con2") {
+                                    iin2.style.display = "flex";
+                                    formFio2.style.display = "none";
+                                }
+                            }
+                        }}>
+                            <option value="iinOption">ИИН/БИН</option>
+                            <option value="fioOption">ФИО</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div className="formBlock" id="formIIN1" style={{display: "none"}}>
                     <label>Введите ИИН</label>
                     <input type="text" 
@@ -213,36 +305,36 @@ const LeftBar = (props) => {
                     <div className="formBlock">
                         <label>Введите Фамилию первого объекта: </label>
                         <input type="text" 
-                            value={iin1}
-                            onChange={event => { setIIN1(event.target.value) }} 
+                            value={lname1}
+                            onChange={event => { setLName1(event.target.value) }} 
                             id="input_FIO1_1" 
                             className="input_IIN" 
                             name="Fam1" 
-                            placeholder="Куанышбеков"
+                            placeholder=""
                             />
                     </div>
 
                     <div className="formBlock">
                         <label>Введите Имя первого объекта: </label>
                         <input type="text" 
-                            value={iin1}
-                            onChange={event => { setIIN1(event.target.value) }} 
+                            value={name1}
+                            onChange={event => { setName1(event.target.value) }} 
                             id="input_FIO1_2" 
                             className="input_IIN" 
-                            name="fname1" 
-                            placeholder="Мадияр"
+                            name="name1" 
+                            placeholder=""
                             />
                     </div>
 
                     <div className="formBlock">
                         <label>Введите Отчество первого объекта: </label>
                         <input type="text" 
-                            value={iin1}
-                            onChange={event => { setIIN1(event.target.value) }} 
+                            value={fname1}
+                            onChange={event => { setFName1(event.target.value) }} 
                             id="input_FIO1_3" 
                             className="input_IIN" 
                             name="lname1" 
-                            placeholder="Еркебуланулы"
+                            placeholder=""
                             />
                     </div>
                 </div>
@@ -263,36 +355,36 @@ const LeftBar = (props) => {
                     <div className="formBlock">
                         <label>Введите Фамилию второго объекта: </label>
                         <input type="text" 
-                            value={iin1}
-                            onChange={event => { setIIN1(event.target.value) }} 
+                            value={lname2}
+                            onChange={event => { setLName2(event.target.value) }} 
                             id="input_FIO2_1" 
                             className="input_IIN" 
                             name="Fam2" 
-                            placeholder="Куанышбеков"
+                            placeholder=""
                             />
                     </div>
 
                     <div className="formBlock">
                         <label>Введите Имя второго объекта: </label>
                         <input type="text" 
-                            value={iin1}
-                            onChange={event => { setIIN1(event.target.value) }} 
+                            value={name2}
+                            onChange={event => { setName2(event.target.value) }} 
                             id="input_FIO2_2" 
                             className="input_IIN" 
                             name="fname2" 
-                            placeholder="Мадияр"
+                            placeholder=""
                             />
                     </div>
 
                     <div className="formBlock">
                         <label>Введите Отчество второго объекта: </label>
                         <input type="text" 
-                            value={iin1}
-                            onChange={event => { setIIN1(event.target.value) }} 
+                            value={fname2}
+                            onChange={event => { setFName2(event.target.value) }} 
                             id="input_FIO2_3" 
                             className="input_IIN" 
                             name="lname2" 
-                            placeholder="Еркебуланулы"
+                            placeholder=""
                             />
                     </div>  
                 </div>      
