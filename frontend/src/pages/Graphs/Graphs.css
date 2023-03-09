@@ -88,6 +88,10 @@
     position: absolute;
     right: 10px;
   }
+
+  .nodeSearch > div:nth-child(2) {
+    background: #000;
+  }
   
   /* Node Title Block styles */
   .centralBar div:nth-child(2) {

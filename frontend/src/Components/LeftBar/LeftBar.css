@@ -12,7 +12,7 @@
 
     box-shadow: 0px 4px 38px -38px rgba(255, 255, 255, 0.7) inset;
 
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .leftBar form {
@@ -126,15 +126,19 @@ option {
 
 .leftBar .btn-block {
     display: flex;
-    flex-direction: row;
-    justify-content: end;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: end;
+
+    gap: 20px;
+
+    width: 90%;
+    /* border: green 1px solid; */
 }
 
-.leftBar .btn-block input {
+.leftBar .btn-block input[type="button"] {
     padding: 1px 11px;
 
-    height: 40px;
+    height: 35px;
     border: none;
     border-radius: 4px;
 
@@ -162,17 +166,77 @@ option {
     transition: .3s;
 }
 
-.leftBar #clearBtn {
+.leftBar #clearBtn, 
+.leftBar #exportBtn, 
+.leftBar #downloadScheme {
     background-color: #393939;
     transition: .3s;
 }
 
-.leftBar #clearBtn:hover {
+.leftBar #clearBtn:hover, 
+.leftBar #exportBtn:hover, 
+.leftBar #downloadScheme:hover {
     background-color: #565656;
     transition: .3s;
 }
 
-.leftBar #clearBtn:active {
+.leftBar #clearBtn:active, 
+.leftBar #exportBtn:active,
+.leftBar #downloadScheme:active {
     background-color: #2c2b2b;
     transition: .3s;
+}
+
+.formActionBtnBlock {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 10px;
+
+    width: 100%;
+}
+
+.exportImportBtnBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border: 2px var(--secondary-color) solid;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.leftBar #importBlock {
+    background: var(--secondary-color);
+    height: 70px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.leftBar #exportBtn {
+    width: 92%;
+    height: 30px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.leftBar #downloadScheme {
+    width: 92%;
+    height: 30px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.exportImportBtnBlock input[type="file"] {
+    /* display: none; */
+    /* outline: none; */
+    width: 92%;
+    color: #547a5b;
+    /* height: 100%; */
 }

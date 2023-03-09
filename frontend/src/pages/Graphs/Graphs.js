@@ -833,7 +833,7 @@ export default class GraphNet extends Component {
       return (
         <div className='mainSection'>
         <>
-        <LeftBar exportBt = {this.exportBt} name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
+        <LeftBar downloadScheme={this.download} exportBt={this.exportBt} name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
         <div className='centralBar' id="centralBar">
             <div className="nodeSearch">
               <div>
@@ -878,7 +878,6 @@ export default class GraphNet extends Component {
               manipulation={this.manipulation}
               className={"graph"}
               />
-            <button onClick={this.download}>Download</button>
         </div>          
         <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage} showSudInfo={this.state.showSudInfo}></RightBar>
         </>

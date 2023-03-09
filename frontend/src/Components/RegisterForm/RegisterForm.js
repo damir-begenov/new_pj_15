@@ -29,7 +29,8 @@ const RegisterForm = () => {
         authService.register(
             data.username,
             data.email,
-            data.password
+            data.password,
+            data.level
         ).then(
             response => {
                 console.log(response)
@@ -60,9 +61,9 @@ const RegisterForm = () => {
                 }
             }
         },
-        // level: { 
-        //     required: "Level is required. Please choose уровень доступа" 
-        // },
+        level: { 
+            required: "Level is required. Please choose уровень доступа" 
+        },
         password: {
             required: "Password is required",
             minLength: {
@@ -95,17 +96,20 @@ const RegisterForm = () => {
                             />
                         </div>
 
-                        {/* <div>
+                        <div>
                             <label >Уровень доступа</label>
                             <div className="level">
                                 <select {...register("level", registerOptions.level)} id='level'>
                                     <option value="" disabled selected>Выбрать уровень доступа</option>
-                                    <option value="easy">Easy</option>
-                                    <option value="hard">Hard</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="vip">Vip</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
                                 </select>
                             </div>
 
-                        </div> */}
+                        </div>
                     </div>
 
                     <div className="secondLine">
@@ -147,7 +151,7 @@ const RegisterForm = () => {
                         <div className="errors">
                             {errors.username ? <span>{errors.username?.message}</span> : ""}
                             {errors.email ? <span>{errors.email?.message}</span> : ""}
-                            {/* {errors.level ? <span>{errors.level?.message}</span> : ""} */}
+                            {errors.level ? <span>{errors.level?.message}</span> : ""}
                             {errors.password ? <span>{errors.password?.message}</span>: ""}
                             {errors.password_conf ? <span>{errors.password_conf?.message}</span> : ""}
                         </div>

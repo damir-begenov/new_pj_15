@@ -32,6 +32,7 @@ const LeftBar = (props) => {
 
     const filter = () => { 
         if (!checkAuth()) navigate('/login', {replace: true}) 
+        
         console.log("approvement", approvementObj)
         let options = {
             iin1, iin2, limit, depth, mode, relString, approvementObj, searchOption, lname1, lname2, name1, name2, fname1, fname2
@@ -52,10 +53,16 @@ const LeftBar = (props) => {
 
         document.getElementById("input_date").value = "";
         document.getElementById("input_date2").value = "";
+
+        document.querySelector("#file-upload").value = "";
     }
 
     const exportBt = () => {
         props.exportBt()
+    }
+
+    const downloadScheme = () => {
+        props.downloadScheme()
     }
 
     const importBt = () => {
@@ -418,23 +425,38 @@ const LeftBar = (props) => {
                 </div>
 
                 <div className="btn-block formBlock">
-                    <input type="button" value="Очистить" id="clearBtn" 
-                    onClick={event => clearOptions()}
-                    />
-                    <input type="button" value="EXPORT" id="clearBtn" 
-                    onClick={event => exportBt()}
-                    />
-                    <input type="file" id="file-upload" 
-                    onChange={event => importBt()} 
-                    />
-                    <input type="button" value="Запустить" id="filterBtn" 
-                        onClick={event => {
-                            if (checkAdmin())
-                                setModal(true)
-                            else 
-                                filter()
-                        }}
-                    />
+                    <div className="formActionBtnBlock">
+                        <input type="button" value="Очистить" id="clearBtn" 
+                            onClick={event => clearOptions()}
+                        />
+
+                        <input type="button" value="Запустить" id="filterBtn" 
+                            onClick={event => {
+                                if (!checkAdmin())
+                                    setModal(true)
+                                else 
+                                    filter()
+                            }}
+                        />
+                    </div>
+                    
+                    <div className="exportImportBtnBlock">
+                        <div id="importBlock">
+                            <input type="file" id="file-upload" 
+                                onChange={event => importBt()} 
+                            />
+                        </div>
+                        
+                        <input type="button" value="Экспортировать данные" id="exportBtn" 
+                            onClick={event => exportBt()}
+                        />
+
+                        <input type="button" value="Скачать схему" id="downloadScheme" 
+                            onClick={event => downloadScheme()}
+                        />  
+                    </div>
+
+                    
                 </div>
 
             </form>
