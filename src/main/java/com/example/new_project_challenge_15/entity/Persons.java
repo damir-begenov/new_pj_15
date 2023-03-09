@@ -1,10 +1,8 @@
 package com.example.new_project_challenge_15.entity;
 
 import com.example.new_project_challenge_15.entity.rels.*;
-import org.hibernate.annotations.Type;
 import org.springframework.data.neo4j.core.schema.*;
 
-import javax.persistence.Lob;
 import java.util.List;
 
 @Node("Person")
@@ -103,22 +101,35 @@ public class Persons {
     @Relationship(type = "DFO_AFF_FIZ", direction = Relationship.Direction.OUTGOING)
     private List<DFO_AFF_FIZ> dfoAffFizs;
 
-    @Relationship(type = "ESF_100", direction = Relationship.Direction.INCOMING)
+    @Relationship(type = "ESF_100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_100> esf100s;
+    @Relationship(type = "ESF_100", direction = Relationship.Direction.INCOMING)
+    private List<ESF_100> esf100sIncome;
 
     @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_10and100> esf_10and100s;
+    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_10and100> esf_10and100sOut;
 
-    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.INCOMING)
+    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.OUTGOING)
     private List<ESF_10and50> esf10and50s;
+    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.INCOMING)
+    private List<ESF_10and50> esf10and50sIncome;
 
-    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.INCOMING)
+    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_50and100> esf50and100s;
+    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.INCOMING)
+    private List<ESF_50and100> esf50and100sIncome;
 
     @Relationship(type = "ESF_5and10", direction = Relationship.Direction.INCOMING)
     private List<ESF_5and10> esf5and10s;
+    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
+    private List<ESF_5and10> esf5and10sOut;
 
-    @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.INCOMING)
+
+
+
+    @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.OUTGOING)
     private List<FOUNDER_CUR> founderCurs;
 
     @Relationship(type = "NTR_FL", direction = Relationship.Direction.OUTGOING)
@@ -154,7 +165,45 @@ public class Persons {
     @Relationship(type = "ZAGS_IIN", direction = Relationship.Direction.OUTGOING)
     private List<ZAGS_IIN> zagsIins;
 
+    public List<ESF_100> getEsf100sIncome() {
+        return esf100sIncome;
+    }
 
+    public void setEsf100sIncome(List<ESF_100> esf100sIncome) {
+        this.esf100sIncome = esf100sIncome;
+    }
+
+    public List<ESF_10and100> getEsf_10and100sOut() {
+        return esf_10and100sOut;
+    }
+
+    public void setEsf_10and100sOut(List<ESF_10and100> esf_10and100sOut) {
+        this.esf_10and100sOut = esf_10and100sOut;
+    }
+
+    public List<ESF_10and50> getEsf10and50sIncome() {
+        return esf10and50sIncome;
+    }
+
+    public void setEsf10and50sIncome(List<ESF_10and50> esf10and50sIncome) {
+        this.esf10and50sIncome = esf10and50sIncome;
+    }
+
+    public List<ESF_50and100> getEsf50and100sIncome() {
+        return esf50and100sIncome;
+    }
+
+    public void setEsf50and100sIncome(List<ESF_50and100> esf50and100sIncome) {
+        this.esf50and100sIncome = esf50and100sIncome;
+    }
+
+    public List<ESF_5and10> getEsf5and10sOut() {
+        return esf5and10sOut;
+    }
+
+    public void setEsf5and10sOut(List<ESF_5and10> esf5and10sOut) {
+        this.esf5and10sOut = esf5and10sOut;
+    }
 
     public List<BUHGALTER> getBuhgalters() {
         return buhgalters;

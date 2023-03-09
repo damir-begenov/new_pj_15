@@ -6,6 +6,8 @@ import org.hibernate.annotations.TypeDef;
 import org.springframework.data.neo4j.core.schema.Property;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,29 +17,124 @@ import java.util.List;
 @Entity
 @Table(name = "log")
 @TypeDef(name = "list-array", typeClass = ListArrayType.class)
-public class log implements Serializable {
-    private static final long serialVersionUID = 4048798961366546485L;
-
+public class log {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private LocalDateTime date;
 
     private String username;
     @Type(type = "list-array")
 
     private List<String> request_body;
+
+    @Type(type = "list-array")
+    private List<String> request_rels;
     private Integer limit_;
     private Integer depth_;
-private String data;
+    @Size(max = 20)
+    @Column(name = "order_num")
 private String order_num;
-private String order_date;
-private String article_name;
-private String case_num;
-private String checking_name;
-private String other_reasons;
-private String organ_name;
-private String ruk_name;
-private String sphere_name;
-private String tematik_name;
+    @Size(max = 20)
+    @Column(name = "order_date")
+
+    private String order_date;
+    @Size(max = 20)
+    @Column(name = "article_name")
+
+    private String article_name;
+    @Size(max = 20)
+    @Column(name = "case_num")
+
+    private String case_num;
+    @Size(max = 20)
+    @Column(name = "checking_name")
+
+    private String checking_name;
+    @Size(max = 20)
+    @Column(name = "other_reasons")
+
+    private String other_reasons;
+    @Size(max = 20)
+    @Column(name = "organ_name")
+
+    private String organ_name;
+    @Size(max = 20)
+    @Column(name = "ruk_name")
+
+    private String ruk_name;
+    @Size(max = 20)
+    @Column(name = "sphere_name")
+
+    private String sphere_name;
+    @Size(max = 20)
+    @Column(name = "tematik_name")
+
+    private String tematik_name;
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<String> getRequest_body() {
+        return request_body;
+    }
+
+    public void setRequest_body(List<String> request_body) {
+        this.request_body = request_body;
+    }
+
+    public List<String> getRequest_rels() {
+        return request_rels;
+    }
+
+    public void setRequest_rels(List<String> request_rels) {
+        this.request_rels = request_rels;
+    }
+
+    public Integer getLimit_() {
+        return limit_;
+    }
+
+    public void setLimit_(Integer limit_) {
+        this.limit_ = limit_;
+    }
+
+    public Integer getDepth_() {
+        return depth_;
+    }
+
+    public void setDepth_(Integer depth_) {
+        this.depth_ = depth_;
+    }
+
+    public String getOrder_num() {
+        return order_num;
+    }
+
+    public void setOrder_num(String order_num) {
+        this.order_num = order_num;
+    }
 
     public String getOrder_date() {
         return order_date;
@@ -111,87 +208,25 @@ private String tematik_name;
         this.tematik_name = tematik_name;
     }
 
-    public String getOrder_num() {
-        return order_num;
-    }
-
-    public void setOrder_num(String order_num) {
-        this.order_num = order_num;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
     @Override
     public String toString() {
         return "log{" +
                 "date=" + date +
                 ", username='" + username + '\'' +
                 ", request_body=" + request_body +
+                ", request_rels=" + request_rels +
                 ", limit_=" + limit_ +
                 ", depth_=" + depth_ +
-
-                ", request_rels=" + request_rels +
+                ", order_num='" + order_num + '\'' +
+                ", order_date='" + order_date + '\'' +
+                ", article_name='" + article_name + '\'' +
+                ", case_num='" + case_num + '\'' +
+                ", checking_name='" + checking_name + '\'' +
+                ", other_reasons='" + other_reasons + '\'' +
+                ", organ_name='" + organ_name + '\'' +
+                ", ruk_name='" + ruk_name + '\'' +
+                ", sphere_name='" + sphere_name + '\'' +
+                ", tematik_name='" + tematik_name + '\'' +
                 '}';
     }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public List<String> getRequest_body() {
-        return request_body;
-    }
-
-    public void setRequest_body(List<String> request_body) {
-        this.request_body = request_body;
-    }
-
-    public Integer getLimit_() {
-        return limit_;
-    }
-
-    public void setLimit_(Integer limit_) {
-        this.limit_ = limit_;
-    }
-
-    public Integer getDepth_() {
-        return depth_;
-    }
-
-    public void setDepth_(Integer depth_) {
-        this.depth_ = depth_;
-    }
-
-
-
-
-    public List<String> getRequest_rels() {
-        return request_rels;
-    }
-
-    public void setRequest_rels(List<String> request_rels) {
-        this.request_rels = request_rels;
-    }
-
-    @Type(type = "list-array")
-    private List<String> request_rels;
-
 }

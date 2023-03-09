@@ -1,6 +1,7 @@
 package com.example.new_project_challenge_15.entity.rels;
 
 import com.example.new_project_challenge_15.entity.Company;
+import com.example.new_project_challenge_15.entity.Persons;
 import org.springframework.data.neo4j.core.schema.*;
 
 @RelationshipProperties
@@ -27,6 +28,7 @@ public class ESF_100 {
     public String esf_2022;
     @TargetNode
     private Company company;
+
 
     public Long getId() {
         return id;
