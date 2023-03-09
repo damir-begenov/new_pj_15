@@ -27,22 +27,46 @@ const App = () => {
   return (
     <Router>
       <div className='App'>
-        <Navbar/>
         <Routes>
           <Route path="/searchtool" element={
-            <GraphNet /> 
+            <>
+              <Navbar/>
+              <GraphNet /> 
+            </>
           } />
-          <Route path="/" element={<MainPage/>} />
-          <Route path="/registration" element={<RegistrationPage/>} />
-          <Route path="/login" element={<SignInPage/>} />
-          <Route path="/table" element={<TableLog/>} />
+          {/* <Route path="/" element={<MainPage/>} /> */}
+          <Route path="/registration" element={
+            <>
+              <Navbar/>
+              <RegistrationPage/>
+            </>
+          } />
+          <Route path="/login" element={
+            <SignInPage/>
+          } />
+          <Route path="/table" element={
+            <>
+              <Navbar/>
+              <TableLog/>
+            </>
+          } />
           {/* <Route path="/userTable" element={<UsersTable/>} /> */}
           {userSession 
           // && userSession.roles.includes("ROLE_ADMIN")
             ? (
               <>
-              <Route path="/users/:username" element={<UserDetails/>}/>
-              <Route path="/admin" element={<AdminPage/>}/>
+              <Route path="/users/:username" element={
+                <>
+                  <Navbar/>
+                  <UserDetails/>
+                </>
+              }/>
+              <Route path="/admin" element={
+                <>
+                  <Navbar/>
+                  <AdminPage/>
+                </>
+              }/>
               </>
             ) : (
               <>
