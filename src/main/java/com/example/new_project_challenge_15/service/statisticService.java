@@ -43,10 +43,10 @@ public class statisticService {
     public void userSetAdministrator(Long id){
         User user = userRepository.findById(id).orElse(null);
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+        Role userRole = roleRepository.findByName(ERole.VIP)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        if(user.getRoles().contains("ROLE_MODERATOR")){
-            user.getRoles().remove("ROLE_MODERATOR");
+        if(user.getRoles().contains("VIP")){
+            user.getRoles().remove("VIP");
         }else{
             roles.add(userRole);
             user.setRoles(roles);
@@ -56,13 +56,19 @@ public class statisticService {
 
     public statisticModel getByUsername(String username) {
         User user = userRepository.findByUsernameTwo(username);
-        log lastLog = logRepo.findLastDate(username);
-        List<log> logs = logRepo.findByUsername(username);
+        log lastLog = new log();
         statisticModel stat = new statisticModel();
+        try {
+            lastLog = logRepo.findLastDate(username);
+            stat.setDate(lastLog.getDate());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        List<log> logs = logRepo.findByUsername(username);
         stat.setAllRequsetNum(logRepo.findNumberOfRequests(username));
-        stat.setDate(lastLog.getDate());
         stat.setLogs(logs);
         stat.setUser(user);
+        stat.setRole(userRepository.getRoleById(username));
         stat.setTodayRequsetNum(logRepo.findTodayRequestNum(username));
         return stat;
     }

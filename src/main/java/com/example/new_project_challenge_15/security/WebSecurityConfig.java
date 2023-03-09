@@ -81,8 +81,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeRequests().antMatchers("/api/finpol/auth/**").permitAll()
-        .antMatchers("/api/finpol/main/**").permitAll()
-        .anyRequest().authenticated();
+        .antMatchers("/api/finpol/main/**").permitAll();
+//        .anyRequest().authenticated();
     
     http.authenticationProvider(authenticationProvider());
 

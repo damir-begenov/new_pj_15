@@ -23,8 +23,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query(value = "update user_roles set role_id = ?1 where user_id = ?2", nativeQuery = true)
   void updateRole(Integer role, Integer user);
 
-  @Query(value = "select role_id from user_roles where user_id = ?1", nativeQuery = true)
-  Integer getRoleById(Integer id);
+  @Query(value = "select r.name from roles r where r.id = (select role_id from user_roles where user_id = (select id from users where username = ?1))", nativeQuery = true)
+  String getRoleById(String username);
 
   @Query(value = "select count(*) from users", nativeQuery = true)
   Integer getUserNum();

@@ -8,10 +8,11 @@ export default class UsersTable extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:9091/api/finpol/main/users`)
+        axios.get(`http://localhost:9091/api/finpol/main/getusers`)
             .then(res => {
             const users = res.data;
             this.setState({ users });
+            // console.log(res.data)
         })
     }
 

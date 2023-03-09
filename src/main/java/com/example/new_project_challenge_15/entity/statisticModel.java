@@ -7,25 +7,24 @@ import com.example.new_project_challenge_15.models.User;
 
 public class statisticModel {
     private User user;
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
     private String role;
+    private LocalDateTime lastDate;
+    private int allRequestNum;
+    private int todayRequestNum;
+    private List<log> logs;
+
     public String getRole() {
         return role;
     }
     public void setRole(String role) {
         this.role = role;
     }
-    private LocalDateTime lastDate;
-    private int allRequsetNum;
-    private int todayRequsetNum;
-    private List<log> logs;
-
-
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
     public LocalDateTime getDate() {
         return lastDate;
     }
@@ -33,16 +32,16 @@ public class statisticModel {
         this.lastDate = lastDate;
     }
     public int getAllRequsetNum() {
-        return allRequsetNum;
+        return allRequestNum;
     }
     public void setAllRequsetNum(int allRequsetNum) {
-        this.allRequsetNum = allRequsetNum;
+        this.allRequestNum = allRequsetNum;
     }
     public int getTodayRequsetNum() {
-        return todayRequsetNum;
+        return todayRequestNum;
     }
     public void setTodayRequsetNum(int todayRequsetNum) {
-        this.todayRequsetNum = todayRequsetNum;
+        this.todayRequestNum = todayRequsetNum;
     }
     public List<log> getLogs() {
         return logs;

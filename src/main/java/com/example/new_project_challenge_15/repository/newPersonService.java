@@ -123,8 +123,8 @@ List<Persons> getPersons();
     @Query("WITH $params.depth as d MATCH (startNode:Person) WHERE startNode.`ИИН` = ($params.person) OPTIONAL MATCH p = (startNode)-[*1..$depth]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $params.relations) AND length(p)<=d WITH DISTINCT p as paths LIMIT $params.limit RETURN COLLECT(distinct paths)")
     List<Persons> getPersonTree(@Param("params") Value params, @Param("depth") Value depth);
 
-    @Query("MATCH (startNode) WHERE id(startNode)=$ID OPTIONAL MATCH p = (startNode)-[r]-(endNode) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
-    List<Persons> shortOpen(Long ID);
+    @Query("MATCH (startNode) WHERE id(startNode)=$ID OPTIONAL MATCH p = (startNode)-[r]-(endNode) WHERE ALL(rel in relationships(p) WHERE type(rel) in $relations) WITH DISTINCT p as paths RETURN COLLECT(distinct paths)")
+    List<Persons> shortOpen(Long ID, List<String> relations);
 
     @Query("MATCH p=(n)-[r]->(e)  where id(r) = $ID RETURN id(startNode(r)) LIMIT 1")
     Long getEndNodeId(Long ID);
