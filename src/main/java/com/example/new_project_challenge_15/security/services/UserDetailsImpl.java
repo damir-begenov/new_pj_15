@@ -25,6 +25,7 @@ public class UserDetailsImpl implements UserDetails {
   private String password;
 
 
+
   public UserDetailsImpl() {
   }
 

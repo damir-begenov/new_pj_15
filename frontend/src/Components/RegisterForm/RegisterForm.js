@@ -10,11 +10,11 @@ import authService from "../../services/auth.service";
 const RegisterForm = () => {
     const navigate = useNavigate();
 
-    const { 
-        register, 
-        handleSubmit, 
+    const {
+        register,
+        handleSubmit,
         watch,
-        formState: { errors } 
+        formState: { errors }
     } = useForm({
         defaultValues: {
             username: "",
@@ -48,11 +48,11 @@ const RegisterForm = () => {
     }
 
     const registerOptions = {
-        username: { 
-            required: "Username is required", 
+        username: {
+            required: "Username is required",
             minLength: {
-                value: 4,
-                message: "Minimum length is 4"
+                value: 10,
+                message: "Minimum length is 10"
             }
         },
         email: {
@@ -71,8 +71,8 @@ const RegisterForm = () => {
                 }
             }
         },
-        level: { 
-            required: "Level is required. Please choose уровень доступа" 
+        level: {
+            required: "Level is required. Please choose уровень доступа"
         },
         password: {
             required: "Password is required",
@@ -98,11 +98,11 @@ const RegisterForm = () => {
                 <div className="inputs">
                     <div className="firstLine">
                         <div>
-                            <label >Логин</label>
-                            <input 
-                                type="text" 
-                                {...register("username", registerOptions.username)} 
-                                id="username" placeholder="Введите логин" 
+                            <label >ФИО</label>
+                            <input
+                                type="text"
+                                {...register("username", registerOptions.username)}
+                                id="username" placeholder="Введите ФИО"
                             />
                         </div>
 
@@ -124,20 +124,11 @@ const RegisterForm = () => {
 
                     <div className="secondLine">
                         <div>
-                            <label >ФИО</label>
-                            <input 
-                                type="text" 
-                                {...register("FIO", registerOptions.FIO)} 
-                                id="FIO" placeholder="Введите ФИО" 
-                            />
-                        </div>
-
-                        <div>
                             <label >Почта</label>
-                            <input 
-                                type="text" 
-                                {...register("email", registerOptions.email)} 
-                                id="email" placeholder="Введите почту" 
+                            <input
+                                type="text"
+                                {...register("email", registerOptions.email)}
+                                id="email" placeholder="Введите почту"
                             />
                         </div>
                     </div>
@@ -165,18 +156,17 @@ const RegisterForm = () => {
 
                 {
                     Object.keys(errors).length != 0 ?
-                    <div className="errorsBlock">
-                        <div className="title">Invalid Registration</div>
-                        <div className="errors">
-                            {errors.username ? <span>{errors.username?.message}</span> : ""}
-                            {errors.email ? <span>{errors.email?.message}</span> : ""}
-                            {errors.FIO ? <span>{errors.FIO?.message}</span> : ""}
-                            {errors.level ? <span>{errors.level?.message}</span> : ""}
-                            {errors.password ? <span>{errors.password?.message}</span>: ""}
-                            {errors.password_conf ? <span>{errors.password_conf?.message}</span> : ""}
+                        <div className="errorsBlock">
+                            <div className="title">Invalid Registration</div>
+                            <div className="errors">
+                                {errors.username ? <span>{errors.username?.message}</span> : ""}
+                                {errors.email ? <span>{errors.email?.message}</span> : ""}
+                                {errors.level ? <span>{errors.level?.message}</span> : ""}
+                                {errors.password ? <span>{errors.password?.message}</span>: ""}
+                                {errors.password_conf ? <span>{errors.password_conf?.message}</span> : ""}
+                            </div>
                         </div>
-                    </div> 
-                    : ""
+                        : ""
                 }
             </form>
         </div>
