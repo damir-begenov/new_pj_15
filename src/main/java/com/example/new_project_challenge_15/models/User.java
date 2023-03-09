@@ -31,8 +31,6 @@ public class User {
   @Size(max = 120)
   private String password;
   private boolean active;
-
-
   public boolean isActive() {
     return active;
   }

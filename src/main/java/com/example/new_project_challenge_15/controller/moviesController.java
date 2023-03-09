@@ -98,18 +98,12 @@ public class moviesController {
         User user = userDetailsService.loadUserByUsernamek(principal);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(person);
-        try{
             log log = new log();
-            log.setOrder_num(orderNum);
-            log.setOrder_date(orderDate);
-            log.setArticle_name(articleName);
-            log.setCase_num(caseNum);
-            log.setChecking_name(checkingName);
-            log.setOther_reasons(otherReasons);
-            log.setOrgan_name(organName);
-            log.setRuk_name(rukName);
-            log.setSphere_name(sphereName);
-            log.setTematik_name(tematikName);
+            String obwii = "Раскрыть связь ФЛ " + person+ ", лимит " + limit + ", уровень " + depth;
+
+        log.setObwii(obwii);
+
+
             LocalDateTime current = LocalDateTime.now();
             log.setUsername(user.getUsername());
             log.setDate(current);
@@ -118,9 +112,6 @@ public class moviesController {
             log.setRequest_body(request_bodies);
             log.setRequest_rels(relations);
             logsService.SaveLog(log);
-        }catch (Exception e){
-            System.out.println(e);
-        }
         return personsService.getPersonTree(person, depth, limit, relations);
     }
     @GetMapping("/flFIOtree")
@@ -223,16 +214,7 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
 //        request_bodies.add(person);
         try{
             log log = new log();
-            log.setOrder_num(orderNum);
-            log.setOrder_date(orderDate);
-            log.setArticle_name(articleName);
-            log.setCase_num(caseNum);
-            log.setChecking_name(checkingName);
-            log.setOther_reasons(otherReasons);
-            log.setOrgan_name(organName);
-            log.setRuk_name(rukName);
-            log.setSphere_name(sphereName);
-            log.setTematik_name(tematikName);
+
             LocalDateTime current = LocalDateTime.now();
             log.setUsername(user.getUsername());
             log.setDate(current);
@@ -271,16 +253,7 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
         request_bodies.add(ul);
         try{
             log log = new log();
-            log.setOrder_num(orderNum);
-            log.setOrder_date(orderDate);
-            log.setArticle_name(articleName);
-            log.setCase_num(caseNum);
-            log.setChecking_name(checkingName);
-            log.setOther_reasons(otherReasons);
-            log.setOrgan_name(organName);
-            log.setRuk_name(rukName);
-            log.setSphere_name(sphereName);
-            log.setTematik_name(tematikName);
+
             LocalDateTime current = LocalDateTime.now();
             log.setUsername(user.getUsername());
             log.setDate(current);
@@ -311,16 +284,7 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
         request_bodies.add(person);request_bodies.add(ul);
         try{
             log log = new log();
-            log.setOrder_num(orderNum);
-            log.setOrder_date(orderDate);
-            log.setArticle_name(articleName);
-            log.setCase_num(caseNum);
-            log.setChecking_name(checkingName);
-            log.setOther_reasons(otherReasons);
-            log.setOrgan_name(organName);
-            log.setRuk_name(rukName);
-            log.setSphere_name(sphereName);
-            log.setTematik_name(tematikName);
+
             LocalDateTime current = LocalDateTime.now();
             log.setUsername(user.getUsername());
             log.setDate(current);
@@ -394,16 +358,7 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
         request_bodies.add(ul2);
         try{
             log log = new log();
-            log.setOrder_num(orderNum);
-            log.setOrder_date(orderDate);
-            log.setArticle_name(articleName);
-            log.setCase_num(caseNum);
-            log.setChecking_name(checkingName);
-            log.setOther_reasons(otherReasons);
-            log.setOrgan_name(organName);
-            log.setRuk_name(rukName);
-            log.setSphere_name(sphereName);
-            log.setTematik_name(tematikName);
+
             LocalDateTime current = LocalDateTime.now();
             log.setUsername(user.getUsername());
             log.setDate(current);
