@@ -27,7 +27,7 @@ import keyJudgePersonIcon from '../../icons/key_judge_person.jpg'
 import keyPersonIcon from '../../icons/key_person.png'
 import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
-import ripPersonIcon from '../../icons/ripPersonAA.jpg'
+import ripPersonIcon from '../../icons/rip_person.png'
 
 var NoD =  [];
 var EdG = [];
@@ -223,7 +223,7 @@ export default class GraphNet extends Component {
     setNodeSettings = (node) => {
       this.state.ids.push(node.id)
 
-      if (node.properties.Type == "ЮЛ") {
+      if (node.properties.Type == "ЮЛ" || node.properties.Type == "ИП") {
         // settings for ul
         node.label = node.properties.Name;
         
@@ -489,6 +489,11 @@ export default class GraphNet extends Component {
           this.assignInfoBlock({"Орган регистрации": sp.ORGAN_REGISTER,}, '#nodeSudInfoInner')
           this.assignInfoBlock({"ФПГ": sp.FPG,}, '#nodeSudInfoInner')
           this.assignInfoBlock({"Направлено в": sp.Napravlenio_V,}, '#nodeSudInfoInner')
+
+          // Новые риски
+          this.assignInfoBlock({"Должник по алиментам": sp.Doljnik_po_alimentam,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"В розыске": sp.V_Roziske,}, '#nodeSudInfoInner')
+          this.assignInfoBlock({"Статус должника": sp.Status_doljnika,}, '#nodeSudInfoInner')
 
         }
 

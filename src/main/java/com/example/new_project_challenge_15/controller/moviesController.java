@@ -53,18 +53,18 @@ public class moviesController {
 
     @GetMapping("/fltree")
     public doubleReturn getFlTree(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
-        List<String> request_bodies = new ArrayList<>();
-        request_bodies.add(person);
-        try{
-            log log = new log();
-            LocalDateTime current = LocalDateTime.now();
-            log.setDate(current);
-            log.setRequest_body(request_bodies);
-            log.setRequest_rels(relations);
-            logsService.SaveLog(log);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+        // List<String> request_bodies = new ArrayList<>();
+        // request_bodies.add(person);
+        // try{
+        //     log log = new log();
+        //     LocalDateTime current = LocalDateTime.now();
+        //     log.setDate(current);
+        //     log.setRequest_body(request_bodies);
+        //     log.setRequest_rels(relations);
+        //     logsService.SaveLog(log);
+        // }catch (Exception e){
+        //     System.out.println(e);
+        // }
         return personsService.getPersonTree(person, depth, limit, relations);
     }
     @GetMapping("/flFIOtree")

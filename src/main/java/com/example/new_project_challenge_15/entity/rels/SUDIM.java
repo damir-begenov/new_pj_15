@@ -23,22 +23,10 @@ public class SUDIM {
     @Property("Статья")
     public String Statya;
 
-    @Property("Дата начала заключения")
-    public String data_nachalo;
-    @Property("Дата конца заключения")
-    public String data_konca;
-    @Property("Статья")
-    public String statya;
     @TargetNode
     private Persons person;
 
-    public String getData_nachalo() {
-        return data_nachalo;
-    }
 
-    public void setData_nachalo(String data_nachalo) {
-        this.data_nachalo = data_nachalo;
-    }
 
     public Long getId() {
         return id;
