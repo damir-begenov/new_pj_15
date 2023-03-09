@@ -29,8 +29,6 @@ import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
 import ripPersonIcon from '../../icons/rip_person.png'
 
-var NoD =  [];
-var EdG = [];
 var Network;
 var SelectedNode = {}
 var SelectedEdge = {}

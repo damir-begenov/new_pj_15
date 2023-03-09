@@ -63,6 +63,36 @@ public class Persons {
     public String Date_of_Death;
     @Property("RIP_date:")
     public String RIP_date;
+ @Property("Должник по алиментам")
+    public String Doljnik_po_alimentam;
+ @Property("В розыске")
+    public String V_Roziske;
+ @Property("Статус должника")
+    public String Status_doljnika;
+
+    public String getDoljnik_po_alimentam() {
+        return Doljnik_po_alimentam;
+    }
+
+    public void setDoljnik_po_alimentam(String doljnik_po_alimentam) {
+        Doljnik_po_alimentam = doljnik_po_alimentam;
+    }
+
+    public String getV_Roziske() {
+        return V_Roziske;
+    }
+
+    public void setV_Roziske(String v_Roziske) {
+        V_Roziske = v_Roziske;
+    }
+
+    public String getStatus_doljnika() {
+        return Status_doljnika;
+    }
+
+    public void setStatus_doljnika(String status_doljnika) {
+        Status_doljnika = status_doljnika;
+    }
 
     @Relationship(type = "BUHGALTER", direction = Relationship.Direction.OUTGOING)
     private List<BUHGALTER> buhgalters;
@@ -73,19 +103,19 @@ public class Persons {
     @Relationship(type = "DFO_AFF_FIZ", direction = Relationship.Direction.OUTGOING)
     private List<DFO_AFF_FIZ> dfoAffFizs;
 
-    @Relationship(type = "ESF_100", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_100", direction = Relationship.Direction.INCOMING)
     private List<ESF_100> esf100s;
 
-    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.INCOMING)
     private List<ESF_10and100> esf_10and100s;
 
-    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_10and50", direction = Relationship.Direction.INCOMING)
     private List<ESF_10and50> esf10and50s;
 
-    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_50and100", direction = Relationship.Direction.INCOMING)
     private List<ESF_50and100> esf50and100s;
 
-    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.INCOMING)
     private List<ESF_5and10> esf5and10s;
 
     @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.INCOMING)

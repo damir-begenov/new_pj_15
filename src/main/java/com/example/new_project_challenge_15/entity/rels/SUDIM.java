@@ -23,6 +23,7 @@ public class SUDIM {
     @Property("Статья")
     public String Statya;
 
+
     @TargetNode
     private Persons person;
 

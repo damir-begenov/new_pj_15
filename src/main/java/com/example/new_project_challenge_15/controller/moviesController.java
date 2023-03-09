@@ -25,10 +25,8 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -52,45 +50,246 @@ public class moviesController {
     LogsService logsService;
 
     @GetMapping("/fltree")
-    public doubleReturn getFlTree(@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
-        // List<String> request_bodies = new ArrayList<>();
-        // request_bodies.add(person);
-        // try{
-        //     log log = new log();
-        //     LocalDateTime current = LocalDateTime.now();
-        //     log.setDate(current);
-        //     log.setRequest_body(request_bodies);
-        //     log.setRequest_rels(relations);
-        //     logsService.SaveLog(log);
-        // }catch (Exception e){
-        //     System.out.println(e);
-        // }
+    public doubleReturn getFlTree(Principal principal,@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit,
+                                  @RequestParam(required = false) String orderNum,
+                                  @RequestParam(required = false) String caseNum,
+                                  @RequestParam(required = false) String orderDate,
+                                  @RequestParam(required = false) String articleName,
+                                  @RequestParam(required = false) String checkingName,
+                                  @RequestParam(required = false) String otherReasons,
+                                  @RequestParam(required = false) String organName,
+                                  @RequestParam(required = false) String sphereName,
+                                  @RequestParam(required = false) String tematikName,
+                                  @RequestParam(required = false) String rukName) {
+//        User user = userDetailsService.loadUserByUsernamek(principal);
+//        List<String> request_bodies = new ArrayList<>();
+//        request_bodies.add(person);
+//        try{
+//            log log = new log();
+//            log.setData(orderDate);
+//            log.setOrder_num(orderNum);
+//            log.setOrder_date(orderDate);
+//            log.setArticle_name(articleName);
+//            log.setCase_num(caseNum);
+//            log.setChecking_name(checkingName);
+//            log.setOther_reasons(otherReasons);
+//            log.setOrgan_name(organName);
+//            log.setRuk_name(rukName);
+//            log.setSphere_name(sphereName);
+//            log.setTematik_name(tematikName);
+//            LocalDateTime current = LocalDateTime.now();
+//            log.setUsername(user.getUsername());
+//            log.setDate(current);
+//            log.setLimit_(limit);
+//            log.setDepth_(depth);
+//            log.setRequest_body(request_bodies);
+//            log.setRequest_rels(relations);
+//            logsService.SaveLog(log);
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
         return personsService.getPersonTree(person, depth, limit, relations);
     }
+
     @GetMapping("/flFIOtree")
-    public doubleReturn getFlTree(@RequestParam String F,@RequestParam String I,@RequestParam String O, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+    public doubleReturn getFlTree(@RequestParam String F,@RequestParam String I,@RequestParam String O, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit,               @RequestParam(required = false) String orderNum,
+                                  @RequestParam(required = false) String caseNum,
+                                  @RequestParam(required = false) String orderDate,
+                                  @RequestParam(required = false) String articleName,
+                                  @RequestParam(required = false) String checkingName,
+                                  @RequestParam(required = false) String otherReasons,
+                                  @RequestParam(required = false) String organName,
+                                  @RequestParam(required = false) String sphereName,
+                                  @RequestParam(required = false) String tematikName,
+                                  @RequestParam(required = false) String rukName,Principal principal) {
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(F);request_bodies.add(I);request_bodies.add(O);
+        try{
+            log log = new log();
+            log.setData(orderDate);
+            log.setOrder_num(orderNum);
+            log.setOrder_date(orderDate);
+            log.setArticle_name(articleName);
+            log.setCase_num(caseNum);
+            log.setChecking_name(checkingName);
+            log.setOther_reasons(otherReasons);
+            log.setOrgan_name(organName);
+            log.setRuk_name(rukName);
+            log.setSphere_name(sphereName);
+            log.setTematik_name(tematikName);
+            LocalDateTime current = LocalDateTime.now();
+            log.setUsername(user.getUsername());
+            log.setDate(current);
+            log.setLimit_(limit);
+            log.setDepth_(depth);
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            logsService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personsService.getPersonByFIO_(F,I,O, depth, limit, relations);
     }
 
 
     @GetMapping("/shortestpaths")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public doubleReturn getShortestPaths(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations) {
+    public doubleReturn getShortestPaths(@RequestParam String person, @RequestParam String person2, @RequestParam List<String> relations, @RequestParam(required = false) String orderNum,
+                                         @RequestParam(required = false) String caseNum,
+                                         @RequestParam(required = false) String orderDate,
+                                         @RequestParam(required = false) String articleName,
+                                         @RequestParam(required = false) String checkingName,
+                                         @RequestParam(required = false) String otherReasons,
+                                         @RequestParam(required = false) String organName,
+                                         @RequestParam(required = false) String sphereName,
+                                         @RequestParam(required = false) String tematikName,
+                                         @RequestParam(required = false) String rukName,Principal principal) {
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);
+        try{
+            log log = new log();
+            log.setData(orderDate);
+            log.setOrder_num(orderNum);
+            log.setOrder_date(orderDate);
+            log.setArticle_name(articleName);
+            log.setCase_num(caseNum);
+            log.setChecking_name(checkingName);
+            log.setOther_reasons(otherReasons);
+            log.setOrgan_name(organName);
+            log.setRuk_name(rukName);
+            log.setSphere_name(sphereName);
+            log.setTematik_name(tematikName);
+            LocalDateTime current = LocalDateTime.now();
+            log.setUsername(user.getUsername());
+            log.setDate(current);
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            logsService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personsService.getShortestPaths(person, person2, relations);
     }
     @GetMapping("/ultree")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public doubleReturn getUlTree(@RequestParam String ul, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit) {
+    public doubleReturn getUlTree(@RequestParam String ul, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit, @RequestParam(required = false) String orderNum,
+                                  @RequestParam(required = false) String caseNum,
+                                  @RequestParam(required = false) String orderDate,
+                                  @RequestParam(required = false) String articleName,
+                                  @RequestParam(required = false) String checkingName,
+                                  @RequestParam(required = false) String otherReasons,
+                                  @RequestParam(required = false) String organName,
+                                  @RequestParam(required = false) String sphereName,
+                                  @RequestParam(required = false) String tematikName,
+                                  @RequestParam(required = false) String rukName,Principal principal) {
+//        User user = userDetailsService.loadUserByUsernamek(principal);
+//        List<String> request_bodies = new ArrayList<>();
+//        request_bodies.add(ul);
+//        try{
+//            log log = new log();
+//            log.setData(orderDate);
+//            log.setOrder_num(orderNum);
+//            log.setOrder_date(orderDate);
+//            log.setArticle_name(articleName);
+//            log.setCase_num(caseNum);
+//            log.setChecking_name(checkingName);
+//            log.setOther_reasons(otherReasons);
+//            log.setOrgan_name(organName);
+//            log.setRuk_name(rukName);
+//            log.setSphere_name(sphereName);
+//            log.setTematik_name(tematikName);
+//            LocalDateTime current = LocalDateTime.now();
+//            log.setUsername(user.getUsername());
+//            log.setDate(current);
+//            log.setLimit_(limit);
+//            log.setDepth_(depth);
+//            log.setRequest_body(request_bodies);
+//            log.setRequest_rels(relations);
+//            logsService.SaveLog(log);
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
         return personsService.getUlTree(ul, relations, depth, limit);
     }
     @GetMapping("/flulpath")
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public doubleReturn getUlFlPath(@RequestParam String ul, @RequestParam String person, @RequestParam List<String> relations) {
+    public doubleReturn getUlFlPath(@RequestParam String ul, @RequestParam String person, @RequestParam List<String> relations, @RequestParam(required = false) String orderNum,
+                                    @RequestParam(required = false) String caseNum,
+                                    @RequestParam(required = false) String orderDate,
+                                    @RequestParam(required = false) String articleName,
+                                    @RequestParam(required = false) String checkingName,
+                                    @RequestParam(required = false) String otherReasons,
+                                    @RequestParam(required = false) String organName,
+                                    @RequestParam(required = false) String sphereName,
+                                    @RequestParam(required = false) String tematikName,
+                                    @RequestParam(required = false) String rukName,Principal principal) {
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);request_bodies.add(ul);
+        try{
+            log log = new log();
+            log.setData(orderDate);
+            log.setOrder_num(orderNum);
+            log.setOrder_date(orderDate);
+            log.setArticle_name(articleName);
+            log.setCase_num(caseNum);
+            log.setChecking_name(checkingName);
+            log.setOther_reasons(otherReasons);
+            log.setOrgan_name(organName);
+            log.setRuk_name(rukName);
+            log.setSphere_name(sphereName);
+            log.setTematik_name(tematikName);
+            LocalDateTime current = LocalDateTime.now();
+            log.setUsername(user.getUsername());
+            log.setDate(current);
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            logsService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personsService.getUlFlPath(ul, person, relations);
     }
 
     @GetMapping("/ululpath")
-    public doubleReturn getUlUlPath(@RequestParam String ul1,@RequestParam String ul2,@RequestParam List<String> relations) {
+    public doubleReturn getUlUlPath(@RequestParam String ul1,@RequestParam String ul2,@RequestParam List<String> relations, @RequestParam(required = false) String orderNum,
+                                    @RequestParam(required = false) String caseNum,
+                                    @RequestParam(required = false) String orderDate,
+                                    @RequestParam(required = false) String articleName,
+                                    @RequestParam(required = false) String checkingName,
+                                    @RequestParam(required = false) String otherReasons,
+                                    @RequestParam(required = false) String organName,
+                                    @RequestParam(required = false) String sphereName,
+                                    @RequestParam(required = false) String tematikName,
+                                    @RequestParam(required = false) String rukName,Principal principal) {
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(ul1);
+        request_bodies.add(ul2);
+        try{
+            log log = new log();
+            log.setData(orderDate);
+            log.setOrder_num(orderNum);
+            log.setOrder_date(orderDate);
+            log.setArticle_name(articleName);
+            log.setCase_num(caseNum);
+            log.setChecking_name(checkingName);
+            log.setOther_reasons(otherReasons);
+            log.setOrgan_name(organName);
+            log.setRuk_name(rukName);
+            log.setSphere_name(sphereName);
+            log.setTematik_name(tematikName);
+            LocalDateTime current = LocalDateTime.now();
+            log.setUsername(user.getUsername());
+            log.setDate(current);
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            logsService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personsService.getUlUlPath(ul1, ul2, relations);
     }
 
