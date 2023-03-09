@@ -14,7 +14,10 @@ import org.springframework.stereotype.Repository;
 public interface logRepo extends JpaRepository<log,Long> {
     @Query(value = "SELECT * FROM public.log where username like ?1", nativeQuery = true)
     List<log> findByUsername(String username);
-
+    @Query(value = "SELECT COUNT(*) FROM log where to_char(date, 'YYYY-MM-dd') = to_char(NOW(), 'YYYY-MM-dd')", nativeQuery = true)
+    Integer findNumberOfRequestsThatRequestedToday();
+    @Query(value = "SELECT COUNT(distinct(username)) FROM log where to_char(date, 'YYYY-MM-dd') = to_char(NOW(), 'YYYY-MM-dd') ", nativeQuery = true)
+    Integer findNumberOfUsersThatMadeRequestToday();
     @Query(value = "SELECT COUNT(*) FROM public.log where username like ?1", nativeQuery = true)
     Integer findNumberOfRequests(String username);
 
