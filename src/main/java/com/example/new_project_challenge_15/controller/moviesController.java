@@ -4,6 +4,7 @@ package com.example.new_project_challenge_15.controller;
 import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.models.User;
 import com.example.new_project_challenge_15.models.photoDb;
+import com.example.new_project_challenge_15.models.user_roles;
 import com.example.new_project_challenge_15.repository.*;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
 import com.example.new_project_challenge_15.service.*;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.neo4j.driver.Value;
 import org.neo4j.driver.Values;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -54,6 +56,32 @@ public class moviesController {
     public List<log> logTest(){
         return logRepo.findByUsername("damirdamird");
     }
+
+    @Autowired
+    user_RolesRepo userRolesRepo;
+
+    @GetMapping("/changeUserRole")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void changeUserRole(@RequestParam String user, @RequestParam String role) {
+//        System.out.println(user);
+        Long u = Long.valueOf(user);
+        Long r = Long.valueOf(role);
+        user_roles obj = userRolesRepo.getById(u);
+        obj.setRole_id(r);
+        userRolesRepo.save(obj);
+    }
+
+
+    @GetMapping("/getusers")
+//    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+    @GetMapping("/getuserdetails")
+    public statisticModel getUserDetails(@RequestParam String username) {
+        return statisticService.getByUsername(username);
+    }
+
 
     @GetMapping("/fltree")
     public doubleReturn getFlTree(Principal principal,@RequestParam String person, @RequestParam List<String> relations, @RequestParam int depth, @RequestParam int limit,
@@ -144,31 +172,30 @@ public class moviesController {
                                          @RequestParam(required = false) String sphereName,
                                          @RequestParam(required = false) String tematikName,
                                          @RequestParam(required = false) String rukName,Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add(person);
-//        try{
-//            log log = new log();
-//            log.setData(orderDate);
-//            log.setOrder_num(orderNum);
-//            log.setOrder_date(orderDate);
-//            log.setArticle_name(articleName);
-//            log.setCase_num(caseNum);
-//            log.setChecking_name(checkingName);
-//            log.setOther_reasons(otherReasons);
-//            log.setOrgan_name(organName);
-//            log.setRuk_name(rukName);
-//            log.setSphere_name(sphereName);
-//            log.setTematik_name(tematikName);
-//            LocalDateTime current = LocalDateTime.now();
-//            log.setUsername(user.getUsername());
-//            log.setDate(current);
-//            log.setRequest_body(request_bodies);
-//            log.setRequest_rels(relations);
-//            logsService.SaveLog(log);
-//        }catch (Exception e){
-//            System.out.println(e);
-//        }
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);
+        try{
+            log log = new log();
+            log.setOrder_num(orderNum);
+            log.setOrder_date(orderDate);
+            log.setArticle_name(articleName);
+            log.setCase_num(caseNum);
+            log.setChecking_name(checkingName);
+            log.setOther_reasons(otherReasons);
+            log.setOrgan_name(organName);
+            log.setRuk_name(rukName);
+            log.setSphere_name(sphereName);
+            log.setTematik_name(tematikName);
+            LocalDateTime current = LocalDateTime.now();
+            log.setUsername(user.getUsername());
+            log.setDate(current);
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            logsService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personsService.getShortestPaths(person, person2, relations);
     }
     @GetMapping("/ultree")
@@ -183,33 +210,32 @@ public class moviesController {
                                   @RequestParam(required = false) String sphereName,
                                   @RequestParam(required = false) String tematikName,
                                   @RequestParam(required = false) String rukName,Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add(ul);
-//        try{
-//            log log = new log();
-//            log.setData(orderDate);
-//            log.setOrder_num(orderNum);
-//            log.setOrder_date(orderDate);
-//            log.setArticle_name(articleName);
-//            log.setCase_num(caseNum);
-//            log.setChecking_name(checkingName);
-//            log.setOther_reasons(otherReasons);
-//            log.setOrgan_name(organName);
-//            log.setRuk_name(rukName);
-//            log.setSphere_name(sphereName);
-//            log.setTematik_name(tematikName);
-//            LocalDateTime current = LocalDateTime.now();
-//            log.setUsername(user.getUsername());
-//            log.setDate(current);
-//            log.setLimit_(limit);
-//            log.setDepth_(depth);
-//            log.setRequest_body(request_bodies);
-//            log.setRequest_rels(relations);
-//            logsService.SaveLog(log);
-//        }catch (Exception e){
-//            System.out.println(e);
-//        }
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(ul);
+        try{
+            log log = new log();
+            log.setOrder_num(orderNum);
+            log.setOrder_date(orderDate);
+            log.setArticle_name(articleName);
+            log.setCase_num(caseNum);
+            log.setChecking_name(checkingName);
+            log.setOther_reasons(otherReasons);
+            log.setOrgan_name(organName);
+            log.setRuk_name(rukName);
+            log.setSphere_name(sphereName);
+            log.setTematik_name(tematikName);
+            LocalDateTime current = LocalDateTime.now();
+            log.setUsername(user.getUsername());
+            log.setDate(current);
+            log.setLimit_(limit);
+            log.setDepth_(depth);
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            logsService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personsService.getUlTree(ul, relations, depth, limit);
     }
     @GetMapping("/flulpath")
@@ -224,31 +250,30 @@ public class moviesController {
                                     @RequestParam(required = false) String sphereName,
                                     @RequestParam(required = false) String tematikName,
                                     @RequestParam(required = false) String rukName,Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add(person);request_bodies.add(ul);
-//        try{
-//            log log = new log();
-//            log.setData(orderDate);
-//            log.setOrder_num(orderNum);
-//            log.setOrder_date(orderDate);
-//            log.setArticle_name(articleName);
-//            log.setCase_num(caseNum);
-//            log.setChecking_name(checkingName);
-//            log.setOther_reasons(otherReasons);
-//            log.setOrgan_name(organName);
-//            log.setRuk_name(rukName);
-//            log.setSphere_name(sphereName);
-//            log.setTematik_name(tematikName);
-//            LocalDateTime current = LocalDateTime.now();
-//            log.setUsername(user.getUsername());
-//            log.setDate(current);
-//            log.setRequest_body(request_bodies);
-//            log.setRequest_rels(relations);
-//            logsService.SaveLog(log);
-//        }catch (Exception e){
-//            System.out.println(e);
-//        }
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);request_bodies.add(ul);
+        try{
+            log log = new log();
+            log.setOrder_num(orderNum);
+            log.setOrder_date(orderDate);
+            log.setArticle_name(articleName);
+            log.setCase_num(caseNum);
+            log.setChecking_name(checkingName);
+            log.setOther_reasons(otherReasons);
+            log.setOrgan_name(organName);
+            log.setRuk_name(rukName);
+            log.setSphere_name(sphereName);
+            log.setTematik_name(tematikName);
+            LocalDateTime current = LocalDateTime.now();
+            log.setUsername(user.getUsername());
+            log.setDate(current);
+            log.setRequest_body(request_bodies);
+            log.setRequest_rels(relations);
+            logsService.SaveLog(log);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         return personsService.getUlFlPath(ul, person, relations);
     }
 
