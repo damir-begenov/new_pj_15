@@ -1,5 +1,7 @@
 import React, {Component, useState} from "react";
 import ReactDOM from "react-dom";
+
+import RelationBlock from "../Relation/RelationBlock";
 import './RightBar.css'
 
 class RightBar extends Component {
@@ -7,9 +9,21 @@ class RightBar extends Component {
     super(props)
     this.state = {
       showNodeInfo: false,
-      showNodeAddInfo: false
+      showNodeAddInfo: false,
     }
   }
+
+
+  // openToggle() {
+  //   var form = document.getElementById("toggleForm")
+  //   if (form.style.display == "none") {
+  //     form.style.display = "block"
+  //   } else {
+  //     form.style.display = "none"
+  //   }
+  // }
+
+
 
   render() {
     return (
@@ -69,8 +83,8 @@ class RightBar extends Component {
               </div> 
           </div> 
         </div>
-        <div className="actionBlock" style={{display: this.props.isOnSelectNode ? "flex" : "none"}}>
-            <input type="button" visible="false" value="Show" onClick={ event => this.props.shortOpen().bind(this)}/>
+        <div className="actionBlock" style={{display: this.props.isOnSelectNode ? "block" : "none"}}>
+            <input type="button" visible="false" value="Show" onClick={ this.openToggle}/>
             <input type="button" visible="false" value="Hide" onClick={ event => this.props.shortHide().bind(this)}/>
         </div>
       </div>

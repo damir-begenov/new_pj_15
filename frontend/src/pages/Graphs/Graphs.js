@@ -27,8 +27,9 @@ import keyJudgePersonIcon from '../../icons/key_judge_person.jpg'
 import keyPersonIcon from '../../icons/key_person.png'
 import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
-import ripPersonIcon from '../../icons/rip_person.png'
+import ripPersonIcon from '../../icons/ripPersonAA.jpg'
 
+var graJSON = {nodes: [], edges: []}
 var Network;
 var SelectedNode = {}
 var SelectedEdge = {}
@@ -135,13 +136,11 @@ export default class GraphNet extends Component {
       params["sphereName"] = options.approvementObj.sphereName
       params["tematikName"] = options.approvementObj.tematikName
 
-      console.log(params)
 
       axios.get(url, {params: params}).then(res => {
         let nodes = []
         const edges = res.data.edges;
         console.log(res.data)
-        
         
         edges.map(item => {
           this.setEdgeSettings(item);
@@ -154,7 +153,9 @@ export default class GraphNet extends Component {
         })
         
         this.setState({nodes, edges})
-        console.log(nodes)
+
+        graJSON.nodes = nodes
+        graJSON.edges = edges
         
         this.state.isLoading = false
 
@@ -186,6 +187,8 @@ export default class GraphNet extends Component {
 
         Network.body.data.nodes.update(nodes)
         Network.body.data.edges.update(edges)
+        graJSON.nodes = this.state.nodes
+        graJSON.edges = this.state.edges
         Network.fit({});
       })
     }
@@ -378,8 +381,6 @@ export default class GraphNet extends Component {
 
         onSelectNode = true
 
-        console.log(SelectedNode)
-
         const infoBlock = document.querySelector("#nodeInfoInner")
         const addInfoBlock = document.querySelector("#nodeAddInfoInner")
         const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
@@ -488,11 +489,6 @@ export default class GraphNet extends Component {
           this.assignInfoBlock({"ФПГ": sp.FPG,}, '#nodeSudInfoInner')
           this.assignInfoBlock({"Направлено в": sp.Napravlenio_V,}, '#nodeSudInfoInner')
 
-          // Новые риски
-          this.assignInfoBlock({"Должник по алиментам": sp.Doljnik_po_alimentam,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"В розыске": sp.V_Roziske,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Статус должника": sp.Status_doljnika,}, '#nodeSudInfoInner')
-
         }
 
       }, 
@@ -515,13 +511,12 @@ export default class GraphNet extends Component {
       },
 
       selectEdge: (event) => {
-        if (onSelectNode == true) return
-
         this.setState({showNodeInfo: false})
         this.setState({showEdgeInfo: true})
         this.setState({showNodeImage: false})
         this.setState({showSudInfo: false})
 
+        if (onSelectNode == true) return
         SelectedEdge = this.state.edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
 
         console.log(SelectedEdge)
@@ -672,8 +667,9 @@ export default class GraphNet extends Component {
         },
       })
     }
+
     download() {
-      const target = document.getElementById('test')
+      const target = Network.body.container
       html2canvas(target).then((canvas)=> {
         const base64image = canvas.toDataURL("image/png")
         var anchor = document.createElement('a')
@@ -682,6 +678,47 @@ export default class GraphNet extends Component {
         anchor.click()
         anchor.remove()
       })
+    }        
+    
+    exportBt() {
+      const fileName = "graph.txt"
+      const fileContent = JSON.stringify(graJSON, null, 2)
+      const blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"})
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.download = fileName;
+      link.href = url;
+      link.click();
+    }
+
+    importBt = (file) =>  {
+      console.log(file)
+      this.setState({isLoading: true})
+      const res = JSON.parse(file)
+      // this.setState({nodes: result.nodes, edges: result.edges})
+      let nodes = []
+      const edges = res.edges;
+      
+      
+      edges.map(item => {
+        this.setEdgeSettings(item);
+      })
+    
+      res.nodes.map(item => {
+        this.setNodeSettings(item)
+        
+        nodes.push(item);
+      })
+
+      
+      this.setState({nodes, edges})
+
+      graJSON.nodes = nodes
+      graJSON.edges = edges
+      
+      this.state.isLoading = false
+
+      this.setState({showActionBtn: true})
     }
 
     render() {
@@ -689,7 +726,7 @@ export default class GraphNet extends Component {
         return (
           <div className='mainSection'>
           <>
-            <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
+            <LeftBar importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
             <div className='centralBar'>
               <div className="waiterBox">
                 {/* <a>Make a search</a> */}
@@ -704,7 +741,7 @@ export default class GraphNet extends Component {
         return (
           <div className='mainSection'>
           <>
-            <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
+            <LeftBar importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
               <div className="waiterBox">
                   <a>No objects found</a>
@@ -718,7 +755,7 @@ export default class GraphNet extends Component {
         return (
           <div className='mainSection'>
           <>
-            <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
+            <LeftBar importBt={this.importBt} exportBt = {this.exportBt}   name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
                 <div className="loader">
                   <div className="inner one"></div>
@@ -734,7 +771,7 @@ export default class GraphNet extends Component {
       return (
         <div className='mainSection'>
         <>
-        <LeftBar name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
+        <LeftBar exportBt = {this.exportBt} name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
         <div className='centralBar' id="centralBar">
             <div className="nodeSearch">
               <div>
@@ -763,6 +800,7 @@ export default class GraphNet extends Component {
                   onClick={() => this.searchNext()}></i>
               </div>
             </div>
+
             <Graph
               graph={this.state}
               options={this.options}
@@ -777,10 +815,9 @@ export default class GraphNet extends Component {
               }}
               manipulation={this.manipulation}
               className={"graph"}
-              id = {"graph2canvas"}
-            />
-        </div>
-          
+              />
+            <button onClick={this.download}>Download</button>
+        </div>          
         <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage} showSudInfo={this.state.showSudInfo}></RightBar>
         </>
         </div>

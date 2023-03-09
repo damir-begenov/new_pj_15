@@ -61,6 +61,9 @@ public class Company {
     @Relationship(type = "ESF_100", direction = Relationship.Direction.INCOMING)
     private List<ESF_100> esf100s;
 
+    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.INCOMING)
+    private List<ESF_5and10> esf5and10s;
+
     @Relationship(type = "ESF_10and100", direction = Relationship.Direction.INCOMING)
     private List<ESF_10and100> esf_10and100s;
 
@@ -70,8 +73,27 @@ public class Company {
     @Relationship(type = "ESF_50and100", direction = Relationship.Direction.INCOMING)
     private List<ESF_50and100> esf50and100s;
 
-    @Relationship(type = "ESF_5and10", direction = Relationship.Direction.INCOMING)
-    private List<ESF_5and10> esf5and10s;
+    @Relationship(type = "DIRECTOR_CUR", direction = Relationship.Direction.OUTGOING)
+    private List<DIRECTOR_CUR> directorCurs;
+
+    @Relationship(type = "DIRECTOR_HIST", direction = Relationship.Direction.OUTGOING)
+    private List<DIRECTOR_HIST> directorHists;
+
+    public List<DIRECTOR_HIST> getDirectorHists() {
+        return directorHists;
+    }
+
+    public void setDirectorHists(List<DIRECTOR_HIST> directorHists) {
+        this.directorHists = directorHists;
+    }
+
+    public List<DIRECTOR_CUR> getDirectorCurs() {
+        return directorCurs;
+    }
+
+    public void setDirectorCurs(List<DIRECTOR_CUR> directorCurs) {
+        this.directorCurs = directorCurs;
+    }
 
     @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.INCOMING)
     private List<FOUNDER_CUR> founderCurs;
