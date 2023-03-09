@@ -18,6 +18,14 @@ class RightBar extends Component {
     this.state.showRels = rels;
   }
 
+  shortOpen = () => {
+    this.props.shortOpen(this.state.showRels)
+  }
+
+  shortHide = () => {
+    this.props.shortHide()
+  }
+
   render() {
     return (
       <div className='rightBar'>
@@ -76,8 +84,8 @@ class RightBar extends Component {
           </div> 
         </div>
         <div className="actionBlock" style={{display: this.props.isOnSelectNode ? "block" : "none"}}>
-            <input type="button" visible="false" value="Show" onClick={ event => this.props.shortOpen(this.state.showRels).bind(this)}/>
-            <input type="button" visible="false" value="Hide" onClick={ event => this.props.shortHide().bind(this)}/>
+            <input type="button" visible="false" value="Show" onClick={this.shortOpen}/>
+            <input type="button" visible="false" value="Hide" onClick={this.shortHide}/>
         </div>
 
         <div className="showRelsBlock" style={{display: this.props.isOnSelectNode ? "block" : "none"}}>

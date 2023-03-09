@@ -19,7 +19,7 @@ const RegisterForm = () => {
         defaultValues: {
             username: "",
             email: "",
-            // level: "",
+            level: "",
             password: "",
             password_conf: ""
         }

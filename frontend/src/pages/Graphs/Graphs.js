@@ -50,6 +50,7 @@ export default class GraphNet extends Component {
       showEdgeInfo: false,
       showNodeImage: false,
       showSudInfo: false,
+      keyNodeId: 0
     }
 
     assignInfoBlock = (options, elemId) => {
@@ -240,7 +241,21 @@ export default class GraphNet extends Component {
       })
     }
     shortHide = () => {
-      Network.body.data.nodes.remove([{id: SelectedNode.options.id}]);
+      console.log("first")
+      this.state.edges.map(item => {
+        console.log(item)
+        if (item.to === SelectedNode.options.id || item.from === SelectedNode.options.id) { 
+          // this.removeNode(item.id)
+          console.log(item.id)
+        }
+
+      })
+    }
+
+    removeNode = (id) => {
+      console.log(id, this.state.keyNodeId)
+      if (id != this.state.keyNodeId)
+        Network.body.data.nodes.remove([{id: id}]);
     }
 
     setEdgeSettings = (edge) => {
@@ -280,6 +295,7 @@ export default class GraphNet extends Component {
           node.group = "judgeCompany"
 
         } else if (p.IINBIN == iin1 || p.IINBIN == iin2) {
+          this.state.keyNodeId = node.id;
           node.group = "keyCompany"
 
         } else {
@@ -318,6 +334,8 @@ export default class GraphNet extends Component {
           else node.group = "person"
 
         }
+
+        if (key) this.state.keyNodeId = node.id; 
       }
 
     }
@@ -579,6 +597,7 @@ export default class GraphNet extends Component {
         this.setState({showNodeImage: false})
         this.setState({showSudInfo: false})
 
+        this.state.edges.map(elem => console.log(elem))
         SelectedEdge = this.state.edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
 
         console.log(SelectedEdge)
