@@ -104,23 +104,23 @@ export default class GraphNet extends Component {
       switch(options.mode) {
         case "con1":
           url = "http://localhost:9091/api/finpol/main/fltree";
-          params = {person: options.name1, relations: options.relString, depth: options.depth, limit: options.limit}
+          params = {person: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit}
           break;
         case "con2":
           url = "http://localhost:9091/api/finpol/main/shortestpaths";
-          params = {person: options.name1, person2: options.name2, relations: options.relString}
+          params = {person: options.iin1, person2: options.iin2, relations: options.relString}
           break;
         case "con3":
           url = "http://localhost:9091/api/finpol/main/flulpath";
-          params = {person: options.name1, ul: options.name2, relations: options.relString}
+          params = {person: options.iin1, ul: options.iin2, relations: options.relString}
           break;
         case "con4":
           url = "http://localhost:9091/api/finpol/main/ultree";
-          params = {ul: options.name1, relations: options.relString, depth: options.depth, limit: options.limit }
+          params = {ul: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit }
           break;
         case "con5":
           url = "http://localhost:9091/api/finpol/main/ululpath";
-          params = {ul1: options.name1, ul2: options.name2, relations: options.relString}
+          params = {ul1: options.iin1, ul2: options.iin2, relations: options.relString}
           break;
       }
 
@@ -148,7 +148,7 @@ export default class GraphNet extends Component {
         })
       
         res.data.nodes.map(item => {
-          this.setNodeSettings(item)
+          this.setNodeSettings(item, options.iin1, options.iin2)
           
           nodes.push(item);
         })
@@ -218,7 +218,7 @@ export default class GraphNet extends Component {
       }
     }
 
-    setNodeSettings = (node) => {
+    setNodeSettings = (node, iin1, iin2) => {
       this.state.ids.push(node.id)
 
       if (node.properties.Type == "ЮЛ" || node.properties.Type == "ИП") {
@@ -228,6 +228,10 @@ export default class GraphNet extends Component {
         const p = node.properties;
         if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null) {
           node.group = "judgeCompany"
+
+        } else if (p.IINBIN == iin1 || p.IINBIN == iin2) {
+          node.group = "keyCompany"
+
         } else {
           node.group = "company"
         }
@@ -240,9 +244,14 @@ export default class GraphNet extends Component {
 
       } else {
         // settings for fl
-        node.label = node.properties.FIO
-
         const p = node.properties;
+
+        node.label = p.FIO
+
+        console.log(p.IIN, iin1)
+        let key = false;
+        if (p.IIN != null && (p.IIN == iin1 || p.IIN == iin2)) key = true; 
+
         if (p.Death_Status != null) {
           node.group = "ripPerson"
 
@@ -250,11 +259,15 @@ export default class GraphNet extends Component {
           || p.Status_KUIS != null || p.Status_Minzdrav != null || p.Statya != null 
           || p.Sud_ispolnitel != null || p.Med_org != null) {
 
-            node.group = "judgePerson"
+            if (key) node.group = "keyJudgePerson"
+            else node.group = "judgePerson"
 
         } else {
 
-          node.group = "person"
+          if (node.properties.IIN == null) node.group = "personJai"
+          else if (key) node.group = "keyPerson"
+          else node.group = "person"
+
         }
       }
 

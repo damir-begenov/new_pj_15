@@ -9,8 +9,8 @@ import ApprovementModalWindow from "../ApprovementModal/ApprovementModalWindow";
 const LeftBar = (props) => {
     const navigate = useNavigate()
 
-    const [name1, setName1] = useState("")
-    const [name2, setName2] = useState("")
+    const [iin1, setIIN1] = useState("")
+    const [iin2, setIIN2] = useState("")
     const [limit, setLimit] = useState(20)
     const [depth, setDepth] = useState(1)
     const [approvementObj, setApprovementObj] = useState({})
@@ -24,7 +24,7 @@ const LeftBar = (props) => {
         if (!checkAuth()) navigate('/login', {replace: true}) 
 
         let options = {
-            name1, name2, limit, depth, mode, relString, approvementObj
+            iin1, iin2, limit, depth, mode, relString, approvementObj
         }
 
         setModal(false)        
@@ -32,8 +32,8 @@ const LeftBar = (props) => {
     }
 
     const clearOptions = () => {
-        setName1("")
-        setName2("")
+        setIIN1("")
+        setIIN2("")
         setLimit(0)
         setMode("")
 
@@ -75,63 +75,100 @@ const LeftBar = (props) => {
                         <select name="connections" id='connections' 
                         onChange={event => {
                             let value = document.getElementById("connections").value;
-                            let input1 = document.getElementsByClassName("formBlock")[1];
-                            let input2 = document.getElementsByClassName("formBlock")[2];
-                            let input3 = document.getElementsByClassName("formBlock")[3];
-                            let input4 = document.getElementsByClassName("formBlock")[4];
-                            let input5 = document.getElementsByClassName("formBlock")[5];
+
+                            let iin1 = document.querySelector("#formIIN1");
+                            let iin2 = document.querySelector("#formIIN2");
+
+                            let formFio1 = document.querySelector("#formFio1")
+                            let formFio2 = document.querySelector("#formFio2")
+
+                            let formLimit = document.querySelector("#formLimit")
+                            let formDepth = document.querySelector("#formDepth")
+                            let formRels  = document.querySelector("#formRels")
 
                             setMode(value)
 
                             if (value === "con1") {
-                                input1.childNodes[0].innerHTML = "Введите ИИН"
-                                input1.style.display = 'flex';
-                                input2.style.display = 'none';
-                                input3.style.display = 'flex';
-                                input4.style.display = 'flex';
-                                input5.style.display = 'flex';
+                                iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                iin1.style.display = 'flex';
+                                iin2.style.display = 'none';
+
+                                formFio1.style.display = 'none';
+                                formFio2.style.display = 'none';
+
+                                formLimit.style.display = 'flex';
+                                formDepth.style.display = 'flex';
+                                formRels.style.display = 'flex';
                             } 
                             else if (value ==="con2") {
-                                input1.childNodes[0].innerHTML = "Введите ИИН"
-                                input2.childNodes[0].innerHTML = "Введите второй ИИН"
-                                input1.style.display = 'flex';
-                                input2.style.display = 'flex';
-                                input3.style.display = 'none';
-                                input4.style.display = 'none';
-                                input5.style.display = 'flex';
+                                iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                iin2.childNodes[0].innerHTML = "Введите второй ИИН"
+
+                                iin1.style.display = 'flex';
+                                iin2.style.display = 'flex';
+
+                                formFio1.style.display = 'none';
+                                formFio2.style.display = 'none';
+
+                                formLimit.style.display = 'none';
+                                formDepth.style.display = 'none';
+
+                                formRels.style.display = 'flex';
                             }
                             else if (value ==="con3") {
-                                input1.childNodes[0].innerHTML = "Введите ИИН"
-                                input2.childNodes[0].innerHTML = "Введите БИН"
-                                input1.style.display = 'flex';
-                                input2.style.display = 'flex';
-                                input3.style.display = 'none';
-                                input4.style.display = 'none';
-                                input5.style.display = 'flex';
+                                iin1.childNodes[0].innerHTML = "Введите ИИН"
+                                iin2.childNodes[0].innerHTML = "Введите БИН"
+
+                                iin1.style.display = 'flex';
+                                iin2.style.display = 'flex';
+
+                                formFio1.style.display = 'none';
+                                formFio2.style.display = 'none';
+
+                                formLimit.style.display = 'none';
+                                formDepth.style.display = 'none';
+
+                                formRels.style.display = 'flex';
                             }
                             else if (value === "con4") {
-                                input1.childNodes[0].innerHTML = "Введите БИН"
-                                input1.style.display = 'flex';
-                                input2.style.display = 'none';
-                                input3.style.display = 'flex';
-                                input4.style.display = 'flex';
-                                input5.style.display = 'flex';
+                                iin1.childNodes[0].innerHTML = "Введите БИН"
+                                
+                                iin1.style.display = 'flex';
+                                iin2.style.display = 'none';
+
+                                formFio1.style.display = 'none';
+                                formFio2.style.display = 'none';
+
+                                formLimit.style.display = 'flex';
+                                formDepth.style.display = 'flex';
+
+                                formRels.style.display = 'flex';
                             }
                             else if (value === "con5") {
-                                input1.childNodes[0].innerHTML = "Введите БИН"
-                                input1.style.display = 'flex';
-                                input2.childNodes[0].innerHTML = "Введите второй БИН"
-                                input2.style.display = 'flex';
-                                input3.style.display = 'none';
-                                input4.style.display = 'none';
-                                input5.style.display = 'flex';
+                                iin1.childNodes[0].innerHTML = "Введите БИН"
+                                iin2.childNodes[0].innerHTML = "Введите второй БИН"
+                                
+                                iin1.style.display = 'flex';
+                                iin2.style.display = 'flex';
+
+                                formFio1.style.display = 'none';
+                                formFio2.style.display = 'none';
+
+                                formLimit.style.display = 'none';
+                                formDepth.style.display = 'none';
+
+                                formRels.style.display = 'flex';
                             }
                             else if (value === "none") {
-                                input1.style.display = 'none';
-                                input2.style.display = 'none';
-                                input3.style.display = 'none';
-                                input4.style.display = 'none';
-                                input5.style.display = 'none';
+                                iin1.style.display = 'none';
+                                iin2.style.display = 'none';
+
+                                formFio1.style.display = 'none';
+                                formFio2.style.display = 'none';
+
+                                formLimit.style.display = 'none';
+                                formDepth.style.display = 'none';
+                                formRels.style.display = 'none';
                             }
                         }}>
                             <option value="none">Выберите связь</option>
@@ -144,30 +181,107 @@ const LeftBar = (props) => {
                     </div>
                 </div>
 
-                <div className="formBlock">
+                <div className="formBlock" id="formIIN1" style={{display: "none"}}>
                     <label>Введите ИИН</label>
                     <input type="text" 
-                        value={name1}
-                        onChange={event => { setName1(event.target.value) }} 
+                        value={iin1}
+                        onChange={event => { setIIN1(event.target.value) }} 
                         id="input_IIN" 
                         className="input_IIN" 
-                        name="name1" 
-                        placeholder="Введите имя/название первого объекта"
+                        name="iin1" 
+                        placeholder="Введите ИИН первого объекта"
                         />
                 </div>
 
-                <div className="formBlock">
+                <div id="formFio1" style={{display: "none"}}>
+                    <div className="formBlock">
+                        <label>Введите Фамилию первого объекта: </label>
+                        <input type="text" 
+                            value={iin1}
+                            onChange={event => { setIIN1(event.target.value) }} 
+                            id="input_FIO1_1" 
+                            className="input_IIN" 
+                            name="Fam1" 
+                            placeholder="Куанышбеков"
+                            />
+                    </div>
+
+                    <div className="formBlock">
+                        <label>Введите Имя первого объекта: </label>
+                        <input type="text" 
+                            value={iin1}
+                            onChange={event => { setIIN1(event.target.value) }} 
+                            id="input_FIO1_2" 
+                            className="input_IIN" 
+                            name="fname1" 
+                            placeholder="Мадияр"
+                            />
+                    </div>
+
+                    <div className="formBlock">
+                        <label>Введите Отчество первого объекта: </label>
+                        <input type="text" 
+                            value={iin1}
+                            onChange={event => { setIIN1(event.target.value) }} 
+                            id="input_FIO1_3" 
+                            className="input_IIN" 
+                            name="lname1" 
+                            placeholder="Еркебуланулы"
+                            />
+                    </div>
+                </div>
+
+                <div className="formBlock" id="formIIN2" style={{display: "none"}}>
                     <label>Второй второй ИИН</label>
                     <input type="text" 
-                        value={name2}
-                        onChange={event => { setName2(event.target.value) }} 
+                        value={iin2}
+                        onChange={event => { setIIN2(event.target.value) }} 
                         id="input_IIN2"
                         className="input_IIN" 
-                        name="name2" 
-                        placeholder="Введите имя/название второго объекта"
+                        name="iin2" 
+                        placeholder="Введите ИИН второго объекта"
                         />
                 </div>
-                <div className="formBlock">
+
+                <div id="formFio2" style={{display: "none"}}>
+                    <div className="formBlock">
+                        <label>Введите Фамилию второго объекта: </label>
+                        <input type="text" 
+                            value={iin1}
+                            onChange={event => { setIIN1(event.target.value) }} 
+                            id="input_FIO2_1" 
+                            className="input_IIN" 
+                            name="Fam2" 
+                            placeholder="Куанышбеков"
+                            />
+                    </div>
+
+                    <div className="formBlock">
+                        <label>Введите Имя второго объекта: </label>
+                        <input type="text" 
+                            value={iin1}
+                            onChange={event => { setIIN1(event.target.value) }} 
+                            id="input_FIO2_2" 
+                            className="input_IIN" 
+                            name="fname2" 
+                            placeholder="Мадияр"
+                            />
+                    </div>
+
+                    <div className="formBlock">
+                        <label>Введите Отчество второго объекта: </label>
+                        <input type="text" 
+                            value={iin1}
+                            onChange={event => { setIIN1(event.target.value) }} 
+                            id="input_FIO2_3" 
+                            className="input_IIN" 
+                            name="lname2" 
+                            placeholder="Еркебуланулы"
+                            />
+                    </div>  
+                </div>      
+
+                <div className="formBlock" id="formLimit" style={{display: "none"}}>
                     <label>Введите лимит:</label>
                     <input type="number" 
                         value={limit}
@@ -178,19 +292,20 @@ const LeftBar = (props) => {
                         placeholder="Введите лимит объектов"
                         />
                 </div>
-                <div className="formBlock">
-                <label>Введите уровень:</label>
-                <input type="number" 
-                    value={depth}
-                    onChange={event => {setDepth(event.target.value)}} 
-                    id="input_IIN2"
-                    className="input_IIN" 
-                    name="depth" 
-                    placeholder="Введите глубину поиска"
-                    />
-            </div>
 
-                <div className="formBlock">
+                <div className="formBlock" id="formDepth" style={{display: "none"}}>
+                    <label>Введите уровень:</label>
+                    <input type="number" 
+                        value={depth}
+                        onChange={event => {setDepth(event.target.value)}} 
+                        id="input_IIN2"
+                        className="input_IIN" 
+                        name="depth" 
+                        placeholder="Введите глубину поиска"
+                        />
+                </div>
+
+                <div className="formBlock" id="formRels" style={{display: "none"}}>
                     <RelationBlock setRels={setRelString}></RelationBlock>
                 </div>
 
