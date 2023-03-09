@@ -1,9 +1,11 @@
 .checkBoxBlock {
-    height: 125px;
     display: flex;
     flex-direction: row;
     gap: 5px 100px;
     flex-wrap: wrap;
+
+    min-height: 25px;
+    box-sizing: content-box;
 
     padding: 10px 10px;
 
@@ -31,6 +33,8 @@
     box-sizing: content-box;
 
     border-radius: 4px;
+
+    z-index: 100;
 }
 
 .checkBoxBlock .checked {
@@ -61,6 +65,11 @@
     cursor: pointer;
     color: rgba(0, 0, 0, 0.5);
 }
+
+#checkboxClose {
+    position: absolute;
+}
+
 
 #uncheckedBlock span {
     font-size: 10px;

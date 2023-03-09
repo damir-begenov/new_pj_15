@@ -234,27 +234,34 @@ export default class GraphNet extends Component {
           this.state.ids.push(item.id)
         })
 
+        this.state.edges = [...edges, ...this.state.edges]
+        console.log(this.state.edges)
         Network.body.data.nodes.update(nodes)
         Network.body.data.edges.update(edges)
+        // this.state.edges = Network.body.data.edges
         graJSON.nodes = this.state.nodes
         graJSON.edges = this.state.edges
+
         Network.fit({});
       })
     }
     shortHide = () => {
-      console.log("first")
+      console.log(Network)
       this.state.edges.map(item => {
-        console.log(item)
-        if (item.to === SelectedNode.options.id || item.from === SelectedNode.options.id) { 
-          // this.removeNode(item.id)
-          console.log(item.id)
+        // console.log("EDGES STATE", item)
+        if (item.to === SelectedNode.options.id) { 
+          this.removeNode(item.from)
+        }
+
+        if (item.from === SelectedNode.options.id) {
+          this.removeNode(item.to)
         }
 
       })
+      this.removeNode(SelectedNode.options.id)
     }
 
     removeNode = (id) => {
-      console.log(id, this.state.keyNodeId)
       if (id != this.state.keyNodeId)
         Network.body.data.nodes.remove([{id: id}]);
     }
@@ -598,7 +605,6 @@ export default class GraphNet extends Component {
         this.setState({showNodeImage: false})
         this.setState({showSudInfo: false})
 
-        this.state.edges.map(elem => console.log(elem))
         SelectedEdge = this.state.edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
 
         console.log(SelectedEdge)

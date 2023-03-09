@@ -170,6 +170,8 @@ const RelationBlock = (props) => {
         },
     })
 
+    const [showUncheckedBlock, setShowUncheckedBlock] = useState(false)
+
     const checkUncheck = (event) => {
         const checkedBlock = document.getElementById("checkedBlock");
         const uncheckedBlock = document.getElementById("uncheckedBlock");
@@ -253,11 +255,20 @@ const RelationBlock = (props) => {
         props.setRels(relations)
     }
 
+    const checkBoxClick = () => {
+        // const uncheckedBlock = document.querySelector("#uncheckedBlock");
+        // uncheckedBlock.style.display = "flex"
+
+        setShowUncheckedBlock(true)
+    }
+
     return (
         <>
         {setRelations()}
         <label>По каким связам хотите?</label>
-        <div className="checkBoxBlock checkedBlock" id="checkedBlock">
+
+        <div className="checkBoxBlock checkedBlock" id="checkedBlock" onClick={checkBoxClick}>
+            <div id="checkboxClose" onClick={setShowUncheckedBlock(true)}>Close</div>
             {Object.keys(categories).filter((key) => categories[key].checked && categories[key].level == 0).map((key, index) => {
                 return (
                     <div className="checkbox checked" id={key} key={index}>
@@ -268,12 +279,7 @@ const RelationBlock = (props) => {
             })}
         </div>
 
-        <div className="checkBoxBtns">
-            <div onClick={(event) => checkAll(event)}>Применить все</div>
-            <div onClick={(event) => uncheckAll(event)}>Убрать все</div>
-        </div>    
-
-        <div className="checkBoxBlock" id="uncheckedBlock">
+        <div className="checkBoxBlock" id="uncheckedBlock" style={{display: showUncheckedBlock ? "flex" : "none"}}>
             {Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 0).map((key, index) => {
                 return (
                     <div className="checkbox unchecked" id={key} key={index}>
@@ -307,6 +313,13 @@ const RelationBlock = (props) => {
                 : ""
             }
         </div>
+
+        <div className="checkBoxBtns">
+            <div onClick={(event) => checkAll(event)}>Применить все</div>
+            <div onClick={(event) => uncheckAll(event)}>Убрать все</div>
+        </div>    
+
+        
         </>
     )
 } 

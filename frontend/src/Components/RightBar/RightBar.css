@@ -50,6 +50,8 @@
   flex-direction: column;
   gap: 20px;
 
+  box-sizing: border-box;
+
   border: gray 2px solid;
   margin-right: 10px;
   padding: 10px 5px 10px 5px;
@@ -60,6 +62,10 @@
   gap: 20px;
   align-items: center;
   justify-content: space-between;
+
+  font-size: 13px;
+
+  box-sizing: border-box;
 
   padding: 0px 5px;
 
@@ -86,7 +92,7 @@
 
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 14px;
 } 
 
 .nodeInfoInner div span {
