@@ -22,7 +22,7 @@ const RegisterForm = () => {
             level: "",
             password: "",
             password_conf: "",
-            FIO: "",
+            fio: "",
         }
     });
     const handleRegistration = (data) => {
@@ -30,7 +30,7 @@ const RegisterForm = () => {
         authService.register(
             data.username,
             data.email,
-            data.FIO,
+            data.fio,
             data.password,
             data.level
         ).then(
@@ -63,7 +63,7 @@ const RegisterForm = () => {
                 }
             }
         },
-        FIO: {
+        fio: {
             required: "ФИО обязательна",
             validate: (val) => {
                 if (val.length < 10) {
@@ -127,8 +127,8 @@ const RegisterForm = () => {
                             <label >ФИО</label>
                             <input 
                                 type="text" 
-                                {...register("FIO", registerOptions.FIO)} 
-                                id="FIO" placeholder="Введите ФИО" 
+                                {...register("fio", registerOptions.fio)} 
+                                id="fio" placeholder="Введите ФИО" 
                             />
                         </div>
 
@@ -170,7 +170,7 @@ const RegisterForm = () => {
                         <div className="errors">
                             {errors.username ? <span>{errors.username?.message}</span> : ""}
                             {errors.email ? <span>{errors.email?.message}</span> : ""}
-                            {errors.FIO ? <span>{errors.FIO?.message}</span> : ""}
+                            {errors.fio ? <span>{errors.fio?.message}</span> : ""}
                             {errors.level ? <span>{errors.level?.message}</span> : ""}
                             {errors.password ? <span>{errors.password?.message}</span>: ""}
                             {errors.password_conf ? <span>{errors.password_conf?.message}</span> : ""}

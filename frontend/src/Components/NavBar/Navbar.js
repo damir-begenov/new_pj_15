@@ -23,9 +23,10 @@ const Navbar = () => {
             <nav className="NavbarItems">
                 <h1 className="logo"><Link to='/'>ITap</Link></h1>
                 <div>
+                    {console.log(userSession)}
                     {
                         userSession && 
-                        userSession.roles.includes("ROLE_ADMIN")
+                        userSession.roles.includes("ADMIN")
                         ?  (
                             <Link to={"/admin"}><div className="admin">
                                 Admin panel
@@ -36,6 +37,9 @@ const Navbar = () => {
                     <ul className="nav-menu">
                     {userSession ? 
                         <>
+                            {/* <style>
+                                
+                            </style> */}
                             <li>
                                 <a className={"nav-links"} href={""}>
                                     <span>{userSession.username}</span>

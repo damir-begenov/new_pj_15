@@ -170,6 +170,8 @@ const RelationBlock = (props) => {
         },
     })
 
+    const [allRels, setAllRels] = useState(true)
+
     const [showUncheckedBlock, setShowUncheckedBlock] = useState(false)
 
     const checkUncheck = (event) => {
@@ -279,7 +281,53 @@ const RelationBlock = (props) => {
         <>
         {setRelations()}
         <label>По каким связам хотите?</label>
-        <div className="checkboxBlock" id="checkedCheckboxBlock">
+        <div className="showRelsBlock">
+          <div>
+            <input type={"button"} value="Все связи"
+              onClick={() => {
+                setAllRels(!allRels);
+                let relsTemp = categories;
+                Object.keys(categories).filter((key) => categories[key].level == 0).map((key, index) => {
+                  relsTemp[key].checked = allRels
+                })
+                setCategories(relsTemp)
+
+                console.log(categories)
+              }}/>
+          </div>
+          {Object.keys(categories).filter((key) => categories[key].checked && categories[key].level == 0).map((key, index) => {
+            return (
+              <div className="checkboxes">
+                <label>{categories[key].value}</label>
+                <input type={"checkbox"} checked={categories[key].checked} 
+                  onChange={() => {
+                    let relsTemp = categories;
+                    relsTemp[key].checked = !relsTemp[key].checked
+                    setCategories(relsTemp)
+                    console.log(categories[key].checked)
+                  }
+                } />
+              </div>
+            )
+          })}
+          <hr width="100%"></hr>
+          {Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 0).map((key, index) => {
+            return (
+              <div className="checkboxes">
+                <label>{categories[key].value}</label>
+                <input type={"checkbox"} 
+                  onChange={(event) => {
+                    let relsTemp = categories;
+                    relsTemp[key].checked = event.target.checked
+                    setCategories(relsTemp)
+                    console.log(categories[key].checked)
+                  }
+                } />
+              </div>
+            )
+          })}
+
+        {/* <div className="checkboxBlock" id="checkedCheckboxBlock">
             <div className="addRels" onClick={() => checkBoxClick()}>{showUncheckedBlock ? "+" : "x"}</div>
             <div className="checkedBlock" >
                 {Object.keys(categories).filter((key) => categories[key].checked && categories[key].level == 0).map((key, index) => {
@@ -327,7 +375,7 @@ const RelationBlock = (props) => {
                     : ""
                 }
             </div>
-        </div>
+        </div> */}
 
         {/* <div className="checkBoxBlock checkedBlock" id="checkedBlock" onClick={checkBoxClick}>
             <div id="checkboxClose" onClick={() => setShowUncheckedBlock(true)}>Close</div>
@@ -385,6 +433,8 @@ const RelationBlock = (props) => {
         </div>     */}
 
         
+        
+        </div> 
         </>
     )
 } 

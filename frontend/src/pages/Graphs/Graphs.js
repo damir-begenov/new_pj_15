@@ -50,7 +50,8 @@ export default class GraphNet extends Component {
       showEdgeInfo: false,
       showNodeImage: false,
       showSudInfo: false,
-      keyNodeId: 0
+      keyNodeId: 0,
+      nodeStack: []
     }
 
     assignInfoBlock = (options, elemId) => {
@@ -214,6 +215,7 @@ export default class GraphNet extends Component {
 
     shortOpen = (showRels) => {
       console.log(showRels)
+      console.log(SelectedNode.options.id)
       axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id, relations: showRels }}).then(res => {
         let nodes = []
         const edgesFinal = res.data.edges;
@@ -228,6 +230,7 @@ export default class GraphNet extends Component {
         edges.map(item => {
           this.setEdgeSettings(item);
         })
+
         res.data.nodes.map(item => {
           this.setNodeSettings(item)
           nodes.push(item);
@@ -243,6 +246,8 @@ export default class GraphNet extends Component {
         graJSON.edges = this.state.edges
 
         Network.fit({});
+
+        console.log(this.state.nodeStack)
       })
     }
     shortHide = () => {
@@ -258,12 +263,38 @@ export default class GraphNet extends Component {
         }
 
       })
+
       this.removeNode(SelectedNode.options.id)
+
+      this.state.nodes.map(nodeItem => {
+        let hasEdge = false
+
+        this.state.edges.map(edgeItem => {
+          if (edgeItem.to == nodeItem.id || edgeItem.from == nodeItem.id) {
+            hasEdge = true
+          }
+        })
+
+        if (!hasEdge) {
+          let removeIndex = this.state.nodeStack.indexOf(nodeItem.id)
+          Network.body.data.nodes.remove([{id: nodeItem.id}]);
+          this.state.nodeStack.splice(removeIndex, 1)
+        }
+      })
+
     }
 
     removeNode = (id) => {
-      if (id != this.state.keyNodeId)
+      let selectedIndex = this.state.nodeStack.indexOf(SelectedNode.options.id)
+      let removeIndex = this.state.nodeStack.indexOf(id)
+
+      if (removeIndex < selectedIndex) return
+
+      if (id != this.state.keyNodeId) {
         Network.body.data.nodes.remove([{id: id}]);
+        this.state.nodeStack.splice(removeIndex, 1)
+      }
+
     }
 
     setEdgeSettings = (edge) => {
@@ -293,7 +324,7 @@ export default class GraphNet extends Component {
 
     setNodeSettings = (node, iin1, iin2) => {
       this.state.ids.push(node.id)
-
+      let key = false
       if (node.properties.Type == "ЮЛ" || node.properties.Type == "ИП") {
         // settings for ul
         node.label = node.properties.Name;
@@ -305,6 +336,8 @@ export default class GraphNet extends Component {
         } else if (p.IINBIN == iin1 || p.IINBIN == iin2) {
           this.state.keyNodeId = node.id;
           node.group = "keyCompany"
+
+          this.state.nodeStack = [node.id, ...this.state.nodeStack]
 
         } else {
           node.group = "company"
@@ -322,7 +355,7 @@ export default class GraphNet extends Component {
 
         node.label = p.FIO
 
-        let key = false;
+        key = false;
         if (p.IIN != null && (p.IIN == iin1 || p.IIN == iin2)) key = true; 
 
         if (p.Death_Status != null) {
@@ -341,10 +374,16 @@ export default class GraphNet extends Component {
           else if (key) node.group = "keyPerson"
           else node.group = "person"
 
-        }
-
-        if (key) this.state.keyNodeId = node.id; 
+        }   
       }
+
+      if (key) {
+        this.state.keyNodeId = node.id; 
+        this.state.nodeStack = [node.id, ...this.state.nodeStack]
+      }
+
+      if (!this.state.nodeStack.includes(node.id))
+          this.state.nodeStack.push(node.id)
 
     }
 
@@ -821,7 +860,7 @@ export default class GraphNet extends Component {
                 <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
-            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar>
+            {/* <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar> */}
           </>
           </div>
         )
@@ -835,7 +874,7 @@ export default class GraphNet extends Component {
                   <a>No objects found</a>
                 </div>
               </div>
-            <RightBar showAction={this.state.showActionBtn} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}></RightBar>
+            {/* <RightBar showAction={this.state.showActionBtn} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}></RightBar> */}
           </>
           </div>
         )
@@ -851,7 +890,7 @@ export default class GraphNet extends Component {
                   <div className="inner three"></div>
                 </div>
               </div>
-            <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar>
+            {/* <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar> */}
           </>
           </div>
         )

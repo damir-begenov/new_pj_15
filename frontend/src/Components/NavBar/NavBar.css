@@ -25,16 +25,19 @@
 }
 
 .nav-menu {
-
-    gap: 20rem;
-    margin-right: 40px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    font-size: 1.2rem;
-    align-items: center;
+    /* justify-content: flex-end; */
+    /* align-items: center; */
+    
+    gap: 3rem;
+    margin-right: 40px;
+
     text-align: center;
+    
     list-style: none;
+
+    font-size: 1.2rem;
     font-family: 'Montserrat';
     font-weight: 400;
 }
