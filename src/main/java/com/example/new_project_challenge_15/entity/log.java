@@ -37,6 +37,15 @@ public class log {
 
     private String obwii;
 
+    private String approvement_data;
+
+    public String getApprovement_data() {
+        return approvement_data;
+    }
+
+    public void setApprovement_data(String approvement_data) {
+        this.approvement_data = approvement_data;
+    }
 
     public LocalDateTime getDate() {
         return date;

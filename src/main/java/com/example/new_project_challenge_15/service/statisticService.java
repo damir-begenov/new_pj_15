@@ -56,11 +56,10 @@ public class statisticService {
 
     public statisticModel getByUsername(String username) {
         User user = userRepository.findByUsernameTwo(username);
-        log lastLog = new log();
         statisticModel stat = new statisticModel();
         try {
-            lastLog = logRepo.findLastDate(username);
-            stat.setDate(lastLog.getDate());
+//            log lastLog = logRepo.findLastDate(username);
+            stat.setDate(logRepo.findLastDate(username));
         } catch (Exception e) {
             System.out.println(e);
         }
