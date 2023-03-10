@@ -30,11 +30,18 @@ const App = () => {
         <Routes>
           <Route path="/searchtool" element={
             <>
+              {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
               <Navbar/>
               <GraphNet /> 
             </>
           } />
-          {/* <Route path="/" element={<MainPage/>} /> */}
+          <Route path="/" element={
+            <>
+              {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
+              <Navbar/>
+              <GraphNet /> 
+            </>
+          } />
           <Route path="/registration" element={
             <>
               <Navbar/>
@@ -42,10 +49,13 @@ const App = () => {
             </>
           } />
           <Route path="/login" element={
-            <SignInPage/>
+            <>
+              <SignInPage/>
+            </>
           } />
           <Route path="/table" element={
             <>
+              {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
               <Navbar/>
               <TableLog/>
             </>

@@ -1,27 +1,35 @@
-import React, {Component} from "react";
+import React, {Component, useEffect} from "react";
 import ReactDOM from "react-dom";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { useForm } from "react-hook-form"
 import SignInForm from "../../Components/SignInForm/SignInForm";
 import './SignInPage.css'
 
-export default class RegistrationPage extends Component {
-    render() {
-        return (
-            <div className="signInBlock">
-                    
-                <div className="signInPageSection">
-                    
-                    <div className="title">
-                        <div>iTap</div>
-                    </div>
+const SignInPage = () => {
+    const userSession = JSON.parse(localStorage.getItem("user"))
+    const navigate = useNavigate()
 
-                    <SignInForm></SignInForm>
+    useEffect(() => {
+        const a = userSession ? navigate('/searchtool') : ""
+    })
 
+    return (
+        <>
+        <div className="signInBlock">
+            {userSession ? navigate('/searchtool') : <></>}
+            <div className="signInPageSection">
+                
+                <div className="title">
+                    <div>iTap</div>
                 </div>
-            </div>
 
+                <SignInForm></SignInForm>
+
+            </div>
+        </div>
+        </>
         )
-    }
 }
+
+export default SignInPage;

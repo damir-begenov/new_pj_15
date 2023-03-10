@@ -1,212 +1,47 @@
-.checkboxBlock {   
-    display: flex;
-    flex-direction: column;
-    
-    
-    gap: 5px;
-}
-
-.checkedBlock {
-    position: relative;
-
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    min-height: 25px;
-    max-height: 100px;
-    overflow-y: scroll;
-
-    padding: 10px 50px 10px 10px;
-    border-radius: 4px;
-    /* border: 1px red solid; */
-    background-color: var(--secondary-color);
-
-} 
-
-#checkedCheckboxBlock {
-    position: relative;
-}
-
-#checkedCheckboxBlock .addRels {
-    position: absolute;
-    right: 10px;
-    top: 38%;
-
-    cursor: pointer;
-
-    font-size: 1.5rem;
-
-    z-index: 100;
-}
-
-.checkboxBlock .checkbox {
-    background: #2D4231;
-    border-radius: 4px;
-
-    padding: 5px 10px;
-    box-sizing: content-box;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.checkboxBlock .checkbox i {
-    cursor: pointer;
-}
-
-#uncheckedCheckboxBlock {
-    display: flex;
-
-}
-
-#uncheckedCheckboxBlock .uncheckedBlock {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-
-    border-radius: 4px;
-
-    background: var(--secondary-color);
-    min-height: 25px;
-    max-height: 150px;
-    padding: 10px 10px 10px 10px;
-
-    overflow-y: scroll;
-}
-
-#uncheckedCheckboxBlock .uncheckedBlock .checkbox {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    background: var(--secondary-color);
-    padding: 5px 10px;
-    border-radius: 4px;
-
-}
-
-#uncheckedCheckboxBlock .uncheckedBlock .checkbox i {
-    cursor: pointer;
-}
-
-/* .checkers {
-    
-} */
-
 ::-webkit-scrollbar {
     display: none;
 }
 
-/* .checkers > div {
-    position: relative;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    padding: 5px 50px 5px 5px;
-
-    box-sizing: content-box;
-
-    border-radius: 4px;
-
-    z-index: 100;
-}
-*/
-/* 
-.checkBoxBlock .checked {
-    background-color: #2D4231;
-    color: #808080;
-}
-
-.checkBoxBlock .unchecked {
-    background-color: #545c55;
-    color: #9e9e9e;
-} */
-/*
-.checkBoxBlock .unchecked i {
-    color: rgba(0, 0, 0, 0.3)
-}
-
-.checkBoxBlock div span {
-    font-size: 14px;
-    font-weight: 400;
-
-    margin-left: 7px;
-} */
-/* 
-.checkBoxBlock div i {
-    position: absolute;
-    right: 10px;
-
-    cursor: pointer;
-    color: rgba(0, 0, 0, 0.5);
-}
-
-#checkboxClose {
-    position: absolute;
-} */
-/* 
-
-#uncheckedBlock span {
-    font-size: 10px;
-}
-
-#uncheckedBlock i {
-    font-size: 10px;
-}
-
-.checkBoxBtns {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    margin: 7px 0;
-
-    color: #fff;
-    font-size: 14px;
-
-} */
-/* 
-.checkBoxBtns div {
-    text-align: center;
-    padding: 5px 4px;
-
-    cursor: pointer;
-
-    background-color: rgba(201, 201, 201, 0.3);
-    border-radius: 4px;
-} */
-/* 
-.checkBoxBtns div:hover {
-    background-color: rgba(201, 201, 201, 0.5);
-}
-
-.checkBoxBtns div:active {
-    background-color: rgba(201, 201, 201, 0.2);
-}  */
-
-
-.showRelsBlock {
+.showRelsBlockRight {
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    width: 100%;
 }
 
 /* buttons */
-.showRelsBlock > div:nth-child(1) { 
+.showRelsBlockRight > div:nth-child(1) { 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 10px;
     flex-wrap: wrap;
 
-    width: 300px;
-    padding: 0 5px;
-    box-sizing: content-box;
+    width: 100%;
+    padding: 0 5px 0 0;
+    box-sizing: border-box;
+}
+
+.showRelsBlockRight > div > input {
+    width: max-content;
+    border-radius: 4px;
+    line-height: 2em;
+
+    cursor: pointer;
+
+    background: var(--secondary-color);
+    color: #ffffffac;
+}
+
+.showRelsBlockRight > div > input:hover {
+    background: var(--secondary-color-lighter);
+}
+.showRelsBlockRight > div > input:active {
+    background: var(--secondary-color-darker);
+}
+
+.showRelsBlockRightTitle {
+    margin: 0;
 }
 
 .checkboxes {

@@ -204,6 +204,8 @@ const RelationBlock = (props) => {
             }
         })
 
+        // console.log(relations)
+
         props.setRels(relations)
     }
 
@@ -220,8 +222,8 @@ const RelationBlock = (props) => {
     return (
         <>
         {setRelations()}
-        <label>По каким связам хотите?</label>
-        <div className="showRelsBlock">
+        <label className="showRelsBlockRightTitle">По каким связам хотите?</label>
+        <div className="showRelsBlockRight">
           <div>
             <input type={"button"} value="Все связи"
               onClick={() => {
@@ -258,6 +260,7 @@ const RelationBlock = (props) => {
                         relsTemp[event.target.value].checked = !relsTemp[event.target.value].checked
                         
                         setCategories(relsTemp)
+                        setRelations()
                         console.log(categories[key].checked)
                     }
                     } />

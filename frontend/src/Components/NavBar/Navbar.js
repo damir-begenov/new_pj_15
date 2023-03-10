@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, useEffect } from "react";
 import { Link } from 'react-router-dom'
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -18,7 +18,12 @@ const Navbar = () => {
         navigate('/login');
     }
 
+    useEffect(() => {
+        const a = !userSession ? navigate('/login') : ""
+    })
+
     return (
+        <>
         <div className="nav-back">
             <nav className="NavbarItems">
                 <h1 className="logo"><Link to='/'>ITap</Link></h1>
@@ -29,7 +34,7 @@ const Navbar = () => {
                         userSession.roles.includes("ADMIN")
                         ?  (
                             <Link to={"/admin"}><div className="admin">
-                                Admin panel
+                                Админ панель
                             </div></Link>
                         ) : ("")
                     }
@@ -46,7 +51,7 @@ const Navbar = () => {
 
                                 </a>
                             </li>
-                            <li><a className={"nav-links"} href={""} onClick={logoutHandler}>LOG OUT</a></li>
+                            <li><a className={"nav-links"} href={""} onClick={logoutHandler}>Выйти</a></li>
                         </> 
                         :
                         <>
@@ -59,6 +64,7 @@ const Navbar = () => {
                 
             </nav>
         </div>
+        </>
     )
 }
 

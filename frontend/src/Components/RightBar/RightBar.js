@@ -7,6 +7,11 @@ import './RightBar.css'
 class RightBar extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      showRels: "",
+      openLimit: 1,
+    }
   }
 
   setShowRels = (rels) => {
@@ -14,14 +19,7 @@ class RightBar extends Component {
   }
 
   shortOpen = () => {
-    let relations = ""
-    Object.keys(this.state.categories).forEach(key => {
-        if (this.state.categories[key].checked) {
-            if (relations == "") relations = key
-            else relations += "," + key
-        }
-    })
-    this.props.shortOpen(relations)
+    this.props.shortOpen(this.state.openLimit, this.state.showRels)
   }
 
   shortHide = () => {
@@ -84,14 +82,26 @@ class RightBar extends Component {
               </div> 
           </div> 
         </div>
-        <div className="actionBlock" style={{display: this.props.isOnSelectNode ? "block" : "none"}}>
-            <input type="button" visible="false" value="Show" onClick={this.shortOpen}/>
-            <input type="button" visible="false" value="Hide" onClick={this.shortHide}/>
-        </div>
 
-        <div className="showRelsBlock" style={{display: this.props.isOnSelectNode ? "flex" : "none"}}>
-          <div>            
-            <RelationBlock setRels={this.setShowRels}></RelationBlock>
+        <div className={"openHideBlock"} style={{display: this.props.isOnSelectNode ? "flex" : "none"}}>
+          <div className="actionBlock" style={{display: this.props.isOnSelectNode ? "block" : "none"}}>
+              <input type="button" visible="false" value="Show" onClick={this.shortOpen}/>
+              <input type="button" visible="false" value="Hide" onClick={this.shortHide}/>
+          </div>
+
+          <div>
+            <div className="limitInputBlock">
+              <label>Лимит</label>
+              <input name="openLimit" className={"openLimit"} value={this.state.openLimit} onChange={event => {
+                this.setState({openLimit: event.target.value})
+              }}/>
+            </div>
+          </div>
+
+          <div className="showRelsBlockRight" >
+            <div>            
+              <RelationBlock setRels={this.setShowRels}></RelationBlock>
+            </div>
           </div>
         </div>
       </div>

@@ -12,6 +12,8 @@
   --bar-color: #141719;
   --bar-border-color: #414141;
   --secondary-color: rgba(255, 255, 255, 0.11);
+  --secondary-color-lighter: rgba(255, 255, 255, 0.379);
+  --secondary-color-darker: rgba(255, 255, 255, 0.027);
 }
 
 .App {

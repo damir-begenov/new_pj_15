@@ -230,10 +230,10 @@ export default class GraphNet extends Component {
       })
     };
 
-    shortOpen = (showRels) => {
-      console.log(showRels)
+    shortOpen = (openLimit, showRels) => {
+      console.log(openLimit, showRels)
       console.log(SelectedNode.options.id)
-      axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id, relations: showRels }}).then(res => {
+      axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id, relations: showRels, limit: openLimit }}).then(res => {
         let nodes = []
         const edgesFinal = res.data.edges;
         let edges = []
@@ -879,8 +879,13 @@ export default class GraphNet extends Component {
     importBt = (file) =>  {
       this.setState({isLoading: true})
       this.setState({ids: []})
+
+      console.log(file )
+
       const res = JSON.parse(file)
       // this.setState({nodes: result.nodes, edges: result.edges})
+      console.log(res)
+
       let nodes = []
       const edges = res.edges;
       graJSON.typeOfSearch = res.typeOfSearch
@@ -902,6 +907,8 @@ export default class GraphNet extends Component {
 
       
       this.setState({nodes, edges})
+
+      console.log("from GRAPHSJS IMPORTBT", nodes, edges)
 
       graJSON.nodes = nodes
       graJSON.edges = edges
