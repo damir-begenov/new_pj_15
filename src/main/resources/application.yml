@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/amigo
-    username: "postgres"
-    password: "Madik2157"
+    url: jdbc:postgresql://192.168.122.6:5432/postgres
+    username: "photo_user"
+    password: "Qwerty123"
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
@@ -11,7 +11,7 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-
+#
 #    url: jdbc:postgresql://192.168.122.6:5432/postgres
 #    username: "photo_user"
 #    password: "Qwerty123"

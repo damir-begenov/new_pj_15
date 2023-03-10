@@ -49,6 +49,8 @@ public class moviesController {
     @Autowired
     FiPersonsService personsService;
     newPhotoRepo newPhotoRepo;
+    @Autowired
+
     LogsService logsService;
 
 
@@ -95,23 +97,23 @@ public class moviesController {
                                   @RequestParam(required = false) String sphereName,
                                   @RequestParam(required = false) String tematikName,
                                   @RequestParam(required = false) String rukName) {
-        User user = userDetailsService.loadUserByUsernamek(principal);
-        List<String> request_bodies = new ArrayList<>();
-        request_bodies.add(person);
-            log log = new log();
-            String obwii = "Раскрыть связь ФЛ " + person+ ", лимит " + limit + ", уровень " + depth;
-
-        log.setObwii(obwii);
-
-
-            LocalDateTime current = LocalDateTime.now();
-            log.setUsername(user.getUsername());
-            log.setDate(current);
-            log.setLimit_(limit);
-            log.setDepth_(depth);
-            log.setRequest_body(request_bodies);
-            log.setRequest_rels(relations);
-            logsService.SaveLog(log);
+//        User user = userDetailsService.loadUserByUsernamek(principal);
+//        List<String> request_bodies = new ArrayList<>();
+//        request_bodies.add(person);
+//            log log = new log();
+//            String obwii = "Раскрыть связь ФЛ " + person+ ", лимит " + limit + ", уровень " + depth + ", номер приказа " + orderNum;
+//
+//        log.setObwii(obwii);
+//
+//
+//            LocalDateTime current = LocalDateTime.now();
+//            log.setUsername(user.getUsername());
+//            log.setDate(current);
+//            log.setLimit_(limit);
+//            log.setDepth_(depth);
+//            log.setRequest_body(request_bodies);
+//            log.setRequest_rels(relations);
+//            logsService.SaveLog(log);
         return personsService.getPersonTree(person, depth, limit, relations);
     }
     @GetMapping("/flFIOtree")
@@ -248,23 +250,23 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
                                   @RequestParam(required = false) String sphereName,
                                   @RequestParam(required = false) String tematikName,
                                   @RequestParam(required = false) String rukName,Principal principal) {
-        User user = userDetailsService.loadUserByUsernamek(principal);
-        List<String> request_bodies = new ArrayList<>();
-        request_bodies.add(ul);
-        try{
-            log log = new log();
-
-            LocalDateTime current = LocalDateTime.now();
-            log.setUsername(user.getUsername());
-            log.setDate(current);
-            log.setLimit_(limit);
-            log.setDepth_(depth);
-            log.setRequest_body(request_bodies);
-            log.setRequest_rels(relations);
-            logsService.SaveLog(log);
-        }catch (Exception e){
-            System.out.println(e);
-        }
+//        User user = userDetailsService.loadUserByUsernamek(principal);
+//        List<String> request_bodies = new ArrayList<>();
+//        request_bodies.add(ul);
+//        try{
+//            log log = new log();
+//
+//            LocalDateTime current = LocalDateTime.now();
+//            log.setUsername(user.getUsername());
+//            log.setDate(current);
+//            log.setLimit_(limit);
+//            log.setDepth_(depth);
+//            log.setRequest_body(request_bodies);
+//            log.setRequest_rels(relations);
+//            logsService.SaveLog(log);
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
         return personsService.getUlTree(ul, relations, depth, limit);
     }
     @GetMapping("/flulpath")

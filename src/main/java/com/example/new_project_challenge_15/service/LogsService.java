@@ -11,7 +11,7 @@ public class LogsService {
     @Autowired
     logRepo logRepo;
 
-    public void SaveLog(log log){
-         logRepo.save(log);
+    public log SaveLog(log log){
+       return   logRepo.save(log);
     }
 }
