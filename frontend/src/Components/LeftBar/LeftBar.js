@@ -8,6 +8,7 @@ import ApprovementModalWindow from "../ApprovementModal/ApprovementModalWindow";
 
 const LeftBar = (props) => {
     const navigate = useNavigate()
+    const reader = new FileReader()
 
     const [iin1, setIIN1] = useState("")
     const [iin2, setIIN2] = useState("")
@@ -68,11 +69,41 @@ const LeftBar = (props) => {
     const importBt = () => {
         const fileInput = document.getElementById('file-upload')
         const file = fileInput.files[0]
-
-        const reader = new FileReader()
+        let graJSON ={}
         reader.onload = event => {
             const fileContent = event.target.result
-            props.importBt(fileContent)
+            props.update()
+            graJSON = props.importBt(fileContent)
+            console.log(graJSON)
+            if (graJSON.typeOfSearch=="con1") {
+                document.getElementById("connections").value = "con1"
+            } else if (graJSON.typeOfSearch=="con2") {
+                document.getElementById("connections").value = "con2"
+            } else if (graJSON.typeOfSearch=="con3") {
+                document.getElementById("connections").value = "con3"
+            } else if (graJSON.typeOfSearch=="con4") {
+                document.getElementById("connections").value = "con4"
+            } else if (graJSON.typeOfSearch=="con5") {
+                document.getElementById("connections").value = "con5"
+            }
+            let formSearchOptions = document.querySelector("#formSearchOptions");
+            let iin1 = document.querySelector("#formIIN1");
+            let iin2 = document.querySelector("#formIIN2");
+
+            let formFio1 = document.querySelector("#formFio1")
+            let formFio2 = document.querySelector("#formFio2")
+
+            let formLimit = document.querySelector("#formLimit")
+            let formDepth = document.querySelector("#formDepth")
+            let formRels  = document.querySelector("#formRels")
+            formSearchOptions.style.display = 'none'
+            iin1.style.display = 'none'
+            iin2.style.display = 'none'
+            formFio1.style.display = 'none'
+            formFio2.style.display = 'none'
+            formLimit.style.display = 'none'
+            formDepth.style.display = 'none'
+            formRels.style.display = 'none'
         }
         reader.readAsText(file)
     }
@@ -106,7 +137,7 @@ const LeftBar = (props) => {
                     <label for="connections">Найти связи между</label>
                     <div className="select">
                         <select name="connections" id='connections' 
-                        onChange={event => {
+                        onChange={event => { 
                             let value = document.getElementById("connections").value;
 
                             let formSearchOptions = document.querySelector("#formSearchOptions");
@@ -147,6 +178,7 @@ const LeftBar = (props) => {
                                 formLimit.style.display = 'flex';
                                 formDepth.style.display = 'flex';
                                 formRels.style.display = 'flex';
+                                props.update()
                             } 
                             else if (value ==="con2") {
                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
@@ -173,6 +205,7 @@ const LeftBar = (props) => {
                                 formDepth.style.display = 'none';
 
                                 formRels.style.display = 'flex';
+                                props.update()
                             }
                             else if (value ==="con3") {
                                 iin1.childNodes[0].innerHTML = "Введите ИИН"
@@ -199,6 +232,7 @@ const LeftBar = (props) => {
                                 formDepth.style.display = 'none';
 
                                 formRels.style.display = 'flex';
+                                props.update()
                             }
                             else if (value === "con4") {
                                 iin1.childNodes[0].innerHTML = "Введите БИН"
@@ -215,6 +249,7 @@ const LeftBar = (props) => {
                                 formDepth.style.display = 'flex';
 
                                 formRels.style.display = 'flex';
+                                props.update()
                             }
                             else if (value === "con5") {
                                 iin1.childNodes[0].innerHTML = "Введите БИН"
@@ -232,6 +267,7 @@ const LeftBar = (props) => {
                                 formDepth.style.display = 'none';
 
                                 formRels.style.display = 'flex';
+                                props.update()
                             }
                             else if (value === "none") {
                                 formSearchOptions.style.display = 'none';
@@ -245,6 +281,7 @@ const LeftBar = (props) => {
                                 formLimit.style.display = 'none';
                                 formDepth.style.display = 'none';
                                 formRels.style.display = 'none';
+                                props.update()
                             }
                         }}>
                             <option value="none">Выберите связь</option>

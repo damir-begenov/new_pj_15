@@ -1,25 +1,25 @@
 package com.example.new_project_challenge_15.payload.request;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.validation.constraints.*;
 import java.util.Set;
 
 public class SignupRequest {
-  @NotBlank
-  @Size(min = 3, max = 20)
+  @Size(min = 10, max = 50)
   private String username;
 
-  @NotBlank
   @Size(max = 50)
-  @Email
   private String email;
 
   private Set<String> role;
 
-  @NotBlank
   @Size(min = 6, max = 40)
   private String password;
-//  @NotBlank
+  //  @NotBlank
   private String level;
+
+
 
   public String getLevel() {
     return level;

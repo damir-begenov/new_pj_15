@@ -106,7 +106,7 @@ public class Persons {
     @Relationship(type = "ESF_100", direction = Relationship.Direction.INCOMING)
     private List<ESF_100> esf100sIncome;
 
-    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ESF_10and100", direction = Relationship.Direction.INCOMING)
     private List<ESF_10and100> esf_10and100s;
     @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_10and100> esf_10and100sOut;
@@ -126,11 +126,20 @@ public class Persons {
     @Relationship(type = "ESF_5and10", direction = Relationship.Direction.OUTGOING)
     private List<ESF_5and10> esf5and10sOut;
 
-
-
-
-    @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "FOUNDER_CUR", direction = Relationship.Direction.INCOMING)
     private List<FOUNDER_CUR> founderCurs;
+
+    @Relationship(type = "FOUNDER_HIST", direction = Relationship.Direction.INCOMING)
+    private List<FOUNDER_HIST> founderHists;
+
+
+    public List<FOUNDER_HIST> getFounderHists() {
+        return founderHists;
+    }
+
+    public void setFounderHists(List<FOUNDER_HIST> founderHists) {
+        this.founderHists = founderHists;
+    }
 
     @Relationship(type = "NTR_FL", direction = Relationship.Direction.OUTGOING)
     private List<NTR_FL> ntrFls;

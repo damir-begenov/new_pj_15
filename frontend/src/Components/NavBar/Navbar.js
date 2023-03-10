@@ -42,12 +42,8 @@ const Navbar = () => {
                             </style> */}
                             <li>
                                 <a className={"nav-links"} href={""}>
-                                    <span>{userSession.username}</span>
-                                    :
-                                    <span className="userRole">
-                                        {userSession && userSession.roles.includes("ROLE_ADMIN") ? "ADMIN" :
-                                         userSession && userSession.roles.includes("ROLE_MODERATOR") ? "MODERATOR" : "USER"}
-                                    </span>
+                                    <span>{userSession.email}</span>
+
                                 </a>
                             </li>
                             <li><a className={"nav-links"} href={""} onClick={logoutHandler}>LOG OUT</a></li>

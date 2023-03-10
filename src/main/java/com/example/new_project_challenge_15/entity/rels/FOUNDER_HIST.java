@@ -9,26 +9,26 @@ import org.springframework.data.neo4j.core.schema.*;
 public class FOUNDER_HIST {
     @Id
     @GeneratedValue
-    private Long id;
-    private String Label;
-    private String Source;
+    public Long id;
+    public String Label;
+    public String Source;
     @Property("ИИН/БИН")
-    private String IIN_BIN;
+    public String IIN_BIN;
 
     @Property("БИН/ИИН работадателя")
-    private String IINBIN_rabotadatelya;
+    public String IINBIN_rabotadatelya;
 
     @Property("Наименование типа должности на русском")
-    private String NAME_tipa_dolzhnosty;
+    public String NAME_tipa_dolzhnosty;
 
     @Property("Дата начала")
-    private String Data_nachalo;
+    public String Data_nachalo;
 
     @Property("Дата конца")
-    private String data_okonchanya;
+    public String data_okonchanya;
 
     @Property("Вид связи")
-    private String Vid_svyaziey;
+    public String Vid_svyaziey;
 
     @TargetNode
     private Company company;

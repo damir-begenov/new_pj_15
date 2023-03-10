@@ -29,7 +29,7 @@ import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
 import ripPersonIcon from '../../icons/rip_person.png'
 
-var graJSON = {nodes: [], edges: []}
+var graJSON = {nodes: [], edges: [], typeOfSearch: "", params: {}}
 var Network;
 var SelectedNode = {}
 var SelectedEdge = {}
@@ -98,6 +98,7 @@ export default class GraphNet extends Component {
       this.state.isLoading = true
       this.setState({nodes: [], edges: [], ids: []})
       this.state.counter = this.state.counter+1
+
       
       const userSession = JSON.parse(localStorage.getItem("user"))
 
@@ -106,10 +107,11 @@ export default class GraphNet extends Component {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
       switch(options.mode) {
         case "con1":
+          graJSON.typeOfSearch = "con1"
           if (options.searchOption == "iinOption") {
             url = "http://localhost:9091/api/finpol/main/fltree"
             params = {person: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit}
-
+            graJSON.params = params
           } else {
             url = "http://localhost:9091/api/finpol/main/flFIOtree"
             params = {
@@ -117,15 +119,17 @@ export default class GraphNet extends Component {
               lastName1: options.lname1, 
               fatherName1: options.fname1, 
               relations: options.relString, depth: options.depth, limit: options.limit
+              
             }
-
+            graJSON.params = params
           }
           break;
         case "con2":
+          graJSON.typeOfSearch = "con2"
           if (options.searchOption == "iinOption") {
             url = "http://localhost:9091/api/finpol/main/shortestpaths";
             params = {person: options.iin1, person2: options.iin2, relations: options.relString}
-
+            graJSON.params = params
           } else {
             url = "http://localhost:9091/api/finpol/main/shortestpathsByFIO";
             params = {
@@ -137,14 +141,15 @@ export default class GraphNet extends Component {
               fatherName2: options.fname2, 
               relations: options.relString
             }
-
+            graJSON.params = params
           }
           break;
         case "con3":
+          graJSON.typeOfSearch = "con3"
           if (options.searchOption == "iinOption") {
             url = "http://localhost:9091/api/finpol/main/flulpath";
             params = {person: options.iin1, ul: options.iin2, relations: options.relString}
-
+            graJSON.params = params
           } else {
             url = "http://localhost:9091/api/finpol/main/flulpathByFIO";
             params = {
@@ -153,15 +158,20 @@ export default class GraphNet extends Component {
               fatherName1: options.fname1, 
               ul: options.iin2, 
               relations: options.relString}
+              graJSON.params = params
           }
           break;
         case "con4":
+          graJSON.typeOfSearch = "con4"
           url = "http://localhost:9091/api/finpol/main/ultree";
           params = {ul: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit }
+          graJSON.params = params
           break;
         case "con5":
+          graJSON.typeOfSearch = "con5"
           url = "http://localhost:9091/api/finpol/main/ululpath";
           params = {ul1: options.iin1, ul2: options.iin2, relations: options.relString}
+          graJSON.params = params
           break;
       }
 
@@ -197,17 +207,20 @@ export default class GraphNet extends Component {
       
         res.data.nodes.map(item => {
           this.setNodeSettings(item, options.iin1, options.iin2)
-          
           nodes.push(item);
         })
         
         this.setState({nodes, edges})
+
+        console.log("first")
 
         graJSON.nodes = nodes
         graJSON.edges = edges
         
         this.state.isLoading = false
 
+        const fileInput = document.getElementById('file-upload')
+        fileInput.value = ""
         this.setState({showActionBtn: true})
         // Network.fit({});
       })
@@ -229,14 +242,16 @@ export default class GraphNet extends Component {
 
         edges.map(item => {
           this.setEdgeSettings(item);
+          this.state.edges.push(item)
         })
 
         res.data.nodes.map(item => {
           this.setNodeSettings(item)
           nodes.push(item);
           this.state.ids.push(item.id)
+          this.state.nodes.push(item)
         })
-
+        console.log(res.data)
         this.state.edges = [...edges, ...this.state.edges]
         console.log(this.state.edges)
         Network.body.data.nodes.update(nodes)
@@ -744,6 +759,11 @@ export default class GraphNet extends Component {
       this.showSearched()
     }
 
+    update = () => {
+      this.setState({nodes:[], edges: []}) 
+      this.setState({counter: 0})
+    }
+
     searchNext() {
       this.state.sliderPage = this.state.sliderPage + 1;
       if (this.state.sliderPage >= this.state.searchedNodes.length) {
@@ -819,22 +839,25 @@ export default class GraphNet extends Component {
     }
 
     importBt = (file) =>  {
-      console.log(file)
       this.setState({isLoading: true})
+      this.setState({ids: []})
       const res = JSON.parse(file)
       // this.setState({nodes: result.nodes, edges: result.edges})
       let nodes = []
       const edges = res.edges;
-      
-      
+      graJSON.typeOfSearch = res.typeOfSearch
+
       edges.map(item => {
         this.setEdgeSettings(item);
       })
     
       res.nodes.map(item => {
         this.setNodeSettings(item)
-        
-        nodes.push(item);
+        if (this.state.ids(item.id)) {
+        } else {
+          this.state.ids.push(item.id)
+          nodes.push(item);
+        }
       })
 
       
@@ -842,10 +865,13 @@ export default class GraphNet extends Component {
 
       graJSON.nodes = nodes
       graJSON.edges = edges
+      graJSON.paramsOfSearch = res.paramsOfSearch
+      graJSON.typeOfSearch = res.typeOfSearch
       
       this.state.isLoading = false
 
       this.setState({showActionBtn: true})
+      return graJSON
     }
 
     render() {
@@ -853,7 +879,7 @@ export default class GraphNet extends Component {
         return (
           <div className='mainSection'>
           <>
-            <LeftBar importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
+            <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
             <div className='centralBar'>
               <div className="waiterBox">
                 {/* <a>Make a search</a> */}
@@ -868,7 +894,7 @@ export default class GraphNet extends Component {
         return (
           <div className='mainSection'>
           <>
-            <LeftBar importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
+            <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
               <div className="waiterBox">
                   <a>No objects found</a>
@@ -882,7 +908,7 @@ export default class GraphNet extends Component {
         return (
           <div className='mainSection'>
           <>
-            <LeftBar importBt={this.importBt} exportBt = {this.exportBt}   name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
+            <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}   name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
                 <div className="loader">
                   <div className="inner one"></div>
@@ -898,7 +924,7 @@ export default class GraphNet extends Component {
       return (
         <div className='mainSection'>
         <>
-        <LeftBar downloadScheme={this.download} exportBt={this.exportBt} name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
+        <LeftBar params={graJSON} update={this.update} downloadScheme={this.download} exportBt={this.exportBt} name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
         <div className='centralBar' id="centralBar">
             <div className="nodeSearch">
               <div>

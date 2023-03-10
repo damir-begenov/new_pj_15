@@ -32,7 +32,6 @@ public class FOUNDER_CUR {
     @TargetNode
 
     private Company company;
-
     public Company getCompany() {
         return company;
     }

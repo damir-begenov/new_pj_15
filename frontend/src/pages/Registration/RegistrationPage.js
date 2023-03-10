@@ -12,8 +12,7 @@ export default class RegistrationPage extends Component {
         return (
             <section>
                 <div className="title">
-                    <div>NEXUS</div>
-                    <div>REGISTER</div>
+                    <div>Регистрация</div>
                 </div>
 
                 <RegisterForm></RegisterForm>
