@@ -131,19 +131,3 @@
 .infoBlock .nodeImg > img {
   width: 100%;
 }
-
-.showRelsBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  
-}
-
-.checkboxes {
-  font-size: 14px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}

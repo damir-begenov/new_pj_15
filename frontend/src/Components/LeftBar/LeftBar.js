@@ -31,16 +31,17 @@ const LeftBar = (props) => {
     const [mode, setMode] = useState("")
     const [relString, setRelString] = useState("")
 
-    const filter = () => { 
+    const filter = (approvementObject) => { 
         if (!checkAuth()) navigate('/login', {replace: true}) 
         
-        console.log("approvement", approvementObj)
+        console.log("approvement", approvementObject)
+        
         let options = {
-            iin1, iin2, limit, depth, mode, relString, approvementObj, searchOption, lname1, lname2, name1, name2, fname1, fname2
+            iin1, iin2, limit, depth, mode, relString, approvementObject, searchOption, lname1, lname2, name1, name2, fname1, fname2
         }
 
         setModal(false)        
-        props.handleSubmit(options).bind(this)
+        props.handleSubmit(options)
     }
 
     const clearOptions = () => {
@@ -86,6 +87,7 @@ const LeftBar = (props) => {
             } else if (graJSON.typeOfSearch=="con5") {
                 document.getElementById("connections").value = "con5"
             }
+
             let formSearchOptions = document.querySelector("#formSearchOptions");
             let iin1 = document.querySelector("#formIIN1");
             let iin2 = document.querySelector("#formIIN2");
@@ -312,7 +314,7 @@ const LeftBar = (props) => {
                                 iin1.style.display = "none";
                                 formFio1.style.display = "flex";
 
-                                if (mode == "con5" || mode == "con3" || mode == "con2") {
+                                if (mode == "con5" || mode == "con2") {
                                     iin2.style.display = "none";
                                     formFio2.style.display = "flex";
                                 }

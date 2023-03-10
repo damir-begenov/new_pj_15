@@ -175,17 +175,17 @@ export default class GraphNet extends Component {
           break;
       }
 
-      params["approvement_type"] = options.approvementObj.approvement_type
-      params["orderNum"] = options.approvementObj.orderNum
-      params["orderDate"] = options.approvementObj.orderDate
-      params["articleName"] = options.approvementObj.articleName
-      params["caseNum"] = options.approvementObj.caseNum
-      params["checkingName"] = options.approvementObj.checkingName
-      params["otherReasons"] = options.approvementObj.other
-      params["organName"] = options.approvementObj.organName
-      params["rukName"] = options.approvementObj.rukName
-      params["sphereName"] = options.approvementObj.sphereName
-      params["tematikName"] = options.approvementObj.tematikName
+      params["approvement_type"] = options.approvementObject.approvement_type
+      params["orderNum"] = options.approvementObject.orderNum
+      params["orderDate"] = options.approvementObject.orderDate
+      params["articleName"] = options.approvementObject.articleName
+      params["caseNum"] = options.approvementObject.caseNum
+      params["checkingName"] = options.approvementObject.checkingName
+      params["otherReasons"] = options.approvementObject.other
+      params["organName"] = options.approvementObject.organName
+      params["rukName"] = options.approvementObject.rukName
+      params["sphereName"] = options.approvementObject.sphereName
+      params["tematikName"] = options.approvementObject.tematikName
 
       // if (options.name1 != "") params["firstName1"] = options.name1 
       // if (options.name2 != "") params["firstName2"] = options.name2 
@@ -853,11 +853,13 @@ export default class GraphNet extends Component {
     
       res.nodes.map(item => {
         this.setNodeSettings(item)
-        if (this.state.ids(item.id)) {
-        } else {
+
+        // if (this.state.ids.includes(item.id)) {
+
+        // } else {
           this.state.ids.push(item.id)
           nodes.push(item);
-        }
+        // }
       })
 
       
