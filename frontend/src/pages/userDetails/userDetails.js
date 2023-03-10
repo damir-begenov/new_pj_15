@@ -27,6 +27,7 @@ class UserDetails extends Component {
         axios.get(`http://localhost:9091/api/finpol/main/getuserdetails`, {params: {username: this.props.username.username}})
             .then(res => {
                 const result = res.data
+                console.log(res.data)
                 let user = res.data.user
                 let role = res.data.role
                 let date = res.data.date

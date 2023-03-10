@@ -29,7 +29,7 @@ import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
 import ripPersonIcon from '../../icons/rip_person.png'
 
-var graJSON = {nodes: [], edges: [], typeOfSearch: "", params: {}}
+var graJSON = {nodes: [], edges: [], typeOfSearch: "", params: {}, iin: false}
 var Network;
 var SelectedNode = {}
 var SelectedEdge = {}
@@ -51,7 +51,8 @@ export default class GraphNet extends Component {
       showNodeImage: false,
       showSudInfo: false,
       keyNodeId: 0,
-      nodeStack: []
+      nodeStack: [],
+      params: {}
     }
 
     assignInfoBlock = (options, elemId) => {
@@ -119,9 +120,9 @@ export default class GraphNet extends Component {
               lastName1: options.lname1, 
               fatherName1: options.fname1, 
               relations: options.relString, depth: options.depth, limit: options.limit
-              
             }
             graJSON.params = params
+            graJSON.iin = false
           }
           break;
         case "con2":
@@ -142,6 +143,7 @@ export default class GraphNet extends Component {
               relations: options.relString
             }
             graJSON.params = params
+            graJSON.iin = false
           }
           break;
         case "con3":
@@ -157,8 +159,10 @@ export default class GraphNet extends Component {
               lastName1: options.lname1, 
               fatherName1: options.fname1, 
               ul: options.iin2, 
-              relations: options.relString}
-              graJSON.params = params
+              relations: options.relString
+            }
+            graJSON.params = params
+            graJSON.iin = false
           }
           break;
         case "con4":
@@ -186,7 +190,7 @@ export default class GraphNet extends Component {
       params["rukName"] = options.approvementObj.rukName
       params["sphereName"] = options.approvementObj.sphereName
       params["tematikName"] = options.approvementObj.tematikName
-
+      console.log(params)
       // if (options.name1 != "") params["firstName1"] = options.name1 
       // if (options.name2 != "") params["firstName2"] = options.name2 
       // if (options.lname1 != "") params["lastName1"] = options.lname1 
@@ -212,7 +216,7 @@ export default class GraphNet extends Component {
         
         this.setState({nodes, edges})
 
-        console.log("first")
+        // console.log("first")
 
         graJSON.nodes = nodes
         graJSON.edges = edges
@@ -827,11 +831,45 @@ export default class GraphNet extends Component {
       })
     }        
     
-    exportBt() {
+    exportBt = () => {
       const fileName = "graph.txt"
       const fileContent = JSON.stringify(graJSON, null, 2)
       const blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"})
       const url = URL.createObjectURL(blob)
+      let first = ""
+      let second = ""
+      if (graJSON.typeOfSearch == "con1") {
+        if (graJSON.iin) {
+          first = graJSON.params.person
+          second = ""
+        } else {
+          first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
+          second = "" 
+        }
+      } else if (graJSON.typeOfSearch == "con2") {
+        if (graJSON.iin) {
+          first = graJSON.params.person
+          second = graJSON.params.person2
+        } else {
+          first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
+          second = "Фамилия: " + graJSON.params.lastName2 + ", имя: " + graJSON.params.firstName2 + ", отчество: " + graJSON.params.fatherName2
+        }
+      } else if (graJSON.typeOfSearch == "con3") {
+        if (graJSON.iin) {
+          first = graJSON.params.person
+          second = graJSON.params.ul
+        } else {
+          first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
+          second = graJSON.params.ul
+        }
+      } else if (graJSON.typeOfSearch == "con4") {
+        first = graJSON.params.ul
+        second = ""
+      } else if (graJSON.typeOfSearch == "con5") {
+        first = graJSON.params.ul1
+        second = graJSON.params.ul2
+      }
+      axios.get("http://localhost:9091/api/finpol/main/downloadedscheme", {params: {first: first, second: second}})
       const link = document.createElement("a")
       link.download = fileName;
       link.href = url;

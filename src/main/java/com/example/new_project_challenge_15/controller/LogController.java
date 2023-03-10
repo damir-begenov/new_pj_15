@@ -16,10 +16,10 @@ import java.util.List;
 public class LogController {
     @Autowired
     logRepo logsService;
-    @GetMapping("stringi")
+    @GetMapping("/stringi")
     public List<log> get(){
         List<log> lisst = logsService.findByUsername("");
-       return logsService.findByUsername("damirdamird");
+        return logsService.findAll();
     }
 
 }
