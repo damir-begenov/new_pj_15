@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 @Repository
+
 public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByUsername(String username);
 
@@ -19,7 +20,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query(value = "select * FROM public.users where username like ?1 limit 1", nativeQuery = true)
   User findByUsernameTwo(String username);
 
-  @Modifying
   @Query(value = "update user_roles set role_id = ?1 where user_id = ?2", nativeQuery = true)
   void updateRole(Integer role, Integer user);
 

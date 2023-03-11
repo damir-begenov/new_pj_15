@@ -9,28 +9,20 @@ import com.example.new_project_challenge_15.repository.*;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
 import com.example.new_project_challenge_15.service.*;
 
-import com.sun.jna.WString;
 import lombok.AllArgsConstructor;
 //import org.neo4j.springframework.data.core.Neo4jTemplate;
-import org.neo4j.driver.Value;
-import org.neo4j.driver.Values;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.imageio.ImageIO;
-import javax.mail.Multipart;
 import java.awt.*;
 import java.awt.Robot;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.*;
 import java.util.List;
 
 
@@ -51,7 +43,7 @@ public class moviesController {
 //    CompanyPersonService companyPersonService;
     @Autowired
     FiPersonsService personsService;
-    newPhotoRepo newPhotoRepo;
+    com.example.new_project_challenge_15.newRepo.newPhotoRepo newPhotoRepo;
     @Autowired
 
     LogsService logsService;

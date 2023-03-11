@@ -1,4 +1,4 @@
-package com.example.new_project_challenge_15.repository;
+package com.example.new_project_challenge_15.newRepo;
 
 import com.example.new_project_challenge_15.models.photoDb;
 import org.springframework.data.jpa.repository.JpaRepository;
