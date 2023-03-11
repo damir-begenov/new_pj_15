@@ -123,14 +123,7 @@ const RegisterForm = () => {
                     </div>
 
                     <div className="secondLine">
-                        <div>
-                            <label >ФИО</label>
-                            <input 
-                                type="text" 
-                                {...register("fio", registerOptions.fio)} 
-                                id="fio" placeholder="Введите ФИО" 
-                            />
-                        </div>
+
 
                         <div>
                             <label >Почта</label>
