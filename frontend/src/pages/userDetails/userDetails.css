@@ -20,6 +20,11 @@
     
 }
 
+/* .dopInfa {
+    width: max-content;
+    display: block;
+} */
+
 .userFirstBlock {
     display: flex;
     flex-direction: row;

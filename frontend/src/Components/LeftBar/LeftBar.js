@@ -33,11 +33,59 @@ const LeftBar = (props) => {
 
     const filter = (approvementObject) => { 
         console.log("approvement", approvementObject)
+        const firstFamilia = document.getElementById('firstFamilia').value
+        const firstName = document.getElementById('firstName').value
+        const firstFatherName = document.getElementById('firstFatherName').value
+        const secondFamilia = document.getElementById('secondFamilia').value
+        const secondName = document.getElementById('secondName').value
+        const secondFatherName = document.getElementById('secondFatherName').value
         
+        if (firstFamilia == "starts") {
+            setLName1(lname1 + '.*')
+        } else if (firstFamilia == "include") {
+            setLName1('.*' + lname1 + '.*')
+        } else {
+            setLName1('.*' + lname1)
+        }
+        if (firstName == "starts") {
+            setName1(name1 + '.*')
+        } else if (firstName == "include") {
+            setName1('.*' + name1 + '.*')
+        } else {
+            setName1('.*' + name1)
+        }
+        if (firstFatherName == "starts") {
+            setFName1(fname1 + '.*')
+        } else if (firstFatherName == "include") {
+            setFName1('.*' + fname1 + '.*')
+        } else {
+            setFName1('.*' + fname1)
+        }
+        if (secondFamilia == "starts") {
+            setLName2(lname2 + '.*')
+        } else if (secondFamilia == "include") {
+            setLName2('.*' + lname2 + '.*')
+        } else {
+            setLName2('.*' + lname2)
+        }
+        if (secondName == "starts") {
+            setName2(name2 + '.*')
+        } else if (secondName == "include") {
+            setName2('.*' + name2 + '.*')
+        } else {
+            setName2('.*' + name2)
+        }
+        if (secondFatherName == "starts") {
+            setFName2(fname2 + '.*')
+        } else if (secondFatherName == "include") {
+            setFName2('.*' + fname2 + '.*')
+        } else {
+            setFName2('.*' + fname2)
+        }
+
         let options = {
             iin1, iin2, limit, depth, mode, relString, approvementObject, searchOption, lname1, lname2, name1, name2, fname1, fname2
         }
-
         setModal(false)        
         props.handleSubmit(options)
     }
@@ -106,6 +154,10 @@ const LeftBar = (props) => {
             formRels.style.display = 'none'
         }
         reader.readAsText(file)
+    }
+
+    const changeView = () => {
+        props.changeView()
     }
 
     const checkAuth = () => {
@@ -348,6 +400,11 @@ const LeftBar = (props) => {
                 <div id="formFio1" style={{display: "none"}}>
                     <div className="formBlock">
                         <label>Введите Фамилию первого объекта: </label>
+                        <select id='firstFamilia'>
+                            <option value="starts">Начинается с</option>
+                            <option value="include">Включает</option>
+                            <option value="ends">Заканчивается</option>
+                        </select>
                         <input type="text" 
                             value={lname1}
                             onChange={event => { setLName1(event.target.value) }} 
@@ -360,6 +417,11 @@ const LeftBar = (props) => {
 
                     <div className="formBlock">
                         <label>Введите Имя первого объекта: </label>
+                        <select id='firstName'>
+                            <option value="starts">Начинается с</option>
+                            <option value="include">Включает</option>
+                            <option value="ends">Заканчивается</option>
+                        </select>
                         <input type="text" 
                             value={name1}
                             onChange={event => { setName1(event.target.value) }} 
@@ -372,6 +434,11 @@ const LeftBar = (props) => {
 
                     <div className="formBlock">
                         <label>Введите Отчество первого объекта: </label>
+                        <select id='firstFatherName'>
+                            <option value="starts">Начинается с</option>
+                            <option value="include">Включает</option>
+                            <option value="ends">Заканчивается</option>
+                        </select>
                         <input type="text" 
                             value={fname1}
                             onChange={event => { setFName1(event.target.value) }} 
@@ -398,6 +465,11 @@ const LeftBar = (props) => {
                 <div id="formFio2" style={{display: "none"}}>
                     <div className="formBlock">
                         <label>Введите Фамилию второго объекта: </label>
+                        <select id='secondFamilia'>
+                            <option value="starts">Начинается с</option>
+                            <option value="include">Включает</option>
+                            <option value="ends">Заканчивается</option>
+                        </select>
                         <input type="text" 
                             value={lname2}
                             onChange={event => { setLName2(event.target.value) }} 
@@ -410,6 +482,11 @@ const LeftBar = (props) => {
 
                     <div className="formBlock">
                         <label>Введите Имя второго объекта: </label>
+                        <select id='secondName'>
+                            <option value="starts">Начинается с</option>
+                            <option value="include">Включает</option>
+                            <option value="ends">Заканчивается</option>
+                        </select>
                         <input type="text" 
                             value={name2}
                             onChange={event => { setName2(event.target.value) }} 
@@ -422,6 +499,11 @@ const LeftBar = (props) => {
 
                     <div className="formBlock">
                         <label>Введите Отчество второго объекта: </label>
+                        <select id='secondFatherName'>
+                            <option value="starts">Начинается с</option>
+                            <option value="include">Включает</option>
+                            <option value="ends">Заканчивается</option>
+                        </select>
                         <input type="text" 
                             value={fname2}
                             onChange={event => { setFName2(event.target.value) }} 
