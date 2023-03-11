@@ -32,8 +32,6 @@ const LeftBar = (props) => {
     const [relString, setRelString] = useState("")
 
     const filter = (approvementObject) => { 
-        if (!checkAuth()) navigate('/login', {replace: true}) 
-        
         console.log("approvement", approvementObject)
         
         let options = {
@@ -118,7 +116,7 @@ const LeftBar = (props) => {
 
     const checkAdmin = () => {
         const userSession = JSON.parse(localStorage.getItem("user"))
-        if (userSession && userSession.roles.includes('ROLE_ADMIN')) {
+        if (userSession && userSession.roles.includes('ADMIN')) {
             return true;
         }
         return false;
