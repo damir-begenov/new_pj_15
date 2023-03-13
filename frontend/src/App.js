@@ -4,15 +4,10 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  useParams,
-  useSearchParams,
-  useNavigate
 } from "react-router-dom";
 
-import React from "react";
+import React, { Suspense } from "react";
 import GraphNet from './pages/Graphs/Graphs';
-import MainPage from './pages/MainPage/MainPage';
 import RegistrationPage from './pages/Registration/RegistrationPage';
 import SignInPage from './pages/SignIn/SignInPage';
 import AdminPage from './pages/AdminPage/AdminPage';
@@ -23,6 +18,13 @@ import UserDetails from './pages/userDetails/userDetails';
 
 const App = () => {
   const userSession = JSON.parse(localStorage.getItem("user"))
+  const LazyGraphnet = React.lazy(() => import('./pages/Graphs/Graphs'))
+  const LazyRegistrationPage = React.lazy(() => import('./pages/Registration/RegistrationPage'))
+  const LazySignInPage = React.lazy(() => import('./pages/SignIn/SignInPage'))
+  const LazyAdminPage = React.lazy(() => import('./pages/AdminPage/AdminPage'))
+  const LazyTableLog = React.lazy(() => import('./Components/TableLog/TableLog'))
+  const LazyUserDetails = React.lazy(() => import('./pages/userDetails/userDetails'))
+  
 
   return (
     <Router>
@@ -30,35 +32,46 @@ const App = () => {
         <Routes>
           <Route path="/searchtool" element={
             <>
-              {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
+            <Suspense>
               <Navbar/>
-              <GraphNet /> 
+              <LazyGraphnet /> 
+            </Suspense>
+              {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
             </>
           } />
           <Route path="/" element={
             <>
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
-              <Navbar/>
-              <GraphNet /> 
+              <Suspense>
+                <Navbar/>
+                <GraphNet /> 
+              </Suspense>
             </>
           } />
           <Route path="/registration" element={
             <>
+            <Suspense>
+
               <Navbar/>
-              <RegistrationPage/>
+              <LazyRegistrationPage/>
+            </Suspense>
             </>
           } />
 
           <Route path="/login" element={
             <>
-              <SignInPage/>
+            <Suspense>
+              <LazySignInPage/>
+            </Suspense>
             </>
           } />
           <Route path="/table" element={
             <>
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
+              <Suspense>
               <Navbar/>
-              <TableLog/>
+              <LazyTableLog/>
+              </Suspense>
             </>
           } />
           {/* <Route path="/userTable" element={<UsersTable/>} /> */}
@@ -68,14 +81,20 @@ const App = () => {
               <>
               <Route path="/users/:username" element={
                 <>
+                <Suspense>
                   <Navbar/>
-                  <UserDetails/>
+                  <LazyUserDetails/>
+
+                </Suspense>
                 </>
               }/>
               <Route path="/admin" element={
                 <>
+                <Suspense>
                   <Navbar/>
-                  <AdminPage/>
+                  <LazyAdminPage/>
+
+                </Suspense>
                 </>
               }/>
               </>

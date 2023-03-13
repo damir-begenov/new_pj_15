@@ -12,10 +12,8 @@ const Navbar = () => {
     const navigate = useNavigate()    
 
     const logoutHandler = () => {
-
         authService.logout();
-
-        navigate('/login');
+        // navigate('/login');
     }
 
     useEffect(() => {
@@ -28,14 +26,15 @@ const Navbar = () => {
             <nav className="NavbarItems">
                 <h1 className="logo"><Link to='/'>ITap</Link></h1>
                 <div>
-                    {console.log(userSession)}
+                    {/* {console.log(userSession)} */}
                     {
                         userSession && 
                         userSession.roles.includes("ADMIN")
                         ?  (
-                            <Link to={"/admin"}><div className="admin">
-                                Админ панель
-                            </div></Link>
+                            // <Link to={"/admin"}><div className="admin">
+                            //     Админ панель
+                            // </div></Link>
+                            <div className="admin"><a href="http://localhost:3000/admin">Админ панель</a></div>
                         ) : ("")
                     }
                    
@@ -48,15 +47,14 @@ const Navbar = () => {
                             <li>
                                 <a className={"nav-links"} href={""}>
                                     <span>{userSession.email}</span>
-
                                 </a>
                             </li>
-                            <li><a className={"nav-links"} href={""} onClick={logoutHandler}>Выйти</a></li>
+                            <li><a className={"nav-links"} href={"http://localhost:3000/login"} onClick={logoutHandler}>Выйти</a></li>
                         </> 
                         :
                         <>
                             {/* <li><a className={"nav-links"} href={"http://localhost:3000/registration"}>SIGN UP</a></li> */}
-                            <li><a className={"nav-links"} href={"http://localhost:3000/login"}>LOG IN</a></li>
+                            {/* <li><a className={"nav-links"} href={""} onClick={}>LOG IN</a></li> */}
                         </>
                     }
                 </ul>

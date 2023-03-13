@@ -1186,7 +1186,7 @@ export default class GraphNet extends Component {
             <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
             <div className='centralBar'>
               <div className="waiterBox">
-                {/* <a>Make a search</a> */}
+                {/* <a>Совершите поиск</a> */}
                 <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
@@ -1201,7 +1201,7 @@ export default class GraphNet extends Component {
             <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
               <div className="waiterBox">
-                  <a>No objects found</a>
+                  <a>Связи не найдены</a>
                 </div>
               </div>
             {/* <RightBar showAction={this.state.showActionBtn} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}></RightBar> */}
@@ -1214,11 +1214,12 @@ export default class GraphNet extends Component {
           <>
             <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}   name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
-                <div className="loader">
+                {/* <div className="loader">
                   <div className="inner one"></div>
                   <div className="inner two"></div>
                   <div className="inner three"></div>
-                </div>
+                </div> */}
+                <span class="loader"></span>
               </div>
             {/* <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar> */}
           </>
