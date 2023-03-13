@@ -3,31 +3,27 @@ package com.example.new_project_challenge_15.controller;
 
 import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.models.User;
-import com.example.new_project_challenge_15.models.photoDb;
+import com.example.new_project_challenge_15.models.log;
+import com.example.new_project_challenge_15.modelsPhoto.photoDb;
 import com.example.new_project_challenge_15.models.user_roles;
 import com.example.new_project_challenge_15.repository.*;
+import com.example.new_project_challenge_15.repositoryPhoto.newPhotoRepo;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
 import com.example.new_project_challenge_15.service.*;
 
-import com.sun.jna.WString;
 import lombok.AllArgsConstructor;
 //import org.neo4j.springframework.data.core.Neo4jTemplate;
-import org.neo4j.driver.Value;
-import org.neo4j.driver.Values;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.imageio.ImageIO;
-import javax.mail.Multipart;
 import java.awt.*;
 import java.awt.Robot;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -51,7 +47,8 @@ public class moviesController {
 //    CompanyPersonService companyPersonService;
     @Autowired
     FiPersonsService personsService;
-    newPhotoRepo newPhotoRepo;
+    @Autowired
+    com.example.new_project_challenge_15.repositoryPhoto.newPhotoRepo newPhotoRepo;
     @Autowired
 
     LogsService logsService;

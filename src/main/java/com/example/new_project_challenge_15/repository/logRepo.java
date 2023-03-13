@@ -1,8 +1,7 @@
 package com.example.new_project_challenge_15.repository;
 
-import com.example.new_project_challenge_15.entity.log;
+import com.example.new_project_challenge_15.models.log;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 

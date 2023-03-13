@@ -5,7 +5,7 @@ import com.example.new_project_challenge_15.models.Role;
 import com.example.new_project_challenge_15.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
-import com.example.new_project_challenge_15.entity.log;
+import com.example.new_project_challenge_15.models.log;
 
 import com.example.new_project_challenge_15.entity.statisticModel;
 import com.example.new_project_challenge_15.models.User;
@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.Optional;
+
 import java.util.Set;
 
 @Service

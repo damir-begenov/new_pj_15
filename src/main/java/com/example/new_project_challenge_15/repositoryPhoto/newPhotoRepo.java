@@ -1,6 +1,6 @@
-package com.example.new_project_challenge_15.repository;
+package com.example.new_project_challenge_15.repositoryPhoto;
 
-import com.example.new_project_challenge_15.models.photoDb;
+import com.example.new_project_challenge_15.modelsPhoto.photoDb;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
