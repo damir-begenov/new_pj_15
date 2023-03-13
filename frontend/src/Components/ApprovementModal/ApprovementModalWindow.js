@@ -18,7 +18,7 @@ const ApprovementModalWindow = (props) => {
 
                 <div className="modalItem">
                     <label>Введите дату *</label>
-                    <input type="text" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"
+                    <input type="date" name="orderDate" className="sendItem requiredItem" placeholder="01.01.23"
                         onChange={() => {
                         }}/>
                 </div>

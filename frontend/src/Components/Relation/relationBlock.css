@@ -20,6 +20,30 @@
     outline: none;
 }
 
+.relsOption input[type="checkbox"] {
+    display: none;
+    appearance: none;
+}
+
+.relButton {
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    background: var(--secondary-color);
+    color: #808080;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.relButton:hover {
+    color: #0f0f0f;
+    background: var(--secondary-color-lighter);
+}
+
+.relButton:active {
+    color: #808080;
+    background: var(--secondary-color-darker);
+}
 
 /* 
 

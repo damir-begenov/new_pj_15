@@ -52,7 +52,350 @@ export default class GraphNet extends Component {
       showSudInfo: false,
       keyNodeId: 0,
       nodeStack: [],
-      params: {}
+      params: {},
+      layoutHierarchical: true,
+      options: {
+        autoResize: true,
+        edges: {
+          // color: 'white',
+          length: 400,
+          width: 1,
+          selectionWidth: 5,
+          arrows: {
+            to: true,
+          },
+          smooth: {
+            "type": "continuous",
+            "forceDirection": "none",
+            roundness: 0.5
+          }, 
+          font: {
+            strokeWidth: 0,
+            size: 10,
+            align: "top"
+          },
+        },
+        physics:
+        {
+          enabled: false,
+          barnesHut: {
+            springConstant: 0,
+            theta: 0.5,
+            gravitationalConstant: -2000,
+            centralGravity: 0.3,
+            springLength: 95,
+            springConstant: 0.04,
+            damping: 0.09,
+            avoidOverlap: 0
+          },
+          maxVelocity: 25,
+          minVelocity: 1,
+          solver: "barnesHut",
+          timestep: 0.5,
+          wind: { x: 0, y: 0 }
+  
+        },
+        groups: {
+          keyPerson: {
+            shape: "circularImage",
+            image: keyPersonIcon,
+          },
+          person: {
+            shape: "circularImage",
+            image: personIcon,
+          },
+          personJai: {
+            shape: "circularImage",
+            image: personjaiIcon,
+          },
+          keyJudgePerson: {
+            shape: "circularImage",
+            image: keyJudgePersonIcon,
+          },
+          ripPerson: {
+            shape: "circularImage",
+            image: ripPersonIcon,
+          },
+          judgePerson: {
+            shape: "circularImage",
+            image: judgePersonIcon,
+          },
+          keyCompany: {
+            shape: "circularImage",
+            image: keyCompanyIcon,
+          },
+          company: {
+            shape: "circularImage",
+            image: companyIcon,
+          },
+          judgeCompany: {
+            shape: "circularImage",
+            image: judgeCompanyIcon,
+          },
+          PROPISKA: {
+            shape: "circularImage",
+            image: addressIcon,
+          },
+        },
+        nodes: {
+          font: {
+            size: 14,
+            color: "white"
+          },
+          size: 20
+        },
+  
+        height: "100%",
+  
+        layout: {
+          hierarchical: {
+            enabled: false,
+            levelSeparation: 150,
+            nodeSpacing: 200,
+            treeSpacing: 200,
+            blockShifting: true,
+            edgeMinimization: true,
+            parentCentralization: true,
+            direction: 'UD',        // UD, DU, LR, RL
+            sortMethod: 'hubsize',  // hubsize, directed
+            shakeTowards: 'leaves'  // roots, leaves
+          },
+  
+          randomSeed: 1,
+          improvedLayout: true,
+          
+        }
+      }
+    }
+
+    layoutHandler = () => {
+      if (this.state.options.layout.hierarchical.enabled === true) {
+        this.state.options.layout.hierarchical.enabled = false
+        this.state.options = {
+          autoResize: true,
+          edges: {
+            // color: 'white',
+            length: 400,
+            width: 1,
+            selectionWidth: 5,
+            arrows: {
+              to: true,
+            },
+            smooth: {
+              "type": "continuous",
+              "forceDirection": "none",
+              roundness: 0.5
+            }, 
+            font: {
+              strokeWidth: 0,
+              size: 10,
+              align: "top"
+            },
+          },
+          physics:
+          {
+            enabled: false,
+            barnesHut: {
+              springConstant: 0,
+              theta: 0.5,
+              gravitationalConstant: -2000,
+              centralGravity: 0.3,
+              springLength: 95,
+              springConstant: 0.04,
+              damping: 0.09,
+              avoidOverlap: 0
+            },
+            maxVelocity: 25,
+            minVelocity: 1,
+            solver: "barnesHut",
+            timestep: 0.5,
+            wind: { x: 0, y: 0 }
+    
+          },
+          groups: {
+            keyPerson: {
+              shape: "circularImage",
+              image: keyPersonIcon,
+            },
+            person: {
+              shape: "circularImage",
+              image: personIcon,
+            },
+            personJai: {
+              shape: "circularImage",
+              image: personjaiIcon,
+            },
+            keyJudgePerson: {
+              shape: "circularImage",
+              image: keyJudgePersonIcon,
+            },
+            ripPerson: {
+              shape: "circularImage",
+              image: ripPersonIcon,
+            },
+            judgePerson: {
+              shape: "circularImage",
+              image: judgePersonIcon,
+            },
+            keyCompany: {
+              shape: "circularImage",
+              image: keyCompanyIcon,
+            },
+            company: {
+              shape: "circularImage",
+              image: companyIcon,
+            },
+            judgeCompany: {
+              shape: "circularImage",
+              image: judgeCompanyIcon,
+            },
+            PROPISKA: {
+              shape: "circularImage",
+              image: addressIcon,
+            },
+          },
+          nodes: {
+            font: {
+              size: 14,
+              color: "white"
+            },
+            size: 20
+          },
+          height: "100%",
+          layout: {
+            hierarchical: {
+              enabled: false,
+              levelSeparation: 150,
+              nodeSpacing: 200,
+              treeSpacing: 200,
+              blockShifting: true,
+              edgeMinimization: true,
+              parentCentralization: true,
+              direction: 'UD',        // UD, DU, LR, RL
+              sortMethod: 'hubsize',  // hubsize, directed
+              shakeTowards: 'leaves'  // roots, leaves
+            },
+    
+            randomSeed: 1,
+            improvedLayout: true,
+            
+          }
+        }
+      } else {
+        this.state.options.layout.hierarchical.enabled = true
+        this.state.options = {
+          autoResize: true,
+          edges: {
+            // color: 'white',
+            length: 400,
+            width: 1,
+            selectionWidth: 5,
+            arrows: {
+              to: true,
+            },
+            smooth: {
+              "type": "continuous",
+              "forceDirection": "none",
+              roundness: 0.5
+            }, 
+            font: {
+              strokeWidth: 0,
+              size: 10,
+              align: "top"
+            },
+          },
+          physics:
+          {
+            enabled: false,
+            barnesHut: {
+              springConstant: 0,
+              theta: 0.5,
+              gravitationalConstant: -2000,
+              centralGravity: 0.3,
+              springLength: 95,
+              springConstant: 0.04,
+              damping: 0.09,
+              avoidOverlap: 0
+            },
+            maxVelocity: 25,
+            minVelocity: 1,
+            solver: "barnesHut",
+            timestep: 0.5,
+            wind: { x: 0, y: 0 }
+    
+          },
+          groups: {
+            keyPerson: {
+              shape: "circularImage",
+              image: keyPersonIcon,
+            },
+            person: {
+              shape: "circularImage",
+              image: personIcon,
+            },
+            personJai: {
+              shape: "circularImage",
+              image: personjaiIcon,
+            },
+            keyJudgePerson: {
+              shape: "circularImage",
+              image: keyJudgePersonIcon,
+            },
+            ripPerson: {
+              shape: "circularImage",
+              image: ripPersonIcon,
+            },
+            judgePerson: {
+              shape: "circularImage",
+              image: judgePersonIcon,
+            },
+            keyCompany: {
+              shape: "circularImage",
+              image: keyCompanyIcon,
+            },
+            company: {
+              shape: "circularImage",
+              image: companyIcon,
+            },
+            judgeCompany: {
+              shape: "circularImage",
+              image: judgeCompanyIcon,
+            },
+            PROPISKA: {
+              shape: "circularImage",
+              image: addressIcon,
+            },
+          },
+          nodes: {
+            font: {
+              size: 14,
+              color: "white"
+            },
+            size: 20
+          },
+    
+          height: "100%",
+    
+          layout: {
+            hierarchical: {
+              enabled: true,
+              levelSeparation: 150,
+              nodeSpacing: 200,
+              treeSpacing: 200,
+              blockShifting: true,
+              edgeMinimization: true,
+              parentCentralization: true,
+              direction: 'UD',        // UD, DU, LR, RL
+              sortMethod: 'hubsize',  // hubsize, directed
+              shakeTowards: 'leaves'  // roots, leaves
+            },
+    
+            randomSeed: 1,
+            improvedLayout: true,
+            
+          }
+        }
+      }
     }
 
     assignInfoBlock = (options, elemId) => {
@@ -100,6 +443,7 @@ export default class GraphNet extends Component {
       this.setState({nodes: [], edges: [], ids: []})
       this.state.counter = this.state.counter+
       console.log(options)
+
 
       
       const userSession = JSON.parse(localStorage.getItem("user"))
@@ -180,17 +524,17 @@ export default class GraphNet extends Component {
           break;
       }
 
-      params["approvement_type"] = options.approvementObject.approvement_type
-      params["orderNum"] = options.approvementObject.orderNum
-      params["orderDate"] = options.approvementObject.orderDate
-      params["articleName"] = options.approvementObject.articleName
-      params["caseNum"] = options.approvementObject.caseNum
-      params["checkingName"] = options.approvementObject.checkingName
-      params["otherReasons"] = options.approvementObject.other
-      params["organName"] = options.approvementObject.organName
-      params["rukName"] = options.approvementObject.rukName
-      params["sphereName"] = options.approvementObject.sphereName
-      params["tematikName"] = options.approvementObject.tematikName
+      params["approvement_type"] = options.approvementObject ? options.approvementObject.approvement_type : ""
+      params["orderNum"] = options.approvementObject ? options.approvementObject.orderNum : ""
+      params["orderDate"] = options.approvementObject ? options.approvementObject.orderDate : ""
+      params["articleName"] = options.approvementObject ? options.approvementObject.articleName : ""
+      params["caseNum"] = options.approvementObject ? options.approvementObject.caseNum : ""
+      params["checkingName"] = options.approvementObject ? options.approvementObject.checkingName : ""
+      params["otherReasons"] = options.approvementObject ? options.approvementObject.other : ""
+      params["organName"] = options.approvementObject ? options.approvementObject.organName : ""
+      params["rukName"] = options.approvementObject ? options.approvementObject.rukName : ""
+      params["sphereName"] = options.approvementObject ? options.approvementObject.sphereName : ""
+      params["tematikName"] = options.approvementObject ? options.approvementObject.tematikName : ""
 
       console.log(params)
 
@@ -220,7 +564,10 @@ export default class GraphNet extends Component {
         const fileInput = document.getElementById('file-upload')
         fileInput.value = ""
         this.setState({showActionBtn: true})
-        // Network.fit({});
+        
+        // Network.fit({
+        //   minZoomLevel: 2
+        // });
       })
     };
 
@@ -335,13 +682,30 @@ export default class GraphNet extends Component {
       }
     }
 
+    cropLabel(label) {
+      let labelChunkArr = label.match(/.{1,60}/g)
+      let cropedLabel = ""
+      labelChunkArr.forEach(elem => {
+        if (cropedLabel == "") cropedLabel = elem
+        else cropedLabel += ('\n' + elem)
+      })
+
+      return cropedLabel
+    }
+
     setNodeSettings = (node, iin1, iin2) => {
       this.state.ids.push(node.id)
       let key = false
       if (node.properties.Type == "ЮЛ" || node.properties.Type == "ИП") {
         // settings for ul
         node.label = node.properties.Name;
+
+        if (node.label.length > 60) { 
+          node.label = this.cropLabel(node.label)
+          console.log(node.physics)
+        }
         
+
         const p = node.properties;
         if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null) {
           node.group = "judgeCompany"
@@ -403,106 +767,6 @@ export default class GraphNet extends Component {
     colors = {
       
     }
-
-    options = {
-      autoResize: true,
-      edges: {
-        // color: 'white',
-        length: 200,
-        width: 1,
-        selectionWidth: 5,
-        arrows: {
-          to: true,
-        },
-        smooth: {
-          "type": "dynamic",
-          "forceDirection": "none",
-          roundness: 0.5
-        }, 
-        font: {
-          strokeWidth: 0,
-          size: 10,
-          align: "top"
-        },
-      },
-      physics:
-      {
-        enabled: true,
-        barnesHut: {
-          springConstant: 0,
-          theta: 0.5,
-          gravitationalConstant: -2000,
-          centralGravity: 0.3,
-          springLength: 95,
-          springConstant: 0.04,
-          damping: 0.09,
-          avoidOverlap: 0
-        },
-        maxVelocity: 25,
-        minVelocity: 0,
-        solver: "barnesHut",
-        timestep: 0.5,
-        wind: { x: 0, y: 0 }
-
-      },
-      groups: {
-        keyPerson: {
-          shape: "circularImage",
-          image: keyPersonIcon,
-        },
-        person: {
-          shape: "circularImage",
-          image: personIcon,
-        },
-        personJai: {
-          shape: "circularImage",
-          image: personjaiIcon,
-        },
-        keyJudgePerson: {
-          shape: "circularImage",
-          image: keyJudgePersonIcon,
-        },
-        ripPerson: {
-          shape: "circularImage",
-          image: ripPersonIcon,
-        },
-        judgePerson: {
-          shape: "circularImage",
-          image: judgePersonIcon,
-        },
-        keyCompany: {
-          shape: "circularImage",
-          image: keyCompanyIcon,
-        },
-        company: {
-          shape: "circularImage",
-          image: companyIcon,
-        },
-        judgeCompany: {
-          shape: "circularImage",
-          image: judgeCompanyIcon,
-        },
-        PROPISKA: {
-          shape: "circularImage",
-          image: addressIcon,
-        },
-      },
-      nodes: {
-        font: {
-          size: 14,
-          color: "white"
-        },
-        size: 20
-      },
-
-      height: "100%",
-
-      layout: {
-        randomSeed: 1,
-        improvedLayout: true,
-        
-      }
-    };
 
     manipulation = {
       deleteNode: true,
@@ -805,7 +1069,7 @@ export default class GraphNet extends Component {
     showSearched() {
       const item = this.state.searchedNodes[this.state.sliderPage];
 
-      Network.focus(item.id, {
+      item && Network.focus(item.id, {
         scale: 1.5,
         offset: {
           x: 0,
@@ -998,7 +1262,7 @@ export default class GraphNet extends Component {
 
             <Graph
               graph={this.state}
-              options={this.options}
+              options={this.state.options}
               events={this.events}
               getNetwork={network => {
                 Network = network;
@@ -1012,7 +1276,7 @@ export default class GraphNet extends Component {
               className={"graph"}
               />
         </div>          
-        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage} showSudInfo={this.state.showSudInfo}></RightBar>
+        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage} showSudInfo={this.state.showSudInfo} layoutHandler={this.layoutHandler}></RightBar>
         </>
         </div>
       )

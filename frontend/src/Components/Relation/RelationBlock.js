@@ -12,6 +12,7 @@ const colourStyles = {
     option: (styles, { isDisabled, isFocused, isSelected }) => {
       return {
         ...styles,
+        appearance: 'none',
         backgroundColor: isDisabled
           ? undefined
           : isSelected
@@ -62,16 +63,18 @@ const colourStyles = {
 
 const Option = (props) => {
     return (
-      <div className={"relsOption"}>
-        <components.Option {...props}>
-          <input
-            type="checkbox"
-            checked={props.isSelected}
-            onChange={() => null}
-          />{" "}
-          <label>{props.label}</label>
-        </components.Option>
+        <>
+        <div className={"relsOption"}>
+            <components.Option {...props}>
+                <input
+                    type="checkbox"
+                    checked={props.isSelected}
+                    onChange={() => null}
+                />{" "}
+                <label>{props.label}</label>
+            </components.Option>
       </div>
+      </>
     );
 };
 
@@ -104,12 +107,17 @@ const RelationBlock = (props) => {
         setSelectedOptions(selected)
     }
 
+    const handleAllRels = () => {
+        setSelectedOptions([...relationsLevel1, ...relationsLevel2])
+    }
+
     const handleOptions = () => {
         return [...relationsLevel1, ...relationsLevel2]
     }
 
     return (
         <>
+        <div className="relButton" onClick={handleAllRels}>Все связи</div>
         <span
             className="relsSelectBlock"
             data-toggle="popover"
