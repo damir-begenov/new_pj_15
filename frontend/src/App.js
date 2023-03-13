@@ -1,4 +1,5 @@
 import './App.css';
+import './Loader.css'
 // import './fontawesome/all.css';
 import Navbar from './Components/NavBar/Navbar';
 import {
@@ -33,8 +34,8 @@ const App = () => {
         <Routes>
           <Route path="/searchtool" element={
             <>
-            <Suspense>
               <Navbar/>
+            <Suspense fallback={<span class="loader"></span>}>
               <LazyGraphnet /> 
             </Suspense>
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
@@ -43,17 +44,17 @@ const App = () => {
           <Route path="/" element={
             <>
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
-              <Suspense>
                 <Navbar/>
-                <GraphNet /> 
+              <Suspense fallback={<span class="loader"></span>}>
+                <LazyGraphnet /> 
               </Suspense>
             </>
           } />
           <Route path="/registration" element={
             <>
-            <Suspense>
 
               <Navbar/>
+            <Suspense fallback={<span class="loader"></span>}>
               <LazyRegistrationPage/>
             </Suspense>
             </>
@@ -61,7 +62,7 @@ const App = () => {
 
           <Route path="/login" element={
             <>
-            <Suspense>
+            <Suspense fallback={<span class="loader"></span>}>
               <LazySignInPage/>
             </Suspense>
             </>
@@ -69,8 +70,8 @@ const App = () => {
           <Route path="/table" element={
             <>
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
-              <Suspense>
               <Navbar/>
+              <Suspense fallback={<span class="loader"></span>}>
               <LazyTableLog/>
               </Suspense>
             </>
@@ -82,8 +83,8 @@ const App = () => {
               <>
               <Route path="/users/:username" element={
                 <>
-                <Suspense>
                   <Navbar/>
+                <Suspense fallback={<span class="loader"></span>}>
                   <LazyUserDetails/>
 
                 </Suspense>
@@ -91,9 +92,9 @@ const App = () => {
               }/>
               <Route path="/admin" element={
                 <>
-                <Suspense>
                   <Navbar/>
-                  <LazyAdminPage/>
+                <Suspense fallback={<span class="loader"></span>}>
+                  <AdminPage/>
 
                 </Suspense>
                 </>

@@ -20,6 +20,13 @@ const Navbar = () => {
         const a = !userSession ? navigate('/login') : ""
     })
 
+    const toAdmin = () => {
+        navigate('/admin')
+    }
+    const toLogin = () => {
+        navigate('/login')
+    }
+
     return (
         <>
         <div className="nav-back">
@@ -34,7 +41,7 @@ const Navbar = () => {
                             // <Link to={"/admin"}><div className="admin">
                             //     Админ панель
                             // </div></Link>
-                            <div className="admin"><a href="http://localhost:3000/admin">Админ панель</a></div>
+                            <div className="admin"><Link to="/admin">Админ панель</Link></div>
                         ) : ("")
                     }
                    
@@ -49,7 +56,7 @@ const Navbar = () => {
                                     <span>{userSession.email}</span>
                                 </a>
                             </li>
-                            <li><a className={"nav-links"} href={"http://localhost:3000/login"} onClick={logoutHandler}>Выйти</a></li>
+                            <li><Link className={"nav-links"} to={"/login"} onClick={logoutHandler}>Выйти</Link></li>
                         </> 
                         :
                         <>
