@@ -1,8 +1,7 @@
 package com.example.new_project_challenge_15.entity;
 
-import com.example.new_project_challenge_15.models.photoDb;
+import com.example.new_project_challenge_15.modelsPhoto.photoDb;
 
-import java.util.List;
 import java.util.Map;
 
 public class Nodes {

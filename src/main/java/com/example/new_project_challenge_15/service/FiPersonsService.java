@@ -3,7 +3,7 @@ package com.example.new_project_challenge_15.service;
 
 import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.entity.rels.*;
-import com.example.new_project_challenge_15.models.photoDb;
+import com.example.new_project_challenge_15.modelsPhoto.photoDb;
 import com.example.new_project_challenge_15.repository.newCompanyRepo;
 import com.example.new_project_challenge_15.repository.newPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -682,6 +682,22 @@ public class FiPersonsService {
                     Nodes currNode = new Nodes();
                     Map<String, Object> properties2 = getPropertyMap(relation.getCompany());
                     currNode.setId(relation.getCompany().getId());
+                    currNode.setProperties(properties2);
+                    nodes.add(currNode);
+                }
+            }
+            List<BLIZKIE_RODS> BLIZKIE_RODS = object.getBlizkieRods();
+            for (BLIZKIE_RODS relation: BLIZKIE_RODS) {
+                Map<String, Object> properties = getPropertyMap(relation);
+                relationModel currRel = new relationModel(relation.getPersons().getId(), object.getId(), properties);
+                currRel.setType("BLIZKIE_RODS");
+                edges.add(currRel);
+                if (!ids.contains(relation.getPersons().getId())) {
+                    ids.add(relation.getPersons().getId());
+                    Nodes currNode = new Nodes();
+                    currNode = tryAddPhoto(currNode, relation.getPersons().getIIN());
+                    Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
+                    currNode.setId(relation.getPersons().getId());
                     currNode.setProperties(properties2);
                     nodes.add(currNode);
                 }

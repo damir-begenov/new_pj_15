@@ -76,8 +76,8 @@ class UserDetails extends Component {
     //         }
     //     }
     createBox = (log) => {
-        return <div>
-            Order date: {log.order_date}
+        return <div className="dopInfa">
+            {log.approvement_data}
         </div>
     }
 
@@ -149,9 +149,7 @@ class UserDetails extends Component {
                                     <th scope="col"><a className="sort">Date</a></th>
                                     {/* <th scope="col"><a className="sort">Username</a></th> */}
                                     <th scope="col"><a className="sort">Request Body</a></th>
-                                    <th scope="col"><a className="sort">LIMIT</a></th>
-                                    <th scope="col"><a className="sort">DEPTH</a></th>
-                                    <th scope="col"><a className="sort">Доп. инфо.</a></th>
+                                    <th scope="col"><a className="sort">Запрос</a></th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -163,14 +161,10 @@ class UserDetails extends Component {
                                         <td>{log.date.slice(0, 10)} {log.date.slice(11, 19)}</td>
                                         {/* <td className="FIO"><Link className="rowInfo" to={`/schools`}>{log.username}</Link></td> */}
                                         <td>{log.request_body}</td>
-                                        <td>{log.limit_}</td>
-                                        <td>{log.depth_}</td>
-                                        <td><a >Открыть</a></td>
+                                        <td>{log.obwii}</td>
                                         {/* <td>{log.request_rels.join(",")}</td> */}
                                     </tr>
-                                    <tr>
                                     {this.createBox(log)}
-                                    </tr>
                                     </>
                                 )}
                             </tbody>

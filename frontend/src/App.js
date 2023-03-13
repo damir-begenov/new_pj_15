@@ -48,6 +48,7 @@ const App = () => {
               <RegistrationPage/>
             </>
           } />
+
           <Route path="/login" element={
             <>
               <SignInPage/>

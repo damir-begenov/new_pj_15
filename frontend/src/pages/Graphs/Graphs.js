@@ -98,7 +98,8 @@ export default class GraphNet extends Component {
     Submit = async (options) => {
       this.state.isLoading = true
       this.setState({nodes: [], edges: [], ids: []})
-      this.state.counter = this.state.counter+1
+      this.state.counter = this.state.counter+
+      console.log(options)
 
       
       const userSession = JSON.parse(localStorage.getItem("user"))
@@ -179,24 +180,17 @@ export default class GraphNet extends Component {
           break;
       }
 
-      params["approvement_type"] = options.approvementObject.approvement_type
-      params["orderNum"] = options.approvementObject.orderNum
-      params["orderDate"] = options.approvementObject.orderDate
-      params["articleName"] = options.approvementObject.articleName
-      params["caseNum"] = options.approvementObject.caseNum
-      params["checkingName"] = options.approvementObject.checkingName
-      params["otherReasons"] = options.approvementObject.other
-      params["organName"] = options.approvementObject.organName
-      params["rukName"] = options.approvementObject.rukName
-      params["sphereName"] = options.approvementObject.sphereName
-      params["tematikName"] = options.approvementObject.tematikName
-
-      // if (options.name1 != "") params["firstName1"] = options.name1 
-      // if (options.name2 != "") params["firstName2"] = options.name2 
-      // if (options.lname1 != "") params["lastName1"] = options.lname1 
-      // if (options.lname2 != "") params["lastName2"] = options.lname2 
-      // if (options.fname1 != "") params["fatherName1"] = options.fname1 
-      // if (options.fname2 != "") params["fatherName2"] = options.fname2 
+      params["approvement_type"] = options.approvementObject ? options.approvementObject.approvement_type : ""
+      params["orderNum"] = options.approvementObject ? options.approvementObject.orderNum : ""
+      params["orderDate"] = options.approvementObject ? options.approvementObject.orderDate : ""
+      params["articleName"] = options.approvementObject ? options.approvementObject.articleName : ""
+      params["caseNum"] = options.approvementObject ?options.approvementObject.caseNum : ""
+      params["checkingName"] = options.approvementObject ? options.approvementObject.checkingName : ""
+      params["otherReasons"] = options.approvementObject ? options.approvementObject.other : ""
+      params["organName"] =options.approvementObject ? options.approvementObject.organName : ""
+      params["rukName"] = options.approvementObject ? options.approvementObject.rukName : ""
+      params["sphereName"] =options.approvementObject ? options.approvementObject.sphereName : ""
+      params["tematikName"] =options.approvementObject ? options.approvementObject.tematikName : ""
 
       console.log(params)
 
@@ -232,7 +226,7 @@ export default class GraphNet extends Component {
 
     shortOpen = (openLimit, showRels) => {
       console.log(openLimit, showRels)
-      console.log(SelectedNode.options.id)
+      
       axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id, relations: showRels, limit: openLimit }}).then(res => {
         let nodes = []
         const edgesFinal = res.data.edges;
@@ -506,6 +500,7 @@ export default class GraphNet extends Component {
       layout: {
         randomSeed: 1,
         improvedLayout: true,
+        
       }
     };
 

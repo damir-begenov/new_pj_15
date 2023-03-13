@@ -3,7 +3,8 @@ package com.example.new_project_challenge_15.controller;
 
 import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.models.User;
-import com.example.new_project_challenge_15.models.photoDb;
+import com.example.new_project_challenge_15.models.log;
+import com.example.new_project_challenge_15.modelsPhoto.photoDb;
 import com.example.new_project_challenge_15.models.user_roles;
 import com.example.new_project_challenge_15.repository.*;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
@@ -23,6 +24,8 @@ import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.List;
 
 
@@ -31,19 +34,27 @@ import java.util.List;
 @RequestMapping("/api/finpol/main")
 @AllArgsConstructor
 public class moviesController {
-    PersonService personService;
-    UserDetailsServiceImpl userDetailsService;
-    statisticService statisticService;
+    PersonService personService;    @Autowired
+
+    UserDetailsServiceImpl userDetailsService;    @Autowired
+
+    statisticService statisticService;    @Autowired
+
     com.example.new_project_challenge_15.repository.logRepo logRepo;
-    UserRepository userRepository;
-    RoleRepository rRepo;
-    newPersonService newPersonService;
+    UserRepository userRepository;    @Autowired
+
+    RoleRepository rRepo;    @Autowired
+
+    newPersonService newPersonService;    @Autowired
+
     newAddressRepo newAddressRepo;
+    @Autowired
+
     newCompanyRepo newCompanyRepo;
 //    CompanyPersonService companyPersonService;
     @Autowired
     FiPersonsService personsService;
-    com.example.new_project_challenge_15.newRepo.newPhotoRepo newPhotoRepo;
+
     @Autowired
 
     LogsService logsService;
@@ -57,6 +68,11 @@ public class moviesController {
     @Autowired
     user_RolesRepo userRolesRepo;
 
+
+    @GetMapping("/admin/users")
+    public List<User> getUsersSearch(@RequestParam String value) {
+        return userRepository.getUsersByLike(value);
+    }
     @GetMapping("/changeUserRole")
     @PreAuthorize("hasRole('ADMIN')")
     public void changeUserRole(@RequestParam String user, @RequestParam String role) {
@@ -78,6 +94,7 @@ public class moviesController {
     public statisticModel getUserDetails(@RequestParam String username) {
         return statisticService.getByUsername(username);
     }
+
 
 
     @GetMapping("/fltree")
@@ -225,55 +242,55 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
                                          @RequestParam(required = false) String sphereName,
                                          @RequestParam(required = false) String tematikName,
                                          @RequestParam(required = false) String rukName,Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add(person);
-//        request_bodies.add(person2);
-//        log log = new log();
-//        String obwii = "Ракрыть путь ФЛ-ФЛ: " + person+ " и " + person2;
-//        List<String> approvements = new ArrayList<>();
-//        String approvement_data = "";
-//        if (orderNum != null) {
-//            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
-//        }
-//        if (caseNum != null) {
-//            approvements.add("НОМЕР ДЕЛА: " + caseNum);
-//        }
-//        if (orderDate != null) {
-//            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
-//        }
-//        if (articleName != null) {
-//            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
-//        }
-//        if (checkingName != null) {
-//            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
-//        }
-//        if (otherReasons != null) {
-//            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
-//        }
-//        if (organName != null) {
-//            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
-//        }
-//        if (sphereName != null) {
-//            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
-//        }
-//        if (tematikName != null) {
-//            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
-//        }
-//        if (rukName != null) {
-//            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
-//        }
-//        for (String reason: approvements) {
-//            approvement_data = approvement_data + reason + ", ";
-//        }
-//        log.setObwii(obwii);
-//        log.setApprovement_data(approvement_data);
-//        LocalDateTime current = LocalDateTime.now();
-//        log.setUsername(user.getUsername());
-//        log.setDate(current);
-//        log.setRequest_body(request_bodies);
-//        log.setRequest_rels(relations);
-//        logsService.SaveLog(log);
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(person);
+        request_bodies.add(person2);
+        log log = new log();
+        String obwii = "Ракрыть путь ФЛ-ФЛ: " + person+ " и " + person2;
+        List<String> approvements = new ArrayList<>();
+        String approvement_data = "";
+        if (orderNum != null) {
+            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
+        }
+        if (caseNum != null) {
+            approvements.add("НОМЕР ДЕЛА: " + caseNum);
+        }
+        if (orderDate != null) {
+            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
+        }
+        if (articleName != null) {
+            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
+        }
+        if (checkingName != null) {
+            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
+        }
+        if (otherReasons != null) {
+            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
+        }
+        if (organName != null) {
+            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
+        }
+        if (sphereName != null) {
+            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
+        }
+        if (tematikName != null) {
+            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
+        }
+        if (rukName != null) {
+            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
+        }
+        for (String reason: approvements) {
+            approvement_data = approvement_data + reason + ", ";
+        }
+        log.setObwii(obwii);
+        log.setApprovement_data(approvement_data);
+        LocalDateTime current = LocalDateTime.now();
+        log.setUsername(user.getUsername());
+        log.setDate(current);
+        log.setRequest_body(request_bodies);
+        log.setRequest_rels(relations);
+        logsService.SaveLog(log);
         return personsService.getShortestPaths(person, person2, relations);
     }
     @GetMapping("/shortestpathsByFIO")
@@ -288,55 +305,55 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
                                          @RequestParam(required = false) String sphereName,
                                          @RequestParam(required = false) String tematikName,
                                          @RequestParam(required = false) String rukName,Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add("Фамилия: " + lastName1 + ", имя: " + firstName1 + ", отчество: " + fatherName1);
-//        request_bodies.add("Фамилия: " + lastName2 + ", имя: " + firstName2 + ", отчество: " + fatherName2);
-//        log log = new log();
-//        String obwii = "Ракрыть путь ФЛ-ФЛ: " + request_bodies.get(0) + ", " + request_bodies.get(1);
-//        List<String> approvements = new ArrayList<>();
-//        String approvement_data = "";
-//        if (orderNum != null) {
-//            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
-//        }
-//        if (caseNum != null) {
-//            approvements.add("НОМЕР ДЕЛА: " + caseNum);
-//        }
-//        if (orderDate != null) {
-//            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
-//        }
-//        if (articleName != null) {
-//            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
-//        }
-//        if (checkingName != null) {
-//            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
-//        }
-//        if (otherReasons != null) {
-//            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
-//        }
-//        if (organName != null) {
-//            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
-//        }
-//        if (sphereName != null) {
-//            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
-//        }
-//        if (tematikName != null) {
-//            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
-//        }
-//        if (rukName != null) {
-//            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
-//        }
-//        for (String reason: approvements) {
-//            approvement_data = approvement_data + reason + ", ";
-//        }
-//        log.setObwii(obwii);
-//        log.setApprovement_data(approvement_data);
-//        LocalDateTime current = LocalDateTime.now();
-//        log.setUsername(user.getUsername());
-//        log.setDate(current);
-//        log.setRequest_body(request_bodies);
-//        log.setRequest_rels(relations);
-//        logsService.SaveLog(log);
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add("Фамилия: " + lastName1 + ", имя: " + firstName1 + ", отчество: " + fatherName1);
+        request_bodies.add("Фамилия: " + lastName2 + ", имя: " + firstName2 + ", отчество: " + fatherName2);
+        log log = new log();
+        String obwii = "Ракрыть путь ФЛ-ФЛ: " + request_bodies.get(0) + ", " + request_bodies.get(1);
+        List<String> approvements = new ArrayList<>();
+        String approvement_data = "";
+        if (orderNum != null) {
+            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
+        }
+        if (caseNum != null) {
+            approvements.add("НОМЕР ДЕЛА: " + caseNum);
+        }
+        if (orderDate != null) {
+            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
+        }
+        if (articleName != null) {
+            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
+        }
+        if (checkingName != null) {
+            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
+        }
+        if (otherReasons != null) {
+            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
+        }
+        if (organName != null) {
+            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
+        }
+        if (sphereName != null) {
+            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
+        }
+        if (tematikName != null) {
+            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
+        }
+        if (rukName != null) {
+            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
+        }
+        for (String reason: approvements) {
+            approvement_data = approvement_data + reason + ", ";
+        }
+        log.setObwii(obwii);
+        log.setApprovement_data(approvement_data);
+        LocalDateTime current = LocalDateTime.now();
+        log.setUsername(user.getUsername());
+        log.setDate(current);
+        log.setRequest_body(request_bodies);
+        log.setRequest_rels(relations);
+        logsService.SaveLog(log);
         if(fatherName1 == "" & fatherName2 == ""){
             return personsService.getShortestPathWithFIObezbez(lastName1.toUpperCase(),firstName1.toUpperCase(),fatherName1.toUpperCase(),lastName2.toUpperCase(),firstName2.toUpperCase(),fatherName2.toUpperCase(), relations);
         }
@@ -361,56 +378,56 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
                                   @RequestParam(required = false) String sphereName,
                                   @RequestParam(required = false) String tematikName,
                                   @RequestParam(required = false) String rukName,Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add(ul);
-//        log log = new log();
-//        String obwii = "Раскрыть связь ЮЛ: " + ul + ", лимит: " + limit + ", уровень: " + depth;
-//        List<String> approvements = new ArrayList<>();
-//        String approvement_data = "";
-//        if (orderNum != null) {
-//            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
-//        }
-//        if (caseNum != null) {
-//            approvements.add("НОМЕР ДЕЛА: " + caseNum);
-//        }
-//        if (orderDate != null) {
-//            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
-//        }
-//        if (articleName != null) {
-//            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
-//        }
-//        if (checkingName != null) {
-//            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
-//        }
-//        if (otherReasons != null) {
-//            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
-//        }
-//        if (organName != null) {
-//            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
-//        }
-//        if (sphereName != null) {
-//            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
-//        }
-//        if (tematikName != null) {
-//            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
-//        }
-//        if (rukName != null) {
-//            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
-//        }
-//        for (String reason: approvements) {
-//            approvement_data = approvement_data + reason + ", ";
-//        }
-//        log.setObwii(obwii);
-//        log.setApprovement_data(approvement_data);
-//        LocalDateTime current = LocalDateTime.now();
-//        log.setUsername(user.getUsername());
-//        log.setDate(current);
-//        log.setLimit_(limit);
-//        log.setDepth_(depth);
-//        log.setRequest_body(request_bodies);
-//        log.setRequest_rels(relations);
-//        logsService.SaveLog(log);
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(ul);
+        log log = new log();
+        String obwii = "Раскрыть связь ЮЛ: " + ul + ", лимит: " + limit + ", уровень: " + depth;
+        List<String> approvements = new ArrayList<>();
+        String approvement_data = "";
+        if (orderNum != null) {
+            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
+        }
+        if (caseNum != null) {
+            approvements.add("НОМЕР ДЕЛА: " + caseNum);
+        }
+        if (orderDate != null) {
+            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
+        }
+        if (articleName != null) {
+            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
+        }
+        if (checkingName != null) {
+            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
+        }
+        if (otherReasons != null) {
+            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
+        }
+        if (organName != null) {
+            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
+        }
+        if (sphereName != null) {
+            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
+        }
+        if (tematikName != null) {
+            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
+        }
+        if (rukName != null) {
+            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
+        }
+        for (String reason: approvements) {
+            approvement_data = approvement_data + reason + ", ";
+        }
+        log.setObwii(obwii);
+        log.setApprovement_data(approvement_data);
+        LocalDateTime current = LocalDateTime.now();
+        log.setUsername(user.getUsername());
+        log.setDate(current);
+        log.setLimit_(limit);
+        log.setDepth_(depth);
+        log.setRequest_body(request_bodies);
+        log.setRequest_rels(relations);
+        logsService.SaveLog(log);
         return personsService.getUlTree(ul, relations, depth, limit);
     }
     @GetMapping("/flulpath")
@@ -425,55 +442,55 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
                                     @RequestParam(required = false) String sphereName,
                                     @RequestParam(required = false) String tematikName,
                                     @RequestParam(required = false) String rukName,Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add("ФЛ: " + person);
-//        request_bodies.add("ЮЛ: " + ul);
-//        log log = new log();
-//        String obwii = "Ракрыть путь ФЛ-ЮЛ: " + request_bodies.get(0) + ", " + request_bodies.get(1);
-//        List<String> approvements = new ArrayList<>();
-//        String approvement_data = "";
-//        if (orderNum != null) {
-//            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
-//        }
-//        if (caseNum != null) {
-//            approvements.add("НОМЕР ДЕЛА: " + caseNum);
-//        }
-//        if (orderDate != null) {
-//            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
-//        }
-//        if (articleName != null) {
-//            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
-//        }
-//        if (checkingName != null) {
-//            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
-//        }
-//        if (otherReasons != null) {
-//            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
-//        }
-//        if (organName != null) {
-//            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
-//        }
-//        if (sphereName != null) {
-//            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
-//        }
-//        if (tematikName != null) {
-//            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
-//        }
-//        if (rukName != null) {
-//            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
-//        }
-//        for (String reason: approvements) {
-//            approvement_data = approvement_data + reason + ", ";
-//        }
-//        log.setObwii(obwii);
-//        log.setApprovement_data(approvement_data);
-//        LocalDateTime current = LocalDateTime.now();
-//        log.setUsername(user.getUsername());
-//        log.setDate(current);
-//        log.setRequest_body(request_bodies);
-//        log.setRequest_rels(relations);
-//        logsService.SaveLog(log);
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add("ФЛ: " + person);
+        request_bodies.add("ЮЛ: " + ul);
+        log log = new log();
+        String obwii = "Ракрыть путь ФЛ-ЮЛ: " + request_bodies.get(0) + ", " + request_bodies.get(1);
+        List<String> approvements = new ArrayList<>();
+        String approvement_data = "";
+        if (orderNum != null) {
+            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
+        }
+        if (caseNum != null) {
+            approvements.add("НОМЕР ДЕЛА: " + caseNum);
+        }
+        if (orderDate != null) {
+            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
+        }
+        if (articleName != null) {
+            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
+        }
+        if (checkingName != null) {
+            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
+        }
+        if (otherReasons != null) {
+            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
+        }
+        if (organName != null) {
+            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
+        }
+        if (sphereName != null) {
+            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
+        }
+        if (tematikName != null) {
+            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
+        }
+        if (rukName != null) {
+            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
+        }
+        for (String reason: approvements) {
+            approvement_data = approvement_data + reason + ", ";
+        }
+        log.setObwii(obwii);
+        log.setApprovement_data(approvement_data);
+        LocalDateTime current = LocalDateTime.now();
+        log.setUsername(user.getUsername());
+        log.setDate(current);
+        log.setRequest_body(request_bodies);
+        log.setRequest_rels(relations);
+        logsService.SaveLog(log);
         return personsService.getUlFlPath(ul, person, relations);
     }
 
@@ -489,55 +506,55 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
                                     @RequestParam(required = false) String sphereName,
                                     @RequestParam(required = false) String tematikName,
                                     @RequestParam(required = false) String rukName,Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add("Фамилия: " + lastName1 + ", имя: " + firstName1 + ", отчество: " + fatherName1);
-//        request_bodies.add("ЮЛ: " + ul);
-//        log log = new log();
-//        String obwii = "Ракрыть путь ФЛ-ЮЛ: " + request_bodies.get(0) + ", " + request_bodies.get(1);
-//        List<String> approvements = new ArrayList<>();
-//        String approvement_data = "";
-//        if (orderNum != null) {
-//            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
-//        }
-//        if (caseNum != null) {
-//            approvements.add("НОМЕР ДЕЛА: " + caseNum);
-//        }
-//        if (orderDate != null) {
-//            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
-//        }
-//        if (articleName != null) {
-//            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
-//        }
-//        if (checkingName != null) {
-//            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
-//        }
-//        if (otherReasons != null) {
-//            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
-//        }
-//        if (organName != null) {
-//            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
-//        }
-//        if (sphereName != null) {
-//            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
-//        }
-//        if (tematikName != null) {
-//            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
-//        }
-//        if (rukName != null) {
-//            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
-//        }
-//        for (String reason: approvements) {
-//            approvement_data = approvement_data + reason + ", ";
-//        }
-//        log.setObwii(obwii);
-//        log.setApprovement_data(approvement_data);
-//        LocalDateTime current = LocalDateTime.now();
-//        log.setUsername(user.getUsername());
-//        log.setDate(current);
-//        log.setRequest_body(request_bodies);
-//        log.setRequest_rels(relations);
-//        logsService.SaveLog(log);
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add("Фамилия: " + lastName1 + ", имя: " + firstName1 + ", отчество: " + fatherName1);
+        request_bodies.add("ЮЛ: " + ul);
+        log log = new log();
+        String obwii = "Ракрыть путь ФЛ-ЮЛ: " + request_bodies.get(0) + ", " + request_bodies.get(1);
+        List<String> approvements = new ArrayList<>();
+        String approvement_data = "";
+        if (orderNum != null) {
+            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
+        }
+        if (caseNum != null) {
+            approvements.add("НОМЕР ДЕЛА: " + caseNum);
+        }
+        if (orderDate != null) {
+            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
+        }
+        if (articleName != null) {
+            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
+        }
+        if (checkingName != null) {
+            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
+        }
+        if (otherReasons != null) {
+            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
+        }
+        if (organName != null) {
+            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
+        }
+        if (sphereName != null) {
+            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
+        }
+        if (tematikName != null) {
+            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
+        }
+        if (rukName != null) {
+            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
+        }
+        for (String reason: approvements) {
+            approvement_data = approvement_data + reason + ", ";
+        }
+        log.setObwii(obwii);
+        log.setApprovement_data(approvement_data);
+        LocalDateTime current = LocalDateTime.now();
+        log.setUsername(user.getUsername());
+        log.setDate(current);
+        log.setRequest_body(request_bodies);
+        log.setRequest_rels(relations);
+        logsService.SaveLog(log);
         if (fatherName1 == "") {
             return personsService.getUlFlPathByFIOwithoutO(lastName1.toUpperCase(), firstName1.toUpperCase(), fatherName1.toUpperCase(), ul, relations);
 
@@ -556,78 +573,78 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
                                     @RequestParam(required = false) String sphereName,
                                     @RequestParam(required = false) String tematikName,
                                     @RequestParam(required = false) String rukName,Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add(ul1);
-//        request_bodies.add(ul2);
-//        log log = new log();
-//        String obwii = "Ракрыть путь ЮЛ-ЮЛ: " + request_bodies.get(0) + ", " + request_bodies.get(1);
-//        List<String> approvements = new ArrayList<>();
-//        String approvement_data = "";
-//        if (orderNum != null) {
-//            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
-//        }
-//        if (caseNum != null) {
-//            approvements.add("НОМЕР ДЕЛА: " + caseNum);
-//        }
-//        if (orderDate != null) {
-//            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
-//        }
-//        if (articleName != null) {
-//            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
-//        }
-//        if (checkingName != null) {
-//            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
-//        }
-//        if (otherReasons != null) {
-//            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
-//        }
-//        if (organName != null) {
-//            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
-//        }
-//        if (sphereName != null) {
-//            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
-//        }
-//        if (tematikName != null) {
-//            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
-//        }
-//        if (rukName != null) {
-//            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
-//        }
-//        for (String reason: approvements) {
-//            approvement_data = approvement_data + reason + ", ";
-//        }
-//        log.setObwii(obwii);
-//        log.setApprovement_data(approvement_data);
-//        LocalDateTime current = LocalDateTime.now();
-//        log.setUsername(user.getUsername());
-//        log.setDate(current);
-//        log.setRequest_body(request_bodies);
-//        log.setRequest_rels(relations);
-//        logsService.SaveLog(log);
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(ul1);
+        request_bodies.add(ul2);
+        log log = new log();
+        String obwii = "Ракрыть путь ЮЛ-ЮЛ: " + request_bodies.get(0) + ", " + request_bodies.get(1);
+        List<String> approvements = new ArrayList<>();
+        String approvement_data = "";
+        if (orderNum != null) {
+            approvements.add("НОМЕР ПРИКАЗА:" + orderNum);
+        }
+        if (caseNum != null) {
+            approvements.add("НОМЕР ДЕЛА: " + caseNum);
+        }
+        if (orderDate != null) {
+            approvements.add("ДАТА ПРИКАЗА: " + orderDate);
+        }
+        if (articleName != null) {
+            approvements.add("НАЗВАНИЕ СТАТЬИ: " + articleName);
+        }
+        if (checkingName != null) {
+            approvements.add("ИМЯ ПРОВЕРЯЮЩЕГО: " + checkingName);
+        }
+        if (otherReasons != null) {
+            approvements.add("ДРУГАЯ ПРИЧИНА: " + otherReasons);
+        }
+        if (organName != null) {
+            approvements.add("НАЗВАНИЕ ОРГАНА: " + organName);
+        }
+        if (sphereName != null) {
+            approvements.add("НАЗВАНИЕ СФЕРЫ: " + sphereName);
+        }
+        if (tematikName != null) {
+            approvements.add("НАЗВАНИЕ ТЕМАТИКИ: " + tematikName);
+        }
+        if (rukName != null) {
+            approvements.add("ИМЯ РУКОВОДИТЕЛЯ: " + rukName);
+        }
+        for (String reason: approvements) {
+            approvement_data = approvement_data + reason + ", ";
+        }
+        log.setObwii(obwii);
+        log.setApprovement_data(approvement_data);
+        LocalDateTime current = LocalDateTime.now();
+        log.setUsername(user.getUsername());
+        log.setDate(current);
+        log.setRequest_body(request_bodies);
+        log.setRequest_rels(relations);
+        logsService.SaveLog(log);
         return personsService.getUlUlPath(ul1, ul2, relations);
     }
 
     @GetMapping("/shortopen")
-    public doubleReturn getShortOpen(@RequestParam Long id, @RequestParam List<String> relations) {
-        doubleReturn resul = personsService.shortOpen(id, relations, 20);
+    public doubleReturn getShortOpen(@RequestParam Long id, @RequestParam List<String> relations, @RequestParam int limit) {
+        doubleReturn resul = personsService.shortOpen(id, relations, limit);
         return resul;
     }
 
     @GetMapping("/downloadedscheme")
     public void downloadScheme(@RequestParam String first, @RequestParam String second, Principal principal) {
-//        User user = userDetailsService.loadUserByUsernamek(principal);
-//        List<String> request_bodies = new ArrayList<>();
-//        request_bodies.add(first);
-//        request_bodies.add(second);
-//        log log = new log();
-//        String obwii = "Скачал схему: " + request_bodies.get(0) + ", " + request_bodies.get(1);
-//        log.setObwii(obwii);
-//        LocalDateTime current = LocalDateTime.now();
-//        log.setUsername(user.getUsername());
-//        log.setDate(current);
-//        log.setRequest_body(request_bodies);
-//        logsService.SaveLog(log);
+        User user = userDetailsService.loadUserByUsernamek(principal);
+        List<String> request_bodies = new ArrayList<>();
+        request_bodies.add(first);
+        request_bodies.add(second);
+        log log = new log();
+        String obwii = "Скачал схему: " + request_bodies.get(0) + ", " + request_bodies.get(1);
+        log.setObwii(obwii);
+        LocalDateTime current = LocalDateTime.now();
+        log.setUsername(user.getUsername());
+        log.setDate(current);
+        log.setRequest_body(request_bodies);
+        logsService.SaveLog(log);
     }
 
 
@@ -649,12 +666,12 @@ return personsService.getPersonByFIO_withoutO(lastName1.toUpperCase(),firstName1
 
         return "privet";
     }
-    @GetMapping("/photo")
-    public photoDb getPhoto(){
-        photoDb photoDb = newPhotoRepo.findByIin("040210551264");
-        System.out.println(photoDb.getPhoto());
-        return newPhotoRepo.findByIin("040502651337");
-    }
+//    @GetMapping("/photo")
+//    public photoDb getPhoto(){
+//        photoDb photoDb = newPhotoRepo.findByIin("040210551264");
+//        System.out.println(photoDb.getPhoto());
+//        return newPhotoRepo.findByIin("040502651337");
+//    }
 
 //    @GetMapping("/test")
 //    public doubleReturn testDoubleReturn() {

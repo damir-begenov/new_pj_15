@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.new_project_challenge_15.models.User;
+import com.example.new_project_challenge_15.models.log;
 
 public class statisticModel {
     private User user;

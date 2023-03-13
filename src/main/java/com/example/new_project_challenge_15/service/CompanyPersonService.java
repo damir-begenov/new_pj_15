@@ -2,7 +2,7 @@
 //
 //import com.example.new_project_challenge_15.entity.*;
 //import com.example.new_project_challenge_15.entity.rels.*;
-//import com.example.new_project_challenge_15.models.photoDb;
+//import com.example.new_project_challenge_15.modelsPhoto.photoDb;
 //import com.example.new_project_challenge_15.repository.newCompanyRepo;
 //import com.example.new_project_challenge_15.repository.newPersonService;
 //import org.springframework.beans.factory.annotation.Autowired;

@@ -68,6 +68,7 @@ public class Persons {
  @Property("Статус должника")
     public String Status_doljnika;
 
+
     public String getDoljnik_po_alimentam() {
         return Doljnik_po_alimentam;
     }
@@ -108,6 +109,17 @@ public class Persons {
 
     @Relationship(type = "ESF_10and100", direction = Relationship.Direction.INCOMING)
     private List<ESF_10and100> esf_10and100s;
+    @Relationship(type = "BLIZKIE_RODS", direction = Relationship.Direction.INCOMING)
+    private List<BLIZKIE_RODS> blizkieRods;
+
+    public List<BLIZKIE_RODS> getBlizkieRods() {
+        return blizkieRods;
+    }
+
+    public void setBlizkieRods(List<BLIZKIE_RODS> blizkieRods) {
+        this.blizkieRods = blizkieRods;
+    }
+
     @Relationship(type = "ESF_10and100", direction = Relationship.Direction.OUTGOING)
     private List<ESF_10and100> esf_10and100sOut;
 
