@@ -186,7 +186,7 @@ const LeftBar = (props) => {
         <div className='leftBar'>
             <form >
                 <div className="formBlock">
-                    <label for="connections">Найти связи между</label>
+                    <label htmlFor="connections">Найти связи между</label>
                     <div className="select">
                         <select name="connections" id='connections' 
                         onChange={event => { 
@@ -347,7 +347,7 @@ const LeftBar = (props) => {
                 </div>
 
                 <div className="formBlock" id="formSearchOptions" style={{display: "none"}}>
-                    <label for="searchOptions">Поиск по</label>
+                    <label htmlFor="searchOptions">Поиск по</label>
                     <div className="select">
                         <select name="searchOptions" id='searchOptions' value={searchOption}
                         onChange={event => {
@@ -540,6 +540,7 @@ const LeftBar = (props) => {
                 </div>
 
                 <div className="formBlock" id="formRels" style={{display: "none"}}>
+                    <label>По каким связям хотите?</label>
                     <RelationBlock setRels={setRelString}></RelationBlock>
                 </div>
 

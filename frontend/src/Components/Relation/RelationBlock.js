@@ -1,183 +1,82 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './relationBlock.css'
 
+import { components } from "react-select"
+import { default as ReactSelect, StylesConfig } from "react-select";
+import chroma from 'chroma-js';
+
+import {relationsLevel1, relationsLevel2} from './../../data/relationsData.js'
+
+const colourStyles = {
+    control: (styles) => ({ ...styles, backgroundColor: 'rgba(255, 255, 255, 0.11)', border: 'none' }),
+    option: (styles, { isDisabled, isFocused, isSelected }) => {
+      return {
+        ...styles,
+        backgroundColor: isDisabled
+          ? undefined
+          : isSelected
+          ? "#2D4231"
+          : isFocused
+          ? "#3a553f"
+          : undefined,
+        color: isDisabled
+          ? '#ffffff'
+          : 'isSelected'
+          ? "#ffffff80"
+            ? 'isFocused'
+            : '#ffffff90'
+          : "#2D4231",
+        cursor: isDisabled ? 'not-allowed' : 'cursor',
+  
+        ':active': {
+          ...styles[':active'],
+          backgroundColor: !isDisabled
+            ? isSelected
+              ? "#ffffff"
+              : "#223124"
+            : undefined,
+        },
+      };
+    },
+    multiValue: (styles, { data }) => {
+      const color = chroma("#2D4231");
+      return {
+        ...styles,
+        backgroundColor: "#2D4231",
+      };
+    },
+    multiValueLabel: (styles, { data }) => ({
+      ...styles,
+      color: "#ffffff80",
+    }),
+    multiValueRemove: (styles, { data }) => ({
+      ...styles,
+      color: "#223124",
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: "#223124",
+        color: 'white',
+      },
+    }),
+  };
+
+const Option = (props) => {
+    return (
+      <div className={"relsOption"}>
+        <components.Option {...props}>
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />{" "}
+          <label>{props.label}</label>
+        </components.Option>
+      </div>
+    );
+};
+
 const RelationBlock = (props) => {
-    const [categories, setCategories] = useState({
-        BUHGALTER: {
-            value: "Бухгалтер",
-            checked: false,
-            level: 0
-        },
-        DETDOM_HIST: {
-            value: "Детдом",
-            checked: false,
-            level: 0
-        },
-        DFO_AFF_FIZ: {
-            value: "ДФО-Фл",
-            checked: false,
-            level: 0
-        },
-        DFO_AFF_UL: {
-            value: "ДФО-Юл",
-            checked: false,
-            level: 0
-        },
-        DIRECTOR_CUR: {
-            value: "Нынешний Директор",
-            checked: false,
-            level: 0
-        },
-        DIRECTOR_HIST: {
-            value: "Бывший Директор",
-            checked: false,
-            level: 0
-        },
-        FOUNDER_CUR: {
-            value: "Нынешний Учредитель",
-            checked: false,
-            level: 0
-        },
-        FOUNDER_HIST: {
-            value: "Бывший Учредитель",
-            checked: false,
-            level: 0
-        },
-        ESF_100: {
-            value: "ЭСФ100М+",
-            checked: false,
-            level: 0
-        },
-        ESF_10and100: {
-            value: "ЭСФ1М-10М",
-            checked: false,
-            level: 0
-        },
-        ESF_10and50: {
-            value: "ЭСФ10М-50М",
-            checked: false,
-            level: 0
-        },
-        ESF_50and100: {
-            value: "ЭСФ50М-100М",
-            checked: false,
-            level: 0
-        },
-        ESF_5and10: {
-            value: "ЭСФ500-1М",
-            checked: false,
-            level: 0
-        },
-        FPG: {
-            value: "ФПГ",
-            checked: false,
-            level: 0
-        },
-        GOSZAKUP: {
-            value: "ГОСЗАКУП",
-            checked: false,
-            level: 0
-        },
-        // IP: {
-        //     value: "IP",
-        //     checked: true,
-        //     level: 0
-        // },
-        IP_KX: {
-            value: "ИП-КХ",
-            checked: false,
-            level: 0
-        },
-        NTR_FL: {
-            value: "Нотариус Фл",
-            checked: false,
-            level: 0
-        },
-        NTR_UL_FL: {
-            value: "Нотариус Фл",
-            checked: false,
-            level: 0
-        },
-        OPG: {
-            value: "ОПГ",
-            checked: false,
-            level: 0
-        },
-        PDL: {
-            value: "ПДЛ",
-            checked: false,
-            level: 0
-        },
-        REG_ADDRESS: {
-            value: "АДРЕС-РЕГИСТР",
-            checked: false,
-            level: 0
-        },
-        REG_ADDRESS_CUR: {
-            value: "АДРЕС-НЫНЕШНИЙ",
-            checked: false,
-            level: 0
-        },
-        REG_ADDRESS_HIST: {
-            value: "АДРЕС-СТАРЫЙ",
-            checked: false,
-            level: 0
-        },
-        REG_ADDRESS_UL: {
-            value: "АДРЕС-ЮЛ",
-            checked: false,
-            level: 0
-        },
-        SLUZHIL: {
-            value: "Служил",
-            checked: false,
-            level: 0
-        },
-        SUDIM: {
-            value: "Судим",
-            checked: false,
-            level: 0
-        },
-        UCHILSYA: {
-            value: "Образование",
-            checked: false,
-            level: 0
-        },
-        WORKER_CUR: {
-            value: "НЫНЕШНИЙ РАБОТНИК",
-            checked: false,
-            level: 0
-        },
-        WORKER_HIST: {
-            value: "БЫВШИЙ РАБОТНИК",
-            checked: false,
-            level: 0
-        },
-        ZAGS: {
-            value: "ЗАГС",
-            checked: false,
-            level: 0
-        },
-        ZAGS_FIO: {
-            value: "ЗАГС-ФИО",
-            checked: false,
-            level: 0
-        },
-        ZAGS_IIN: {
-            value: "ЗАГС-ИИН",
-            checked: false,
-            level: 0
-        },
-    })
-
-    const [allRels, setAllRels] = useState(false)
-    const [showRelList, setShowRelList] = useState(false)
-
-    const checkAuth = () => {
-        const userSession = JSON.parse(localStorage.getItem("user"))
-        if (!userSession) return false;
-        return true;
-    }
+    const [selectedOptions, setSelectedOptions] = useState([])
 
     const checkAdmin = () => {
         const userSession = JSON.parse(localStorage.getItem("user"))
@@ -187,206 +86,52 @@ const RelationBlock = (props) => {
         return false;
     }
 
-    const checkModerator = () => {
-        const userSession = JSON.parse(localStorage.getItem("user"))
-        if (userSession && userSession.roles.includes('ROLE_MODERATOR')) {
-            return true;
-        }
-        return false;
+    useEffect(() => {
+        if (document.getElementById("react-select-2-placeholder")) document.getElementById("react-select-2-placeholder").innerHTML = "Выберите связи"
+
+        let rels = ""
+        selectedOptions.forEach(el => {
+            if (rels == "") rels = el.value
+            else rels += "," + el.value
+        });
+
+        console.log(rels)
+        props.setRels(rels)
+
+    }, [selectedOptions])
+
+    const handleChange = (selected) => {
+        setSelectedOptions(selected)
     }
 
-    const setRelations = () => {
-        let relations = ""
-        Object.keys(categories).forEach(key => {
-            if (categories[key].checked) {
-                if (relations == "") relations = key
-                else relations += "," + key
-            }
-        })
-
-        props.setRels(relations)
+    const handleOptions = () => {
+        return [...relationsLevel1, ...relationsLevel2]
     }
-
-    // const checkBoxUnclick = () => {
-    //     const uncheckedBlock = document.querySelector('#uncheckedCheckboxBlock .uncheckedBlock');
-    //     console.log("aaa", uncheckedBlock)
-    //     uncheckedBlock.style.display = "none"
-
-    //     console.log("none")
-
-    //     setShowUncheckedBlock(false)
-    // }
 
     return (
         <>
-        {setRelations()}
-        <label>По каким связам хотите?</label>
-        <div className="showRelsBlock">
-          <div>
-            <input type={"button"} value="Все связи"
-              onClick={() => {
-                let relsTemp = categories;
-                Object.keys(categories).filter((key) => categories[key].level == 0).map((key, index) => {
-                  relsTemp[key].checked = !allRels
-                })
-
-                let allChecks = document.querySelectorAll('.relationCheckboxes')
-                allChecks.forEach(item => item.checked = !allRels)
-
-                setCategories(relsTemp)
-                setAllRels(allRels ? false : true);
-
-                console.log(categories)
-              }}/>
-
-            <input type={"button"} value={showRelList? "Скрыть список связей" : "Раскрыть список связей"}
-                onClick={event => {
-                    setShowRelList(!showRelList)
-                }}/>
-          </div>
-
-          <div className="relsCheckers" style={{display: showRelList?"flex":"none"}}>
-            {Object.keys(categories).filter((key) => categories[key].level == 0).map((key, index) => {
-                return (
-                <div className="checkboxes" key={key}>
-                    <label for={key}>{categories[key].value}</label>
-                    <input type={"checkbox"} name={key} value={key} className={"relationCheckboxes"}
-                    onChange={(event) => {
-                        console.log(event.target.value)
-
-                        let relsTemp = categories;
-                        relsTemp[event.target.value].checked = !relsTemp[event.target.value].checked
-                        
-                        setCategories(relsTemp)
-                        console.log(categories[key].checked)
-                    }
-                    } />
-                </div>
-                )
-            })}
-          </div>
-          {/* <hr width="100%"></hr>
-          {Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 0).map((key, index) => {
-            return (
-              <div className="checkboxes" key={key}>
-                <label for={key}>{categories[key].value}</label>
-                <input type={"checkbox"} name={key}
-                  onChange={(event) => {
-                    console.log(event)
-                  }
-                } />
-              </div>
-            )
-          })} */}
-
-        {/* <div className="checkboxBlock" id="checkedCheckboxBlock">
-            <div className="addRels" onClick={() => checkBoxClick()}>{showUncheckedBlock ? "+" : "x"}</div>
-            <div className="checkedBlock" >
-                {Object.keys(categories).filter((key) => categories[key].checked && categories[key].level == 0).map((key, index) => {
-                    return (
-                        <div className="checkbox checked" id={key} key={index}>
-                            <span id="conLabel">{categories[key].value}</span>
-                            <i className="" onClick={(event) => checkUncheck(event)}>X</i>
-                        </div>  
-                    )
-                })}
-            </div>
-        </div>
-        <div className="uncheckboxBlock" id="uncheckedCheckboxBlock">
-            <div className="uncheckedBlock">
-                {Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 0).map((key, index) => {
-                    return (
-                        <div className="checkbox unchecked" id={key} key={index}>
-                            <span id="conLabel">{categories[key].value}</span>
-                            <i className="" onClick={(event) => checkUncheck(event)}>+</i>
-                        </div>  
-                    )
-                })}
-
-                {checkAdmin() || checkModerator() ?
-                    Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 1).map((key, index) => {
-                        return (
-                            <div className="checkbox unchecked" id={key} key={index}>
-                                <span id="conLabel">{categories[key].value}</span>
-                                <i className="" onClick={(event) => checkUncheck(event)}>+</i>
-                            </div>  
-                        )
-                    })
-                    : ""
-                }
-
-                {checkAdmin() ?
-                    Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 2).map((key, index) => {
-                        return (
-                            <div className="checkbox unchecked" id={key} key={index}>
-                                <span id="conLabel">{categories[key].value}</span>
-                                <i className="" onClick={(event) => checkUncheck(event)}>+</i>
-                            </div>  
-                        )
-                    })
-                    : ""
-                }
-            </div>
-        </div> */}
-
-        {/* <div className="checkBoxBlock checkedBlock" id="checkedBlock" onClick={checkBoxClick}>
-            <div id="checkboxClose" onClick={() => setShowUncheckedBlock(true)}>Close</div>
-            <div className="checkers">
-                {Object.keys(categories).filter((key) => categories[key].checked && categories[key].level == 0).map((key, index) => {
-                    return (
-                        <div className="checkbox checked" id={key} key={index}>
-                            <span id="conLabel">{categories[key].value}</span>
-                            <i className="" onClick={(event) => checkUncheck(event)}>X</i>
-                        </div>  
-                    )
-                })}
-            </div>
-        </div>
-        <div className="checkBoxBlock" id="uncheckedBlock" style={{display: (showUncheckedBlock ? "flex" : "none")}}>
-            <div className="checkers">
-                {Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 0).map((key, index) => {
-                    return (
-                        <div className="checkbox unchecked" id={key} key={index}>
-                            <span id="conLabel">{categories[key].value}</span>
-                            <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
-                        </div>  
-                    )
-                })}
-
-                {checkAdmin() || checkModerator() ?
-                    Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 1).map((key, index) => {
-                        return (
-                            <div className="checkbox unchecked" id={key} key={index}>
-                                <span id="conLabel">{categories[key].value}</span>
-                                <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
-                            </div>  
-                        )
-                    })
-                    : ""
-                }
-
-                {checkAdmin() ?
-                    Object.keys(categories).filter((key) => !categories[key].checked && categories[key].level == 2).map((key, index) => {
-                        return (
-                            <div className="checkbox unchecked" id={key} key={index}>
-                                <span id="conLabel">{categories[key].value}</span>
-                                <i className="fa-solid fa-plus" onClick={(event) => checkUncheck(event)}>+</i>
-                            </div>  
-                        )
-                    })
-                    : ""
-                }
-            </div>
-        </div> */}
-
-        {/* <div className="checkBoxBtns">
-            <div onClick={(event) => checkAll(event)}>Применить все</div>
-            <div onClick={(event) => uncheckAll(event)}>Убрать все</div>
-        </div>     */}
-
-        
-        
-        </div> 
+        <span
+            className="relsSelectBlock"
+            data-toggle="popover"
+            data-trigger="focus"
+            data-content="Выберите связи"
+        >
+            <ReactSelect
+                className="relsSelect"
+                options={handleOptions()}
+                isMulti
+                closeMenuOnSelect={false}
+                hideSelectedOptions={false}
+                components={{
+                    Option
+                }}
+                onChange={handleChange}
+                allowSelectAll={true}
+                isSearchable={false}
+                value={selectedOptions}
+                styles={colourStyles}
+            />
+        </span>
         </>
     )
 } 

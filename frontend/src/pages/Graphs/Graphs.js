@@ -226,7 +226,7 @@ export default class GraphNet extends Component {
 
     shortOpen = (openLimit, showRels) => {
       console.log(openLimit, showRels)
-      console.log(SelectedNode.options.id)
+      
       axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id, relations: showRels, limit: openLimit }}).then(res => {
         let nodes = []
         const edgesFinal = res.data.edges;

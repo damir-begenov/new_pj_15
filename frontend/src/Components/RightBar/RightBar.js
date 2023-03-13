@@ -1,7 +1,7 @@
 import React, {Component, useState} from "react";
 import ReactDOM from "react-dom";
 
-import RelationBlock from "../RelationRight/RelationRightBlock";
+import RelationBlock from "../Relation/RelationBlock";
 import './RightBar.css'
 
 class RightBar extends Component {
@@ -28,7 +28,7 @@ class RightBar extends Component {
 
   render() {
     return (
-      <div className='rightBar' style={{display: (this.props.isOnSelectNode || this.props.isOnSelectEdge ?"flex":"none")}}>
+      <div className='rightBar'>
         <div className="infoBlock" id="infoBlock">
           <div>
             <div className="infoBlockTitle">Информация {this.props.isOnSelectNode || this.props.isOnSelectEdge ? "о объекте" : ""}</div>
