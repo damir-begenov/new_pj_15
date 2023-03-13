@@ -28,6 +28,7 @@ import keyPersonIcon from '../../icons/key_person.png'
 import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
 import ripPersonIcon from '../../icons/rip_person.png'
+import ntrIcon from '../../icons/ntrIcon.jpg'
 
 var graJSON = {approvement: "", nodes: [], edges: [], typeOfSearch: "", params: {}, iin: false, first: "", second: ""}
 var Network;
@@ -136,6 +137,10 @@ export default class GraphNet extends Component {
             shape: "circularImage",
             image: addressIcon,
           },
+          notarius: {
+            shape: "circularImage",
+            image: ntrIcon,  
+          }
         },
         nodes: {
           font: {
@@ -721,7 +726,10 @@ export default class GraphNet extends Component {
 
 
         const p = node.properties;
-        if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null) {
+        if (p.nomer_sdelki) {
+          node.group = "notarius"
+
+        } else if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null) {
           node.group = "judgeCompany"
 
         } else if (p.IINBIN == iin1 || p.IINBIN == iin2) {
@@ -1017,6 +1025,7 @@ export default class GraphNet extends Component {
             "ПДЛ": sp.pdl,
             "РКА": sp.rka,
             "Год службы": sp.god_sluzhbi,
+            "Описание": sp.opisanie
           }, '#nodeInfoInner')
 
         }

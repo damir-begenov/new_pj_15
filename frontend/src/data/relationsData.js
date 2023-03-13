@@ -30,7 +30,10 @@ export const relationsLevel1 = [
     {value: "WORKER_HIST", label: "БЫВШИЙ РАБОТНИК"},
     {value: "ZAGS", label: "ЗАГС"},
     {value: "ZAGS_FIO", label: "ЗАГС-ФИО"},   
-    {value: "ZAGS_IIN", label: "ЗАГС-ИИН"}
+    {value: "ZAGS_IIN", label: "ЗАГС-ИИН"},
+    {value: "BLIZKIE_RODS", label: "Близкие родственники"},
+    {value: "COUSIN", label: "Кузены"},
+    {value: "SIBLING", label: "Братья/Сестры"},
 ]
 
 export const relationsLevel2 = [
