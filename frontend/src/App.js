@@ -1,5 +1,6 @@
 import './App.css';
 import './Loader.css'
+import './font.css'
 // import './fontawesome/all.css';
 import Navbar from './Components/NavBar/Navbar';
 import {
@@ -9,14 +10,14 @@ import {
 } from "react-router-dom";
 
 import React, { Suspense } from "react";
-import GraphNet from './pages/Graphs/Graphs';
-import RegistrationPage from './pages/Registration/RegistrationPage';
-import SignInPage from './pages/SignIn/SignInPage';
-import AdminPage from './pages/AdminPage/AdminPage';
-import TableLog from './Components/TableLog/TableLog';
-import UsersTable from './Components/UsersTable/UsersTable';
-import UserDetails from './pages/userDetails/userDetails';
-
+// import GraphNet from './pages/Graphs/Graphs';
+// import RegistrationPage from './pages/Registration/RegistrationPage';
+// import SignInPage from './pages/SignIn/SignInPage';
+// import AdminPage from './pages/AdminPage/AdminPage';
+// import TableLog from './Components/TableLog/TableLog';
+// import UsersTable from './Components/UsersTable/UsersTable';
+// import UserDetails from './pages/userDetails/userDetails';
+import {motion} from 'framer-motion';
 
 const App = () => {
   const userSession = JSON.parse(localStorage.getItem("user"))
@@ -36,8 +37,10 @@ const App = () => {
             <>
               <Navbar/>
             <Suspense fallback={<span class="loader"></span>}>
+              <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
               <LazyGraphnet /> 
-            </Suspense>
+                  </motion.div>
+              </Suspense>
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
             </>
           } />
@@ -46,7 +49,9 @@ const App = () => {
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
                 <Navbar/>
               <Suspense fallback={<span class="loader"></span>}>
-                <LazyGraphnet /> 
+                <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.3 }}>
+                <LazyGraphnet />
+                  </motion.div> 
               </Suspense>
             </>
           } />
@@ -55,7 +60,9 @@ const App = () => {
 
               <Navbar/>
             <Suspense fallback={<span class="loader"></span>}>
+              <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.3 }}>
               <LazyRegistrationPage/>
+                  </motion.div>
             </Suspense>
             </>
           } />
@@ -63,7 +70,9 @@ const App = () => {
           <Route path="/login" element={
             <>
             <Suspense fallback={<span class="loader"></span>}>
+              <motion.div initial={{opacity: 0}} animate={{opacity: 1}}>
               <LazySignInPage/>
+                  </motion.div>
             </Suspense>
             </>
           } />
@@ -72,7 +81,9 @@ const App = () => {
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
               <Navbar/>
               <Suspense fallback={<span class="loader"></span>}>
+              <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
               <LazyTableLog/>
+                  </motion.div>
               </Suspense>
             </>
           } />
@@ -85,8 +96,9 @@ const App = () => {
                 <>
                   <Navbar/>
                 <Suspense fallback={<span class="loader"></span>}>
+                  <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
                   <LazyUserDetails/>
-
+                  </motion.div>
                 </Suspense>
                 </>
               }/>
@@ -94,7 +106,9 @@ const App = () => {
                 <>
                   <Navbar/>
                 <Suspense fallback={<span class="loader"></span>}>
-                  <AdminPage/>
+                  <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
+                  <LazyAdminPage/>
+                  </motion.div>
 
                 </Suspense>
                 </>
