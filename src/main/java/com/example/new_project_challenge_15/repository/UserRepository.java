@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,6 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query(value = "select * FROM public.users where username like ?1 limit 1", nativeQuery = true)
   User findByUsernameTwo(String username);
 
+  @Query(value= "select * from users where username like '%' || ?1 || '%' or email like '%' || ?1 || '%'", nativeQuery = true)
+  List<User> getUsersByLike(String value);
   @Modifying
   @Query(value = "update user_roles set role_id = ?1 where user_id = ?2", nativeQuery = true)
   void updateRole(Integer role, Integer user);

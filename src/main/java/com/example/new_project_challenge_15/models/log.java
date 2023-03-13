@@ -1,4 +1,4 @@
-package com.example.new_project_challenge_15.entity;
+package com.example.new_project_challenge_15.models;
 
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import org.hibernate.annotations.Type;

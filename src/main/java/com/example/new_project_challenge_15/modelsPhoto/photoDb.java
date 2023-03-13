@@ -1,4 +1,4 @@
-package com.example.new_project_challenge_15.models;
+package com.example.new_project_challenge_15.modelsPhoto;
 
 import org.hibernate.annotations.Type;
 
