@@ -9,6 +9,8 @@ export default class UsersTable extends Component {
     }
 
     componentDidMount() {
+        const userSession = JSON.parse(localStorage.getItem("user"))
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
         axios.get(`http://localhost:9091/api/finpol/main/getusers`)
             .then(res => {
             const users = res.data;
@@ -59,49 +61,6 @@ export default class UsersTable extends Component {
         this.search(e.target.value)
         this.state.value = e.target.value
     }
-
-    // moderator(e) {
-    //     console.log(e)
-    //     let role = "ROLE_USER";
-    //     e.roles.forEach(element => {
-    //         console.log(element)
-    //         if (element.name == "ROLE_ADMIN") role = "ROLE_ADMIN";
-    //         else if (role != "ROLE_ADMIN" && element.name == "ROLE_MODERATOR") role = "ROLE_MODERATOR"
-    //     });
-
-    //     if (role) {
-    //         return(
-    //             <td className="finished">
-    //                 <select>
-    //                     <option disabled>User</option>
-    //                     <option disabled>Moderator</option>
-    //                     <option selected disabled>Admin</option>
-    //                 </select>
-    //             </td>
-    //         )
-    //     }
-    //     else if (role) {
-    //         return(
-    //             <td className="finished">
-    //                 <select>
-    //                     <option>User</option>
-    //                     <option selected>Moderator</option>
-    //                     <option disabled>Admin</option>
-    //                 </select>
-    //             </td>
-    //         )
-    //     } else if (role) {
-    //         return(
-    //             <td className="finished">
-    //                 <select>
-    //                     <option selected>User</option>
-    //                     <option>Moderator</option>
-    //                     <option disabled>Admin</option>
-    //                 </select>
-    //             </td>
-    //         )
-    //     }
-    // }
 
     render() {
         return(
