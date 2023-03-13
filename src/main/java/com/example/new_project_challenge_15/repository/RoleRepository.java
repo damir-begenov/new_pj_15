@@ -15,4 +15,7 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
   @Query(value = "select r.name from roles r join user_roles on r.id = role_id where user_id = ?1 order by role_id desc limit 1", nativeQuery = true)
   String FindRole(Integer id);
+
+  @Query(value = "select * from roles r join user_roles on r.id = role_id where user_id = ?1 order by role_id desc limit 1", nativeQuery = true)
+  Role findRoleById(Long id);
 }
