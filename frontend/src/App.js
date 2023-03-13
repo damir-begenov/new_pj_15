@@ -1,4 +1,5 @@
 import './App.css';
+// import './fontawesome/all.css';
 import Navbar from './Components/NavBar/Navbar';
 import {
   BrowserRouter as Router,
