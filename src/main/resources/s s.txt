@@ -219,6 +219,9 @@ update roles set relations = '{"BLIZKIE_RODS",
 "ZAGS_IIN"}'
 where id = 5
 
+alter table roles add column relations text[]
+alter table roles add column person_properties text[]
+alter table roles add column company_properties text[]
 
 update roles set person_properties = '{"id", "Data_Rozhdenya", "Familia", "Otchestvo", "Imya", "FIO"
 , "IIN", "Death_Status", "Status_KUIS", "Pristavanie", "Data_reshenya", "Razmer_Shtrafa"
