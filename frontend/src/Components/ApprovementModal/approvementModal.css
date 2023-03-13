@@ -57,6 +57,15 @@
     padding: 5px 0 5px 5px;
 }
 
+.modalItem input[type="date"] {
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+    height: 15px;
+    font-size: 1rem;
+    padding: 5px 0 5px 5px;
+}
+
 .modalItem input[type="button"] {
     cursor: pointer;
     margin-top: 10px;
