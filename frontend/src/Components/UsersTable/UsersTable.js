@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export default class UsersTable extends Component {
     state = {
+        value: "",
         users: [],
     }
 
@@ -32,18 +33,31 @@ export default class UsersTable extends Component {
         if (e.active) {
             return (<td className="finished">
                         <select onChange={event => this.setActive(e, event)}>
-                            <option selected>True</option>
-                            <option>False</option>
+                            <option selected>Активен</option>
+                            <option>Не Активен</option>
                         </select>
                     </td>)
         } else {
             return (<td className="unfinished">
                         <select onChange={event => this.setActive(e, event)}>
-                            <option>True</option>
-                            <option selected>False</option>
+                            <option>Активен</option>
+                            <option selected>Не Активен</option>
                         </select>
                     </td>)
         }
+    }
+
+    search = async val => {
+        axios
+            .get('http://localhost:9091/api/finpol/main/admin/users', {params: {value: val}})
+            .then(res => {
+                const users = res.data;
+                this.setState({ users });
+            })
+    }
+    onChangeHandler = async e => {
+        this.search(e.target.value)
+        this.state.value = e.target.value
     }
 
     // moderator(e) {
@@ -91,35 +105,38 @@ export default class UsersTable extends Component {
 
     render() {
         return(
-        <table className="table">
-            <thead >
-                <tr>
-                    <th scope="col"><a className="sort">#</a></th>
-                    <th scope="col"><a className="sort">Username</a></th>
-                    <th scope="col"><a className="sort">Email</a></th>
-                    <th scope="col"><a className="sort">Active</a></th>
-                    {/* <th scope="col"><a className="sort">Moderator</a></th> */}
-                 </tr>
-            </thead>
-            <tbody>
-                
-                {this.state.users.map((user) => 
-            <tr className="row">
-                <td scope="row">{user.id}</td>
-                <td className="FIO">
-                    <Link className="rowInfo" 
-                    to={{
-                        pathname:`/users/${user.username}`, 
-                        state: {user: user}
-                    }}>{user.username}</Link>
-                </td>
-                <td>{user.email}</td>
-                {this.active(user)}
-                {/* {this.moderator(user)} */}
-            </tr>
-            
-            )}
-            </tbody>
-        </table>)
+            <>
+            <input value={this.state.value} onChange={e=> this.onChangeHandler(e)} type="text" className="searchUsers" placeholder="Поиск пользователей"></input>
+                <table className="table">
+                    <thead >
+                        <tr>
+                            <th scope="col"><a className="sort">#</a></th>
+                            <th scope="col"><a className="sort">ФИО</a></th>
+                            <th scope="col"><a className="sort">Емайл</a></th>
+                            <th scope="col"><a className="sort">Статус активности</a></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {this.state.users.map((user) => 
+                    <tr className="row">
+                        <td scope="row">{user.id}</td>
+                        <td className="FIO">
+                            <Link className="rowInfo" 
+                            to={{
+                                pathname:`/users/${user.username}`, 
+                                state: {user: user}
+                            }}>{user.username}</Link>
+                        </td>
+                        <td>{user.email}</td>
+                        {this.active(user)}
+                        {/* {this.moderator(user)} */}
+                    </tr>
+                    
+                    )}
+                    </tbody>
+                </table>
+            </>
+            )
     }
 }

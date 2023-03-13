@@ -65,6 +65,11 @@ public class moviesController {
     @Autowired
     user_RolesRepo userRolesRepo;
 
+
+    @GetMapping("/admin/users")
+    public List<User> getUsersSearch(@RequestParam String value) {
+        return userRepository.getUsersByLike(value);
+    }
     @GetMapping("/changeUserRole")
     @PreAuthorize("hasRole('ADMIN')")
     public void changeUserRole(@RequestParam String user, @RequestParam String role) {
