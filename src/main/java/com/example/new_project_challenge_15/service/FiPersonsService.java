@@ -835,7 +835,6 @@ public class FiPersonsService {
                     nodes.add(currNode);
                 }
             }
-
             List<BUHGALTER> buhgalters = object.getBuhgalters();
             for (BUHGALTER relation: buhgalters) {
                 Map<String, Object> properties = getPropertyMap(relation);

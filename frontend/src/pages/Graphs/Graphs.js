@@ -40,7 +40,10 @@ var onSelectNode = false;
 const GraphNetnew = (props) => {
     const [updateGraph, setUpdateGraph] = useState(true)
 
-    const [ids, setIds] = useState([])
+
+    const [tnodes, settNodes] = useState([])
+    const [tedges, settEdges] = useState([])
+
     const [nodes, setNodes] = useState([])
     const [edges, setEdges] = useState([])
     const [searchedNodes, setSearchedNodes] = useState([])
@@ -97,21 +100,19 @@ const GraphNetnew = (props) => {
 
     const physicsOptions = {
         enabled: physicsEnable,
-        "physics": {
-            "repulsion": {
-                "centralGravity": 0,
-                "springLength": 335,
-                "springConstant": 0.205,
-                "nodeDistance": 150,
-                "damping": 0.21
-            },
-            "maxVelocity": 55,
-            "minVelocity": 30,
-            "solver": "repulsion",
-            "timestep": 0.81,
-            "wind": {
-                "x": 0.1
-            }
+        "repulsion": {
+            "centralGravity": 0,
+            "springLength": 335,
+            "springConstant": 0.205,
+            "nodeDistance": 150,
+            "damping": 0.21
+        },
+        "maxVelocity": 55,
+        "minVelocity": 30,
+        "solver": "repulsion",
+        "timestep": 0.81,
+        "wind": {
+            "x": 0.1
         }
     }
 
@@ -199,7 +200,8 @@ const GraphNetnew = (props) => {
         setIsLoading(true)
         setNodes([])
         setEdges([])
-        setIds([])
+        settNodes([])
+        settEdges([])
         setCounter(currCounter => currCounter + 1)
         console.log(options)
 
@@ -219,10 +221,10 @@ const GraphNetnew = (props) => {
                 } else {
                     url = "http://localhost:9091/api/finpol/main/flFIOtree"
                     params = {
-                    firstName1: options.name1, 
-                    lastName1: options.lname1, 
-                    fatherName1: options.fname1, 
-                    relations: options.relString, depth: options.depth, limit: options.limit
+                        firstName1: options.name1, 
+                        lastName1: options.lname1, 
+                        fatherName1: options.fname1, 
+                        relations: options.relString, depth: options.depth, limit: options.limit
                     }
                     graJSON.params = params
                     graJSON.iin = false
@@ -258,11 +260,11 @@ const GraphNetnew = (props) => {
                 } else {
                     url = "http://localhost:9091/api/finpol/main/flulpathByFIO";
                     params = {
-                    firstName1: options.name1, 
-                    lastName1: options.lname1, 
-                    fatherName1: options.fname1, 
-                    ul: options.iin2, 
-                    relations: options.relString
+                        firstName1: options.name1, 
+                        lastName1: options.lname1, 
+                        fatherName1: options.fname1, 
+                        ul: options.iin2, 
+                        relations: options.relString
                     }
                     graJSON.params = params
                     graJSON.iin = false
@@ -309,6 +311,9 @@ const GraphNetnew = (props) => {
                 _nodes.push(item);
             })
             
+            settEdges(_edges)
+            settNodes(_nodes)
+
             setNodes(_nodes)
             setEdges(_edges)
 
@@ -326,39 +331,53 @@ const GraphNetnew = (props) => {
     };
 
     const shortOpen = (openLimit, showRels) => {
-        console.log(openLimit, showRels)
-        
         axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id, relations: showRels, limit: openLimit }}).then(res => {
             let _nodes = []
-            const edgesFinal = res.data.edges;
             let _edges = []
 
-            edgesFinal.filter(item => 
-            (!ids.includes(item.to) || !ids.includes(item.from))).
-            map(item => {
-                _edges.push(item)
-            })
+            let tempNodes = [...nodes]
+            let tempEdges = [...edges]
 
-            _edges.map(item => {
+            console.log(tempEdges, tempNodes)
+
+            res.data.edges.map(item => {
                 setEdgeSettings(item);
+                tempEdges.push(item)
+                edges.push(item)
+                _edges.push(item)
+            }) 
 
-                setEdges(() => [...edges, item])
-            })
-
-            res.data.nodes.map(item => {
+            res.data.nodes.filter(item => !nodes.includes(item)).map(item => {
                 setNodeSettings(item)
-
+                tempNodes.push(item)
+                nodes.push(item)
                 _nodes.push(item)
-                setNodes(() => [...nodes, item]);
-                setIds(() => [...ids, item.id])
             })
 
-            setEdges([..._edges, ...edges])
+            let newNodes = tempNodes.filter((value, index, self) =>
+                index === self.findIndex((t) => (
+                    t.id === value.id
+                ))
+            )
+
+            let newEdges = tempEdges.filter((value, index, self) =>
+                index === self.findIndex((t) => (
+                    t.from === value.from && t.to === value.to  
+                ))
+            )
+
+            console.log(newEdges)
+            console.log(newNodes)
+
+            // setNodes(newNodes)
+            // setEdges(newEdges)
 
             Network.body.data.nodes.update(_nodes)
             Network.body.data.edges.update(_edges)
-            graJSON.nodes = nodes
-            graJSON.edges = edges
+            graJSON.nodes = newNodes
+            graJSON.edges = newEdges
+
+            setPhysicsEnable(true)
 
             Network.fit({});
         })
@@ -415,9 +434,12 @@ const GraphNetnew = (props) => {
         }
     }
 
+    const removeFloatingNode = () => {
+        console.log(Network)
+    }
+
     const setEdgeSettings = (edge) => {
         edge.label = edge.properties.Vid_svyaziey
-        Object.assign(edge, {"properties": edge.properties})
         Object.assign(edge, {"color": "white"})
         Object.assign(edge, {font: {color: "white"}})
         Object.assign(edge, {id: edge.properties.id})
@@ -432,7 +454,7 @@ const GraphNetnew = (props) => {
             edge.color = "pink"
 
         } else if (edge.type == 'WORKER_CUR' || edge.type == 'WORKER_HIST') {
-            edge.color = "#7575eb"
+            edge.color = "#9999f2"
 
         } else if (edge.type == 'SUDIM') {
             edge.color = "red"
@@ -452,8 +474,6 @@ const GraphNetnew = (props) => {
     }
 
     const setNodeSettings = (node, iin1, iin2) => {
-        setIds(() => [...ids, node.id])
-
         let key = false
 
         if (node.properties.Type == "ЮЛ" || node.properties.Type == "ИП") {
@@ -462,7 +482,6 @@ const GraphNetnew = (props) => {
 
             if (node.label.length > 60) { 
                 node.label = cropLabel(node.label)
-                console.log(node.physics)
             }
             
 
@@ -532,7 +551,7 @@ const GraphNetnew = (props) => {
 
     const events = {
         selectNode: (event) => {
-            // setPhysicsEnable(false)
+            setPhysicsEnable(false)
             setShowNodeInfo(true)
             setShowEdgeInfo(false)
             setShowImage(false)
@@ -685,6 +704,8 @@ const GraphNetnew = (props) => {
         setShowSudInfo(false)
 
         SelectedEdge = edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
+
+        console.log(Network.selectionHandler.selectionObj)
 
         console.log(SelectedEdge)
 
@@ -937,7 +958,6 @@ const GraphNetnew = (props) => {
         setPhysicsEnable(true)
 
         setIsLoading(true)
-        setIds([])
 
         console.log(file )
 
@@ -952,12 +972,8 @@ const GraphNetnew = (props) => {
             setEdgeSettings(item);
         })
         
-        res.nodes.map(item => {
+        res.nodes.filter(item => !nodes.includes(item)).map(item => {
             setNodeSettings(item)
-
-            setIds(() => {
-                return [ids, item.id]
-            })
             _nodes.push(item);
         })
 
@@ -1056,14 +1072,14 @@ const GraphNetnew = (props) => {
                         events={events}
                         getNetwork={network => {
                             Network = network;
-                            Network.on('dragging', (event) => {
-                                setPhysicsEnable(false)
-                                console.log(event)
-                                console.log("first")
-                            })
-                            Network.off('dragging', (event) => {
-                                setPhysicsEnable(true)
-                            })
+                            // Network.on('dragging', (event) => {
+                            //     // setPhysicsEnable(false)
+                            //     // console.log(event)
+                            //     // console.log("first")
+                            // })
+                            // Network.off('dragging', (event) => {
+                            //     setPhysicsEnable(true)
+                            // })
                         }}
                         manipulation={manipulation}
                         className={"graph"}
