@@ -38,10 +38,10 @@ const Navbar = () => {
                         userSession && 
                         userSession.roles.includes("ADMIN")
                         ?  (
-                            // <Link to={"/admin"}><div className="admin">
-                            //     Админ панель
-                            // </div></Link>
+                            <>
                             <div className="admin"><Link to="/admin">Админ панель</Link></div>
+                            <div className="admin"><Link to="/registration">Регистрация</Link></div>
+                            </>
                         ) : ("")
                     }
                    
@@ -61,7 +61,7 @@ const Navbar = () => {
                         :
                         <>
                             {/* <li><a className={"nav-links"} href={"http://localhost:3000/registration"}>SIGN UP</a></li> */}
-                            {/* <li><a className={"nav-links"} href={""} onClick={}>LOG IN</a></li> */}
+                            {/* <li><a className={"nav-links"} href={"http://localhost:3000/login"}>LOG IN</a></li> */}
                         </>
                     }
                 </ul>

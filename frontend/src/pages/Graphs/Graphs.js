@@ -309,8 +309,8 @@ const GraphNetnew = (props) => {
                 _nodes.push(item);
             })
             
-            setNodes(nodes)
-            setEdges(edges)
+            setNodes(_nodes)
+            setEdges(_edges)
 
             graJSON.nodes = _nodes
             graJSON.edges = _edges
@@ -321,7 +321,7 @@ const GraphNetnew = (props) => {
             fileInput.value = ""
 
             setShowActionBtn(true)
-            Network.stabilize()
+            if(Network) Network.stabilize()  
         })
     };
 
@@ -432,7 +432,7 @@ const GraphNetnew = (props) => {
             edge.color = "pink"
 
         } else if (edge.type == 'WORKER_CUR' || edge.type == 'WORKER_HIST') {
-            edge.color = "blue"
+            edge.color = "#7575eb"
 
         } else if (edge.type == 'SUDIM') {
             edge.color = "red"

@@ -8,20 +8,21 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import {motion} from 'framer-motion';
 
 import React, { Suspense } from "react";
-import {motion} from 'framer-motion';
+import GraphNet from './pages/Graphs/Graphs';
+import MainPage from './pages/MainPage/MainPage';
+import RegistrationPage from './pages/Registration/RegistrationPage';
+import SignInPage from './pages/SignIn/SignInPage';
+import AdminPage from './pages/AdminPage/AdminPage';
+import TableLog from './Components/TableLog/TableLog';
+import UsersTable from './Components/UsersTable/UsersTable';
+import UserDetails from './pages/userDetails/userDetails';
+
 
 const App = () => {
   const userSession = JSON.parse(localStorage.getItem("user"))
-  const LazyGraphnet = React.lazy(() => import('./pages/Graphs/Graphs'))
-  const LazyRegistrationPage = React.lazy(() => import('./pages/Registration/RegistrationPage'))
-  const LazySignInPage = React.lazy(() => import('./pages/SignIn/SignInPage'))
-  const LazyAdminPage = React.lazy(() => import('./pages/AdminPage/AdminPage'))
-  const LazyTableLog = React.lazy(() => import('./Components/TableLog/TableLog'))
-  const LazyUserDetails = React.lazy(() => import('./pages/userDetails/userDetails'))
-  
-
   return (
     <Router>
       <div className='App'>
@@ -29,44 +30,43 @@ const App = () => {
           <Route path="/searchtool" element={
             <>
               <Navbar/>
-            <Suspense fallback={<span className="loader"></span>}>
-              <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
-              <LazyGraphnet /> 
+                <Suspense fallback={<span class="loader"></span>}>
+                  <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
+                    <GraphNet /> 
                   </motion.div>
-              </Suspense>
-              {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
+                </Suspense>
             </>
           } />
           <Route path="/" element={
             <>
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
-                <Navbar/>
-              <Suspense fallback={<span className="loader"></span>}>
-                <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.3 }}>
-                <LazyGraphnet />
-                  </motion.div> 
-              </Suspense>
+              <Navbar/>
+                <Suspense fallback={<span class="loader"></span>}>
+                  <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
+                    <GraphNet /> 
+                  </motion.div>
+                </Suspense>
             </>
           } />
           <Route path="/registration" element={
             <>
 
               <Navbar/>
-            <Suspense fallback={<span className="loader"></span>}>
-              <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.3 }}>
-              <LazyRegistrationPage/>
+                <Suspense fallback={<span class="loader"></span>}>
+                  <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
+                    <RegistrationPage/> 
                   </motion.div>
-            </Suspense>
+                </Suspense>
             </>
           } />
 
           <Route path="/login" element={
             <>
-            <Suspense fallback={<span className="loader"></span>}>
-              <motion.div initial={{opacity: 0}} animate={{opacity: 1}}>
-              <LazySignInPage/>
-                  </motion.div>
-            </Suspense>
+              <Suspense fallback={<span class="loader"></span>}>
+                <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
+                  <SignInPage /> 
+                </motion.div>
+              </Suspense>
             </>
           } />
           {console.log(userSession)}
@@ -76,7 +76,7 @@ const App = () => {
               <Navbar/>
               <Suspense fallback={<span className="loader"></span>}>
               <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
-              <LazyTableLog/>
+              <TableLog/>
                   </motion.div>
               </Suspense>
             </>
@@ -89,22 +89,21 @@ const App = () => {
               <Route path="/users/:username" element={
                 <>
                   <Navbar/>
-                <Suspense fallback={<span className="loader"></span>}>
-                  <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
-                  <LazyUserDetails/>
-                  </motion.div>
-                </Suspense>
+                  <Suspense fallback={<span class="loader"></span>}>
+                    <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
+                      <UserDetails/>
+                    </motion.div>
+                  </Suspense>
                 </>
               }/>
               <Route path="/admin" element={
                 <>
                   <Navbar/>
-                <Suspense fallback={<span className="loader"></span>}>
-                  <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
-                  <LazyAdminPage/>
-                  </motion.div>
-
-                </Suspense>
+                  <Suspense fallback={<span class="loader"></span>}>
+                    <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
+                      <AdminPage/>
+                    </motion.div>
+                  </Suspense>
                 </>
               }/>
               </>

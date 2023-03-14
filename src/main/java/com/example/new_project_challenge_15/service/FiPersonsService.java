@@ -736,42 +736,6 @@ public class FiPersonsService {
                     nodes.add(currNode);
                 }
             }
-            List<BLIZKIE_RODS> BLIZKIE_RODSs = object.getBlizkieRodsOut();
-            for (BLIZKIE_RODS relation: BLIZKIE_RODSs) {
-                Map<String, Object> properties = getPropertyMap(relation);
-                relationModel currRel = new relationModel(object.getId(), relation.getPersons().getId(), properties);
-                currRel.setType("BLIZKIE_RODS");
-                edges.add(currRel);
-                if (!ids.contains(relation.getPersons().getId())) {
-                    ids.add(relation.getPersons().getId());
-                    Nodes currNode = new Nodes();
-                    Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
-                    currNode = tryAddPhoto(currNode, relation.getPersons().getIIN());
-//                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
-//                    currNode.setPhotoDbf(photoDb);
-                    currNode.setId(relation.getPersons().getId());
-                    currNode.setProperties(properties2);
-                    nodes.add(currNode);
-                }
-            }
-            List<SIBLING> SIBLINGs = object.getSiblingsOut();
-            for (SIBLING relation: SIBLINGs) {
-                Map<String, Object> properties = getPropertyMap(relation);
-                relationModel currRel = new relationModel(object.getId(), relation.getPersons().getId(), properties);
-                currRel.setType("SIBLING");
-                edges.add(currRel);
-                if (!ids.contains(relation.getPersons().getId())) {
-                    ids.add(relation.getPersons().getId());
-                    Nodes currNode = new Nodes();
-                    Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
-                    currNode = tryAddPhoto(currNode, relation.getPersons().getIIN());
-//                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
-//                    currNode.setPhotoDbf(photoDb);
-                    currNode.setId(relation.getPersons().getId());
-                    currNode.setProperties(properties2);
-                    nodes.add(currNode);
-                }
-            }
             List<SIBLING> SIBLING = object.getSiblings();
             for (SIBLING relation: SIBLING) {
                 Map<String, Object> properties = getPropertyMap(relation);
@@ -871,24 +835,7 @@ public class FiPersonsService {
                     nodes.add(currNode);
                 }
             }
-            List<COUSIN> COUSINs = object.getCousinsOut();
-            for (COUSIN relation: COUSINs) {
-                Map<String, Object> properties = getPropertyMap(relation);
-                relationModel currRel = new relationModel(object.getId(), relation.getPersons().getId(), properties);
-                currRel.setType("COUSIN");
-                edges.add(currRel);
-                if (!ids.contains(relation.getPersons().getId())) {
-                    ids.add(relation.getPersons().getId());
-                    Nodes currNode = new Nodes();
-                    Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
-                    currNode = tryAddPhoto(currNode, relation.getPersons().getIIN());
-//                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
-//                    currNode.setPhotoDbf(photoDb);
-                    currNode.setId(relation.getPersons().getId());
-                    currNode.setProperties(properties2);
-                    nodes.add(currNode);
-                }
-            }
+
             List<BUHGALTER> buhgalters = object.getBuhgalters();
             for (BUHGALTER relation: buhgalters) {
                 Map<String, Object> properties = getPropertyMap(relation);
