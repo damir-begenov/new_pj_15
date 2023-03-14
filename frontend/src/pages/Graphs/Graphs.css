@@ -95,6 +95,7 @@
   
   /* Node Title Block styles */
   .centralBar div:nth-child(2) {
+    /* z-index: -1; чтобы был эффект тиснения от навбара */
     box-sizing: border-box;
   
     /* background-color: var(--bar-color); */

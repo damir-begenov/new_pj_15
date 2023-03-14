@@ -28,8 +28,9 @@ import keyPersonIcon from '../../icons/key_person.png'
 import personIcon from '../../icons/person.png'
 import personjaiIcon from '../../icons/personjai.png'
 import ripPersonIcon from '../../icons/rip_person.png'
+import ntrIcon from '../../icons/ntrIcon.jpg'
 
-var graJSON = {nodes: [], edges: [], typeOfSearch: "", params: {}, iin: false}
+var graJSON = {approvement: "", nodes: [], edges: [], typeOfSearch: "", params: {}, iin: false, first: "", second: ""}
 var Network;
 var SelectedNode = {}
 var SelectedEdge = {}
@@ -68,7 +69,7 @@ export default class GraphNet extends Component {
             "type": "continuous",
             "forceDirection": "none",
             roundness: 0.5
-          }, 
+          },
           font: {
             strokeWidth: 0,
             size: 10,
@@ -93,7 +94,7 @@ export default class GraphNet extends Component {
           solver: "barnesHut",
           timestep: 0.5,
           wind: { x: 0, y: 0 }
-  
+
         },
         groups: {
           keyPerson: {
@@ -136,6 +137,10 @@ export default class GraphNet extends Component {
             shape: "circularImage",
             image: addressIcon,
           },
+          notarius: {
+            shape: "circularImage",
+            image: ntrIcon,  
+          }
         },
         nodes: {
           font: {
@@ -144,9 +149,9 @@ export default class GraphNet extends Component {
           },
           size: 20
         },
-  
+
         height: "100%",
-  
+
         layout: {
           hierarchical: {
             enabled: false,
@@ -160,10 +165,10 @@ export default class GraphNet extends Component {
             sortMethod: 'hubsize',  // hubsize, directed
             shakeTowards: 'leaves'  // roots, leaves
           },
-  
+
           randomSeed: 1,
           improvedLayout: true,
-          
+
         }
       }
     }
@@ -185,7 +190,7 @@ export default class GraphNet extends Component {
               "type": "continuous",
               "forceDirection": "none",
               roundness: 0.5
-            }, 
+            },
             font: {
               strokeWidth: 0,
               size: 10,
@@ -210,7 +215,7 @@ export default class GraphNet extends Component {
             solver: "barnesHut",
             timestep: 0.5,
             wind: { x: 0, y: 0 }
-    
+
           },
           groups: {
             keyPerson: {
@@ -275,10 +280,10 @@ export default class GraphNet extends Component {
               sortMethod: 'hubsize',  // hubsize, directed
               shakeTowards: 'leaves'  // roots, leaves
             },
-    
+
             randomSeed: 1,
             improvedLayout: true,
-            
+
           }
         }
       } else {
@@ -297,7 +302,7 @@ export default class GraphNet extends Component {
               "type": "continuous",
               "forceDirection": "none",
               roundness: 0.5
-            }, 
+            },
             font: {
               strokeWidth: 0,
               size: 10,
@@ -322,7 +327,7 @@ export default class GraphNet extends Component {
             solver: "barnesHut",
             timestep: 0.5,
             wind: { x: 0, y: 0 }
-    
+
           },
           groups: {
             keyPerson: {
@@ -373,9 +378,9 @@ export default class GraphNet extends Component {
             },
             size: 20
           },
-    
+
           height: "100%",
-    
+
           layout: {
             hierarchical: {
               enabled: true,
@@ -389,10 +394,10 @@ export default class GraphNet extends Component {
               sortMethod: 'hubsize',  // hubsize, directed
               shakeTowards: 'leaves'  // roots, leaves
             },
-    
+
             randomSeed: 1,
             improvedLayout: true,
-            
+
           }
         }
       }
@@ -445,7 +450,7 @@ export default class GraphNet extends Component {
       console.log(options)
 
 
-      
+
       const userSession = JSON.parse(localStorage.getItem("user"))
 
       let url = "";
@@ -457,6 +462,8 @@ export default class GraphNet extends Component {
           if (options.searchOption == "iinOption") {
             url = "http://localhost:9091/api/finpol/main/fltree"
             params = {person: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit}
+            graJSON.first = options.iin1
+            graJSON.second = ""
             graJSON.params = params
           } else {
             url = "http://localhost:9091/api/finpol/main/flFIOtree"
@@ -466,6 +473,8 @@ export default class GraphNet extends Component {
               fatherName1: options.fname1, 
               relations: options.relString, depth: options.depth, limit: options.limit
             }
+            graJSON.first = "Фамилия: " + options.lname1 + ", имя: " + options.name1 + ", отчество: " + options.fname1
+            graJSON.second = ""
             graJSON.params = params
             graJSON.iin = false
           }
@@ -475,6 +484,8 @@ export default class GraphNet extends Component {
           if (options.searchOption == "iinOption") {
             url = "http://localhost:9091/api/finpol/main/shortestpaths";
             params = {person: options.iin1, person2: options.iin2, relations: options.relString}
+            graJSON.first = options.iin1
+            graJSON.second = options.iin2
             graJSON.params = params
           } else {
             url = "http://localhost:9091/api/finpol/main/shortestpathsByFIO";
@@ -489,6 +500,8 @@ export default class GraphNet extends Component {
             }
             graJSON.params = params
             graJSON.iin = false
+            graJSON.first = "Фамилия: " + options.lname1 + ", имя: " + options.name1 + ", отчество: " + options.fname1
+            graJSON.first = "Фамилия: " + options.lname2 + ", имя: " + options.name2 + ", отчество: " + options.fname2
           }
           break;
         case "con3":
@@ -496,6 +509,8 @@ export default class GraphNet extends Component {
           if (options.searchOption == "iinOption") {
             url = "http://localhost:9091/api/finpol/main/flulpath";
             params = {person: options.iin1, ul: options.iin2, relations: options.relString}
+            graJSON.first = options.iin1
+            graJSON.second = options.iin2
             graJSON.params = params
           } else {
             url = "http://localhost:9091/api/finpol/main/flulpathByFIO";
@@ -508,18 +523,23 @@ export default class GraphNet extends Component {
             }
             graJSON.params = params
             graJSON.iin = false
+            graJSON.first = "Фамилия: " + options.lname1 + ", имя: " + options.name1 + ", отчество: " + options.fname1
+            graJSON.second = options.iin2
           }
           break;
         case "con4":
           graJSON.typeOfSearch = "con4"
           url = "http://localhost:9091/api/finpol/main/ultree";
           params = {ul: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit }
+          graJSON.first = options.iin1
           graJSON.params = params
           break;
         case "con5":
           graJSON.typeOfSearch = "con5"
           url = "http://localhost:9091/api/finpol/main/ululpath";
           params = {ul1: options.iin1, ul2: options.iin2, relations: options.relString}
+          graJSON.first = options.iin1
+          graJSON.second = options.iin2
           graJSON.params = params
           break;
       }
@@ -563,7 +583,7 @@ export default class GraphNet extends Component {
         const fileInput = document.getElementById('file-upload')
         fileInput.value = ""
         this.setState({showActionBtn: true})
-        
+
         // Network.fit({
         //   minZoomLevel: 2
         // });
@@ -699,14 +719,17 @@ export default class GraphNet extends Component {
         // settings for ul
         node.label = node.properties.Name;
 
-        if (node.label.length > 60) { 
+        if (node.label.length > 60) {
           node.label = this.cropLabel(node.label)
           console.log(node.physics)
         }
-        
+
 
         const p = node.properties;
-        if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null) {
+        if (p.nomer_sdelki) {
+          node.group = "notarius"
+
+        } else if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null) {
           node.group = "judgeCompany"
 
         } else if (p.IINBIN == iin1 || p.IINBIN == iin2) {
@@ -1002,6 +1025,7 @@ export default class GraphNet extends Component {
             "ПДЛ": sp.pdl,
             "РКА": sp.rka,
             "Год службы": sp.god_sluzhbi,
+            "Описание": sp.opisanie
           }, '#nodeInfoInner')
 
         }
@@ -1090,43 +1114,18 @@ export default class GraphNet extends Component {
     }        
     
     exportBt = () => {
-      const fileName = "graph.txt"
+      let name = "graph.txt"
+      if (graJSON.approvement == "") {
+        name = "graph.txt"
+      } else {
+        name = graJSON.approvement+ ".txt"
+      }
+      const fileName = name
       const fileContent = JSON.stringify(graJSON, null, 2)
       const blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"})
       const url = URL.createObjectURL(blob)
-      let first = ""
-      let second = ""
-      if (graJSON.typeOfSearch == "con1") {
-        if (graJSON.iin) {
-          first = graJSON.params.person
-          second = ""
-        } else {
-          first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
-          second = "" 
-        }
-      } else if (graJSON.typeOfSearch == "con2") {
-        if (graJSON.iin) {
-          first = graJSON.params.person
-          second = graJSON.params.person2
-        } else {
-          first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
-          second = "Фамилия: " + graJSON.params.lastName2 + ", имя: " + graJSON.params.firstName2 + ", отчество: " + graJSON.params.fatherName2
-        }
-      } else if (graJSON.typeOfSearch == "con3") {
-        if (graJSON.iin) {
-          first = graJSON.params.person
-          second = graJSON.params.ul
-        } else {
-          first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
-          second = graJSON.params.ul
-        }
-      } else if (graJSON.typeOfSearch == "con4") {
-        first = graJSON.params.ul
-        second = ""
-      } else if (graJSON.typeOfSearch == "con5") {
-        first = graJSON.params.ul1
-        second = graJSON.params.ul2
-      }
+      let first = graJSON.first
+      let second = graJSON.second
       axios.get("http://localhost:9091/api/finpol/main/downloadedscheme", {params: {first: first, second: second}})
       const link = document.createElement("a")
       link.download = fileName;
@@ -1187,7 +1186,7 @@ export default class GraphNet extends Component {
             <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
             <div className='centralBar'>
               <div className="waiterBox">
-                {/* <a>Make a search</a> */}
+                {/* <a>Совершите поиск</a> */}
                 <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
               </div>
             </div>
@@ -1202,7 +1201,7 @@ export default class GraphNet extends Component {
             <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
               <div className="waiterBox">
-                  <a>No objects found</a>
+                  <a>Связи не найдены</a>
                 </div>
               </div>
             {/* <RightBar showAction={this.state.showActionBtn} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}></RightBar> */}
@@ -1215,11 +1214,12 @@ export default class GraphNet extends Component {
           <>
             <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}   name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
               <div className='centralBar'>
-                <div className="loader">
+                {/* <div className="loader">
                   <div className="inner one"></div>
                   <div className="inner two"></div>
                   <div className="inner three"></div>
-                </div>
+                </div> */}
+                <span class="loader"></span>
               </div>
             {/* <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar> */}
           </>

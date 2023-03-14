@@ -12,9 +12,7 @@ const Navbar = () => {
     const navigate = useNavigate()    
 
     const logoutHandler = () => {
-
         authService.logout();
-
         // navigate('/login');
     }
 
@@ -22,13 +20,20 @@ const Navbar = () => {
         const a = !userSession ? navigate('/login') : ""
     })
 
+    const toAdmin = () => {
+        navigate('/admin')
+    }
+    const toLogin = () => {
+        navigate('/login')
+    }
+
     return (
         <>
         <div className="nav-back">
             <nav className="NavbarItems">
                 <h1 className="logo"><Link to='/'>ITap</Link></h1>
                 <div>
-                    {console.log(userSession)}
+                    {/* {console.log(userSession)} */}
                     {
                         userSession && 
                         userSession.roles.includes("ADMIN")
@@ -49,7 +54,6 @@ const Navbar = () => {
                             <li>
                                 <a className={"nav-links"}>
                                     <span>{userSession.email}</span>
-
                                 </a>
                             </li>
                             <li><Link className={"nav-links"} to={"/login"} onClick={logoutHandler}>Выйти</Link></li>

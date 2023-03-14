@@ -1,13 +1,12 @@
 import './App.css';
+import './Loader.css'
+import './font.css'
+// import './fontawesome/all.css';
 import Navbar from './Components/NavBar/Navbar';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  useParams,
-  useSearchParams,
-  useNavigate
 } from "react-router-dom";
 import {motion} from 'framer-motion';
 
@@ -51,6 +50,7 @@ const App = () => {
           } />
           <Route path="/registration" element={
             <>
+
               <Navbar/>
                 <Suspense fallback={<span class="loader"></span>}>
                   <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
@@ -73,7 +73,11 @@ const App = () => {
             <>
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
               <Navbar/>
-              <TableLog/>
+              <Suspense fallback={<span class="loader"></span>}>
+              <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{ duration: 0.5 }}>
+              <LazyTableLog/>
+                  </motion.div>
+              </Suspense>
             </>
           } />
           {/* <Route path="/userTable" element={<UsersTable/>} /> */}
