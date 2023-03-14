@@ -38,140 +38,141 @@ var SelectedEdge = {}
 var onSelectNode = false;
 
 export default class GraphNet extends Component {
-    state = {
-      ids: [],
-      nodes: [],
-      edges: [],
-      temp: '',
-      counter: 0,
-      showActionBtn: false,
-      sliderPage: 0,
-      searchedNodes: [],
-      showNodeInfo: false,
-      showEdgeInfo: false,
-      showNodeImage: false,
-      showSudInfo: false,
-      keyNodeId: 0,
-      nodeStack: [],
-      params: {},
-      layoutHierarchical: true,
-      options: {
-        autoResize: true,
+  
+  state = {
+    ids: [],
+    nodes: [],
+    edges: [],
+    temp: '',
+    counter: 0,
+    showActionBtn: false,
+    sliderPage: 0,
+    searchedNodes: [],
+    showNodeInfo: false,
+    showEdgeInfo: false,
+    showNodeImage: false,
+    showSudInfo: false,
+    keyNodeId: 0,
+    nodeStack: [],
+    params: {},
+    layoutHierarchical: true,
+    options: {
+      autoResize: true,
         edges: {
-          // color: 'white',
-          length: 400,
-          width: 1,
-          selectionWidth: 5,
-          arrows: {
-            to: true,
-          },
-          smooth: {
-            "type": "continuous",
-            "forceDirection": "none",
-            roundness: 0.5
-          }, 
-          font: {
-            strokeWidth: 0,
-            size: 10,
-            align: "top"
-          },
+        // color: 'white',
+        length: 400,
+        width: 1,
+        selectionWidth: 5,
+        arrows: {
+          to: true,
         },
-        physics:
-        {
-          enabled: false,
-          barnesHut: {
-            springConstant: 0,
-            theta: 0.5,
-            gravitationalConstant: -2000,
-            centralGravity: 0.3,
-            springLength: 95,
-            springConstant: 0.04,
-            damping: 0.09,
-            avoidOverlap: 0
-          },
-          maxVelocity: 25,
-          minVelocity: 1,
-          solver: "barnesHut",
-          timestep: 0.5,
-          wind: { x: 0, y: 0 }
-  
+        smooth: {
+          "type": "continuous",
+          "forceDirection": "none",
+          roundness: 0.5
+        }, 
+        font: {
+          strokeWidth: 0,
+          size: 10,
+          align: "top"
         },
-        groups: {
-          keyPerson: {
-            shape: "circularImage",
-            image: keyPersonIcon,
-          },
-          person: {
-            shape: "circularImage",
-            image: personIcon,
-          },
-          personJai: {
-            shape: "circularImage",
-            image: personjaiIcon,
-          },
-          keyJudgePerson: {
-            shape: "circularImage",
-            image: keyJudgePersonIcon,
-          },
-          ripPerson: {
-            shape: "circularImage",
-            image: ripPersonIcon,
-          },
-          judgePerson: {
-            shape: "circularImage",
-            image: judgePersonIcon,
-          },
-          keyCompany: {
-            shape: "circularImage",
-            image: keyCompanyIcon,
-          },
-          company: {
-            shape: "circularImage",
-            image: companyIcon,
-          },
-          judgeCompany: {
-            shape: "circularImage",
-            image: judgeCompanyIcon,
-          },
-          PROPISKA: {
-            shape: "circularImage",
-            image: addressIcon,
-          },
-          notarius: {
-            shape: "circularImage",
-            image: ntrIcon,  
-          }
+      },
+      physics:
+      {
+        enabled: false,
+        barnesHut: {
+          springConstant: 0,
+          theta: 0.5,
+          gravitationalConstant: -2000,
+          centralGravity: 0.3,
+          springLength: 95,
+          springConstant: 0.04,
+          damping: 0.09,
+          avoidOverlap: 0
         },
-        nodes: {
-          font: {
-            size: 14,
-            color: "white"
-          },
-          size: 20
+        maxVelocity: 25,
+        minVelocity: 1,
+        solver: "barnesHut",
+        timestep: 0.5,
+        wind: { x: 0, y: 0 }
+
+      },
+      groups: {
+        keyPerson: {
+          shape: "circularImage",
+          image: keyPersonIcon,
         },
-  
-        height: "100%",
-  
-        layout: {
-          hierarchical: {
-            enabled: false,
-            levelSeparation: 150,
-            nodeSpacing: 200,
-            treeSpacing: 200,
-            blockShifting: true,
-            edgeMinimization: true,
-            parentCentralization: true,
-            direction: 'UD',        // UD, DU, LR, RL
-            sortMethod: 'hubsize',  // hubsize, directed
-            shakeTowards: 'leaves'  // roots, leaves
-          },
-  
-          randomSeed: 1,
-          improvedLayout: true,
-          
+        person: {
+          shape: "circularImage",
+          image: personIcon,
+        },
+        personJai: {
+          shape: "circularImage",
+          image: personjaiIcon,
+        },
+        keyJudgePerson: {
+          shape: "circularImage",
+          image: keyJudgePersonIcon,
+        },
+        ripPerson: {
+          shape: "circularImage",
+          image: ripPersonIcon,
+        },
+        judgePerson: {
+          shape: "circularImage",
+          image: judgePersonIcon,
+        },
+        keyCompany: {
+          shape: "circularImage",
+          image: keyCompanyIcon,
+        },
+        company: {
+          shape: "circularImage",
+          image: companyIcon,
+        },
+        judgeCompany: {
+          shape: "circularImage",
+          image: judgeCompanyIcon,
+        },
+        PROPISKA: {
+          shape: "circularImage",
+          image: addressIcon,
+        },
+        notarius: {
+          shape: "circularImage",
+          image: ntrIcon,  
         }
+      },
+      nodes: {
+        font: {
+          size: 14,
+          color: "white"
+        },
+        size: 20
+      },
+
+      height: "100%",
+
+      layout: {
+        hierarchical: {
+          enabled: true,
+          levelSeparation: 150,
+          nodeSpacing: 200,
+          treeSpacing: 200,
+          blockShifting: true,
+          edgeMinimization: true,
+          parentCentralization: true,
+          direction: 'UD',        // UD, DU, LR, RL
+          sortMethod: 'hubsize',  // hubsize, directed
+          shakeTowards: 'leaves'  // roots, leaves
+        },
+
+        randomSeed: 1,
+        improvedLayout: true,
+        
       }
     }
+  }
 
     layoutHandler = () => {
       if (this.state.options.layout.hierarchical.enabled === true) {
@@ -1168,6 +1169,7 @@ export default class GraphNet extends Component {
 
         // } else {
           this.state.ids.push(item.id)
+          console.log(this.state.ids)
           nodes.push(item);
         // }
       })

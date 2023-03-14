@@ -7,7 +7,6 @@ import './RightBar.css'
 const RightBar = (props) => {
   const [showRels, setShowRelss] = useState("")
   const [openLimit, setOpenLimit] = useState(1)
-  const [layout, setLayout] = useState("network")
   const [showNodeInfo, setShowNodeInfo] = useState(false)
   const [showNodeAddInfo, setShowNodeAddInfo] = useState(false)
 
@@ -23,20 +22,11 @@ const RightBar = (props) => {
     props.shortHide()
   }
 
-  const handleLayout = () => {
-    props.layoutHandler()
-  } 
-
   return (
     <div className='rightBar'>
       <div className="infoBlock" id="infoBlock">
         <div>
 
-          <div className="graphLayoutHandler">
-            <div className="glTitle">Вид графа</div>
-            <div className="glType" onClick={handleLayout}>Иерархический</div>
-          </div>
-          
           <div className="infoBlockTitle">Информация {props.isOnSelectNode || props.isOnSelectEdge ? "о объекте" : ""}</div>
           <div className="nodeImg"
               style={{display: props.showImage 
@@ -52,7 +42,7 @@ const RightBar = (props) => {
                     document.querySelector('#nodeInfoInner').style.display = showNodeInfo ? "flex" : "none"
                   }}>
                 <div>Общие сведения</div>
-                <i>+</i>
+                <i></i>
               </div>
               <div className="nodeInfoInner" id="nodeInfoInner">
 
@@ -66,7 +56,7 @@ const RightBar = (props) => {
                     document.querySelector('#nodeAddInfoInner').style.display = showNodeAddInfo ? "flex" : "none"
                   }}>
                 <div>Дополнительные сведения</div>
-                <i>+</i>
+                <i></i>
               </div>
               <div className="nodeInfoInner nodeAddInfoInner" id="nodeAddInfoInner">
 
@@ -80,7 +70,7 @@ const RightBar = (props) => {
                     document.querySelector('#nodeSudInfoInner').style.display = showNodeAddInfo ? "flex" : "none"
                   }}>
                 <div>Риски</div>
-                <i>+</i>
+                <i></i>
               </div>
               <div className="nodeInfoInner nodeSudInfoInner" id="nodeSudInfoInner">
 

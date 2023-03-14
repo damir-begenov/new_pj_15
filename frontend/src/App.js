@@ -19,6 +19,7 @@ import AdminPage from './pages/AdminPage/AdminPage';
 import TableLog from './Components/TableLog/TableLog';
 import UsersTable from './Components/UsersTable/UsersTable';
 import UserDetails from './pages/userDetails/userDetails';
+import GraphNetnew from './pages/Graphs/newGraphs';
 
 
 const App = () => {
@@ -39,7 +40,7 @@ const App = () => {
             <>
               {/* {!userSession ? navigate('/login', {replace: true}) : ""}  */}
               <Navbar/>
-              <GraphNet /> 
+              <GraphNetnew /> 
             </>
           } />
           <Route path="/registration" element={

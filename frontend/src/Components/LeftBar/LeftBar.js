@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import RelationBlock from "../Relation/RelationBlock";
 import ApprovementModalWindow from "../ApprovementModal/ApprovementModalWindow";
+import LayoutController from "../LayoutController/LayoutController";
 
 const LeftBar = (props) => {
     const navigate = useNavigate()
@@ -116,12 +117,14 @@ const LeftBar = (props) => {
     const importBt = () => {
         const fileInput = document.getElementById('file-upload')
         const file = fileInput.files[0]
-        let graJSON ={}
+        let graJSON = {}
         reader.onload = event => {
             const fileContent = event.target.result
             props.update()
             graJSON = props.importBt(fileContent)
+
             console.log(graJSON)
+
             if (graJSON.typeOfSearch=="con1") {
                 document.getElementById("connections").value = "con1"
             } else if (graJSON.typeOfSearch=="con2") {
@@ -144,6 +147,7 @@ const LeftBar = (props) => {
             let formLimit = document.querySelector("#formLimit")
             let formDepth = document.querySelector("#formDepth")
             let formRels  = document.querySelector("#formRels")
+
             formSearchOptions.style.display = 'none'
             iin1.style.display = 'none'
             iin2.style.display = 'none'
@@ -152,12 +156,10 @@ const LeftBar = (props) => {
             formLimit.style.display = 'none'
             formDepth.style.display = 'none'
             formRels.style.display = 'none'
-        }
-        reader.readAsText(file)
-    }
 
-    const changeView = () => {
-        props.changeView()
+        }
+
+        reader.readAsText(file)
     }
 
     const checkAuth = () => {
@@ -180,6 +182,10 @@ const LeftBar = (props) => {
             return true;
         }
         return false;
+    }
+
+    const handleLayout = (layout) => {
+        props.handleLayout(layout)
     }
 
     return (
@@ -579,8 +585,11 @@ const LeftBar = (props) => {
                     
                 </div>
 
+                <div className="formBlock layoutControl">
+                    <LayoutController handleLayout={handleLayout}></LayoutController>
+                </div>
             </form>
-
+            
             {modal ?
             <ApprovementModalWindow send={filter} setModal={setModal} setApprovementObj={setApprovementObj}></ApprovementModalWindow> : ("")}
         </div>

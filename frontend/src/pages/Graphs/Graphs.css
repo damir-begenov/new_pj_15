@@ -81,7 +81,17 @@
   .nodeSearch > div:nth-child(2) {
     display: flex;
     flex-direction: row;
-    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+
+    background-color: rgba(0, 0, 0, 0) !important;
+  }
+
+  .nodeSearch > div:nth-child(2) > img {
+    cursor: pointer;
+    width: 30%;
+
   }
 
   .nodeSearch > div:nth-child(1) > i {
@@ -89,9 +99,11 @@
     right: 10px;
   }
 
-  .nodeSearch > div:nth-child(2) {
+
+
+  /* .nodeSearch > div:nth-child(2) {
     background: #000;
-  }
+  } */
   
   /* Node Title Block styles */
   .centralBar div:nth-child(2) {

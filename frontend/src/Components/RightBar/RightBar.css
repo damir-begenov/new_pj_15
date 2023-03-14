@@ -70,6 +70,10 @@
   padding: 0px 5px;
 
   cursor: pointer;
+
+  background-image: var(--dropdown-icon-808080);
+  background-repeat: no-repeat;
+  background-position: right+2px center;
 }
 
 .nodeInfoInner {

@@ -14,6 +14,8 @@
   --secondary-color: rgba(255, 255, 255, 0.11);
   --secondary-color-lighter: rgba(255, 255, 255, 0.379);
   --secondary-color-darker: rgba(255, 255, 255, 0.027);
+  
+  --dropdown-icon-808080: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAtklEQVR4nO3RLwvCQBiA8SsiCjIQURAMgsFg8wM+LzsGt7BwcZ/DosFisRgMBoNgEAQ/hXJhojDcPNfcA285uB/3R6m6P8kYE4RhOP9ljDHBE0zTtCEiCxG5e87KWtt8O6VbAJYe2DpJklbu1YE2sPkC28Zx3Cl8T2BXhAF7oFvqk4AecPiAHaMoGpTCsoC+25iDnYCh8klrPRKR8wt40VqPvbAsYAJcReQGTFUVATM3lWB1qqgHk/rtJdC5vgMAAAAASUVORK5CYII=')
 }
 
 .App {
