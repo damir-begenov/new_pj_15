@@ -39,7 +39,7 @@ const Navbar = () => {
                         userSession.roles.includes("ADMIN")
                         ?  (
                             <>
-                            <div className="admin"><Link to="/admin">Админ панель</Link></div>
+                            <div className="admin"><a onClick={() => toAdmin()}>Админ панель</a></div>
                             <div className="admin"><Link to="/registration">Регистрация</Link></div>
                             </>
                         ) : ("")

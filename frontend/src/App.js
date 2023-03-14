@@ -83,7 +83,7 @@ const App = () => {
           } />
           {/* <Route path="/userTable" element={<UsersTable/>} /> */}
           {userSession 
-          && userSession.roles.includes("ADMIN")
+          && userSession.roles[0] == "ADMIN"
             ? (
               <>
               <Route path="/users/:username" element={

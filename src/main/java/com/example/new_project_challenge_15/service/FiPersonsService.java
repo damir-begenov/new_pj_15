@@ -39,6 +39,21 @@ public class FiPersonsService {
         return node;
     }
 
+    public List<String> filterRelations(Long id, List<String> relations) {
+        Role currole = roleRepository.findRoleById(id);
+        List<String> newRel = new ArrayList<>();
+        for (String relation: relations) {
+            if (currole.getRelations() != null) {
+                if (currole.getRelations().contains(relation)) {
+                    newRel.add(relation);
+                }
+            } else {
+                newRel.add(relation);
+            }
+        }
+        return newRel;
+    }
+
     public doubleReturn shortOpen(Long id, Long ID, List<String> relations, int limit) {
         return ConstructDoubleReturn(id, personRepo.shortOpen(ID, relations, limit), companyRepo.shortOpen(ID, relations, limit));
     }
@@ -695,7 +710,7 @@ public class FiPersonsService {
             if (!ids.contains(object.getId())) {
                 ids.add(object.getId());
                 Nodes currNode = new Nodes();
-                Map<String, Object> properties = getPropertyMap(object);
+                Map<String, Object> properties = getPropertyMap(User, object);
                 currNode = tryAddPhoto(currNode, object.getIIN());
 //                photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
 //                currNode.setPhotoDbf(photoDb);
@@ -727,7 +742,7 @@ public class FiPersonsService {
                 if (!ids.contains(relation.getPersons().getId())) {
                     ids.add(relation.getPersons().getId());
                     Nodes currNode = new Nodes();
-                    Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
+                    Map<String, Object> properties2 = getPropertyMap(User, relation.getPersons());
                     currNode = tryAddPhoto(currNode, relation.getPersons().getIIN());
 //                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
 //                    currNode.setPhotoDbf(photoDb);
@@ -745,7 +760,7 @@ public class FiPersonsService {
                 if (!ids.contains(relation.getPersons().getId())) {
                     ids.add(relation.getPersons().getId());
                     Nodes currNode = new Nodes();
-                    Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
+                    Map<String, Object> properties2 = getPropertyMap(User, relation.getPersons());
                     currNode = tryAddPhoto(currNode, relation.getPersons().getIIN());
 //                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
 //                    currNode.setPhotoDbf(photoDb);
@@ -826,7 +841,7 @@ public class FiPersonsService {
                 if (!ids.contains(relation.getPersons().getId())) {
                     ids.add(relation.getPersons().getId());
                     Nodes currNode = new Nodes();
-                    Map<String, Object> properties2 = getPropertyMap(relation.getPersons());
+                    Map<String, Object> properties2 = getPropertyMap(User, relation.getPersons());
                     currNode = tryAddPhoto(currNode, relation.getPersons().getIIN());
 //                    photoDb photoDb = newPhotoService.getPhotoByIIN(object.getIIN());
 //                    currNode.setPhotoDbf(photoDb);

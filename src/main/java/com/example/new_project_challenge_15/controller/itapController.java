@@ -4,31 +4,23 @@ package com.example.new_project_challenge_15.controller;
 import com.example.new_project_challenge_15.entity.*;
 import com.example.new_project_challenge_15.models.User;
 import com.example.new_project_challenge_15.models.log;
-import com.example.new_project_challenge_15.modelsPhoto.photoDb;
 import com.example.new_project_challenge_15.models.user_roles;
 import com.example.new_project_challenge_15.repository.*;
 import com.example.new_project_challenge_15.security.services.UserDetailsServiceImpl;
 import com.example.new_project_challenge_15.service.*;
 
-import com.sun.jna.WString;
 import lombok.AllArgsConstructor;
 //import org.neo4j.springframework.data.core.Neo4jTemplate;
-import org.neo4j.driver.Value;
-import org.neo4j.driver.Values;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.imageio.ImageIO;
-import javax.mail.Multipart;
 import java.awt.*;
 import java.awt.Robot;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -39,7 +31,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/finpol/main")
 @AllArgsConstructor
-public class moviesController {
+public class itapController {
     PersonService personService;    @Autowired
 
     UserDetailsServiceImpl userDetailsService;    @Autowired
@@ -62,8 +54,9 @@ public class moviesController {
     FiPersonsService personsService;
 
     @Autowired
-
     LogsService logsService;
+    @Autowired
+    RoleRepository roleRepository;
 
 
     @GetMapping("/logtest")
@@ -74,20 +67,42 @@ public class moviesController {
     @Autowired
     user_RolesRepo userRolesRepo;
 
+    @GetMapping("/general")
+    public Map<String, Object> getAdminStat() {
+        int todayRequests = logRepo.findNumberOfRequestsThatRequestedToday();
+        int userNumber = userRepository.getUserNum();
+        int allLogsNum = logRepo.Number();
+        Map<String, Object> stat = new HashMap<>();
+        stat.put("todayRequests", todayRequests);
+        stat.put("userNumber", userNumber);
+        stat.put("allLogsNum", allLogsNum);
+        return stat;
+    }
 
     @GetMapping("/admin/users")
     public List<User> getUsersSearch(@RequestParam String value) {
         return userRepository.getUsersByLike(value);
     }
     @GetMapping("/changeUserRole")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public void changeUserRole(@RequestParam String user, @RequestParam String role) {
 //        System.out.println(user);
         Long u = Long.valueOf(user);
         Long r = Long.valueOf(role);
-        user_roles obj = userRolesRepo.getById(u);
-        obj.setRole_id(r);
-        userRolesRepo.save(obj);
+        try {
+            user_roles userRoles = userRolesRepo.getById(u);
+            userRolesRepo.delete(userRoles);
+            userRoles.setUser_id(u);
+            userRoles.setRole_id(r);
+            userRolesRepo.save(userRoles);
+        } catch (Exception e) {
+//            System.out.println(e);
+            user_roles userRoles = new user_roles();
+            userRoles.setUser_id(u);
+            userRoles.setRole_id(r);
+            userRolesRepo.save(userRoles);
+        }
+
     }
 
 
@@ -117,6 +132,7 @@ public class moviesController {
                                   @RequestParam(required = false) String tematikName,
                                   @RequestParam(required = false) String rukName) {
         User user = userDetailsService.loadUserByUsernamek(principal);
+        relations = personsService.filterRelations(user.getId(), relations);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(person);
         log log = new log();
@@ -183,6 +199,7 @@ public class moviesController {
                                   @RequestParam(required = false) String tematikName,
                                   @RequestParam(required = false) String rukName,Principal principal) {
         User user = userDetailsService.loadUserByUsernamek(principal);
+        relations = personsService.filterRelations(user.getId(), relations);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(lastName1 + " " + firstName1 + " " + fatherName1);
         log log = new log();
@@ -255,6 +272,7 @@ return personsService.getPersonByFIO_withoutO(user.getId(), lastName1.toUpperCas
                                          @RequestParam(required = false) String tematikName,
                                          @RequestParam(required = false) String rukName,Principal principal) {
         User user = userDetailsService.loadUserByUsernamek(principal);
+        relations = personsService.filterRelations(user.getId(), relations);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(person);
         request_bodies.add(person2);
@@ -321,6 +339,7 @@ return personsService.getPersonByFIO_withoutO(user.getId(), lastName1.toUpperCas
                                          @RequestParam(required = false) String tematikName,
                                          @RequestParam(required = false) String rukName,Principal principal) {
         User user = userDetailsService.loadUserByUsernamek(principal);
+        relations = personsService.filterRelations(user.getId(), relations);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add("Фамилия: " + lastName1 + ", имя: " + firstName1 + ", отчество: " + fatherName1);
         request_bodies.add("Фамилия: " + lastName2 + ", имя: " + firstName2 + ", отчество: " + fatherName2);
@@ -397,6 +416,7 @@ return personsService.getPersonByFIO_withoutO(user.getId(), lastName1.toUpperCas
                                   @RequestParam(required = false) String tematikName,
                                   @RequestParam(required = false) String rukName,Principal principal) {
         User user = userDetailsService.loadUserByUsernamek(principal);
+        relations = personsService.filterRelations(user.getId(), relations);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(ul);
         log log = new log();
@@ -464,6 +484,7 @@ return personsService.getPersonByFIO_withoutO(user.getId(), lastName1.toUpperCas
                                     @RequestParam(required = false) String tematikName,
                                     @RequestParam(required = false) String rukName,Principal principal) {
         User user = userDetailsService.loadUserByUsernamek(principal);
+        relations = personsService.filterRelations(user.getId(), relations);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add("ФЛ: " + person);
         request_bodies.add("ЮЛ: " + ul);
@@ -531,6 +552,7 @@ return personsService.getPersonByFIO_withoutO(user.getId(), lastName1.toUpperCas
                                     @RequestParam(required = false) String tematikName,
                                     @RequestParam(required = false) String rukName,Principal principal) {
         User user = userDetailsService.loadUserByUsernamek(principal);
+        relations = personsService.filterRelations(user.getId(), relations);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add("Фамилия: " + lastName1 + ", имя: " + firstName1 + ", отчество: " + fatherName1);
         request_bodies.add("ЮЛ: " + ul);
@@ -604,6 +626,7 @@ return personsService.getPersonByFIO_withoutO(user.getId(), lastName1.toUpperCas
                                     @RequestParam(required = false) String tematikName,
                                     @RequestParam(required = false) String rukName,Principal principal) {
         User user = userDetailsService.loadUserByUsernamek(principal);
+        relations = personsService.filterRelations(user.getId(), relations);
         List<String> request_bodies = new ArrayList<>();
         request_bodies.add(ul1);
         request_bodies.add(ul2);
@@ -662,6 +685,7 @@ return personsService.getPersonByFIO_withoutO(user.getId(), lastName1.toUpperCas
 //    @PreAuthorize("hasRole('LEVEL_3_USER') or hasRole('LEVEL_2_USER') or hasRole('LEVEL_1_USER') or hasRole('VIP') or hasRole('ADMIN')")
     public doubleReturn getShortOpen(@RequestParam Long id, @RequestParam List<String> relations, @RequestParam int limit, Principal principal) {
         User user = userDetailsService.loadUserByUsernamek(principal);
+        relations = personsService.filterRelations(user.getId(), relations);
         doubleReturn resul = personsService.shortOpen(user.getId(), id, relations, limit);
         return resul;
     }

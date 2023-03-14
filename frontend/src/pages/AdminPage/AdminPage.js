@@ -11,6 +11,7 @@ const AdminPage = (props) => {
 
     const [users, setUsers] = useState(0)
     const [logs, setLogs] = useState(0)
+    const [todayLogs, setTodayLogs] = useState(0)
 
     const location = useLocation()
 
@@ -19,10 +20,10 @@ const AdminPage = (props) => {
 
         axios.get(`http://localhost:9091/api/finpol/main/general`)
         .then(res => {
-            setUsers(res.data.allRequsetNum)
-            setLogs(res.data.todayRequsetNum)
-
-            console.log(this.location)
+            setUsers(res.data.userNumber)
+            setLogs(res.data.allLogsNum)
+            setTodayLogs(res.data.todayRequests)
+            // console.log(this.location)
         })
     })
 
@@ -30,11 +31,6 @@ const AdminPage = (props) => {
         <section>
             <div className="countStats">
                 <div className="lastQuery">
-                    <div>Количество посещений</div>
-                    <div>1123</div>
-                </div>
-
-                <div>
                     <div>Количество пользователей</div>
                     <div>{users}</div>
                 </div>
@@ -42,6 +38,11 @@ const AdminPage = (props) => {
                 <div>
                     <div>Количество запросов</div>
                     <div>{logs}</div>
+                </div>
+
+                <div>
+                    <div>Количество запросов за сегодня</div>
+                    <div>{todayLogs}</div>
                 </div>
             </div>
             <div>

@@ -81,8 +81,8 @@ const RightBar = (props) => {
 
       <div className={"openHideBlock"} style={{display: props.isOnSelectNode ? "flex" : "none"}}>
         <div className="actionBlock" style={{display: props.isOnSelectNode ? "block" : "none"}}>
-            <input type="button" visible="false" value="Show" onClick={shortOpen}/>
-            <input type="button" visible="false" value="Hide" onClick={shortHide}/>
+            <input className="showhide" type="button" visible="false" value="Расскрыть" onClick={shortOpen}/>
+            <input className="showhide" type="button" visible="false" value="Скрыть" onClick={shortHide}/>
         </div>
 
         <div>

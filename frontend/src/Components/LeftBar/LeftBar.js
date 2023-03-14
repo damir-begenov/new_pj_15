@@ -11,6 +11,7 @@ const LeftBar = (props) => {
     const navigate = useNavigate()
     const reader = new FileReader()
 
+    const [newReq, setNewReq] = useState(true)
     const [iin1, setIIN1] = useState("")
     const [iin2, setIIN2] = useState("")
 
@@ -41,53 +42,54 @@ const LeftBar = (props) => {
         const secondName = document.getElementById('secondName').value
         const secondFatherName = document.getElementById('secondFatherName').value
         
-        if (firstFamilia == "starts") {
-            setLName1(lname1 + '.*')
-        } else if (firstFamilia == "include") {
-            setLName1('.*' + lname1 + '.*')
-        } else {
-            setLName1('.*' + lname1)
-        }
-        if (firstName == "starts") {
-            setName1(name1 + '.*')
-        } else if (firstName == "include") {
-            setName1('.*' + name1 + '.*')
-        } else {
-            setName1('.*' + name1)
-        }
-        if (firstFatherName == "starts") {
-            setFName1(fname1 + '.*')
-        } else if (firstFatherName == "include") {
-            setFName1('.*' + fname1 + '.*')
-        } else {
-            setFName1('.*' + fname1)
-        }
-        if (secondFamilia == "starts") {
-            setLName2(lname2 + '.*')
-        } else if (secondFamilia == "include") {
-            setLName2('.*' + lname2 + '.*')
-        } else {
-            setLName2('.*' + lname2)
-        }
-        if (secondName == "starts") {
-            setName2(name2 + '.*')
-        } else if (secondName == "include") {
-            setName2('.*' + name2 + '.*')
-        } else {
-            setName2('.*' + name2)
-        }
-        if (secondFatherName == "starts") {
-            setFName2(fname2 + '.*')
-        } else if (secondFatherName == "include") {
-            setFName2('.*' + fname2 + '.*')
-        } else {
-            setFName2('.*' + fname2)
-        }
+        // if (firstFamilia == "starts") {
+        //     setLName1(lname1 + '.*')
+        // } else if (firstFamilia == "include") {
+        //     setLName1('.*' + lname1 + '.*')
+        // } else {
+        //     setLName1('.*' + lname1)
+        // }
+        // if (firstName == "starts") {
+        //     setName1(name1 + '.*')
+        // } else if (firstName == "include") {
+        //     setName1('.*' + name1 + '.*')
+        // } else {
+        //     setName1('.*' + name1)
+        // }
+        // if (firstFatherName == "starts") {
+        //     setFName1(fname1 + '.*')
+        // } else if (firstFatherName == "include") {
+        //     setFName1('.*' + fname1 + '.*')
+        // } else {
+        //     setFName1('.*' + fname1)
+        // }
+        // if (secondFamilia == "starts") {
+        //     setLName2(lname2 + '.*')
+        // } else if (secondFamilia == "include") {
+        //     setLName2('.*' + lname2 + '.*')
+        // } else {
+        //     setLName2('.*' + lname2)
+        // }
+        // if (secondName == "starts") {
+        //     setName2(name2 + '.*')
+        // } else if (secondName == "include") {
+        //     setName2('.*' + name2 + '.*')
+        // } else {
+        //     setName2('.*' + name2)
+        // }
+        // if (secondFatherName == "starts") {
+        //     setFName2(fname2 + '.*')
+        // } else if (secondFatherName == "include") {
+        //     setFName2('.*' + fname2 + '.*')
+        // } else {
+        //     setFName2('.*' + fname2)
+        // }
 
         let options = {
             iin1, iin2, limit, depth, mode, relString, approvementObject, searchOption, lname1, lname2, name1, name2, fname1, fname2
         }
-        setModal(false)        
+        setModal(false)
+        setNewReq(false)        
         props.handleSubmit(options)
     }
 
@@ -175,14 +177,21 @@ const LeftBar = (props) => {
         }
         return false;
     }
-
-    const checkModerator = () => {
+    const checkVip = () => {
         const userSession = JSON.parse(localStorage.getItem("user"))
-        if (userSession && userSession.roles.includes('ROLE_MODERATOR')) {
+        if (userSession && userSession.roles.includes('VIP')) {
             return true;
         }
         return false;
     }
+
+    const checkState = () => {
+        if (newReq) {
+            return true
+        } 
+        return false
+    }
+    
 
     const handleLayout = (layout) => {
         props.handleLayout(layout)
@@ -357,6 +366,7 @@ const LeftBar = (props) => {
                     <div className="select">
                         <select name="searchOptions" id='searchOptions' value={searchOption}
                         onChange={event => {
+                            setNewReq(true)
                             let optionValue = document.getElementById("searchOptions").value;
                             let iin1 = document.querySelector("#formIIN1");
                             let iin2 = document.querySelector("#formIIN2");
@@ -395,7 +405,9 @@ const LeftBar = (props) => {
                     <label>Введите ИИН</label>
                     <input type="text" 
                         value={iin1}
-                        onChange={event => { setIIN1(event.target.value) }} 
+                        onChange={event => { 
+                            setNewReq(true)
+                            setIIN1(event.target.value) }} 
                         id="input_IIN" 
                         className="input_IIN" 
                         name="iin1" 
@@ -413,7 +425,9 @@ const LeftBar = (props) => {
                         </select>
                         <input type="text" 
                             value={lname1}
-                            onChange={event => { setLName1(event.target.value) }} 
+                            onChange={event => { 
+                                setNewReq(true)
+                                setLName1(event.target.value) }} 
                             id="input_FIO1_1" 
                             className="input_IIN" 
                             name="Fam1" 
@@ -430,7 +444,9 @@ const LeftBar = (props) => {
                         </select>
                         <input type="text" 
                             value={name1}
-                            onChange={event => { setName1(event.target.value) }} 
+                            onChange={event => { 
+                                setNewReq(true)
+                                setName1(event.target.value) }} 
                             id="input_FIO1_2" 
                             className="input_IIN" 
                             name="name1" 
@@ -447,7 +463,9 @@ const LeftBar = (props) => {
                         </select>
                         <input type="text" 
                             value={fname1}
-                            onChange={event => { setFName1(event.target.value) }} 
+                            onChange={event => { 
+                                setNewReq(true)
+                                setFName1(event.target.value) }} 
                             id="input_FIO1_3" 
                             className="input_IIN" 
                             name="lname1" 
@@ -558,7 +576,7 @@ const LeftBar = (props) => {
 
                         <input type="button" value="Запустить" id="filterBtn" 
                             onClick={event => {
-                                if (!checkAdmin())
+                                if (!checkAdmin() && !checkVip() && newReq)
                                     setModal(true)
                                 else 
                                     filter()

@@ -362,20 +362,20 @@ const GraphNetnew = (props) => {
 
             let newEdges = tempEdges.filter((value, index, self) =>
                 index === self.findIndex((t) => (
-                    t.from === value.from && t.to === value.to  
+                    t.from === value.from && t.to === value.to && t.id === value.id 
                 ))
             )
 
             console.log(newEdges)
             console.log(newNodes)
 
-            // setNodes(newNodes)
-            // setEdges(newEdges)
+            setNodes(newNodes)
+            setEdges(newEdges)
 
             Network.body.data.nodes.update(_nodes)
             Network.body.data.edges.update(_edges)
-            graJSON.nodes = newNodes
-            graJSON.edges = newEdges
+            graJSON.nodes = nodes
+            graJSON.edges = edges
 
             setPhysicsEnable(true)
 
@@ -395,8 +395,9 @@ const GraphNetnew = (props) => {
 
         })
 
-      removeNode(SelectedNode.options.id)
+        let idstodelete = []
 
+      removeNode(SelectedNode.options.id)
       nodes.map(nodeItem => {
         let hasEdge = false
 
@@ -408,6 +409,8 @@ const GraphNetnew = (props) => {
 
         if (!hasEdge) {
           let removeIndex = nodeStack.indexOf(nodeItem.id)
+          removeNode(nodeItem.id)
+          idstodelete.push(nodeItem.id)
           Network.body.data.nodes.remove([{id: nodeItem.id}]);
 
           let tempNodeStack = nodeStack
@@ -415,6 +418,14 @@ const GraphNetnew = (props) => {
           setNodeStack(tempNodeStack)
         }
       })
+
+      nodes.filter(item => idstodelete.includes(item.id)).map(item => {
+        nodes.pop(item)
+      })
+      console.log(idstodelete)
+      
+      graJSON.nodes = nodes
+      graJSON.edges = edges
 
     }
 
@@ -432,6 +443,9 @@ const GraphNetnew = (props) => {
             tempNodeStack.splice(removeIndex, 1) 
             setNodeStack(tempNodeStack)
         }
+
+        let newNodes = nodes.filter(item => !nodeStack.includes(item.id))
+        console.log(newNodes)
     }
 
     const removeFloatingNode = () => {
@@ -810,6 +824,8 @@ const GraphNetnew = (props) => {
     const update = () => {
         setNodes([])
         setEdges([])
+        graJSON.nodes = []
+        graJSON.edges = []
     }
 
     const searchNext = () => {

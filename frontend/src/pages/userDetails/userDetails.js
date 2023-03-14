@@ -149,9 +149,9 @@ class UserDetails extends Component {
                             <thead >
                                 <tr>
                                     <th scope="col"><a className="sort">#</a></th>
-                                    <th scope="col"><a className="sort">Date</a></th>
+                                    <th scope="col"><a className="sort">Дата</a></th>
                                     {/* <th scope="col"><a className="sort">Username</a></th> */}
-                                    <th scope="col"><a className="sort">Request Body</a></th>
+                                    <th scope="col"><a className="sort">Объект поиска</a></th>
                                     <th scope="col"><a className="sort">Запрос</a></th>
                                     <th scope="col"></th>
                                 </tr>
