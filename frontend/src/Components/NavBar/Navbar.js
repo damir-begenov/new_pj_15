@@ -15,7 +15,7 @@ const Navbar = () => {
 
         authService.logout();
 
-        navigate('/login');
+        // navigate('/login');
     }
 
     useEffect(() => {
@@ -33,9 +33,10 @@ const Navbar = () => {
                         userSession && 
                         userSession.roles.includes("ADMIN")
                         ?  (
-                            <Link to={"/admin"}><div className="admin">
-                                Админ панель
-                            </div></Link>
+                            <>
+                            <div className="admin"><Link to="/admin">Админ панель</Link></div>
+                            <div className="admin"><Link to="/registration">Регистрация</Link></div>
+                            </>
                         ) : ("")
                     }
                    
@@ -46,17 +47,17 @@ const Navbar = () => {
                                 
                             </style> */}
                             <li>
-                                <a className={"nav-links"} href={""}>
+                                <a className={"nav-links"}>
                                     <span>{userSession.email}</span>
 
                                 </a>
                             </li>
-                            <li><a className={"nav-links"} href={""} onClick={logoutHandler}>Выйти</a></li>
+                            <li><Link className={"nav-links"} to={"/login"} onClick={logoutHandler}>Выйти</Link></li>
                         </> 
                         :
                         <>
                             {/* <li><a className={"nav-links"} href={"http://localhost:3000/registration"}>SIGN UP</a></li> */}
-                            <li><a className={"nav-links"} href={"http://localhost:3000/login"}>LOG IN</a></li>
+                            {/* <li><a className={"nav-links"} href={"http://localhost:3000/login"}>LOG IN</a></li> */}
                         </>
                     }
                 </ul>
