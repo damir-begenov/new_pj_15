@@ -1,4 +1,5 @@
 .rightBar {
+  /* z-index: 2; */
   overflow-y: scroll;
   overflow-x: hidden;
 

@@ -76,9 +76,12 @@ class UserDetails extends Component {
     //         }
     //     }
     createBox = (log) => {
-        return <div className="dopInfa">
-            {log.approvement_data}
-        </div>
+        return <td colSpan={"5"} className="dopInfa">
+            <p>
+
+        {log.approvement_data}
+            </p>
+        </td>        
     }
 
 
@@ -162,6 +165,7 @@ class UserDetails extends Component {
                                         {/* <td className="FIO"><Link className="rowInfo" to={`/schools`}>{log.username}</Link></td> */}
                                         <td>{log.request_body}</td>
                                         <td>{log.obwii}</td>
+                                        <td>Открыть</td>
                                         {/* <td>{log.request_rels.join(",")}</td> */}
                                     </tr>
                                     {this.createBox(log)}

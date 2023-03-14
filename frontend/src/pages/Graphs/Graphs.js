@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import Graph from "react-vis-network-graph";
 import axios from 'axios';
@@ -37,871 +37,623 @@ var SelectedEdge = {}
 
 var onSelectNode = false;
 
-export default class GraphNet extends Component {
-  
-  state = {
-    ids: [],
-    nodes: [],
-    edges: [],
-    temp: '',
-    counter: 0,
-    showActionBtn: false,
-    sliderPage: 0,
-    searchedNodes: [],
-    showNodeInfo: false,
-    showEdgeInfo: false,
-    showNodeImage: false,
-    showSudInfo: false,
-    keyNodeId: 0,
-    nodeStack: [],
-    params: {},
-    layoutHierarchical: true,
-    options: {
-      autoResize: true,
-        edges: {
-        // color: 'white',
-        length: 400,
-        width: 1,
-        selectionWidth: 5,
-        arrows: {
-          to: true,
-        },
-        smooth: {
-          "type": "continuous",
-          "forceDirection": "none",
-          roundness: 0.5
-        }, 
-        font: {
-          strokeWidth: 0,
-          size: 10,
-          align: "top"
-        },
-      },
-      physics:
-      {
-        enabled: false,
-        barnesHut: {
-          springConstant: 0,
-          theta: 0.5,
-          gravitationalConstant: -2000,
-          centralGravity: 0.3,
-          springLength: 95,
-          springConstant: 0.04,
-          damping: 0.09,
-          avoidOverlap: 0
-        },
-        maxVelocity: 25,
-        minVelocity: 1,
-        solver: "barnesHut",
-        timestep: 0.5,
-        wind: { x: 0, y: 0 }
+const GraphNetnew = (props) => {
+    const [updateGraph, setUpdateGraph] = useState(true)
 
-      },
-      groups: {
-        keyPerson: {
-          shape: "circularImage",
-          image: keyPersonIcon,
-        },
-        person: {
-          shape: "circularImage",
-          image: personIcon,
-        },
-        personJai: {
-          shape: "circularImage",
-          image: personjaiIcon,
-        },
-        keyJudgePerson: {
-          shape: "circularImage",
-          image: keyJudgePersonIcon,
-        },
-        ripPerson: {
-          shape: "circularImage",
-          image: ripPersonIcon,
-        },
-        judgePerson: {
-          shape: "circularImage",
-          image: judgePersonIcon,
-        },
-        keyCompany: {
-          shape: "circularImage",
-          image: keyCompanyIcon,
-        },
-        company: {
-          shape: "circularImage",
-          image: companyIcon,
-        },
-        judgeCompany: {
-          shape: "circularImage",
-          image: judgeCompanyIcon,
-        },
-        PROPISKA: {
-          shape: "circularImage",
-          image: addressIcon,
-        },
-        notarius: {
-          shape: "circularImage",
-          image: ntrIcon,  
-        }
-      },
-      nodes: {
-        font: {
-          size: 14,
-          color: "white"
-        },
-        size: 20
-      },
+    const [ids, setIds] = useState([])
+    const [nodes, setNodes] = useState([])
+    const [edges, setEdges] = useState([])
+    const [searchedNodes, setSearchedNodes] = useState([])
 
-      height: "100%",
+    const [counter, setCounter] = useState(0)
+    const [sliderPage, setSliderPage] = useState(0)
 
-      layout: {
+    const [isLoading, setIsLoading] = useState(false)
+    const [showActionBtn, setShowActionBtn] = useState(false)
+    const [showNodeInfo, setShowNodeInfo] = useState(false)
+    const [showEdgeInfo, setShowEdgeInfo] = useState(false)
+    const [showSudInfo, setShowSudInfo] = useState(false)
+    const [showNodeImage, setShowImage] = useState(false)
+
+    const [keyNodeId, setKeyNodeId] = useState(0)
+    const [nodeStack, setNodeStack] = useState([])
+
+    const [physicsEnable, setPhysicsEnable] = useState(true)
+    const [layoutOptions, setLayoutOptions] = useState({
         hierarchical: {
-          enabled: true,
-          levelSeparation: 150,
-          nodeSpacing: 200,
-          treeSpacing: 200,
-          blockShifting: true,
-          edgeMinimization: true,
-          parentCentralization: true,
-          direction: 'UD',        // UD, DU, LR, RL
-          sortMethod: 'hubsize',  // hubsize, directed
-          shakeTowards: 'leaves'  // roots, leaves
+            enabled: false,
+            levelSeparation: 150,
+            nodeSpacing: 200,
+            treeSpacing: 200,
+            blockShifting: true,
+            edgeMinimization: true,
+            parentCentralization: true,
+            direction: 'UD',        // UD, DU, LR, RL
+            sortMethod: 'hubsize',  // hubsize, directed
+            shakeTowards: 'leaves'  // roots, leaves
         },
-
         randomSeed: 1,
         improvedLayout: true,
-        
-      }
-    }
-  }
+    })
 
-    layoutHandler = () => {
-      if (this.state.options.layout.hierarchical.enabled === true) {
-        this.state.options.layout.hierarchical.enabled = false
-        this.state.options = {
-          autoResize: true,
-          edges: {
-            // color: 'white',
-            length: 400,
-            width: 1,
-            selectionWidth: 5,
-            arrows: {
-              to: true,
+    const edgesOptions = {
+        length: 400,
+        width: 0.3,
+        selectionWidth: 2,
+        arrows: {
+            to: true,
+        },
+        smooth: {
+            "type": "dynamic",
+            "forceDirection": "vertical",
+            "roundness": 0
+        }, 
+        font: {
+            strokeWidth: 0,
+            size: 10,
+            align: "top"
+        },
+    }
+
+    const physicsOptions = {
+        enabled: physicsEnable,
+        "physics": {
+            "repulsion": {
+                "centralGravity": 0,
+                "springLength": 335,
+                "springConstant": 0.205,
+                "nodeDistance": 150,
+                "damping": 0.21
             },
-            smooth: {
-              "type": "continuous",
-              "forceDirection": "none",
-              roundness: 0.5
-            }, 
-            font: {
-              strokeWidth: 0,
-              size: 10,
-              align: "top"
-            },
-          },
-          physics:
-          {
-            enabled: false,
-            barnesHut: {
-              springConstant: 0,
-              theta: 0.5,
-              gravitationalConstant: -2000,
-              centralGravity: 0.3,
-              springLength: 95,
-              springConstant: 0.04,
-              damping: 0.09,
-              avoidOverlap: 0
-            },
-            maxVelocity: 25,
-            minVelocity: 1,
-            solver: "barnesHut",
-            timestep: 0.5,
-            wind: { x: 0, y: 0 }
-    
-          },
-          groups: {
-            keyPerson: {
-              shape: "circularImage",
-              image: keyPersonIcon,
-            },
-            person: {
-              shape: "circularImage",
-              image: personIcon,
-            },
-            personJai: {
-              shape: "circularImage",
-              image: personjaiIcon,
-            },
-            keyJudgePerson: {
-              shape: "circularImage",
-              image: keyJudgePersonIcon,
-            },
-            ripPerson: {
-              shape: "circularImage",
-              image: ripPersonIcon,
-            },
-            judgePerson: {
-              shape: "circularImage",
-              image: judgePersonIcon,
-            },
-            keyCompany: {
-              shape: "circularImage",
-              image: keyCompanyIcon,
-            },
-            company: {
-              shape: "circularImage",
-              image: companyIcon,
-            },
-            judgeCompany: {
-              shape: "circularImage",
-              image: judgeCompanyIcon,
-            },
-            PROPISKA: {
-              shape: "circularImage",
-              image: addressIcon,
-            },
-          },
-          nodes: {
-            font: {
-              size: 14,
-              color: "white"
-            },
-            size: 20
-          },
-          height: "100%",
-          layout: {
-            hierarchical: {
-              enabled: false,
-              levelSeparation: 150,
-              nodeSpacing: 200,
-              treeSpacing: 200,
-              blockShifting: true,
-              edgeMinimization: true,
-              parentCentralization: true,
-              direction: 'UD',        // UD, DU, LR, RL
-              sortMethod: 'hubsize',  // hubsize, directed
-              shakeTowards: 'leaves'  // roots, leaves
-            },
-    
-            randomSeed: 1,
-            improvedLayout: true,
-            
-          }
+            "maxVelocity": 55,
+            "minVelocity": 30,
+            "solver": "repulsion",
+            "timestep": 0.81,
+            "wind": {
+                "x": 0.1
+            }
         }
-      } else {
-        this.state.options.layout.hierarchical.enabled = true
-        this.state.options = {
-          autoResize: true,
-          edges: {
-            // color: 'white',
-            length: 400,
-            width: 1,
-            selectionWidth: 5,
-            arrows: {
-              to: true,
-            },
-            smooth: {
-              "type": "continuous",
-              "forceDirection": "none",
-              roundness: 0.5
-            }, 
-            font: {
-              strokeWidth: 0,
-              size: 10,
-              align: "top"
-            },
-          },
-          physics:
-          {
-            enabled: false,
-            barnesHut: {
-              springConstant: 0,
-              theta: 0.5,
-              gravitationalConstant: -2000,
-              centralGravity: 0.3,
-              springLength: 95,
-              springConstant: 0.04,
-              damping: 0.09,
-              avoidOverlap: 0
-            },
-            maxVelocity: 25,
-            minVelocity: 1,
-            solver: "barnesHut",
-            timestep: 0.5,
-            wind: { x: 0, y: 0 }
-    
-          },
-          groups: {
-            keyPerson: {
-              shape: "circularImage",
-              image: keyPersonIcon,
-            },
-            person: {
-              shape: "circularImage",
-              image: personIcon,
-            },
-            personJai: {
-              shape: "circularImage",
-              image: personjaiIcon,
-            },
-            keyJudgePerson: {
-              shape: "circularImage",
-              image: keyJudgePersonIcon,
-            },
-            ripPerson: {
-              shape: "circularImage",
-              image: ripPersonIcon,
-            },
-            judgePerson: {
-              shape: "circularImage",
-              image: judgePersonIcon,
-            },
-            keyCompany: {
-              shape: "circularImage",
-              image: keyCompanyIcon,
-            },
-            company: {
-              shape: "circularImage",
-              image: companyIcon,
-            },
-            judgeCompany: {
-              shape: "circularImage",
-              image: judgeCompanyIcon,
-            },
-            PROPISKA: {
-              shape: "circularImage",
-              image: addressIcon,
-            },
-          },
-          nodes: {
-            font: {
-              size: 14,
-              color: "white"
-            },
-            size: 20
-          },
-    
-          height: "100%",
-    
-          layout: {
-            hierarchical: {
-              enabled: true,
-              levelSeparation: 150,
-              nodeSpacing: 200,
-              treeSpacing: 200,
-              blockShifting: true,
-              edgeMinimization: true,
-              parentCentralization: true,
-              direction: 'UD',        // UD, DU, LR, RL
-              sortMethod: 'hubsize',  // hubsize, directed
-              shakeTowards: 'leaves'  // roots, leaves
-            },
-    
-            randomSeed: 1,
-            improvedLayout: true,
-            
-          }
+    }
+
+    const groupsOptions = {
+        keyPerson: {
+            shape: "circularImage",
+            image: keyPersonIcon,
+        },
+        person: {
+            shape: "circularImage",
+            image: personIcon,
+        },
+        personJai: {
+            shape: "circularImage",
+            image: personjaiIcon,
+        },
+        keyJudgePerson: {
+            shape: "circularImage",
+            image: keyJudgePersonIcon,
+        },
+        ripPerson: {
+            shape: "circularImage",
+            image: ripPersonIcon,
+        },
+        judgePerson: {
+            shape: "circularImage",
+            image: judgePersonIcon,
+        },
+        keyCompany: {
+            shape: "circularImage",
+            image: keyCompanyIcon,
+        },
+        company: {
+            shape: "circularImage",
+            image: companyIcon,
+        },
+        judgeCompany: {
+            shape: "circularImage",
+            image: judgeCompanyIcon,
+        },
+        PROPISKA: {
+            shape: "circularImage",
+            image: addressIcon,
+        },
+        notarius: {
+            shape: "circularImage",
+            image: ntrIcon,  
         }
-      }
     }
 
-    assignInfoBlock = (options, elemId) => {
-      const infoBlock = document.querySelector(elemId)
-      Object.entries(options).forEach(entry => {
-        const [key, value] = entry;
-
-        if (value == null) return
-
-        const info = document.createElement("div")
-        info.innerHTML = `${key.toUpperCase()}: <span>${value}</span>`
-
-        infoBlock.appendChild(info)
-      });
+    const nodesOptions = {
+        font: {
+            size: 14,
+            color: "white"
+        },
+        size: 20
     }
 
-    createContextMenu = (params) => {
-      var canvas = Network.body.container.firstChild;
-
-      if (canvas.getContext) {
-        var ctx = canvas.getContext("webgl");
-
-        ctx.fillStyle = "red";
-
-
-        ctx.beginPath();
-        ctx.arc(params.pointer.DOM.x, params.pointer.DOM.y, 50, 0, 2 * Math.PI);
-        ctx.fill();
-      }
+    const graphOptions = {
+        autoResize: true,
+        edges: edgesOptions,
+        physics: physicsOptions,
+        groups: groupsOptions,
+        nodes: nodesOptions,
+        height: "100%",
+        layout: layoutOptions
     }
 
-    numbers = {
-      objects: 0,
-      relations: 0
+    const assignInfoBlock = (options, elemId) => {
+        const infoBlock = document.querySelector(elemId)
+        Object.entries(options).forEach(entry => {
+            const [key, value] = entry;
+
+            if (value == null) return
+
+            const info = document.createElement("div")
+            info.innerHTML = `${key.toUpperCase()}: <span>${value}</span>`
+
+            infoBlock.appendChild(info)
+        });
     }
-    current = {
-      iin: '',
-      name: '',
-      relations: [],
-      label: ''
-    }
 
-    Submit = async (options) => {
-      this.state.isLoading = true
-      this.setState({nodes: [], edges: [], ids: []})
-      this.state.counter = this.state.counter+
-      console.log(options)
+    const Submit = async (options) => {
+        setPhysicsEnable(true)
+        setIsLoading(true)
+        setNodes([])
+        setEdges([])
+        setIds([])
+        setCounter(currCounter => currCounter + 1)
+        console.log(options)
 
+        const userSession = JSON.parse(localStorage.getItem("user"))
 
-      
-      const userSession = JSON.parse(localStorage.getItem("user"))
+        let url = "";
+        let params = {};
 
-      let url = "";
-      let params ={};
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
-      switch(options.mode) {
-        case "con1":
-          graJSON.typeOfSearch = "con1"
-          if (options.searchOption == "iinOption") {
-            url = "http://localhost:9091/api/finpol/main/fltree"
-            params = {person: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit}
-            graJSON.params = params
-          } else {
-            url = "http://localhost:9091/api/finpol/main/flFIOtree"
-            params = {
-              firstName1: options.name1, 
-              lastName1: options.lname1, 
-              fatherName1: options.fname1, 
-              relations: options.relString, depth: options.depth, limit: options.limit
-            }
-            graJSON.params = params
-            graJSON.iin = false
-          }
-          break;
-        case "con2":
-          graJSON.typeOfSearch = "con2"
-          if (options.searchOption == "iinOption") {
-            url = "http://localhost:9091/api/finpol/main/shortestpaths";
-            params = {person: options.iin1, person2: options.iin2, relations: options.relString}
-            graJSON.params = params
-          } else {
-            url = "http://localhost:9091/api/finpol/main/shortestpathsByFIO";
-            params = {
-              firstName1: options.name1, 
-              lastName1: options.lname1, 
-              fatherName1: options.fname1,
-              firstName2: options.name2, 
-              lastName2: options.lname2, 
-              fatherName2: options.fname2, 
-              relations: options.relString
-            }
-            graJSON.params = params
-            graJSON.iin = false
-          }
-          break;
-        case "con3":
-          graJSON.typeOfSearch = "con3"
-          if (options.searchOption == "iinOption") {
-            url = "http://localhost:9091/api/finpol/main/flulpath";
-            params = {person: options.iin1, ul: options.iin2, relations: options.relString}
-            graJSON.params = params
-          } else {
-            url = "http://localhost:9091/api/finpol/main/flulpathByFIO";
-            params = {
-              firstName1: options.name1, 
-              lastName1: options.lname1, 
-              fatherName1: options.fname1, 
-              ul: options.iin2, 
-              relations: options.relString
-            }
-            graJSON.params = params
-            graJSON.iin = false
-          }
-          break;
-        case "con4":
-          graJSON.typeOfSearch = "con4"
-          url = "http://localhost:9091/api/finpol/main/ultree";
-          params = {ul: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit }
-          graJSON.params = params
-          break;
-        case "con5":
-          graJSON.typeOfSearch = "con5"
-          url = "http://localhost:9091/api/finpol/main/ululpath";
-          params = {ul1: options.iin1, ul2: options.iin2, relations: options.relString}
-          graJSON.params = params
-          break;
-      }
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + userSession.accessToken
+        switch(options.mode) {
+            case "con1":
+                graJSON.typeOfSearch = "con1"
+                if (options.searchOption == "iinOption") {
+                    url = "http://localhost:9091/api/finpol/main/fltree"
+                    params = {person: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit}
+                    graJSON.params = params
+                } else {
+                    url = "http://localhost:9091/api/finpol/main/flFIOtree"
+                    params = {
+                    firstName1: options.name1, 
+                    lastName1: options.lname1, 
+                    fatherName1: options.fname1, 
+                    relations: options.relString, depth: options.depth, limit: options.limit
+                    }
+                    graJSON.params = params
+                    graJSON.iin = false
+                }
+                break;
+            case "con2":
+                graJSON.typeOfSearch = "con2"
+                if (options.searchOption == "iinOption") {
+                    url = "http://localhost:9091/api/finpol/main/shortestpaths";
+                    params = {person: options.iin1, person2: options.iin2, relations: options.relString}
+                    graJSON.params = params
+                } else {
+                    url = "http://localhost:9091/api/finpol/main/shortestpathsByFIO";
+                    params = {
+                        firstName1: options.name1, 
+                        lastName1: options.lname1, 
+                        fatherName1: options.fname1,
+                        firstName2: options.name2, 
+                        lastName2: options.lname2, 
+                        fatherName2: options.fname2, 
+                        relations: options.relString
+                    }
+                    graJSON.params = params
+                    graJSON.iin = false
+                }
+                break;
+            case "con3":
+                graJSON.typeOfSearch = "con3"
+                if (options.searchOption == "iinOption") {
+                    url = "http://localhost:9091/api/finpol/main/flulpath";
+                    params = {person: options.iin1, ul: options.iin2, relations: options.relString}
+                    graJSON.params = params
+                } else {
+                    url = "http://localhost:9091/api/finpol/main/flulpathByFIO";
+                    params = {
+                    firstName1: options.name1, 
+                    lastName1: options.lname1, 
+                    fatherName1: options.fname1, 
+                    ul: options.iin2, 
+                    relations: options.relString
+                    }
+                    graJSON.params = params
+                    graJSON.iin = false
+                }
+                break;
+            case "con4":
+                graJSON.typeOfSearch = "con4"
+                url = "http://localhost:9091/api/finpol/main/ultree";
+                params = {ul: options.iin1, relations: options.relString, depth: options.depth, limit: options.limit }
+                graJSON.params = params
+                break;
+            case "con5":
+                graJSON.typeOfSearch = "con5"
+                url = "http://localhost:9091/api/finpol/main/ululpath";
+                params = {ul1: options.iin1, ul2: options.iin2, relations: options.relString}
+                graJSON.params = params
+                break;
+        }
 
-      params["approvement_type"] = options.approvementObject ? options.approvementObject.approvement_type : ""
-      params["orderNum"] = options.approvementObject ? options.approvementObject.orderNum : ""
-      params["orderDate"] = options.approvementObject ? options.approvementObject.orderDate : ""
-      params["articleName"] = options.approvementObject ? options.approvementObject.articleName : ""
-      params["caseNum"] = options.approvementObject ?options.approvementObject.caseNum : ""
-      params["checkingName"] = options.approvementObject ? options.approvementObject.checkingName : ""
-      params["otherReasons"] = options.approvementObject ? options.approvementObject.other : ""
-      params["organName"] =options.approvementObject ? options.approvementObject.organName : ""
-      params["rukName"] = options.approvementObject ? options.approvementObject.rukName : ""
-      params["sphereName"] =options.approvementObject ? options.approvementObject.sphereName : ""
-      params["tematikName"] =options.approvementObject ? options.approvementObject.tematikName : ""
-      console.log(params)
+        params["approvement_type"] = options.approvementObject ? options.approvementObject.approvement_type : ""
+        params["orderNum"] = options.approvementObject ? options.approvementObject.orderNum : ""
+        params["orderDate"] = options.approvementObject ? options.approvementObject.orderDate : ""
+        params["articleName"] = options.approvementObject ? options.approvementObject.articleName : ""
+        params["caseNum"] = options.approvementObject ?options.approvementObject.caseNum : ""
+        params["checkingName"] = options.approvementObject ? options.approvementObject.checkingName : ""
+        params["otherReasons"] = options.approvementObject ? options.approvementObject.other : ""
+        params["organName"] =options.approvementObject ? options.approvementObject.organName : ""
+        params["rukName"] = options.approvementObject ? options.approvementObject.rukName : ""
+        params["sphereName"] =options.approvementObject ? options.approvementObject.sphereName : ""
+        params["tematikName"] =options.approvementObject ? options.approvementObject.tematikName : ""
+        console.log(params)
 
-      axios.get(url, {params: params}).then(res => {
-        let nodes = []
-        const edges = res.data.edges;
-        console.log(res.data)
+        axios.get(url, {params: params}).then(res => {
+            let _nodes = []
+            const _edges = res.data.edges;
+            console.log(res.data)
+            
+            _edges.map(item => {
+                setEdgeSettings(item);
+            })
         
-        edges.map(item => {
-          this.setEdgeSettings(item);
+            res.data.nodes.map(item => {
+                setNodeSettings(item, options.iin1, options.iin2)
+                _nodes.push(item);
+            })
+            
+            setNodes(nodes)
+            setEdges(edges)
+
+            graJSON.nodes = _nodes
+            graJSON.edges = _edges
+            
+            setIsLoading(false)
+
+            const fileInput = document.getElementById('file-upload')
+            fileInput.value = ""
+
+            setShowActionBtn(true)
+            Network.stabilize()
         })
-      
-        res.data.nodes.map(item => {
-          this.setNodeSettings(item, options.iin1, options.iin2)
-          nodes.push(item);
-        })
-        
-        this.setState({nodes, edges})
-
-        // console.log("first")
-
-        graJSON.nodes = nodes
-        graJSON.edges = edges
-        
-        this.state.isLoading = false
-
-        const fileInput = document.getElementById('file-upload')
-        fileInput.value = ""
-        this.setState({showActionBtn: true})
-        
-        // Network.fit({
-        //   minZoomLevel: 2
-        // });
-      })
     };
 
-    shortOpen = (openLimit, showRels) => {
-      console.log(openLimit, showRels)
-      
-      axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id, relations: showRels, limit: openLimit }}).then(res => {
-        let nodes = []
-        const edgesFinal = res.data.edges;
-        let edges = []
-        edgesFinal.filter(item => 
-          (!this.state.ids.includes(item.to) || !this.state.ids.includes(item.from))).
-          map(item => {
-            edges.push(item)
-             // Потом с направлениями связей омогут возникнуть проблемы
+    const shortOpen = (openLimit, showRels) => {
+        console.log(openLimit, showRels)
+        
+        axios.get("http://localhost:9091/api/finpol/main/shortopen", {params: {id: SelectedNode.options.id, relations: showRels, limit: openLimit }}).then(res => {
+            let _nodes = []
+            const edgesFinal = res.data.edges;
+            let _edges = []
+
+            edgesFinal.filter(item => 
+            (!ids.includes(item.to) || !ids.includes(item.from))).
+            map(item => {
+                _edges.push(item)
+            })
+
+            _edges.map(item => {
+                setEdgeSettings(item);
+
+                setEdges(() => [...edges, item])
+            })
+
+            res.data.nodes.map(item => {
+                setNodeSettings(item)
+
+                _nodes.push(item)
+                setNodes(() => [...nodes, item]);
+                setIds(() => [...ids, item.id])
+            })
+
+            setEdges([..._edges, ...edges])
+
+            Network.body.data.nodes.update(_nodes)
+            Network.body.data.edges.update(_edges)
+            graJSON.nodes = nodes
+            graJSON.edges = edges
+
+            Network.fit({});
         })
-
-        edges.map(item => {
-          this.setEdgeSettings(item);
-          this.state.edges.push(item)
-        })
-
-        res.data.nodes.map(item => {
-          this.setNodeSettings(item)
-          nodes.push(item);
-          this.state.ids.push(item.id)
-          this.state.nodes.push(item)
-        })
-        console.log(res.data)
-        this.state.edges = [...edges, ...this.state.edges]
-        console.log(this.state.edges)
-        Network.body.data.nodes.update(nodes)
-        Network.body.data.edges.update(edges)
-        // this.state.edges = Network.body.data.edges
-        graJSON.nodes = this.state.nodes
-        graJSON.edges = this.state.edges
-
-        Network.fit({});
-
-        console.log(this.state.nodeStack)
-      })
     }
-    shortHide = () => {
-      console.log(Network)
-      this.state.edges.map(item => {
-        // console.log("EDGES STATE", item)
-        if (item.to === SelectedNode.options.id) { 
-          this.removeNode(item.from)
-        }
 
-        if (item.from === SelectedNode.options.id) {
-          this.removeNode(item.to)
-        }
+    const shortHide = () => {
+        edges.map(item => {
+            if (item.to === SelectedNode.options.id) { 
+                removeNode(item.from)
+            }
 
-      })
+            if (item.from === SelectedNode.options.id) {
+                removeNode(item.to)
+            }
 
-      this.removeNode(SelectedNode.options.id)
+        })
 
-      this.state.nodes.map(nodeItem => {
+      removeNode(SelectedNode.options.id)
+
+      nodes.map(nodeItem => {
         let hasEdge = false
 
-        this.state.edges.map(edgeItem => {
+        edges.map(edgeItem => {
           if (edgeItem.to == nodeItem.id || edgeItem.from == nodeItem.id) {
             hasEdge = true
           }
         })
 
         if (!hasEdge) {
-          let removeIndex = this.state.nodeStack.indexOf(nodeItem.id)
+          let removeIndex = nodeStack.indexOf(nodeItem.id)
           Network.body.data.nodes.remove([{id: nodeItem.id}]);
-          this.state.nodeStack.splice(removeIndex, 1)
+
+          let tempNodeStack = nodeStack
+          tempNodeStack.splice(removeIndex, 1)
+          setNodeStack(tempNodeStack)
         }
       })
 
     }
 
-    removeNode = (id) => {
-      let selectedIndex = this.state.nodeStack.indexOf(SelectedNode.options.id)
-      let removeIndex = this.state.nodeStack.indexOf(id)
+    const removeNode = (id) => {
+        let tempNodeStack = nodeStack
 
-      if (removeIndex < selectedIndex) return
+        let selectedIndex = tempNodeStack.indexOf(SelectedNode.options.id)
+        let removeIndex = tempNodeStack.indexOf(id)
 
-      if (id != this.state.keyNodeId) {
-        Network.body.data.nodes.remove([{id: id}]);
-        this.state.nodeStack.splice(removeIndex, 1)
-      }
+        if (removeIndex < selectedIndex) return
 
-    }
+        if (id != keyNodeId) {
+            Network.body.data.nodes.remove([{id: id}]);
 
-    setEdgeSettings = (edge) => {
-      edge.label = edge.properties.Vid_svyaziey
-      Object.assign(edge, {"properties": edge.properties})
-      Object.assign(edge, {"color": "white"})
-      Object.assign(edge, {font: {color: "white"}})
-      Object.assign(edge, {id: edge.properties.id})
-
-      if (edge.type === 'UCHILSYA' || edge.type === 'SLUZHIL') {
-        edge.color = "lime"
-      
-      } else if (edge.type == 'REG_ADDRESS_CUR' || edge.type == 'REG_ADDRESS_HIST' || edge.type == 'REG_ADDRESS') {
-        edge.color = "aqua"
-      
-      } else if (edge.type == 'ZAGS' || edge.type == 'ZAGS_FIO' || edge.type == 'ZAGS_IIN') {
-        edge.color = "pink"
-
-      } else if (edge.type == 'WORKER_CUR' || edge.type == 'WORKER_HIST') {
-        edge.color = "blue"
-
-      } else if (edge.type == 'SUDIM') {
-        edge.color = "red"
-
-      }
-    }
-
-    cropLabel(label) {
-      let labelChunkArr = label.match(/.{1,60}/g)
-      let cropedLabel = ""
-      labelChunkArr.forEach(elem => {
-        if (cropedLabel == "") cropedLabel = elem
-        else cropedLabel += ('\n' + elem)
-      })
-
-      return cropedLabel
-    }
-
-    setNodeSettings = (node, iin1, iin2) => {
-      this.state.ids.push(node.id)
-      let key = false
-      if (node.properties.Type == "ЮЛ" || node.properties.Type == "ИП") {
-        // settings for ul
-        node.label = node.properties.Name;
-
-        if (node.label.length > 60) { 
-          node.label = this.cropLabel(node.label)
-          console.log(node.physics)
+            tempNodeStack.splice(removeIndex, 1) 
+            setNodeStack(tempNodeStack)
         }
+    }
+
+    const setEdgeSettings = (edge) => {
+        edge.label = edge.properties.Vid_svyaziey
+        Object.assign(edge, {"properties": edge.properties})
+        Object.assign(edge, {"color": "white"})
+        Object.assign(edge, {font: {color: "white"}})
+        Object.assign(edge, {id: edge.properties.id})
+
+        if (edge.type === 'UCHILSYA' || edge.type === 'SLUZHIL') {
+            edge.color = "lime"
         
+        } else if (edge.type == 'REG_ADDRESS_CUR' || edge.type == 'REG_ADDRESS_HIST' || edge.type == 'REG_ADDRESS') {
+            edge.color = "aqua"
+        
+        } else if (edge.type == 'ZAGS' || edge.type == 'ZAGS_FIO' || edge.type == 'ZAGS_IIN') {
+            edge.color = "pink"
 
-        const p = node.properties;
-        if (p.nomer_sdelki) {
-          node.group = "notarius"
+        } else if (edge.type == 'WORKER_CUR' || edge.type == 'WORKER_HIST') {
+            edge.color = "blue"
 
-        } else if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null) {
-          node.group = "judgeCompany"
+        } else if (edge.type == 'SUDIM') {
+            edge.color = "red"
 
-        } else if (p.IINBIN == iin1 || p.IINBIN == iin2) {
-          this.state.keyNodeId = node.id;
-          node.group = "keyCompany"
+        }
+    }
 
-          this.state.nodeStack = [node.id, ...this.state.nodeStack]
+    const cropLabel = (label) => {
+        let labelChunkArr = label.match(/.{1,60}/g)
+        let cropedLabel = ""
+        labelChunkArr.forEach(elem => {
+            if (cropedLabel == "") cropedLabel = elem
+            else cropedLabel += ('\n' + elem)
+        })
+
+        return cropedLabel
+    }
+
+    const setNodeSettings = (node, iin1, iin2) => {
+        setIds(() => [...ids, node.id])
+
+        let key = false
+
+        if (node.properties.Type == "ЮЛ" || node.properties.Type == "ИП") {
+            // settings for ul
+            node.label = node.properties.Name;
+
+            if (node.label.length > 60) { 
+                node.label = cropLabel(node.label)
+                console.log(node.physics)
+            }
+            
+
+            const p = node.properties;
+            if (p.nomer_sdelki) {
+                node.group = "notarius"
+
+            } else if (p.STATUS_OPG != null || p.STATYA_ERDR != null || p.ORGAN_REGISTER != null) {
+                node.group = "judgeCompany"
+
+            } else if (p.IINBIN == iin1 || p.IINBIN == iin2) {
+                setKeyNodeId(node.id);
+                node.group = "keyCompany"
+
+                setNodeStack([node.id, ...nodeStack])
+
+            } else {
+                node.group = "company"
+            }
+
+        } else if (node.properties.Ulica != null) {
+            // settings for propiska
+            node.group = "PROPISKA"
+
+            node.label = node.properties.Adress_propiski;
 
         } else {
-          node.group = "company"
+            // settings for fl
+            const p = node.properties;
+
+            node.label = p.FIO
+
+            key = false;
+            if (p.IIN != null && (p.IIN == iin1 || p.IIN == iin2)) key = true; 
+
+            if (p.Death_Status != null) {
+                node.group = "ripPerson"
+
+            } else if (p.Organ_pravanarushenya != null || p.Pristavanie != null || p.Razmer_Shtrafa != null 
+            || p.Status_KUIS != null || p.Status_Minzdrav != null || p.Statya != null 
+            || p.Sud_ispolnitel != null || p.Med_org != null) {
+
+                if (key) node.group = "keyJudgePerson"
+                else node.group = "judgePerson"
+
+            } else {
+
+                if (node.properties.IIN == null) node.group = "personJai"
+                else if (key) node.group = "keyPerson"
+                else node.group = "person"
+
+            }   
         }
 
-      } else if (node.properties.Ulica != null) {
-        // settings for propiska
-        node.group = "PROPISKA"
+        if (key) {
+            setKeyNodeId(node.id); 
+            setNodeStack([node.id, ...nodeStack])
+        }
 
-        node.label = node.properties.Adress_propiski;
-
-      } else {
-        // settings for fl
-        const p = node.properties;
-
-        node.label = p.FIO
-
-        key = false;
-        if (p.IIN != null && (p.IIN == iin1 || p.IIN == iin2)) key = true; 
-
-        if (p.Death_Status != null) {
-          node.group = "ripPerson"
-
-        } else if (p.Organ_pravanarushenya != null || p.Pristavanie != null || p.Razmer_Shtrafa != null 
-          || p.Status_KUIS != null || p.Status_Minzdrav != null || p.Statya != null 
-          || p.Sud_ispolnitel != null || p.Med_org != null) {
-
-            if (key) node.group = "keyJudgePerson"
-            else node.group = "judgePerson"
-
-        } else {
-
-          if (node.properties.IIN == null) node.group = "personJai"
-          else if (key) node.group = "keyPerson"
-          else node.group = "person"
-
-        }   
-      }
-
-      if (key) {
-        this.state.keyNodeId = node.id; 
-        this.state.nodeStack = [node.id, ...this.state.nodeStack]
-      }
-
-      if (!this.state.nodeStack.includes(node.id))
-          this.state.nodeStack.push(node.id)
+        if (!nodeStack.includes(node.id))
+            setNodeStack(() => [...nodeStack, node.id])
 
     }
 
-    colors = {
-      
+    const manipulation = {
     }
 
-    manipulation = {
-      deleteNode: true,
-    }
+    const events = {
+        selectNode: (event) => {
+            // setPhysicsEnable(false)
+            setShowNodeInfo(true)
+            setShowEdgeInfo(false)
+            setShowImage(false)
+            setShowSudInfo(false)
 
-    events = {
-      selectNode: (event) => {
-        this.setState({showNodeInfo: true})
-        this.setState({showEdgeInfo: false})
-        this.setState({showNodeImage: false})
-        this.setState({showSudInfo: false})
+            console.log(Network)
+            SelectedNode = Network.selectionHandler.selectionObj.nodes[Object.keys(Network.selectionHandler.selectionObj.nodes)[0]]
 
-        SelectedNode = Network.selectionHandler.selectionObj.nodes[Object.keys(Network.selectionHandler.selectionObj.nodes)[0]]
+            onSelectNode = true
 
-        onSelectNode = true
+            const infoBlock = document.querySelector("#nodeInfoInner")
+            const addInfoBlock = document.querySelector("#nodeAddInfoInner")
+            const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
+            const nodeImage = document.querySelector('.nodeImg');
 
-        const infoBlock = document.querySelector("#nodeInfoInner")
-        const addInfoBlock = document.querySelector("#nodeAddInfoInner")
-        const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
-        const nodeImage = document.querySelector('.nodeImg');
+            addInfoBlock.innerHTML = ""
+            infoBlock.innerHTML = ""
+            sudInfoBlock.innerHTML = ""
 
-        addInfoBlock.innerHTML = ""
-        infoBlock.innerHTML = ""
-        sudInfoBlock.innerHTML = ""
+            console.log(SelectedNode)
 
-        console.log(SelectedNode)
+            const sp = SelectedNode.options.properties;
+            const sg = SelectedNode.options.group;
 
-        const sp = SelectedNode.options.properties;
-        const sg = SelectedNode.options.group;
-        if (sg == "person" || sg == "judgePerson" || sg == "ripPerson"
-            || sg == "keyJudgePerson" || sg == "personJai" || sg == "keyPerson") {
+            if (sg == "person" || sg == "judgePerson" || sg == "ripPerson"
+                || sg == "keyJudgePerson" || sg == "personJai" || sg == "keyPerson") {
 
-          this.setState({showNodeImage: true})
+                setShowImage(true)
+                if (!SelectedNode.options.photoDbf) {
+                    nodeImage.innerHTML = `<h3>Нет фото</h3>`
+                } else {
+                    nodeImage.innerHTML = `<img src="data:image/png;base64, ${SelectedNode.options.photoDbf.photo}"/>`
+                }
+                    
+                assignInfoBlock({
+                    "ИИН": sp.IIN || "Нет ИИН-а",
+                    "Имя": sp.FIO.split(" ")[1] || "Нет имя", 
+                    "Фамилия": sp.Familia || "Нет фамилии",
+                    "ФИО": sp.FIO || "Нет ФИО",
+                    "Отчество": sp.Otchestvo || "Нет отчества",
+                    "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения"
+                }, '#nodeInfoInner')
 
-          if (!SelectedNode.options.photoDbf) {
-            nodeImage.innerHTML = `<h3>Нет фото</h3>`
-          } else {
-            nodeImage.innerHTML = `<img src="data:image/png;base64, ${SelectedNode.options.photoDbf.photo}"/>`
-          }
-              
-          this.assignInfoBlock({
-            "ИИН": sp.IIN || "Нет ИИН-а",
-            "Имя": sp.FIO.split(" ")[1] || "Нет имя", 
-            "Фамилия": sp.Familia || "Нет фамилии",
-            "ФИО": sp.FIO || "Нет ФИО",
-            "Отчество": sp.Otchestvo || "Нет отчества",
-            "Дата рождения": sp.Data_Rozhdenya || "Нет даты рождения"
-          }, '#nodeInfoInner')
+                assignInfoBlock({
+                    "class": "Person",
+                    "PersonID": sp.PersonID,
+                    "Label": sp.Label,
+                    "Source": sp.Source,
+                }, '#nodeAddInfoInner')
 
-          this.assignInfoBlock({
-            "class": "Person",
-            "PersonID": sp.PersonID,
-            "Label": sp.Label,
-            "Source": sp.Source,
-          }, '#nodeAddInfoInner')
+                assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')
+                assignInfoBlock({"Нотариус": sp.Notarius}, '#nodeAddInfoInner')
+                assignInfoBlock({"Адвокат": sp.Advocat}, '#nodeAddInfoInner')
+                assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')
+                assignInfoBlock({"Частный судебный исполнитель": sp.Sud_ispolnitel}, '#nodeAddInfoInner')
+                
+            } else if (sg == "judgeCompany" || sg == "company" || sg == "keyCompany") {
+            
+                assignInfoBlock({
+                    "Наименование": sp.Name,
+                    "ИИН/БИН": sp.IINBIN, 
+                    "Тип": sp.Type,
+                }, '#nodeInfoInner')
 
-          this.assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')
-          this.assignInfoBlock({"Нотариус": sp.Notarius}, '#nodeAddInfoInner')
-          this.assignInfoBlock({"Адвокат": sp.Advocat}, '#nodeAddInfoInner')
-          this.assignInfoBlock({"Аудитор": sp.Autditor}, '#nodeAddInfoInner')
-          this.assignInfoBlock({"Частный судебный исполнитель": sp.Sud_ispolnitel}, '#nodeAddInfoInner')
-        
-        } else if (sg == "judgeCompany" || sg == "company" || sg == "keyCompany") {
-           
-          this.assignInfoBlock({
-            "Наименование": sp.Name,
-            "ИИН/БИН": sp.IINBIN, 
-            "Тип": sp.Type,
-          }, '#nodeInfoInner')
+                assignInfoBlock({
+                    "class": sp.Name,
+                    "PersonID": sp.PersonID, 
+                    "Label": sp.Label,
+                    "Source": sp.Source,
+                }, '#nodeAddInfoInner')
 
-          this.assignInfoBlock({
-            "class": sp.Name,
-            "PersonID": sp.PersonID, 
-            "Label": sp.Label,
-            "Source": sp.Source,
-          }, '#nodeAddInfoInner')
+                assignInfoBlock({"Бухгалтер": sp.Buhgalter}, '#nodeAddInfoInner') 
+                assignInfoBlock({"НДС": sp.NDS}, '#nodeAddInfoInner') 
 
-          this.assignInfoBlock({"Бухгалтер": sp.Buhgalter}, '#nodeAddInfoInner') 
-          this.assignInfoBlock({"НДС": sp.NDS}, '#nodeAddInfoInner') 
+            } else if (sg == 'PROPISKA') {
 
-        } else if (sg == 'PROPISKA') {
+                assignInfoBlock({
+                    "Строение": sp.Stroenie,
+                    "РКА": sp.PKA, 
+                    "Область": sp.Oblast,
+                    "Район": sp.Rayon,
+                    "Город": sp.Gorod,
+                    "Квартира": sp.Kvartira,
+                    "Улица": sp.Ulica,
+                    "Корпус": sp.Korpus,
+                    "Адрес прописки": sp.Adress_propiski,
+                }, '#nodeInfoInner')
 
-          this.assignInfoBlock({
-            "Строение": sp.Stroenie,
-            "РКА": sp.PKA, 
-            "Область": sp.Oblast,
-            "Район": sp.Rayon,
-            "Город": sp.Gorod,
-            "Квартира": sp.Kvartira,
-            "Улица": sp.Ulica,
-            "Корпус": sp.Korpus,
-            "Адрес прописки": sp.Adress_propiski,
-          }, '#nodeInfoInner')
+                assignInfoBlock({
+                    "class": sp.Name,
+                    "Код области": sp.Kod_oblasti, 
+                    "Код страны": sp.Kod_Strani, 
+                    "Код района": sp.Kod_rayona, 
+                    "PersonID": sp.PersonID, 
+                    "Label": sp.Label,
+                    "Source": sp.Source,
+                }, '#nodeAddInfoInner')
 
-          this.assignInfoBlock({
-            "class": sp.Name,
-            "Код области": sp.Kod_oblasti, 
-            "Код страны": sp.Kod_Strani, 
-            "Код района": sp.Kod_rayona, 
-            "PersonID": sp.PersonID, 
-            "Label": sp.Label,
-            "Source": sp.Source,
-          }, '#nodeAddInfoInner')
+                assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
+            }
 
-          this.assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
-        }
+            if (sg == 'judgePerson' || sg == 'keyJudgePerson' || sg == 'judgeCompany') {
+                setShowSudInfo(true)
 
-        if (sg == 'judgePerson' || sg == 'keyJudgePerson' || sg == 'judgeCompany') {
-          this.setState({showSudInfo: true})
+                assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Приставание в общественных местах": sp.Pristavanie,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Орган, выявивший правонарушение": sp.Organ_pravanarushenya,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Дата решения": sp.Data_reshenya,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Статус КУИС": sp.Status_KUIS,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Размер наложенного штрафа": sp.Razmer_Shtrafa,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Статус Минздрав": sp.Status_Minzdrav,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Приказ о снятии с регистрационного учета": sp.PRIKAZ_O_SNYATYA,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Бездействующие ЮЛ": sp.BEZDEYSTVIA_UL,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Статус ОПГ": sp.STATUS_OPG,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Статья ЕРДР": sp.STATYA_ERDR,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Статус ЕРДР": sp.STATUS_ERDR,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Орган регистрации": sp.ORGAN_REGISTER,}, '#nodeSudInfoInner')
+                assignInfoBlock({"ФПГ": sp.FPG,}, '#nodeSudInfoInner')
+                assignInfoBlock({"Направлено в": sp.Napravlenio_V,}, '#nodeSudInfoInner')
 
-          this.assignInfoBlock({"Мед. Орг.": sp.Med_org,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Приставание в общественных местах": sp.Pristavanie,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Орган, выявивший правонарушение": sp.Organ_pravanarushenya,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Дата решения": sp.Data_reshenya,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Статус КУИС": sp.Status_KUIS,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Размер наложенного штрафа": sp.Razmer_Shtrafa,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Статус Минздрав": sp.Status_Minzdrav,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Приказ о снятии с регистрационного учета": sp.PRIKAZ_O_SNYATYA,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Бездействующие ЮЛ": sp.BEZDEYSTVIA_UL,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Статус ОПГ": sp.STATUS_OPG,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Статья ЕРДР": sp.STATYA_ERDR,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Статус ЕРДР": sp.STATUS_ERDR,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Орган регистрации": sp.ORGAN_REGISTER,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"ФПГ": sp.FPG,}, '#nodeSudInfoInner')
-          this.assignInfoBlock({"Направлено в": sp.Napravlenio_V,}, '#nodeSudInfoInner')
-
-        }
+            }
 
       }, 
 
@@ -915,22 +667,24 @@ export default class GraphNet extends Component {
         sudInfoBlock.innerHTML = ""
 
         onSelectNode = false
-        this.setState({showNodeInfo: false})
-        this.setState({showEdgeInfo: false})
-        this.setState({showNodeImage: false})
-        this.setState({showSudInfo: false})
+
+        setShowNodeInfo(false)
+        setShowEdgeInfo(false)
+        setShowImage(false)
+        setShowSudInfo(false)
 
       },
 
       selectEdge: (event) => {
         if (onSelectNode == true) return
 
-        this.setState({showNodeInfo: false})
-        this.setState({showEdgeInfo: true})
-        this.setState({showNodeImage: false})
-        this.setState({showSudInfo: false})
 
-        SelectedEdge = this.state.edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
+        setShowNodeInfo(false)
+        setShowEdgeInfo(true)
+        setShowImage(false)
+        setShowSudInfo(false)
+
+        SelectedEdge = edges.filter(elem => elem.properties.id == Object.keys(Network.selectionHandler.selectionObj.edges)[0])[0]
 
         console.log(SelectedEdge)
 
@@ -939,9 +693,10 @@ export default class GraphNet extends Component {
         const sudInfoBlock = document.querySelector("#nodeSudInfoInner")
         addInfoBlock.innerHTML = ""
         infoBlock.innerHTML = ""
+        sudInfoBlock.innerHTML = ""
 
         const sp = SelectedEdge.properties
-        this.assignInfoBlock({
+        assignInfoBlock({
           "id": sp.id,
           "Вид связи": sp.Vid_svyaziey,
           "Label": sp.Label,
@@ -949,7 +704,7 @@ export default class GraphNet extends Component {
         }, '#nodeInfoInner')
 
         if (SelectedEdge.type == "REG_ADDRESS_HIST" || SelectedEdge.type == "REG_ADDRESS_CUR" || SelectedEdge.type == "REG_ADDRESS") {
-          this.assignInfoBlock({
+          assignInfoBlock({
             "Дата начала прописки": sp.Data_nachali_propiski || sp.data_nachalo,
             "Дата окончания прописки": sp.data_oconchanya,
             "Дата регистрационного действия": sp.data_reg,
@@ -958,7 +713,7 @@ export default class GraphNet extends Component {
           }, '#nodeInfoInner')
 
         } else if (SelectedEdge.type == "WORKER_CUR" || SelectedEdge.type == "WORKER_HIST") {
-          this.assignInfoBlock({
+          assignInfoBlock({
             "БИН/ИИН работадателя": sp.IINBIN_rabotadatelya,
             "ИИН": sp.IIN,
             "Дата начала отчисления ОПВ/СО": sp.data_nachalo,
@@ -972,7 +727,7 @@ export default class GraphNet extends Component {
           }, '#nodeInfoInner')
 
         } else if (SelectedEdge.type == 'SUDIM') {
-          this.assignInfoBlock({
+          assignInfoBlock({
             "Дата начала заключения": sp.Data_nachala,
             "Дата конца заключения": sp.Data_konca,
             "Статья": sp.Statya,
@@ -980,13 +735,13 @@ export default class GraphNet extends Component {
           }, '#nodeInfoInner')
 
         } else if (SelectedEdge.type == 'UCHILSYA') {
-          this.assignInfoBlock({
+          assignInfoBlock({
             "Дата начала обучения": sp.data_nachalo, 
             "Дата конца обучения": sp.data_konca
           }, '#nodeInfoInner')
 
         } else {
-          this.assignInfoBlock({
+          assignInfoBlock({
             "Название": sp.company,
             "Дата начала аффилированности": sp.Data_nachalo_affilirovannosti,
             "Тип аффилированности": sp.Type_affilirovannosti,
@@ -1018,280 +773,307 @@ export default class GraphNet extends Component {
       },
 
       deselectEdge: (event) => {
-        this.setState({showNodeInfo: false})
-        this.setState({showEdgeInfo: false})
-        this.setState({showNodeImage: false})
-        this.setState({showSudInfo: false})
-
+        setShowNodeInfo(false)
+        setShowEdgeInfo(false)
+        setShowImage(false)
+        setShowSudInfo(false)
       }
 
     }
-    search() {
-      this.updateSearched()
-      this.showSearched()
+
+    const search = () => {
+        updateSearched()
+        showSearched()
     }
 
-    update = () => {
-      this.setState({nodes:[], edges: []}) 
-      this.setState({counter: 0})
+    const update = () => {
+        setNodes([])
+        setEdges([])
     }
 
-    searchNext() {
-      this.state.sliderPage = this.state.sliderPage + 1;
-      if (this.state.sliderPage >= this.state.searchedNodes.length) {
-        this.state.sliderPage = 0;
-      }
-      this.showSearched();
+    const searchNext = () => {
+        setSliderPage(sliderPage + 1);
+        if (sliderPage >= searchedNodes.length) {
+            setSliderPage(0);
+        }
+
+        showSearched();
     }
 
-    searchPrev() {
-      this.state.sliderPage = this.state.sliderPage - 1;
-      if (this.state.sliderPage < 0) {
-        this.state.sliderPage = this.state.searchedNodes.length - 1;
-      }
-      this.showSearched();
+    const searchPrev = () => {
+        setSliderPage(sliderPage - 1);
+        if (sliderPage < 0) {
+            setSliderPage(searchedNodes.length - 1);
+        }
+
+        showSearched();
     }
 
-    updateSearched() {
-      const value = document.getElementById("nodeSearchInput").value;
-      const searchNodes = Object.values(Network.body.nodes).filter(elem => {
-        for ( var key in elem.options.properties) {
-          // console.log(elem.options.properties[key])
-          if (elem.options.properties.hasOwnProperty(key) && elem.options.properties[key] != null) {
-            let result = elem.options.properties[key].toString().replace(/[a-zA-Z]/g, function(char) {
-              return char.toLowerCase()
-            })
-            if (result.includes(value.toLowerCase())) {
-              return true;
+    const updateSearched = () => {
+        const value = document.getElementById("nodeSearchInput").value;
+
+        const searchNodes = Object.values(Network.body.nodes).filter(elem => {
+            for ( var key in elem.options.properties) {
+                if (elem.options.properties.hasOwnProperty(key) && elem.options.properties[key] != null) {
+
+                    let result = elem.options.properties[key].toString().replace(/[a-zA-Z]/g, function(char) {
+                        return char.toLowerCase()
+                    })
+
+                    if (result.includes(value.toLowerCase())) {
+                        return true;
+                    }
+
+                }
+
             }
-          }
-        }
-        if (elem.options.label != undefined && elem.options.label.toLowerCase().includes(value.toLowerCase())) {
-          return true;
-        }
-      });
 
-      this.state.sliderPage = 0;
-      this.state.searchedNodes = searchNodes;
+            if (elem.options.label != undefined && elem.options.label.toLowerCase().includes(value.toLowerCase())) {
+                return true;
+            }
+        });
+
+        setSliderPage(0);
+        setSearchedNodes(searchNodes);
     }
 
-    showSearched() {
-      const item = this.state.searchedNodes[this.state.sliderPage];
+    const showSearched = () => {
+        const item = searchedNodes[sliderPage];
 
-      item && Network.focus(item.id, {
-        scale: 1.5,
-        offset: {
-          x: 0,
-          y: 0
-        },
-      })
+        item && Network.focus(item.id, {
+            scale: 1.5,
+            offset: {
+            x: 0,
+            y: 0
+            },
+        })
     }
 
-    download() {
-      const target = Network.body.container
-      html2canvas(target).then((canvas)=> {
-        const base64image = canvas.toDataURL("image/png")
-        var anchor = document.createElement('a')
-        anchor.setAttribute("href", base64image)
-        anchor.setAttribute("download", "graph-result.png")
-        anchor.click()
-        anchor.remove()
-      })
+    const handleLayout = (layout) => {
+        setLayoutOptions(prev => ({
+            ...prev,
+            hierarchical: layout
+        }))
+
+        setPhysicsEnable(!layout.enabled)
+        console.log(physicsEnable)
+        console.log(layoutOptions)
+    }
+
+    useEffect(() => {
+        setUpdateGraph(prev => !prev)
+    }, [physicsEnable])
+
+    const download = () => {
+        const target = Network.body.container
+        html2canvas(target).then((canvas)=> {
+            const base64image = canvas.toDataURL("image/png")
+            var anchor = document.createElement('a')
+            anchor.setAttribute("href", base64image)
+            anchor.setAttribute("download", "graph-result.png")
+            anchor.click()
+            anchor.remove()
+        })
     }        
     
-    exportBt = () => {
-      const fileName = "graph.txt"
-      const fileContent = JSON.stringify(graJSON, null, 2)
-      const blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"})
-      const url = URL.createObjectURL(blob)
-      let first = ""
-      let second = ""
-      if (graJSON.typeOfSearch == "con1") {
-        if (graJSON.iin) {
-          first = graJSON.params.person
-          second = ""
-        } else {
-          first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
-          second = "" 
+    const exportBt = () => {
+        const fileName = "graph.txt"
+        const fileContent = JSON.stringify(graJSON, null, 2)
+        const blob = new Blob([fileContent], {type: "text/plain;charset=utf-8"})
+        const url = URL.createObjectURL(blob)
+
+        let first = ""
+        let second = ""
+
+        if (graJSON.typeOfSearch == "con1") {
+            if (graJSON.iin) {
+                first = graJSON.params.person
+                second = ""
+
+            } else {
+                first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
+                second = "" 
+            }
+
+        } else if (graJSON.typeOfSearch == "con2") {
+            if (graJSON.iin) {
+                first = graJSON.params.person
+                second = graJSON.params.person2
+
+            } else {
+                first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
+                second = "Фамилия: " + graJSON.params.lastName2 + ", имя: " + graJSON.params.firstName2 + ", отчество: " + graJSON.params.fatherName2
+            }
+
+        } else if (graJSON.typeOfSearch == "con3") {
+            if (graJSON.iin) {
+                first = graJSON.params.person
+                second = graJSON.params.ul
+
+            } else {
+                first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
+                second = graJSON.params.ul
+            }
+
+        } else if (graJSON.typeOfSearch == "con4") {
+            first = graJSON.params.ul
+            second = ""
+
+        } else if (graJSON.typeOfSearch == "con5") {
+            first = graJSON.params.ul1
+            second = graJSON.params.ul2
+
         }
-      } else if (graJSON.typeOfSearch == "con2") {
-        if (graJSON.iin) {
-          first = graJSON.params.person
-          second = graJSON.params.person2
-        } else {
-          first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
-          second = "Фамилия: " + graJSON.params.lastName2 + ", имя: " + graJSON.params.firstName2 + ", отчество: " + graJSON.params.fatherName2
-        }
-      } else if (graJSON.typeOfSearch == "con3") {
-        if (graJSON.iin) {
-          first = graJSON.params.person
-          second = graJSON.params.ul
-        } else {
-          first = "Фамилия: " + graJSON.params.lastName1 + ", имя: " + graJSON.params.firstName1 + ", отчество: " + graJSON.params.fatherName1
-          second = graJSON.params.ul
-        }
-      } else if (graJSON.typeOfSearch == "con4") {
-        first = graJSON.params.ul
-        second = ""
-      } else if (graJSON.typeOfSearch == "con5") {
-        first = graJSON.params.ul1
-        second = graJSON.params.ul2
-      }
-      axios.get("http://localhost:9091/api/finpol/main/downloadedscheme", {params: {first: first, second: second}})
-      const link = document.createElement("a")
-      link.download = fileName;
-      link.href = url;
-      link.click();
+
+        axios.get("http://localhost:9091/api/finpol/main/downloadedscheme", {params: {first: first, second: second}})
+
+        const link = document.createElement("a")
+        link.download = fileName;
+        link.href = url;
+        link.click();
     }
 
-    importBt = (file) =>  {
-      this.setState({isLoading: true})
-      this.setState({ids: []})
+    const importBt = (file) =>  {
+        setPhysicsEnable(true)
 
-      console.log(file )
+        setIsLoading(true)
+        setIds([])
 
-      const res = JSON.parse(file)
-      // this.setState({nodes: result.nodes, edges: result.edges})
-      console.log(res)
+        console.log(file )
 
-      let nodes = []
-      const edges = res.edges;
-      graJSON.typeOfSearch = res.typeOfSearch
+        const res = JSON.parse(file)
+        console.log(res)
 
-      edges.map(item => {
-        this.setEdgeSettings(item);
-      })
-    
-      res.nodes.map(item => {
-        this.setNodeSettings(item)
+        let _nodes = []
+        const _edges = res.edges;
+        graJSON.typeOfSearch = res.typeOfSearch
 
-        // if (this.state.ids.includes(item.id)) {
+        _edges.map(item => {
+            setEdgeSettings(item);
+        })
+        
+        res.nodes.map(item => {
+            setNodeSettings(item)
 
-        // } else {
-          this.state.ids.push(item.id)
-          console.log(this.state.ids)
-          nodes.push(item);
-        // }
-      })
+            setIds(() => {
+                return [ids, item.id]
+            })
+            _nodes.push(item);
+        })
 
-      
-      this.setState({nodes, edges})
+        setCounter(currCounter => currCounter + 1)
+        console.log(counter)
 
-      console.log("from GRAPHSJS IMPORTBT", nodes, edges)
+        setNodes(_nodes)
+        setEdges(_edges)
 
-      graJSON.nodes = nodes
-      graJSON.edges = edges
-      graJSON.paramsOfSearch = res.paramsOfSearch
-      graJSON.typeOfSearch = res.typeOfSearch
-      
-      this.state.isLoading = false
+        console.log("from GRAPHSJS IMPORTBT", nodes, edges)
 
-      this.setState({showActionBtn: true})
-      return graJSON
+        graJSON.nodes = _nodes
+        graJSON.edges = _edges
+        graJSON.paramsOfSearch = res.paramsOfSearch
+        graJSON.typeOfSearch = res.typeOfSearch
+        
+        setIsLoading(false)
+        setShowActionBtn(true)
+
+        return graJSON
     }
 
-    render() {
-      if (this.state.counter===0 && !this.state.isLoading) {
+    if (counter === 0 && !isLoading) {
         return (
-          <div className='mainSection'>
-          <>
-            <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
-            <div className='centralBar'>
-              <div className="waiterBox">
-                {/* <a>Make a search</a> */}
-                <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
-              </div>
-            </div>
-            {/* <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar> */}
-          </>
-          </div>
-        )
-      } else if (this.state.counter!==0 && this.state.nodes.length===0 && !this.state.isLoading) {
-        return (
-          <div className='mainSection'>
-          <>
-            <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}  name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
-              <div className='centralBar'>
-              <div className="waiterBox">
-                  <a>No objects found</a>
+            <div className='mainSection'>
+                <LeftBar handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+                <div className='centralBar'>
+                    <div className="waiterBox">
+                        <i id="waiter" className="fa-solid fa-magnifying-glass"></i>
+                    </div>
                 </div>
-              </div>
-            {/* <RightBar showAction={this.state.showActionBtn} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}></RightBar> */}
-          </>
-          </div>
-        )
-      } else if (this.state.isLoading && this.state.nodes.length===0) {
-        return (
-          <div className='mainSection'>
-          <>
-            <LeftBar update={this.update} importBt={this.importBt} exportBt = {this.exportBt}   name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
-              <div className='centralBar'>
-                <div className="loader">
-                  <div className="inner one"></div>
-                  <div className="inner two"></div>
-                  <div className="inner three"></div>
-                </div>
-              </div>
-            {/* <RightBar showAction={this.state.showActionBtn} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo}  showImage={this.state.showNodeImage}  showSudInfo={this.state.showSudInfo}></RightBar> */}
-          </>
-          </div>
-        )
-      } else { 
-      return (
-        <div className='mainSection'>
-        <>
-        <LeftBar params={graJSON} update={this.update} downloadScheme={this.download} exportBt={this.exportBt} name={this.state.name} name2={this.state.name2} handleSubmit={this.Submit} setname={this.setChange}></LeftBar>
-        <div className='centralBar' id="centralBar">
-            <div className="nodeSearch">
-              <div>
-                <input type="text" id="nodeSearchInput" placeholder="Еще один поиск.." 
-                  onKeyDown={event => {
-                    if (event.key === 'Enter') {
-                      if(event.target.value != "") {
-                        this.search(event.target.value)
-                      } else {
-                        Network.fit({});
-                      }
-                    }
-                  }}
-                  onChange={event => {
-                    if (event.target.value == "") {
-                      Network.fit({});
-                    }
-                  }}/>
-                <i className="fa-solid fa-magnifying-glass"
-                  onClick={() => this.search()}></i>
-              </div>
-              <div>
-                <i className="fa-solid fa-caret-left"
-                  onClick={() => this.searchPrev()}></i>
-                <i className="fa-solid fa-caret-right"
-                  onClick={() => this.searchNext()}></i>
-              </div>
             </div>
+        )
 
-            <Graph
-              graph={this.state}
-              options={this.state.options}
-              events={this.events}
-              getNetwork={network => {
-                Network = network;
-                network.once("afterDrawing", function () {
-                  Network.on('doubleClick', (event) => {
-                    // this.createContextMenu(event)
-                  })
-                });
-              }}
-              manipulation={this.manipulation}
-              className={"graph"}
-              />
-        </div>          
-        <RightBar showAction={this.state.showActionBtn} shortOpen={this.shortOpen} shortHide={this.shortHide} isOnSelectNode={this.state.showNodeInfo} isOnSelectEdge={this.state.showEdgeInfo} showImage={this.state.showNodeImage} showSudInfo={this.state.showSudInfo} layoutHandler={this.layoutHandler}></RightBar>
-        </>
-        </div>
-      )
+    } else if (counter !== 0 && nodes.length === 0 && !isLoading) {
+        return (
+            <div className='mainSection'>
+                <LeftBar handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+                <div className='centralBar'>
+                    <div className="waiterBox">
+                        <a>No objects found</a>
+                    </div>
+                </div>
+            </div>
+        )
+
+    } else if (isLoading && nodes.length === 0) {
+        return (
+            <div className='mainSection'>
+                <LeftBar handleLayout={handleLayout} update={update} importBt={importBt} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+                <div className='centralBar'>
+                    <div className="loader">
+                        <div className="inner one"></div>
+                        <div className="inner two"></div>
+                        <div className="inner three"></div>
+                    </div>
+                </div>
+            </div>
+        )
+
+    } else { 
+        return (
+            <div className='mainSection'>
+                <LeftBar handleLayout={handleLayout} params={graJSON} update={update} downloadScheme={download} exportBt={exportBt} handleSubmit={Submit}></LeftBar>
+                <div className='centralBar' id="centralBar">
+                    <div className="nodeSearch">
+                        <div>
+                            <input type="text" id="nodeSearchInput" placeholder="Поиск по схеме" 
+                                onKeyDown={event => {
+                                    if (event.key === 'Enter') {
+                                        if(event.target.value != "") search(event.target.value) 
+                                        else Network.fit({});
+                                    }
+                                }}
+                                onChange={event => {
+                                    if (event.target.value == "") Network.fit({});
+                                }}
+                            />
+
+                            <i className="fa-solid fa-magnifying-glass"
+                                onClick={() => search()}>
+                            </i>
+
+                        </div>
+                        <div>
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA4UlEQVR4nK3UMUoDQRSH8V2wiDaWCvZ24hHEVgjewCt4hO//hl3YZk9gZ+0NAiktUwqW6dOl0sInKw6kyIqZfV85xY/h8WaqKqY6yKkq4E7SUwR0DjxLckmLKVYNPACbX8yLwZTSFfC6A3kR2Pf9MSBJH3swPwg0s1tJ7yOQ/xts2/ZsZ+g+Baz3DL0MBC6B5QGQj4Jd150CqwLM/7rhkaRHSdsQMNc0zQXwEgbmzGwuaR0GDgEnw1IDnyFgLqV0PfLsfMrnMLaji1Lwp/yKgK8QMGdmN8BbGDgEzMzsPh98A4cThMeOLdocAAAAAElFTkSuQmCC"
+                                onClick={() => searchPrev()}/>
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAzUlEQVR4nK3UPQ4BURiF4RFKKjW1hFZiEaKhtg3le+5MMsmUSq1yWguwA7EIYgNEITHiLxTCNfOd5LRPMnPy3SB4pRRYBuhLmiVJUrMCB5IySVtgZAlmjy6ApiWYAXtJkzRNyyagXvDKOdc1A3XvSdLUezR+g89unXNDSzB7jhZFUcMS/D4aOcBHjx9/QU5wCbQsPnkHjL/ePx4gcAbmcRzXC68MrIHeT8gDPFyXBCrBP+EzmP+B4A0ENl7X4AHe7hWoFsKuCcOwDXSKQhcGtZXbAfm2YgAAAABJRU5ErkJggg=="
+                                onClick={() => searchNext()}/>
+                        </div>
+                    </div>
+
+                    <Graph
+                        graph={{nodes: nodes, edges: edges}}
+                        options={graphOptions}
+                        events={events}
+                        getNetwork={network => {
+                            Network = network;
+                            Network.on('dragging', (event) => {
+                                setPhysicsEnable(false)
+                                console.log(event)
+                                console.log("first")
+                            })
+                            Network.off('dragging', (event) => {
+                                setPhysicsEnable(true)
+                            })
+                        }}
+                        manipulation={manipulation}
+                        className={"graph"}
+                        updateGraph={updateGraph}
+                    />
+                </div>          
+                <RightBar showAction={showActionBtn} shortOpen={shortOpen} shortHide={shortHide} isOnSelectNode={showNodeInfo} isOnSelectEdge={showEdgeInfo} showImage={showNodeImage} showSudInfo={showSudInfo}></RightBar>
+            </div>
+        )
     }
-  }
-
 }
 
+export default GraphNetnew;

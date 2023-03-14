@@ -22,10 +22,10 @@ table th {
 }
 
 table td {
-
 }
 
-.table tbody {
+.table tbody tr td {
+  text-align: start;
 }
 
 .table thead {
@@ -48,4 +48,12 @@ table .tdrow {
   /* display:flex; */
   /* margin-left: 35%; */
   /* transform: translate(-1%); */
+}
+
+.adminPanelTable tbody td:last-child {
+  text-align: end;
+}
+
+.adminPanelTable thead th:last-child {
+  text-align: end;
 }

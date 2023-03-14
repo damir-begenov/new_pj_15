@@ -4,6 +4,7 @@
     background-color: var(--nav-bar-color);
 
     overflow-x: hidden;
+    z-index: 1;
 }
 
 .logo {

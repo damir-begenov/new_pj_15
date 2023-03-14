@@ -55,7 +55,6 @@
 .userInfo {
     display: flex;
     flex-direction: column;
-
     width: 90%;
     /* border: red 1px solid; */
 }
@@ -149,4 +148,15 @@
 
 .countStatsUser > div:nth-child(1) div:nth-child(1) {
     margin-bottom: 15px;
+}
+
+
+/* .table {
+    padding: auto;
+} */
+
+.dopInfa {
+    display: table-cell;
+    padding-left: 3%;
+    padding-right: 1%;
 }

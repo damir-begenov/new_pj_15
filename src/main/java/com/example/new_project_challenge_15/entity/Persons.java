@@ -111,6 +111,56 @@ public class Persons {
     private List<ESF_10and100> esf_10and100s;
     @Relationship(type = "BLIZKIE_RODS", direction = Relationship.Direction.INCOMING)
     private List<BLIZKIE_RODS> blizkieRods;
+    @Relationship(type = "BLIZKIE_RODS", direction = Relationship.Direction.OUTGOING)
+    private List<BLIZKIE_RODS> blizkieRodsOut;
+    @Relationship(type = "SIBLING", direction = Relationship.Direction.INCOMING)
+    private List<SIBLING> siblings;
+    @Relationship(type = "COUSIN", direction = Relationship.Direction.INCOMING)
+    private List<COUSIN> cousins;
+    @Relationship(type = "SIBLING", direction = Relationship.Direction.OUTGOING)
+    private List<SIBLING> siblingsOut;
+    @Relationship(type = "COUSIN", direction = Relationship.Direction.OUTGOING)
+    private List<COUSIN> cousinsOut;
+
+    public List<SIBLING> getSiblings() {
+        return siblings;
+    }
+
+    public List<BLIZKIE_RODS> getBlizkieRodsOut() {
+        return blizkieRodsOut;
+    }
+
+    public void setBlizkieRodsOut(List<BLIZKIE_RODS> blizkieRodsOut) {
+        this.blizkieRodsOut = blizkieRodsOut;
+    }
+
+    public List<SIBLING> getSiblingsOut() {
+        return siblingsOut;
+    }
+
+    public void setSiblingsOut(List<SIBLING> siblingsOut) {
+        this.siblingsOut = siblingsOut;
+    }
+
+    public List<COUSIN> getCousinsOut() {
+        return cousinsOut;
+    }
+
+    public void setCousinsOut(List<COUSIN> cousinsOut) {
+        this.cousinsOut = cousinsOut;
+    }
+
+    public void setSiblings(List<SIBLING> siblings) {
+        this.siblings = siblings;
+    }
+
+    public List<COUSIN> getCousins() {
+        return cousins;
+    }
+
+    public void setCousins(List<COUSIN> cousins) {
+        this.cousins = cousins;
+    }
 
     public List<BLIZKIE_RODS> getBlizkieRods() {
         return blizkieRods;
