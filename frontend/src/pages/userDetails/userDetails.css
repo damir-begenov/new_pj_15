@@ -1,3 +1,7 @@
+th a {
+    text-decoration: none; 
+    color: rgba(255, 255, 255, 0.3);
+  }
 .userDetailsBlock {
 
     display: flex;
@@ -25,32 +29,41 @@
     display: block;
 } */
 
+#connections {
+    border-radius: 4px 0 0 4px;
+    font-size: 15px;
+    width: 25%;
+    height: 33px;
+}
 .userFirstBlock {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
     padding-right: 40px;
 }
-
 .userFirstBlock button {
-    font-size: 20px;
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, .4);
+    font-size: 15px;
+    border-radius: 0 4px 4px 0;
+    background-color: rgb(192, 192, 192);
     padding: 5px 10px;
     cursor: pointer;
-
-    border: 3px black solid;
+    height: 33px;
+    border: none;
+    transition: all ease 0.2s;
 }
+/* .changeRole {
+    border: none;
+} */
 
 .userFirstBlock button:hover {
-    background-color: rgba(133, 133, 133, 0.4);
+    background-color: rgb(133, 133, 133);
+    transition: all ease 0.2s;
 }
 
-.userFirstBlock button:active {
+/* .userFirstBlock button:active {
     background-color: rgba(255, 255, 255, 0.4);
-}
+} */
 
 .userInfo {
     display: flex;
@@ -159,4 +172,78 @@
     display: table-cell;
     padding-left: 3%;
     padding-right: 1%;
+    visibility: collapse;
 }
+
+.searchUsers {
+    background: none;
+    color: #ffffff;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgb(143, 143, 143);
+    font-size: 1em;
+    transition: all ease .5s;
+
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.searchUsers:focus {
+    border-bottom: 1px solid white;
+    transition: all ease .5s;
+}
+
+
+.grid-container {
+    display: grid;
+    /* display: inline-grid; */
+  grid-template-columns: 5% 30% 30% 30% 5%;
+}
+.grid-header {
+    font-weight: 700;
+    font-size: 1.5em;
+    text-align: start;
+}
+.grid-body {
+    font-weight: 700;
+    font-size: 1.5em;
+    text-align: start;
+}
+
+.table {
+    /* display: grid; */
+  /* border-collapse: collapse;
+  min-width: 100%; */
+  /* grid-template-columns: 
+    minmax(5%)
+    minmax(30%)
+    minmax(30%)
+    minmax(30%)
+    minmax(5%) */
+    /* display: grid; */
+    /* display: inline-grid; */
+  /* grid-template-columns: 5% 30% 30% 30% 5%; */
+}
+
+th, td {
+    /* border-bottom: 1px solid #ffffff; */
+    
+    padding-bottom: 10px;
+  }
+
+/* .showLog:hover {
+    color: #616161;
+    cursor: pointer;
+} */
+.arrow-down {
+    color: #ffffff;
+    cursor: pointer;
+    transition: all ease 0.2s;
+
+}
+.arrow-down:hover {
+    color: #a3a3a3;
+    transition: all ease 0.2s;
+
+}
+

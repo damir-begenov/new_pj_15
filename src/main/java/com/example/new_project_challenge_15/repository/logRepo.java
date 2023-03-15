@@ -31,4 +31,7 @@ public interface logRepo extends JpaRepository<log, Long> {
     @Query(value = "SELECT COUNT(*) FROM public.log", nativeQuery = true)
     Integer Number();
 
+    @Query(value = "select * from log where username = ?1 and ('%' || ?2 || '%' = any(request_body) or '%' || ?2 || '%' = any(request_rels) or obwii like '%' || ?2 || '%' or approvement_data like '%' || ?2 || '%')", nativeQuery = true) 
+    List<log> findByUsernameAndInput(String username, String input);
+
 }

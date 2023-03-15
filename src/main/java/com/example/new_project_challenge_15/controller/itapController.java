@@ -57,6 +57,8 @@ public class itapController {
     LogsService logsService;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    user_RolesRepo userRolesRepo;
 
 
     @GetMapping("/logtest")
@@ -64,8 +66,6 @@ public class itapController {
         return logRepo.findByUsername("damirdamird");
     }
 
-    @Autowired
-    user_RolesRepo userRolesRepo;
 
     @GetMapping("/general")
     public Map<String, Object> getAdminStat() {

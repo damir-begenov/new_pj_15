@@ -53,6 +53,20 @@ class UserDetails extends Component {
         console.log(e)
 
     }
+    search = async val => {
+        // console.log(this.state.user.id)
+        axios
+            .get('http://localhost:9091/api/finpol/main/admin/searchuserlogs', {params: {value: val, username: this.state.user.username}})
+            .then(res => {
+                const logs = res.data;
+                this.setState({ logs });
+            })
+    }
+
+    onChangeHandler = async e => {
+        this.search(e.target.value)
+        this.state.value = e.target.value
+    }
 
     setNumbers = () => {
         if (this.state.date==null) {
@@ -75,10 +89,23 @@ class UserDetails extends Component {
     //         form.style.display = "none"
     //         }
     //     }
+    setVisible = (e) => {
+        // console.log(e)
+        const button = document.getElementById('dopInfaButton')
+        const divka = document.getElementById(e)
+        if (divka.style.visibility == 'visible') {
+            // button.innerHTML =  '+'
+            divka.style.visibility = 'collapse'
+            divka.style.display = 'none'
+        } else {
+            // button.innerHTML =  '-'
+            divka.style.visibility = 'visible'
+            divka.style.display = 'table-cell'
+        }
+    }
     createBox = (log) => {
-        return <td colSpan={"5"} className="dopInfa">
+        return <td colSpan={"5"} className="dopInfa" id={log.id}>
             <p>
-
         {log.approvement_data}
             </p>
         </td>        
@@ -118,13 +145,13 @@ class UserDetails extends Component {
                         } 
                         this.setState({newRole: final})}
                         }>
-                        <option>Изменить уровень доступа</option>
+                        <option>Уровень доступа</option>
                         <option value="vip">ВИП</option>
                         <option value="1">1 уровень</option>
                         <option value="2">2 уровень</option>
                         <option value="3">3 уровень</option>
                     </select>
-                    <button onClick={e => this.promote(this.state.user.id)} >SAVE</button>
+                    <button className="changeRole" onClick={e => this.promote(this.state.user.id)} >Изменить</button>
                     </div>
                     
                     
@@ -145,12 +172,13 @@ class UserDetails extends Component {
                         </div>
                     </div>
                     <div>
+                    <input value={this.state.value} onChange={e=> this.onChangeHandler(e)} type="text" className="searchUsers" placeholder="Поиск по запросам"></input>
+
                         <table className="table">
                             <thead >
                                 <tr>
                                     <th scope="col"><a className="sort">#</a></th>
                                     <th scope="col"><a className="sort">Дата</a></th>
-                                    {/* <th scope="col"><a className="sort">Username</a></th> */}
                                     <th scope="col"><a className="sort">Объект поиска</a></th>
                                     <th scope="col"><a className="sort">Запрос</a></th>
                                     <th scope="col"></th>
@@ -160,13 +188,13 @@ class UserDetails extends Component {
                                 {this.state.logs.map((log, index) => 
                                 <>
                                     <tr className="row">
-                                        <td scope="row">{index+1}</td>
-                                        <td>{log.date.slice(0, 10)} {log.date.slice(11, 19)}</td>
-                                        {/* <td className="FIO"><Link className="rowInfo" to={`/schools`}>{log.username}</Link></td> */}
-                                        <td>{log.request_body}</td>
-                                        <td>{log.obwii}</td>
-                                        <td>Открыть</td>
-                                        {/* <td>{log.request_rels.join(",")}</td> */}
+                                        <td colSpan={"1"} scope="row">{index+1}</td>
+                                        <td colSpan={"1"}>{log.date.slice(0, 10)} {log.date.slice(11, 19)}</td>
+                                        <td colSpan={"1"}>{log.request_body}</td>
+                                        <td colSpan={"1"}>{log.obwii}</td>
+                                        <td colSpan={"1"} className="showLog" onClick={e => {
+                                            this.setVisible(log.id)}
+                                            }><a id="dopInfaButton" className="arrow-down">ИНФА</a></td>
                                     </tr>
                                     {this.createBox(log)}
                                     </>

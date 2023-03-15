@@ -52,7 +52,7 @@ const Navbar = () => {
                                 
                             </style> */}
                             <li>
-                                <a className={"nav-links"}>
+                                <a className={"nav-email"}>
                                     <span>{userSession.email}</span>
                                 </a>
                             </li>

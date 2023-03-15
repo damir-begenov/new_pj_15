@@ -1,5 +1,5 @@
 import './App.css';
-import './Loader.css'
+// import './Loader.css'
 import './font.css'
 // import './fontawesome/all.css';
 import Navbar from './Components/NavBar/Navbar';
